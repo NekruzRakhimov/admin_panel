@@ -57,7 +57,7 @@ func runAllRoutes(r *gin.Engine) {
 	r.DELETE("/detach_right/:role_id/:right_id", controller.DetachRightFromRole)
 
 	r.POST("/attach_role/:user_id/:role_id", controller.AttachRoleToUser)
-	r.DELETE("/detach_role/:user_id/:role_id", controller.DethRoleFromUser)
+	r.DELETE("/detach_role/:user_id/:role_id", controller.DetachRoleFromUser)
 }
 
 // PingPong Проверка
