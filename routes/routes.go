@@ -29,6 +29,7 @@ func RunAllRoutes() {
 
 	// Запуск сервера
 	_ = r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
+
 }
 
 func runAllRoutes(r *gin.Engine) {
