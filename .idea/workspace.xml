@@ -5,15 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a58f743d-6ab8-4b8d-ad03-2df035171cbf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db/posgres.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/posgres.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/settings.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/settings.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings-dev.json" beforeDir="false" afterPath="$PROJECT_DIR$/settings-dev.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings-prod.json" beforeDir="false" afterPath="$PROJECT_DIR$/settings-prod.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/configs.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/configs.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
