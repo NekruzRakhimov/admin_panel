@@ -35,7 +35,7 @@ func CreateNewUser(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"reason": "новый пользователь была успешно создана!"})
+	c.JSON(http.StatusOK, gin.H{"reason": "пользователь успешно создан!"})
 }
 
 func EditUser(c *gin.Context) {

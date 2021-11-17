@@ -673,3 +673,21 @@
 [GIN] ::1 - [Wed, 17 Nov 2021 21:27:37 +05] "GET /ping HTTP/1.1 200 1.1241ms "PostmanRuntime/7.28.4" 
 [GIN-debug] redirecting request 301: /users/ --> /users/
 [GIN] ::1 - [Wed, 17 Nov 2021 21:27:41 +05] "GET /users/ HTTP/1.1 200 403.3498ms "PostmanRuntime/7.28.4" 
+[GIN-debug] GET    /ping                     --> admin_panel/routes.PingPong (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] Listening and serving HTTP on 0.0.0.0:
