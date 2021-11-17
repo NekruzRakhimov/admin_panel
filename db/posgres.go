@@ -6,7 +6,6 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"log"
-
 )
 
 var database *gorm.DB
@@ -23,6 +22,7 @@ func initDB() *gorm.DB {
 
 	db, err := gorm.Open("postgres", connString)
 	//gorm.Open(postgres.Open(connStr), &gorm.Config{Logger: newLogger})
+
 
 	if err != nil {
 		log.Fatal("Couldn't connect to database", err.Error())
