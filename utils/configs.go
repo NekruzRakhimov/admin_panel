@@ -14,7 +14,7 @@ var (
 
 func ReadSettings() {
 	fmt.Println("Starting reading settings file")
-	configFile, err := os.Open("./settings-dev.json")
+	configFile, err := os.Open("./settings-dev.json") // поче
 	if err != nil {
 		log.Fatal("Couldn't open config file. Error is: ", err.Error())
 	}

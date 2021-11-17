@@ -17,8 +17,7 @@ type Params struct {
 type PostgresSettings struct {
 	User     string `json:"user"`
 	Password string `json:"password"`
-	Server   string `json:"server"`
-	Port     int    `json:"port"`
+	Host     string `json:"host"`
+	Port     string `json:"port"`
 	DataBase string `json:"database"`
 }
-
