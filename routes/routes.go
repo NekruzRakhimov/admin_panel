@@ -12,8 +12,8 @@ import (
 func RunAllRoutes() {
 	r := gin.Default()
 
-	// Исползование CORS
-	r.Use(controller.CORSMiddleware())
+
+
 
 	// Установка Logger-а
 	utils.SetLogger()
@@ -23,7 +23,8 @@ func RunAllRoutes() {
 
 	// Статус код 500, при любых panic()
 	r.Use(gin.Recovery())
-
+	// Исползование CORS
+	r.Use(controller.CORSMiddleware())
 	// Запуск роутов
 	runAllRoutes(r)
 
