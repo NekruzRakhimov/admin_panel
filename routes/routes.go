@@ -13,7 +13,7 @@ func RunAllRoutes() {
 	r := gin.Default()
 
 	// Исползование CORS
-//	r.Use(controller.CORSMiddleware())
+	r.Use(controller.CORSMiddleware())
 
 	// Установка Logger-а
 	utils.SetLogger()
