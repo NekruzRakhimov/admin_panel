@@ -2,12 +2,12 @@ package repository
 
 import (
 	"admin_panel/db"
-	"admin_panel/models"
+	"admin_panel/model"
 	"errors"
 	"fmt"
 )
 
-func GetAllRights() (rights []models.Right, err error) {
+func GetAllRights() (rights []model.Right, err error) {
 	if err := db.GetDBConn().Table("rights").Where("is_removed = ?", false).Order("id").Scan(&rights).Error; err != nil {
 		return nil, err
 	}
@@ -15,7 +15,7 @@ func GetAllRights() (rights []models.Right, err error) {
 	return rights, nil
 }
 
-func AddNewRight(right models.Right) error {
+func AddNewRight(right model.Right) error {
 	if err := db.GetDBConn().Table("rights").Create(&right).Error; err != nil {
 		return errors.New("право с таким кодом уже существоует")
 	}
@@ -23,7 +23,7 @@ func AddNewRight(right models.Right) error {
 	return nil
 }
 
-func EditRight(right models.Right) error {
+func EditRight(right model.Right) error {
 	if err := db.GetDBConn().Table("rights").Save(&right).Error; err != nil {
 		return err
 	}
@@ -39,7 +39,7 @@ func DeleteRight(id int) error {
 	return nil
 }
 
-func GetAllRightsByRoleId(roleId int) (rights []models.RightDTO, err error) {
+func GetAllRightsByRoleId(roleId int) (rights []model.RightDTO, err error) {
 	sqlQuery := `SELECT rights.*,
 				   case
 					   when rights.id in (SELECT right_id FROM roles_rights WHERE role_id = ?)
@@ -55,7 +55,7 @@ func GetAllRightsByRoleId(roleId int) (rights []models.RightDTO, err error) {
 	return rights, nil
 }
 
-func AddRightsToRole(roleId int, rights []models.RightDTO) error {
+func AddRightsToRole(roleId int, rights []model.RightDTO) error {
 	sqlQuery := "INSERT INTO roles_rights (role_id, right_id) VALUES(?, ?)"
 
 	for _, right := range rights {

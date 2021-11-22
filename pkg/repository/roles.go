@@ -2,10 +2,10 @@ package repository
 
 import (
 	"admin_panel/db"
-	"admin_panel/models"
+	"admin_panel/model"
 )
 
-func GetAllRoles() (roles []models.Role, err error) {
+func GetAllRoles() (roles []model.Role, err error) {
 	if err := db.GetDBConn().Table("roles").Where("is_removed = ?", false).Order("id").Find(&roles).Error; err != nil {
 		return nil, err
 	}
@@ -13,15 +13,15 @@ func GetAllRoles() (roles []models.Role, err error) {
 	return roles, nil
 }
 
-func AddNewRole(role models.Role) (models.Role, error) {
+func AddNewRole(role model.Role) (model.Role, error) {
 	if err := db.GetDBConn().Table("roles").Save(&role).Error; err != nil {
-		return models.Role{}, err
+		return model.Role{}, err
 	}
 
 	return role, nil
 }
 
-func EditRole(role models.Role) error {
+func EditRole(role model.Role) error {
 	if err := db.GetDBConn().Table("roles").Omit("rights").Save(&role).Error; err != nil {
 		return err
 	}

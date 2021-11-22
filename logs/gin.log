@@ -691,3 +691,621 @@
 [GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
 [GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
 [GIN-debug] Listening and serving HTTP on 0.0.0.0:
+[GIN-debug] GET    /ping                     --> admin_panel/routes.PingPong (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] Listening and serving HTTP on 0.0.0.0:8080
+[GIN] ::1 - [Sat, 20 Nov 2021 22:05:42 +05] "GET /swagger/index.html HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:05:42 +05] "GET /favicon.ico HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:05:48 +05] "GET /swagger/index.html HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /ping                     --> admin_panel/routes.PingPong (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] Listening and serving HTTP on 0.0.0.0:8080
+[GIN] ::1 - [Sat, 20 Nov 2021 22:07:07 +05] "GET /swagger/index.html HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:07:07 +05] "GET /swagger/index.html HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:07:16 +05] "GET /swagger/index.html HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /ping                     --> admin_panel/routes.PingPong (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] Listening and serving HTTP on 0.0.0.0:8080
+[GIN] ::1 - [Sat, 20 Nov 2021 22:08:51 +05] "GET /swagger/index.html HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:08:52 +05] "GET /swagger/index.html HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:08:53 +05] "GET /swagger/index.html HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:08:54 +05] "GET /swagger/index.html HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:08:55 +05] "GET /swagger/index.html HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /ping                     --> admin_panel/routes.PingPong (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] Listening and serving HTTP on 0.0.0.0:8080
+[GIN] ::1 - [Sat, 20 Nov 2021 22:09:16 +05] "GET /swagger/index.html HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:09:17 +05] "GET /swagger/index.html HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:09:17 +05] "GET /swagger/index.html HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:09:17 +05] "GET /swagger/index.html HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:09:18 +05] "GET /swagger/index.html HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:09:18 +05] "GET /swagger/index.html HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:09:22 +05] "GET /users/swagger/index.html HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /ping                     --> admin_panel/routes.PingPong (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on 0.0.0.0:8080
+[GIN] ::1 - [Sat, 20 Nov 2021 22:17:54 +05] "GET /users/swagger/index.html HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:20:28 +05] "GET /swagger/index.html HTTP/1.1 200 23.7886ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:20:28 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 1.2236ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:20:28 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 681.1µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:20:28 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 3.2916ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:20:28 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:20:28 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:21:18 +05] "GET /swagger/index.html HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /ping                     --> admin_panel/routes.PingPong (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on 0.0.0.0:8080
+[GIN] ::1 - [Sat, 20 Nov 2021 22:22:10 +05] "GET /swagger/index.html HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:22:10 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 1.8393ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:22:10 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 1.0746ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:22:10 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 2.0288ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:22:10 +05] "GET /swagger/doc.json HTTP/1.1 500 600.6µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:22:10 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 953.3µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /ping                     --> admin_panel/routes.PingPong (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on 0.0.0.0:8080
+[GIN] ::1 - [Sat, 20 Nov 2021 22:23:13 +05] "GET /swagger/index.html HTTP/1.1 200 1.4759ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:23:13 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 167.4µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:23:13 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 1.0718ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:23:13 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 3.2177ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:23:14 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:23:14 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:23:14 +05] "GET /swagger/index.html HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:23:14 +05] "GET /swagger/swagger-ui.css HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:23:14 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 304 345.2µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:23:14 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:23:14 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:23:15 +05] "GET /swagger/index.html HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:23:15 +05] "GET /swagger/swagger-ui.css HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:23:15 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:23:15 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:23:15 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:23:15 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 304 1.0943ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:23:16 +05] "GET /swagger/index.html HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:23:16 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:23:17 +05] "GET /swagger/index.html HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:23:17 +05] "GET /swagger/swagger-ui.css HTTP/1.1 304 633.6µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:23:17 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:23:17 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:23:17 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:23:17 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on 0.0.0.0:8080
+[GIN] ::1 - [Sat, 20 Nov 2021 22:27:10 +05] "GET /swagger/index.html HTTP/1.1 200 947.1µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:27:11 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 1.0021ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:27:11 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 5.2158ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:27:11 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 2.3786ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:27:11 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:27:11 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:27:12 +05] "GET /swagger/index.html HTTP/1.1 200 587.7µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:27:12 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:27:12 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:27:13 +05] "GET /swagger/index.html HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:27:13 +05] "GET /swagger/swagger-ui.css HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:27:13 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:27:13 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:27:13 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on 0.0.0.0:8080
+[GIN] ::1 - [Sat, 20 Nov 2021 22:34:10 +05] "GET /swagger/index.html HTTP/1.1 200 970.4µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:34:10 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 483.6µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:34:10 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 552µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:34:10 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 2.5685ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:34:10 +05] "GET /swagger/doc.json HTTP/1.1 500 41.1µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:34:10 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:34:12 +05] "GET /swagger/index.html HTTP/1.1 200 103.3µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:34:12 +05] "GET /swagger/swagger-ui.css HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:34:12 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:34:12 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:34:12 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:34:13 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:34:18 +05] "GET /swagger/index.html HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:34:18 +05] "GET /swagger/swagger-ui.css HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:34:18 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:34:18 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:34:18 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:34:18 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 22:37:20 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on 0.0.0.0:8080
+[GIN] ::1 - [Sat, 20 Nov 2021 23:13:34 +05] "GET /swagger/index.html HTTP/1.1 200 551µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 23:13:34 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 2.5043ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 23:13:34 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 9.8291ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 23:13:34 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 1.159ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 23:13:34 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 23:13:34 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 1.0991ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 23:13:40 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 23:13:41 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 23:13:43 +05] "GET /swagger/index.html HTTP/1.1 200 208.7µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 23:13:54 +05] "GET /swagger/index.html HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 23:13:54 +05] "GET /swagger/swagger-ui.css HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 23:13:54 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 23:13:54 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sat, 20 Nov 2021 23:13:55 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :8080
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :8080
+[GIN] ::1 - [Sun, 21 Nov 2021 01:11:53 +05] "GET /swagger/index.html HTTP/1.1 200 523.1µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:11:53 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 1.1751ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:11:53 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 1.7314ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:11:53 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 1.9868ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:11:54 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:11:54 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :8080
+[GIN] ::1 - [Sun, 21 Nov 2021 01:15:49 +05] "GET /swagger/index.html HTTP/1.1 200 945.2µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:15:49 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 685µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:15:49 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 1.0616ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:15:49 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 539.2µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:15:49 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:15:50 +05] "GET /swagger/index.html HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:15:51 +05] "GET /swagger/swagger-ui.css HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:15:51 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:15:51 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:15:51 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:15:51 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:16:01 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:16:01 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:16:02 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:16:02 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:16:05 +05] "GET /swagger/index.html/ HTTP/1.1 200 318.1µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:16:05 +05] "GET /swagger/index.html/swagger-ui.css HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:16:05 +05] "GET /swagger/index.html/swagger-ui-bundle.js HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:16:05 +05] "GET /swagger/index.html/swagger-ui-standalone-preset.js HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:16:05 +05] "GET /swagger/index.html/favicon-32x32.png HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:16:05 +05] "GET /swagger/index.html/favicon-16x16.png HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:16:07 +05] "GET /swagger/index.html HTTP/1.1 200 550.9µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:16:07 +05] "GET /swagger/swagger-ui.css HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:16:07 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:16:07 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:16:07 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.PingPong (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :8080
+[GIN] ::1 - [Sun, 21 Nov 2021 01:19:51 +05] "GET / HTTP/1.1 200 2.1299ms "PostmanRuntime/7.28.4" 
+[GIN-debug] GET    /                         --> admin_panel/routes.PingPong (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :8080
+[GIN] ::1 - [Sun, 21 Nov 2021 01:21:56 +05] "GET /swagger/index.html HTTP/1.1 200 1.4173ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:21:56 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 245.4µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:21:56 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 2.4634ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:21:56 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 1.2357ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:21:56 +05] "GET /swagger/doc.json HTTP/1.1 500 996.7µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.PingPong (5 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (5 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on :8080
+[GIN] ::1 - [Sun, 21 Nov 2021 01:27:58 +05] "GET /swagger/index.html HTTP/1.1 200 118.6µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:27:59 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:27:59 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 1.2065ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:27:59 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 1.5971ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:27:59 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:27:59 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 489.2µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:00 +05] "GET /swagger/index.html HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:00 +05] "GET /swagger/swagger-ui.css HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:00 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:00 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 304 507.5µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:00 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:00 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:00 +05] "GET /swagger/index.html HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:00 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:01 +05] "GET /swagger/index.html HTTP/1.1 200 774.7µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:01 +05] "GET /swagger/swagger-ui.css HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:01 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:01 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:02 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:02 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:02 +05] "GET /swagger/index.html HTTP/1.1 200 415.9µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:02 +05] "GET /swagger/swagger-ui.css HTTP/1.1 304 470.6µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:02 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:02 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 304 508.3µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:02 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:02 +05] "GET /swagger/index.html HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:02 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:03 +05] "GET /swagger/index.html HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:03 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:03 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:03 +05] "GET /swagger/index.html HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:03 +05] "GET /swagger/swagger-ui.css HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:03 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:03 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:03 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:03 +05] "GET /swagger/index.html HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:03 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:03 +05] "GET /swagger/index.html HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:04 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:04 +05] "GET /swagger/index.html HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:04 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:04 +05] "GET /swagger/index.html HTTP/1.1 200 255.2µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:04 +05] "GET /swagger/swagger-ui.css HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:04 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:04 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:04 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:04 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:04 +05] "GET /swagger/index.html HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:04 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:04 +05] "GET /swagger/index.html HTTP/1.1 200 582.9µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:28:04 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 01:28:20 +05] "GET /swagger/index.html HTTP/1.1 200 368.2µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 01:28:20 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 476.2µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 01:28:20 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 2.3659ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 01:28:20 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 3.0927ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 01:28:21 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 208.5µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 01:28:21 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0" 
+[GIN-debug] GET    /                         --> admin_panel/routes.PingPong (5 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (5 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on :8080
+[GIN] ::1 - [Sun, 21 Nov 2021 01:35:00 +05] "GET /swagger/index.html HTTP/1.1 200 637.3µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:35:00 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 643.6µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:35:00 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 4.2678ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:35:00 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 895.9µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:35:00 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:35:00 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:35:01 +05] "GET /swagger/index.html HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:35:01 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:35:01 +05] "GET /swagger/index.html HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:35:01 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:35:01 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] redirecting request 301: /users/ --> /users/
+[GIN] ::1 - [Sun, 21 Nov 2021 01:35:16 +05] "GET /users/ HTTP/1.1 200 4.9506374s "PostmanRuntime/7.28.4" 
+[GIN-debug] redirecting request 301: /users/ --> /users/
+[GIN] ::1 - [Sun, 21 Nov 2021 01:35:45 +05] "GET /users/ HTTP/1.1 200 5.5855566s "PostmanRuntime/7.28.4" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:36:14 +05] "GET /users/ HTTP/1.1 200 22.4102358s "PostmanRuntime/7.28.4" 
+[GIN-debug] GET    /                         --> admin_panel/routes.PingPong (5 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (5 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on :8080
+[GIN-debug] GET    /                         --> admin_panel/routes.PingPong (5 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (5 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on :8080
+[GIN] ::1 - [Sun, 21 Nov 2021 01:56:29 +05] "GET / HTTP/1.1 200 0s "PostmanRuntime/7.28.4" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:56:51 +05] "GET /swagger/index.html HTTP/1.1 200 2.9946ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:56:51 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 1.0002ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:56:51 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 1.0775ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:56:51 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 4.0806ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:56:51 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:57:13 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:57:15 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 01:57:18 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] redirecting request 301: /users/ --> /users/
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 01:58:08 +05] "GET /users/ HTTP/1.1 200 4.1976304s "Apache-HttpClient/4.5.13 (Java/11.0.12)" 
+[GIN-debug] GET    /                         --> admin_panel/routes.PingPong (5 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (5 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on :8080
+[GIN] ::1 - [Sun, 21 Nov 2021 17:07:38 +05] "GET /swagger/index.html HTTP/1.1 200 3.2005ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 17:07:38 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 6.3846ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 17:07:38 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 11.8979ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 17:07:38 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 12.8861ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 17:07:39 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (5 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (5 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (5 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (5 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (5 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (5 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (5 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (5 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (5 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (5 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (5 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (5 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (5 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (5 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (5 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (5 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (5 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (5 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Sun, 21 Nov 2021 21:24:06 +05] "GET /swagger/index.html HTTP/1.1 200 1.0122ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:24:06 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 1.9971ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:24:06 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 1.9971ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:24:06 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 1.9925ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:24:06 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:24:06 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 252.5µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:24:12 +05] "GET /swagger/index.html HTTP/1.1 200 339.9µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:24:12 +05] "GET /swagger/swagger-ui.css HTTP/1.1 304 246.7µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:24:12 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:24:12 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:24:12 +05] "GET /swagger/swagger-ui.css HTTP/1.1 304 630.2µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:24:12 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:24:12 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:24:12 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (5 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (5 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (5 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (5 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (5 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (5 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (5 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (5 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (5 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (5 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (5 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (5 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (5 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (5 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (5 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (5 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (5 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+2021/11/21 21:31:53 listen tcp :3000: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted.
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (5 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (5 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (5 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (5 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (5 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (5 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (5 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (5 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (5 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (5 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (5 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (5 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (5 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (5 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (5 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (5 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (5 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 21:32:14 +05] "GET / HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 21:32:18 +05] "GET /swagger/index.html HTTP/1.1 200 432.2µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 21:32:18 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 981.6µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:32:18 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 1.9973ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 21:32:18 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 3.5959ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 21:32:18 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 21:32:18 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 21:32:23 +05] "GET /swagger/index.html HTTP/1.1 200 784.7µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 21:32:23 +05] "GET /swagger/swagger-ui.css HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:32:23 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 21:32:23 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:32:23 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 21:32:23 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:32:26 +05] "GET /swagger/index.html HTTP/1.1 200 241µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:32:26 +05] "GET /swagger/swagger-ui.css HTTP/1.1 304 995.4µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 21:32:26 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 21:32:26 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 21:32:26 +05] "GET /swagger/swagger-ui.css HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 21:32:26 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:32:26 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 21:32:26 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 21:34:00 +05] "GET /swagger/index.html HTTP/1.1 200 313.8µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 21:34:00 +05] "GET /swagger/swagger-ui.css HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:34:00 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 21:34:00 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 21:34:00 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 21:34:00 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 21:34:01 +05] "GET /swagger/index.html HTTP/1.1 200 766µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 21:34:01 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 21:34:02 +05] "GET /swagger/index.html HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] 127.0.0.1 - [Sun, 21 Nov 2021 21:34:02 +05] "GET /swagger/doc.json HTTP/1.1 500 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (5 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (5 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (5 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (5 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (5 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (5 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (5 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (5 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (5 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (5 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (5 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (5 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (5 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (5 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (5 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (5 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (5 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Sun, 21 Nov 2021 21:43:24 +05] "GET /swagger/index.html HTTP/1.1 200 1.4485ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:43:24 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 2.2225ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:43:24 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 5.2868ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:43:24 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 1.247ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:43:24 +05] "GET /swagger/doc.json HTTP/1.1 200 854.5µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:43:24 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (5 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (5 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (5 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (5 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (5 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (5 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (5 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (5 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (5 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (5 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (5 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (5 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (5 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (5 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (5 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (5 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (5 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Sun, 21 Nov 2021 21:49:08 +05] "GET /swagger/index.html HTTP/1.1 200 1.3907ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:49:08 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 2.7718ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:49:08 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 4.6594ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:49:08 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 808.7µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:49:08 +05] "GET /swagger/doc.json HTTP/1.1 200 760.1µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:49:08 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:49:16 +05] "GET / HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 21:49:22 +05] "GET /ping HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (5 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (5 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (5 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (5 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (5 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (5 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (5 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (5 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (5 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (5 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (5 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (5 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (5 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (5 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (5 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (5 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (5 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Sun, 21 Nov 2021 22:26:26 +05] "GET /swagger/index.html HTTP/1.1 200 194.5µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 22:26:26 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 926.7µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 22:26:26 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 2.6631ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 22:26:26 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 1.0414ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 22:26:26 +05] "GET /swagger/doc.json HTTP/1.1 200 926.9µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 22:26:26 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 906.1µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 22:26:50 +05] "GET /users/ HTTP/1.1 200 4.0969767s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (5 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (5 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (5 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (5 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (5 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (5 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (5 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (5 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (5 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (5 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (5 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (5 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (5 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (5 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (5 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (5 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (5 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (5 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Sun, 21 Nov 2021 22:34:44 +05] "GET /swagger/index.html HTTP/1.1 200 526.5µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 22:34:45 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 2.8888ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 22:34:45 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 1.3932ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 22:34:45 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 4.2254ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 22:34:45 +05] "GET /swagger/doc.json HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 22:34:45 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 22:36:38 +05] "GET /users/ HTTP/1.1 200 4.2713209s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 22:36:58 +05] "POST /users/ HTTP/1.1 200 839.8049ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 22:37:16 +05] "GET /users/ HTTP/1.1 200 4.6110245s "PostmanRuntime/7.28.4" 
+[GIN] ::1 - [Sun, 21 Nov 2021 22:38:12 +05] "POST /users/ HTTP/1.1 200 838.6118ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Sun, 21 Nov 2021 22:38:21 +05] "GET /users/ HTTP/1.1 200 5.0175114s "PostmanRuntime/7.28.4" 
+[GIN] ::1 - [Sun, 21 Nov 2021 23:58:48 +05] "GET /users/ HTTP/1.1 200 5.117038s "PostmanRuntime/7.28.4" 

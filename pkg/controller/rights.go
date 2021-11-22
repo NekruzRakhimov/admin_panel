@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"admin_panel/models"
+	"admin_panel/model"
 	"admin_panel/pkg/service"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -22,7 +22,7 @@ func GetAllRights(c *gin.Context) {
 }
 
 func AddNewRight(c *gin.Context) {
-	var right models.Right
+	var right model.Right
 	if err := c.BindJSON(&right); err != nil {
 		log.Println("[controller.AddNewRight]|[binding json]| error is: ", err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
@@ -39,7 +39,7 @@ func AddNewRight(c *gin.Context) {
 }
 
 func EditRight(c *gin.Context) {
-	var right models.Right
+	var right model.Right
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		log.Println("[controller.EditRight]|[binding id param]| error is: ", err.Error())

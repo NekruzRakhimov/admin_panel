@@ -1,4 +1,4 @@
-package models
+package model
 
 // Settings app settings
 type Settings struct {

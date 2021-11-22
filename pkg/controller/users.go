@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"admin_panel/models"
+	"admin_panel/model"
 	"admin_panel/pkg/service"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -10,6 +10,16 @@ import (
 	"strconv"
 )
 
+
+// Get All Users godoc
+// @Summary Get All Users
+// @Description Get All Users
+// @Accept  json
+// @Produce  json
+// @Success 200 {array} model.User
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /users/ [get]
 func GetAllUsers(c *gin.Context) {
 	users, err := service.GetAllUsersFullInfo()
 	if err != nil {
@@ -21,8 +31,29 @@ func GetAllUsers(c *gin.Context) {
 	c.JSON(http.StatusOK, users)
 }
 
+
+
+
+
+
+
+
+
+
+
+// Add User godoc
+// @Summary Add an user
+// @Description Add by json user
+//@Tags users
+// @Accept  json
+// @Produce  json
+// @Param user body model.User true "Add user"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /users/ [post]
 func CreateNewUser(c *gin.Context) {
-	var role models.User
+	var role model.User
 	if err := c.BindJSON(&role); err != nil {
 		log.Println("[controller.CreateNewUser]|[binding json]| error is: ", err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
@@ -39,7 +70,7 @@ func CreateNewUser(c *gin.Context) {
 }
 
 func EditUser(c *gin.Context) {
-	var user models.User
+	var user model.User
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		log.Println("[controller.EditUser]|[binding id param]| error is: ", err.Error())

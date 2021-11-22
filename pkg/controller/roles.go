@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"admin_panel/models"
+	"admin_panel/model"
 	"admin_panel/pkg/service"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -22,7 +22,7 @@ func GetAllRoles(c *gin.Context) {
 }
 
 func EditRole(c *gin.Context) {
-	var role models.Role
+	var role model.Role
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		log.Println("[controller.EditRole]|[binding id param]| error is: ", err.Error())
@@ -47,7 +47,7 @@ func EditRole(c *gin.Context) {
 }
 
 func AddNewRole(c *gin.Context) {
-	var role models.Role
+	var role model.Role
 	if err := c.BindJSON(&role); err != nil {
 		log.Println("[controller.AddNewRole]|[binding json]| error is: ", err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})

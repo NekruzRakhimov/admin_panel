@@ -1,13 +1,13 @@
 package service
 
 import (
-	"admin_panel/models"
+	"admin_panel/model"
 	"admin_panel/pkg/repository"
 	"fmt"
 	"log"
 )
 
-func GetAllUsersFullInfo() (users []models.User, err error) {
+func GetAllUsersFullInfo() (users []model.User, err error) {
 	users, err = repository.GetAllUsers()
 	if err != nil {
 		return nil, err
@@ -25,7 +25,7 @@ func GetAllUsersFullInfo() (users []models.User, err error) {
 	return users, nil
 }
 
-func CreateNewUser(user models.User) error {
+func CreateNewUser(user model.User) error {
 	user, err := repository.CreateNewUser(user)
 	if err != nil {
 		log.Println("[service.CreateNewUser]|[repository.CreateNewUser]| error is: ", err.Error())
@@ -40,7 +40,7 @@ func CreateNewUser(user models.User) error {
 	return nil
 }
 
-func EditUser(role models.User) error {
+func EditUser(role model.User) error {
 	return repository.EditUser(role)
 }
 

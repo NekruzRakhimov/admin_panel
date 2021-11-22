@@ -1,19 +1,19 @@
 package service
 
 import (
-	"admin_panel/models"
+	"admin_panel/model"
 	"admin_panel/pkg/repository"
 )
 
-func GetAllRights() (rights []models.Right, err error) {
+func GetAllRights() (rights []model.Right, err error) {
 	return repository.GetAllRights()
 }
 
-func AddNewRight(right models.Right) error {
+func AddNewRight(right model.Right) error {
 	return repository.AddNewRight(right)
 }
 
-func EditRight(right models.Right) error {
+func EditRight(right model.Right) error {
 	return repository.EditRight(right)
 }
 

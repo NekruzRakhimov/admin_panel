@@ -1,12 +1,12 @@
 package service
 
 import (
-	"admin_panel/models"
+	"admin_panel/model"
 	"admin_panel/pkg/repository"
 	"fmt"
 )
 
-func GetAllRolesFullInfo() (roles []models.Role, err error) {
+func GetAllRolesFullInfo() (roles []model.Role, err error) {
 	roles, err = repository.GetAllRoles()
 	if err != nil {
 		return nil, err
@@ -24,7 +24,7 @@ func GetAllRolesFullInfo() (roles []models.Role, err error) {
 	return roles, nil
 }
 
-func AddNewRole(role models.Role) error {
+func AddNewRole(role model.Role) error {
 	role, err := repository.AddNewRole(role)
 	if err != nil {
 		return err
@@ -37,7 +37,7 @@ func AddNewRole(role models.Role) error {
 	return nil
 }
 
-func EditRole(role models.Role) error {
+func EditRole(role model.Role) error {
 	return repository.EditRole(role)
 }
 
