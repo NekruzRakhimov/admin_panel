@@ -27,7 +27,7 @@ type RoleDTO struct {
 	Name        string     `json:"name"`
 	Description string     `json:"description"`
 	Status      string     `json:"status"`
-	Rights      []RightDTO `json:"rights,omitempty"`
+	Rights      []RightDTO `json:"omitempty"`
 	IsAttached  bool       `json:"is_attached"`
 }
 

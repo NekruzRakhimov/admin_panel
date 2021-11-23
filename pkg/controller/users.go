@@ -16,6 +16,7 @@ import (
 // @Description Get All Users
 // @Accept  json
 // @Produce  json
+// @Tags users
 // @Success 200 {array} model.User
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
@@ -31,19 +32,9 @@ func GetAllUsers(c *gin.Context) {
 	c.JSON(http.StatusOK, users)
 }
 
-
-
-
-
-
-
-
-
-
-
 // Add User godoc
 // @Summary Add an user
-// @Description Add by json user
+//@Description Add by json user
 //@Tags users
 // @Accept  json
 // @Produce  json
@@ -69,6 +60,19 @@ func CreateNewUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"reason": "пользователь успешно создан!"})
 }
 
+
+// Update User godoc
+// @Summary Update an user
+// @Description Update by json user
+// @Tags users
+// @Accept  json
+// @Produce  json
+// @Param  id path int true "user ID"
+// @Param  account body model.User true "Update account"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /users/{id} [put]
 func EditUser(c *gin.Context) {
 	var user model.User
 	id, err := strconv.Atoi(c.Param("id"))
@@ -94,6 +98,19 @@ func EditUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"reason": fmt.Sprintf("данные о пользователе c id = %d была успешно обновлены!", id)})
 }
 
+
+
+
+
+//DeleteUser godoc
+//@Summary Delete user by ID
+//@Tags users
+//@Produce json
+//@Param id path string true "User ID"
+//@Success 200 {object} map[string]interface{}
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+//@Router /users/{id} [delete]
 func DeleteUser(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -111,6 +128,9 @@ func DeleteUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"reason": fmt.Sprintf("пользователь c id = %d был успешно удален!", id)})
 }
 
+
+//1/2
+//
 func AttachRoleToUser(c *gin.Context) {
 	userId, err := strconv.Atoi(c.Param("user_id"))
 	if err != nil {
@@ -134,6 +154,7 @@ func AttachRoleToUser(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"reason": fmt.Sprintf("роль c id = %d было успешна привязана к пользоватлю с id = %d", roleId, userId)})
 }
+
 
 func DetachRoleFromUser(c *gin.Context) {
 	userId, err := strconv.Atoi(c.Param("user_id"))

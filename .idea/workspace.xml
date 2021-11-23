@@ -6,23 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="a58f743d-6ab8-4b8d-ad03-2df035171cbf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/docs.go" beforeDir="false" afterPath="$PROJECT_DIR$/docs/docs.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/gin.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/gin.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/models.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/settings.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/settings.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/controller/rights.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/controller/rights.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/controller/roles.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/controller/roles.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/models.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/controller/users.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/controller/users.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/repository/rights.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/repository/rights.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/repository/roles.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/repository/roles.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/repository/users.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/repository/users.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/service/rights.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/service/rights.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/service/roles.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/service/roles.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/service/users.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/service/users.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/routes/routes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/configs.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/configs.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -173,6 +164,14 @@
     <property name="settings.editor.selected.configurable" value="go.vgo" />
   </component>
   <component name="RunManager" selected="HTTP Request.generated-requests#2">
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="admin_panel" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="admin_panel" />
       <working_directory value="$PROJECT_DIR$/" />
@@ -180,6 +179,15 @@
       <package value="admin_panel" />
       <directory value="$PROJECT_DIR$/" />
       <filePath value="$PROJECT_DIR$/main.go" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+      <module name="admin_panel" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="DIRECTORY" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
       <method v="2" />
     </configuration>
     <configuration name="generated-requests#1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" runType="Run single request">

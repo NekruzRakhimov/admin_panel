@@ -58,16 +58,16 @@ definitions:
 host: localhost:3000
 info:
   contact:
-    email: support@swagger.io
+    email: aziz.rahimov0001@gmail.com
     name: API Support
     url: http://www.swagger.io/support
-  description: This is a sample server server.
+  description: Админка, чтобы проверить роуты и права пользователей.
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/
-  title: Gin Swagger Example API
-  version: "2.0"
+  title: Gin Swagger Admin-Panel Api
+  version: "1.0"
 paths:
   /:
     get:
@@ -131,6 +131,8 @@ paths:
             additionalProperties: true
             type: object
       summary: Get All Users
+      tags:
+      - users
     post:
       consumes:
       - application/json
@@ -148,7 +150,8 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.User'
+            additionalProperties: true
+            type: object
         "400":
           description: Bad Request
           schema:
@@ -165,6 +168,82 @@ paths:
             additionalProperties: true
             type: object
       summary: Add an user
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete user by ID
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: Update by json user
+      parameters:
+      - description: user ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update account
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an user
       tags:
       - users
 schemes:

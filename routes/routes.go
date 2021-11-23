@@ -4,8 +4,8 @@ import (
 	"admin_panel/pkg/controller"
 	"admin_panel/utils"
 	"github.com/gin-gonic/gin"
-	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"log"
 	"net/http"
 	//_ "github.com/rizalgowandy/go-swag-sample/docs/ginsimple" // you need to update github.com/rizalgowandy/go-swag-sample with your own project path
@@ -15,13 +15,11 @@ import (
 func RunAllRoutes() {
 	r := gin.Default()
 
-<<<<<<< HEAD
+
 	// Исползование CORS
 	//r.Use(controller.CORSMiddleware())
-=======
 
 
->>>>>>> 4167ce7a8ac8a157f92974b163193cebaee784bd
 
 	// Установка Logger-а
 	utils.SetLogger()
@@ -38,7 +36,7 @@ func RunAllRoutes() {
 
 	// Запуск сервера
 	//_ = r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
-	_ = r.Run(":3000")
+	//_ = r.Run(":3000")
 
 }
 
@@ -82,6 +80,7 @@ func runAllRoutes(r *gin.Engine) {
 		log.Fatal(err)
 	}
 
+	//_ = r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
 }
 
 //func Init()  {
