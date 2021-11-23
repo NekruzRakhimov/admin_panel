@@ -24,7 +24,7 @@ import (
 func main() {
 	utils.ReadSettings()
 
-/db.StartDbConnection()
+db.StartDbConnection()
 
 	routes.RunAllRoutes()
 }
