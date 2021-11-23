@@ -1,5 +1,16 @@
 basePath: /
 definitions:
+  model.Right:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      section:
+        type: string
+    type: object
   model.RightDTO:
     properties:
       code:
@@ -11,6 +22,23 @@ definitions:
       is_attached:
         type: boolean
       section:
+        type: string
+    type: object
+  model.Role:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      rights:
+        items:
+          $ref: '#/definitions/model.RightDTO'
+        type: array
+      status:
         type: string
     type: object
   model.RoleDTO:
@@ -25,7 +53,7 @@ definitions:
         type: boolean
       name:
         type: string
-      rights:
+      omitempty:
         items:
           $ref: '#/definitions/model.RightDTO'
         type: array
@@ -85,6 +113,90 @@ paths:
       summary: Show the status of server.
       tags:
       - root
+  /attach_role/{user_id}/{role_id}:
+    post:
+      consumes:
+      - application/json
+      description: Attach by json Role To User
+      parameters:
+      - description: user ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: role ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Attach Role To User
+      tags:
+      - users
+  /detach_role/{user_id}/{role_id}:
+    post:
+      consumes:
+      - application/json
+      description: Detach by json Role To User
+      parameters:
+      - description: user ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: role ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Detach Role To User
+      tags:
+      - users
   /ping:
     get:
       consumes:
@@ -101,6 +213,314 @@ paths:
       summary: Ping pong
       tags:
       - root
+  /rights/:
+    get:
+      consumes:
+      - application/json
+      description: Get All Rights by Admin
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Right'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All Rights by Admin
+      tags:
+      - rights
+    post:
+      consumes:
+      - application/json
+      description: Add Right by Admin
+      parameters:
+      - description: add role
+        in: body
+        name: right
+        required: true
+        schema:
+          $ref: '#/definitions/model.Right'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Add Right by Admin
+      tags:
+      - rights
+  /rights/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Right by Admin
+      parameters:
+      - description: right ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: delete role
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/model.Right'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete Right by Admin
+      tags:
+      - rights
+    post:
+      consumes:
+      - application/json
+      description: Update Right by Admin
+      parameters:
+      - description: rigth ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: update right
+        in: body
+        name: right
+        required: true
+        schema:
+          $ref: '#/definitions/model.Right'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update Right by Admin
+      tags:
+      - rights
+  /roles/:
+    get:
+      consumes:
+      - application/json
+      description: Get All Roles by Admin
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Role'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All Roles by Admin
+      tags:
+      - roles
+    post:
+      consumes:
+      - application/json
+      description: Add Role by Admin
+      parameters:
+      - description: Add role
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/model.Role'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Add Role by Admin
+      tags:
+      - roles
+  /roles/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Role by Admin
+      parameters:
+      - description: role ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update role
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/model.Role'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete Role by ID Admin
+      tags:
+      - roles
+    put:
+      consumes:
+      - application/json
+      description: Update Role by Admin
+      parameters:
+      - description: role ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update role
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/model.Role'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update Role by Admin
+      tags:
+      - roles
   /users/:
     get:
       consumes:

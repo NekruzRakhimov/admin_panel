@@ -129,8 +129,18 @@ func DeleteUser(c *gin.Context) {
 }
 
 
-//1/2
-//
+// Attach Role To User godoc
+// @Summary Attach Role To User
+// @Description Attach by json Role To User
+// @Tags users
+// @Accept  json
+// @Produce  json
+// @Param  id path string true "user ID"
+// @Param  id path string true "role ID"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /attach_role/{user_id}/{role_id} [post]
 func AttachRoleToUser(c *gin.Context) {
 	userId, err := strconv.Atoi(c.Param("user_id"))
 	if err != nil {
@@ -156,6 +166,19 @@ func AttachRoleToUser(c *gin.Context) {
 }
 
 
+
+// Detach Role To User godoc
+// @Summary Detach Role To User
+// @Description Detach by json Role To User
+// @Tags users
+// @Accept  json
+// @Produce  json
+// @Param  id path string true "user ID"
+// @Param  id path string true "role ID"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /detach_role/{user_id}/{role_id} [post]
 func DetachRoleFromUser(c *gin.Context) {
 	userId, err := strconv.Atoi(c.Param("user_id"))
 	if err != nil {

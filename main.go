@@ -1,7 +1,6 @@
 package main
 
 import (
-	"admin_panel/db"
 	"admin_panel/routes"
 	"admin_panel/utils"
 )
@@ -24,7 +23,7 @@ import (
 func main() {
 	utils.ReadSettings()
 
-	db.StartDbConnection()
+//	db.StartDbConnection()
 
 	routes.RunAllRoutes()
 }

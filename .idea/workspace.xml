@@ -11,9 +11,9 @@
       <change beforePath="$PROJECT_DIR$/docs/swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/gin.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/gin.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/models.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/controller/rights.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/controller/rights.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/controller/roles.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/controller/roles.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/controller/users.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/controller/users.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/routes/routes.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +39,9 @@
       <filtered-out-file-type name="TAG" />
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
+  </component>
+  <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="false" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -163,7 +166,7 @@
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="go.vgo" />
   </component>
-  <component name="RunManager" selected="HTTP Request.generated-requests#2">
+  <component name="RunManager" selected="Go Build.go build main.go">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="admin_panel" />
       <working_directory value="$PROJECT_DIR$" />
@@ -204,10 +207,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build main.go" />
         <item itemvalue="HTTP Request.generated-requests#2" />
         <item itemvalue="HTTP Request.generated-requests#4" />
         <item itemvalue="HTTP Request.generated-requests#3" />
-        <item itemvalue="Go Build.go build main.go" />
         <item itemvalue="HTTP Request.generated-requests#1" />
       </list>
     </recent_temporary>
