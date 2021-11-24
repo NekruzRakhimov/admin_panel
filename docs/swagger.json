@@ -293,7 +293,7 @@
             }
         },
         "/rights/{id}": {
-            "post": {
+            "put": {
                 "description": "Update Right by Admin",
                 "consumes": [
                     "application/json"
@@ -373,15 +373,6 @@
                         "name": "id",
                         "in": "path",
                         "required": true
-                    },
-                    {
-                        "description": "delete role",
-                        "name": "account",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.Right"
-                        }
                     }
                 ],
                 "responses": {
@@ -477,7 +468,7 @@
                 "parameters": [
                     {
                         "description": "Add role",
-                        "name": "account",
+                        "name": "role",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -601,7 +592,7 @@
                     },
                     {
                         "description": "Update role",
-                        "name": "account",
+                        "name": "role",
                         "in": "body",
                         "required": true,
                         "schema": {

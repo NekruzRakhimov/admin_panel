@@ -293,12 +293,6 @@ paths:
         name: id
         required: true
         type: string
-      - description: delete role
-        in: body
-        name: account
-        required: true
-        schema:
-          $ref: '#/definitions/model.Right'
       produces:
       - application/json
       responses:
@@ -325,7 +319,7 @@ paths:
       summary: Delete Right by Admin
       tags:
       - rights
-    post:
+    put:
       consumes:
       - application/json
       description: Update Right by Admin
@@ -406,7 +400,7 @@ paths:
       parameters:
       - description: Add role
         in: body
-        name: account
+        name: role
         required: true
         schema:
           $ref: '#/definitions/model.Role'
@@ -449,7 +443,7 @@ paths:
         type: string
       - description: Update role
         in: body
-        name: account
+        name: role
         required: true
         schema:
           $ref: '#/definitions/model.Role'

@@ -42,7 +42,7 @@ func AddRolesToUser(userId int, roles []model.RoleDTO) error {
 	sqlQuery := "INSERT INTO users_roles (user_id, role_id) VALUES(?, ?)"
 
 	for _, role := range roles {
-		if err := db.GetDBConn().Exec(sqlQuery, userId, role.Id).Error; err != nil {
+		if err := db.GetDBConn().Exec(sqlQuery, userId, role.ID).Error; err != nil {
 			return err
 		}
 	}

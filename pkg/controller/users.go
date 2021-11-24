@@ -88,7 +88,7 @@ func EditUser(c *gin.Context) {
 		return
 	}
 
-	user.Id = id
+	user.ID = id
 	if err := service.EditUser(user); err != nil {
 		log.Println("[controller.EditRole]|[service.EditUser]| error is: ", err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})

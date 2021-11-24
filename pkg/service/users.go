@@ -14,7 +14,7 @@ func GetAllUsersFullInfo() (users []model.User, err error) {
 	}
 
 	for i := range users {
-		roles, err := repository.GetAllRolesByUserId(users[i].Id)
+		roles, err := repository.GetAllRolesByUserId(users[i].ID)
 		if err != nil {
 			return nil, err
 		}
@@ -32,7 +32,7 @@ func CreateNewUser(user model.User) error {
 		return err
 	}
 
-	if err := repository.AddRolesToUser(user.Id, user.Roles); err != nil {
+	if err := repository.AddRolesToUser(user.ID, user.Roles); err != nil {
 		log.Println("[service.CreateNewUser]|[repository.AddRolesToUser]| error is: ", err.Error())
 		return err
 	}

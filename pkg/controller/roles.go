@@ -60,7 +60,7 @@ func EditRole(c *gin.Context) {
 		return
 	}
 
-	role.Id = id
+	role.ID = id
 	if err := service.EditRole(role); err != nil {
 		log.Println("[controller.EditRole]|[service.EditRole]| error is: ", err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
@@ -77,7 +77,7 @@ func EditRole(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Tags roles
-// @Param  account body model.Role true "Add role"
+// @Param  role  body model.Role true "Add role"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
@@ -107,7 +107,7 @@ func AddNewRole(c *gin.Context) {
 // @Produce  json
 // @Tags roles
 // @Param  id path string true "role ID"
-// @Param  account body model.Role true "Update role"
+// @Param  role  body model.Role true "Update role"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}

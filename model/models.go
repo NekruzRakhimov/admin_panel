@@ -1,7 +1,7 @@
 package model
 
 type User struct {
-	Id       int       `json:"id"`
+	ID       int       `json:"id"`
 	Name     string    `json:"name"`
 	Surname  string    `json:"surname"`
 	LastName string    `json:"last_name"`
@@ -13,7 +13,7 @@ type User struct {
 }
 
 type Role struct {
-	Id          int        `json:"id"`
+	ID          int        `json:"id"`
 	Code        string     `json:"code"`
 	Name        string     `json:"name"`
 	Description string     `json:"description"`
@@ -22,7 +22,7 @@ type Role struct {
 }
 
 type RoleDTO struct {
-	Id          int        `json:"id"`
+	ID          int        `json:"id"`
 	Code        string     `json:"code"`
 	Name        string     `json:"name"`
 	Description string     `json:"description"`
@@ -32,14 +32,14 @@ type RoleDTO struct {
 }
 
 type Right struct {
-	Id          int    `json:"id"`
+	ID          int    `json:"id"`
 	Code        string `json:"code"`
 	Section     string `json:"section"`
 	Description string `json:"description"`
 }
 
 type RightDTO struct {
-	Id          int    `json:"id"`
+	ID          int    `json:"id"`
 	Code        string `json:"code"`
 	Section     string `json:"section"`
 	Description string `json:"description"`

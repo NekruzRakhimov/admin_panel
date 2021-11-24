@@ -304,7 +304,7 @@ var doc = `{
             }
         },
         "/rights/{id}": {
-            "post": {
+            "put": {
                 "description": "Update Right by Admin",
                 "consumes": [
                     "application/json"
@@ -384,15 +384,6 @@ var doc = `{
                         "name": "id",
                         "in": "path",
                         "required": true
-                    },
-                    {
-                        "description": "delete role",
-                        "name": "account",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.Right"
-                        }
                     }
                 ],
                 "responses": {
@@ -488,7 +479,7 @@ var doc = `{
                 "parameters": [
                     {
                         "description": "Add role",
-                        "name": "account",
+                        "name": "role",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -612,7 +603,7 @@ var doc = `{
                     },
                     {
                         "description": "Update role",
-                        "name": "account",
+                        "name": "role",
                         "in": "body",
                         "required": true,
                         "schema": {

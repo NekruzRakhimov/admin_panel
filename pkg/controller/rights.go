@@ -74,7 +74,7 @@ func AddNewRight(c *gin.Context) {
 // @Success 200 {object} map[string]interface{}
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /rights/{id} [post]
+// @Router /rights/{id} [put]
 func EditRight(c *gin.Context) {
 	var right model.Right
 	id, err := strconv.Atoi(c.Param("id"))
@@ -90,7 +90,7 @@ func EditRight(c *gin.Context) {
 		return
 	}
 
-	right.Id = id
+	right.ID = id
 	if err := service.EditRight(right); err != nil {
 		log.Println("[controller.EditRight]|[service.EditRight]| error is: ", err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
@@ -108,7 +108,6 @@ func EditRight(c *gin.Context) {
 // @Produce  json
 // @Tags rights
 // @Param  id path string true "right ID"
-// @Param  account body model.Right true "delete role"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
