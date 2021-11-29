@@ -1,9 +1,9 @@
 create table marketing_services_contract
 (
-    id      serial primary key,
-    manager text not null,
-    kam     text not null,
-    status  bool,
+    id         serial primary key,
+    manager    text      not null,
+    kam        text      not null,
+    status     bool,
     requisites_id references requisites (id),
     supplier_company_manager_id references supplier_company_manager (id),
     contract_parameters_id references contract_parameters (id),
@@ -51,9 +51,19 @@ create table contract_parameters
 
 create table currency
 (
-    id         serial primary key,
-    name       varchar   not null,
-    created_at timestamp not null DEFAULT current_timestamp
+    id               serial primary key
+        constraint currencies_pk
+            primary key,
+    alpha3           varchar,
+    symbol           varchar,
+    name             varchar,
+    image_name       varchar,
+    created_at       timestamp with time zone default CURRENT_TIMESTAMP,
+    updated_at       timestamp with time zone,
+    deleted_at       timestamp with time zone,
+    is_removed       boolean                  default false not null,
+    rate             double precision,
+    base_currency_id integer
 );
 
 create table products
