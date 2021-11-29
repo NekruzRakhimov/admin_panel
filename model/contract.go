@@ -2,7 +2,7 @@ package model
 
 import "time"
 
-type MarketingServicesAgreement struct {
+type MarketingServicesContract struct {
 	Requisites Requisites `json:"requisites"`
 	SupplierCompanyManager SupplierCompanyManager `json:"supplier_company_manager"`
 	Manager string `json:"manager"`
@@ -42,9 +42,12 @@ type ParametersOfTheContract struct {
 	CurrencyContract string `json:"currency_contract"`
 	Prepayment int `json:"prepayment"`
 	DateOfDelivery time.Time `json:"date_of_delivery"`
+	//Кратность расчета отложенной скидки TODO: возможно нужно поменять
+	FrequencyDeferredDiscount string `json:"frequency_deferred_discount"`
+
 	DeliveryAddress string `json:"delivery_address"`
 	//интервал времени поставки после поступления денежгых средств
-	DeliveryTimeInterval int
+	DeliveryTimeInterval int `json:"delivery_time_interval"`
 	//время возврата при условии не поставки
 	ReturnTimeDelivery int `json:"return_time_delivery"`
 }

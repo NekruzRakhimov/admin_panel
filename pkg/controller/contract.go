@@ -6,6 +6,20 @@ import (
 	"net/http"
 )
 
+func CreateMarketingContract(c *gin.Context)  {
+
+}
+
+
+
+
+
+
+
+
+
+
+
 func GetAllCurrency(c *gin.Context)  {
 	currency, err := service.GetAllCurrency()
 	if err != nil {

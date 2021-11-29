@@ -43,6 +43,7 @@ create table contract_parameters
     id                          serial primary key,
     number_of_contract          varchar not null,
     amount_contract             integer not null,
+    -- currency - не хватает
     prepayment                  int     not null,
     date_of_delivery            timestamptz,
     frequency_deferred_discount varchar not null,
