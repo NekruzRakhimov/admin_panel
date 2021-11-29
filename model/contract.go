@@ -56,3 +56,17 @@ type DiscountPercent struct {
 	Amount int `json:"amount"`
 	IsActive bool `json:"is_active"`
 }
+
+
+
+
+
+type  Currency struct {
+	ID int `json:"id"`
+	Alpha3 string `json:"alpha_3"`
+	Symbol string `json:"symbol"`
+	Name string `json:"name"`
+	ImageName string `json:"image_name"`
+	CreatedAt time.Time `json:"created_at"`
+
+}
