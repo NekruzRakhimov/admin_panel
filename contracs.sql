@@ -8,12 +8,17 @@ create table marketing_services_contract
     supplier_company_manager_id references supplier_company_manager (id),
     contract_parameters_id references contract_parameters (id),
 
-    discountPercent_id references discountPercent (id),
+    --discountPercent_id references discountPercent (id),
     created_at timestamp not null DEFAULT current_timestamp
 
 
 );
 
+
+create table marketing_services_contract__discountPercent(
+    marketing_services_contract_id  integer references marketing_services_contract(id),
+    discountPercent_id integer references discount_percent(id)
+);
 create table requisites
 (
     id                  serial primary key,
@@ -38,6 +43,8 @@ create table if not exists supplier_company_manager
 
 );
 
+
+
 create table contract_parameters
 (
     id                          serial primary key,
@@ -47,24 +54,25 @@ create table contract_parameters
     prepayment                  int     not null,
     date_of_delivery            timestamptz,
     frequency_deferred_discount varchar not null,
-    delivery_address            varchar not null
+    delivery_address            []varchar not null,
+    delivery_time_interval int not null,
+    return_time_delivery  integer not null,
+    contract_date date
+
 );
 
 create table currency
 (
-    id               serial primary key
-        constraint currencies_pk
-            primary key,
-    alpha3           varchar,
-    symbol           varchar,
-    name             varchar,
-    image_name       varchar,
-    created_at       timestamp with time zone default CURRENT_TIMESTAMP,
-    updated_at       timestamp with time zone,
-    deleted_at       timestamp with time zone,
-    is_removed       boolean                  default false not null,
-    rate             double precision,
-    base_currency_id integer
+    id         serial primary key,
+    alpha3     varchar,
+    symbol     varchar,
+    name       varchar,
+    image_name varchar,
+    created_at timestamp with time zone default CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone,
+    deleted_at timestamp with time zone,
+    is_removed boolean                  default false not null
+
 );
 
 create table products
@@ -75,14 +83,20 @@ create table products
     currency_id    int references currency (id)
 );
 
-create table if not exists discountPercent
+create table if not exists discount_percent
 (
     id         serial primary key,
     type       varchar not null,
     name       varchar not null,
-    amount     integer not null,
-    is_active  bool default false,
-    grace_days integer not null
+    discount_amount     integer not null,
+    grace_days integer not null,
+    payment_multiplicity varchar,
+    amount integer ,
+    comments text,
+    is_active  bool default false
 
 
-)
+
+);
+
+--postgres=# INSERT INTO test (name) VALUES ('My Name 1') RETURNING id;
