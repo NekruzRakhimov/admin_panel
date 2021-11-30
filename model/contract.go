@@ -63,7 +63,7 @@ type ContractParams struct {
 
 type DiscountPercent struct {
 	ID                  int    `json:"id"`
-	Type                string `json:"т"`
+	Type                string `json:"type"`
 	Name                string `json:"name"`
 	DiscountAmount      int    `json:"discount_amount"`
 	GraceDays           string `json:"grace_days"`
@@ -75,7 +75,7 @@ type DiscountPercent struct {
 
 type Product struct {
 	ID            int `json:"id"`
-	ProductNumber string
+	ProductNumber string `json:"product_number"`
 	Price         float32 `json:"price"`
 	Currency      string  `json:"currency"`
 }

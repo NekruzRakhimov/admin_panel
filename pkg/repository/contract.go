@@ -20,21 +20,25 @@ func GetAllCurrency() (currency []model.Currency, err error) {
 
 func CreateMarketingContract(contract model.MarketingServicesContract) (model.MarketingServicesContract, error)  {
 	// Структура Requisites
-	req := contract.Requisites
+	req := contract.Requisites // DONE
 	//struct supplier_company_manager
 	SCM := contract.SupplierCompanyManager
 	// Параметры Контракта
 	paramСont := contract.ParamContract
 	discount := contract.DiscountPercent
+	products := contract.Products
+
+
+
 	//	sqlQuery := "INSERT INTO roles_rights (role_id, right_id) VALUES(?, ?)"
 	sqlQueryRequisites := fmt.Sprintf("INSERT INTO %s (beneficiary, bank_of_beneficiary,  bin,  iic,  phone, account_number) " +
 		"VALUES($1, $2, $3, $4, $5, $6) RETURNING id", "requisites")
-	//db.GetDBConn().Exec(sqlQueryRequisites, req.Beneficiary, req.BankOfBeneficiary, req.BIN, req.IIC, req.Phone, req.AccountNumber)
+
 	db.GetDBConn().Raw(sqlQueryRequisites, req.Beneficiary, req.BankOfBeneficiary, req.BIN, req.IIC, req.Phone, req.AccountNumber).Scan(&req.ID)
 
 	// supplier_company_manager
 	sqlReqSCM := fmt.Sprintf("INSERTRT INTO %s (work_phone, email, skype, phone, position, base)" +
-		"VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id", "supplier_company_manager")
+		"VALUES ($1, $2, $3, $4, $5, $6) RETURNING id", "supplier_company_manager")
 
 	//err := db.GetDBConn().Exec(sqlReqSCM, SCM.WorkPhone, SCM.Email, SCM.Skype, SCM.Phone, SCM.Position, SCM.Base).Error
 	//if err != nil {
@@ -52,8 +56,24 @@ func CreateMarketingContract(contract model.MarketingServicesContract) (model.Ma
 		paramСont.CurrencyID, paramСont.Prepayment, paramСont.DateOfDelivery, paramСont.FrequencyDeferredDiscount,
 		paramСont.DeliveryAddress, paramСont.ReturnTimeDelivery).Scan(&paramСont.ID)
 
-	sqlDisc := fmt.Sprintf("INSERT INTO %s(name, amount) VALUES($1, $2) RETURNING id", "discount_percent")
-	db.GetDBConn().Raw(sqlDisc, discount.Name, discount.Amount).Scan(&discount.ID)
+
+
+	for _, dis := range discount{
+		sqlDisc := fmt.Sprintf("INSERT INTO %s(type, name, discount_amount, grace_days, payment_multiplicity, amount, comments) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING id", "discount_percent")
+		db.GetDBConn().Raw(sqlDisc, dis.Type, dis.Name, dis.DiscountAmount, dis.GraceDays, dis.PaymentMultiplicity, dis.Amount, dis.Comments).Scan(&dis.ID)
+
+	}
+
+
+	for _, product := range products{
+		sqlProd := fmt.Sprintf("INSERT INTO %s (product_number, price, currency) VALUES ($1, $2, $3)", "products")
+
+
+		db.GetDBConn().Raw(sqlProd, product.ProductNumber, product.Price, product.Currency).Scan(&product.ID)
+	}
+
+
+
 
 
 
