@@ -99,4 +99,14 @@ create table if not exists discount_percent
 
 );
 
+
+create table jjj (
+                     id serial primary key,
+                     sales jsonb,
+                     people jsonb
+);
+
+
+-- то есть, ты должен написать каждое поля таблицы...
+INSERT INTO jjj(sales, people) VALUES (?, ?);
 --postgres=# INSERT INTO test (name) VALUES ('My Name 1') RETURNING id;

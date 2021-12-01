@@ -5,14 +5,6 @@ import (
 	"time"
 )
 
-<<<<<<< HEAD
-type MarketingServicesAgreement struct {
-	Requisites             Requisites              `json:"requisites"`
-	SupplierCompanyManager SupplierCompanyManager  `json:"supplier_company_manager"`
-	Manager                string                  `json:"manager"`
-	KAM                    string                  `json:"kam"`
-	ParamContract          ContractParameters `json:"param_contract"`
-=======
 type MarketingServicesContract struct {
 	ID                     int                    `json:"id"`
 	Requisites             Requisites             `json:"requisites"`
@@ -22,7 +14,6 @@ type MarketingServicesContract struct {
 	ParamContract          ContractParams         `json:"param_contract"`
 	DiscountPercent        []DiscountPercent      `json:"discount_percent"`
 	Products               []Product              `json:"products"`
->>>>>>> d28815d5cb5b9b046088904e60cacff419744789
 }
 
 // Ревезиты
@@ -50,15 +41,14 @@ type SupplierCompanyManager struct {
 	Base string `json:"base"`
 }
 
-<<<<<<< HEAD
 type ContractParameters struct {
 	NumberOfContract          string    `json:"number_of_contract"`
 	AmountContract            int       `json:"amount_contract"`
 	CurrencyContract          string    `json:"currency_contract"`
 	Prepayment                int       `json:"prepayment"`
 	DateOfDelivery            time.Time `json:"date_of_delivery"`
-	FrequencyDeferredDiscount string `json:"frequency_deferred_discount"`
-	DeliveryAddress           []string `json:"delivery_address"`
+	FrequencyDeferredDiscount string    `json:"frequency_deferred_discount"`
+	DeliveryAddress           []string  `json:"delivery_address"`
 	//интервал времени поставки после поступления денежгых средств
 	DeliveryTimeInterval string `json:"delivery_time_interval"`
 	//время возврата при условии не поставки
@@ -71,17 +61,19 @@ type ContractParameters struct {
 	Currency      string `json:"currency"`
 }
 
-type DiscountPercent struct {
-	Name     string `json:"name"`
-	Amount   int    `json:"amount"`
-	IsActive bool   `json:"is_active"`
-}
+//type DiscountPercent struct {
+//	Name     string `json:"name"`
+//	Amount   int    `json:"amount"`
+//	IsActive bool   `json:"is_active"`
+//}
 
 type ContractsAttachments struct {
 	AttachmentTemplate string `json:"attachment_template"`
 	Applications       string `json:"applications"`
-=======
+}
+
 //TODO: поменять запрос в репозитории Маркетинговых договорах
+
 type ContractParams struct {
 	ID               int    `json:"id"`
 	NumberOfContract string `json:"number_of_contract"`
@@ -114,8 +106,8 @@ type DiscountPercent struct {
 }
 
 type Product struct {
-	ID            int `json:"id"`
-	ProductNumber string `json:"product_number"`
+	ID            int     `json:"id"`
+	ProductNumber string  `json:"product_number"`
 	Price         float32 `json:"price"`
 	Currency      string  `json:"currency"`
 }
@@ -130,5 +122,4 @@ type Currency struct {
 	UpdatedAt time.Time `json:"updated_at"`
 	DeletedAt time.Time `json:"deleted_at"`
 	IsRemoved bool      `json:"is_removed"`
->>>>>>> d28815d5cb5b9b046088904e60cacff419744789
 }
