@@ -15,6 +15,24 @@ create table marketing_services_contract
 );
 
 
+drop table marketing_services_contract;
+
+create table marketing_services_contract
+(
+    id         serial primary key,
+    requisites jsonb,
+    supplier_company_manager jsonb,
+    contract_parameters jsonb,
+    products json,
+    discount_percent jsonb
+
+);
+
+
+
+
+
+
 create table marketing_services_contract__discountPercent(
     marketing_services_contract_id  integer references marketing_services_contract(id),
     discountPercent_id integer references discount_percent(id)

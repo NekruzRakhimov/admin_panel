@@ -3,6 +3,8 @@ package repository
 import (
 	"admin_panel/db"
 	"admin_panel/model"
+	"encoding/json"
+	"log"
 )
 
 func GetAllCurrency() (currency []model.Currency, err error) {
@@ -24,9 +26,36 @@ func CreateMarketingContract(contract model.MarketingServicesContract)  error {
 	paramСont := contract.ParamContract
 	discount := contract.DiscountPercent
 	products := contract.Products
+	reqMarshall, err := json.Marshal(req)
+	if err != nil {
+		return err
+	}
+	paramСontMarshall, err := json.Marshal(paramСont)
+	if err != nil {
 
-	db.GetDBConn().Exec("INSERT INTO marketing_services_contract(requisites, supplier_company_manager, contract_parameters, products, discount_percent)"+
-		"VALUES($1, $2, $3, $4,$5)", req, SCM, paramСont, discount, products)
+	}
+
+	SCMMarshall, err := json.Marshal(SCM)
+	if err != nil {
+		return err
+	}
+
+	productsMarshall, err := json.Marshal(products)
+	if err != nil {
+		return err
+	}
+	discountMarshall, err := json.Marshal(discount)
+	if err != nil {
+		return err
+	}
+
+	err = db.GetDBConn().Exec("INSERT INTO marketing_services_contract(requisites, supplier_company_manager, contract_parameters, products,discount_percent)"+
+		"VALUES(?,?,?,?,?)", reqMarshall, SCMMarshall, paramСontMarshall,productsMarshall, discountMarshall).Error
+	if err != nil {
+		log.Println(err)
+		return err
+
+	}
 
 	////	sqlQuery := "INSERT INTO roles_rights (role_id, right_id) VALUES(?, ?)"
 	//sqlQueryRequisites := fmt.Sprintf("INSERT INTO %s (beneficiary, bank_of_beneficiary,  bin,  iic,  phone, account_number) " +

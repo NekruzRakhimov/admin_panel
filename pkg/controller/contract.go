@@ -3,6 +3,7 @@ package controller
 import (
 	"admin_panel/model"
 	"admin_panel/pkg/service"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -10,6 +11,7 @@ import (
 func CreateMarketingContract(c *gin.Context)  {
 	var input model.MarketingServicesContract
 	err := c.BindJSON(&input)
+	fmt.Println("======================================================____", input)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 				return
