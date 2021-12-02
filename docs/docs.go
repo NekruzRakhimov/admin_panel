@@ -129,7 +129,7 @@ var doc = `{
                 "tags": [
                     "contract"
                 ],
-                "summary": "Create Markiting contract",
+                "summary": "Create marketing contract",
                 "parameters": [
                     {
                         "description": "Add user",
@@ -1227,7 +1227,7 @@ type swaggerInfo struct {
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
 	Version:     "1.0",
-	Host:        "https://ais-admin-panel.herokuapp.com:8080",
+	Host:        "ais-admin-panel.herokuapp.com",
 	BasePath:    "/",
 	Schemes:     []string{"http"},
 	Title:       "Gin Swagger Admin-Panel Api",

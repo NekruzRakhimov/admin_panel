@@ -199,7 +199,7 @@ definitions:
       surname:
         type: string
     type: object
-host: https://ais-admin-panel.herokuapp.com:8080
+host: ais-admin-panel.herokuapp.com
 info:
   contact:
     email: aziz.rahimov0001@gmail.com
@@ -306,7 +306,7 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Create Markiting contract
+      summary: Create marketing contract
       tags:
       - contract
   /detach_role/{user_id}/{role_id}:

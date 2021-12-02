@@ -18,7 +18,7 @@
         },
         "version": "1.0"
     },
-    "host": "https://ais-admin-panel.herokuapp.com:8080",
+    "host": "ais-admin-panel.herokuapp.com",
     "basePath": "/",
     "paths": {
         "/": {
@@ -118,7 +118,7 @@
                 "tags": [
                     "contract"
                 ],
-                "summary": "Create Markiting contract",
+                "summary": "Create marketing contract",
                 "parameters": [
                     {
                         "description": "Add user",
