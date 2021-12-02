@@ -18,11 +18,12 @@ import (
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host localhost:8080
+// @host ais-admin-panel.herokuapp.com
 // @BasePath /
 // @schemes http
 func main() {
 
+	
 	//host localhost:3000
 	utils.ReadSettings()
 
