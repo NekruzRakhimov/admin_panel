@@ -1227,7 +1227,7 @@ type swaggerInfo struct {
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
 	Version:     "1.0",
-	Host:        "ais-admin-panel.herokuapp.com",
+	Host:        "localhost:3000",
 	BasePath:    "/",
 	Schemes:     []string{"http"},
 	Title:       "Gin Swagger Admin-Panel Api",

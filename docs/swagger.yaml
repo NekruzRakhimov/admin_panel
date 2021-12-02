@@ -199,7 +199,7 @@ definitions:
       surname:
         type: string
     type: object
-host: ais-admin-panel.herokuapp.com
+host: localhost:3000
 info:
   contact:
     email: aziz.rahimov0001@gmail.com
