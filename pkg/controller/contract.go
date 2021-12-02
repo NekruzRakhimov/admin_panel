@@ -8,6 +8,18 @@ import (
 	"net/http"
 )
 
+
+// Create Markiting contract godoc
+// @Summary Create Markiting contract
+//@Description Add by json MarketingServicesContract
+//@Tags contract
+// @Accept  json
+// @Produce  json
+// @Param user body model.MarketingServicesContract true "Add user"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /contract/ [post]
 func CreateMarketingContract(c *gin.Context)  {
 	var input model.MarketingServicesContract
 	err := c.BindJSON(&input)

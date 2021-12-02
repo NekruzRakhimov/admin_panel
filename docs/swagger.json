@@ -106,6 +106,62 @@
                 }
             }
         },
+        "/contract/": {
+            "post": {
+                "description": "Add by json MarketingServicesContract",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contract"
+                ],
+                "summary": "Create Markiting contract",
+                "parameters": [
+                    {
+                        "description": "Add user",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MarketingServicesContract"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/detach_role/{user_id}/{role_id}": {
             "post": {
                 "description": "Detach by json Role To User",
@@ -846,6 +902,152 @@
         }
     },
     "definitions": {
+        "model.ContractParams": {
+            "type": "object",
+            "properties": {
+                "amount_contract": {
+                    "type": "integer"
+                },
+                "contract_date": {
+                    "type": "string"
+                },
+                "currency": {
+                    "description": "CurrencyID       int    `json:\"currency_id,omitempty\"`",
+                    "type": "string"
+                },
+                "date_of_delivery": {
+                    "type": "string"
+                },
+                "delivery_address": {
+                    "description": "DeliveryAddress pq.StringArray `json:\"delivery_address,omitempty\"`",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "delivery_time_interval": {
+                    "description": "интервал времени поставки после поступления денежгых средств",
+                    "type": "integer"
+                },
+                "frequency_deferred_discount": {
+                    "description": "Кратность расчета отложенной скидки TODO: возможно нужно поменять",
+                    "type": "string"
+                },
+                "number_of_contract": {
+                    "type": "string"
+                },
+                "prepayment": {
+                    "type": "integer"
+                },
+                "return_time_delivery": {
+                    "description": "время возврата при условии не поставки",
+                    "type": "integer"
+                }
+            }
+        },
+        "model.DiscountPercent": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "comments": {
+                    "type": "string"
+                },
+                "discount_amount": {
+                    "type": "integer"
+                },
+                "grace_days": {
+                    "type": "string"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "payment_multiplicity": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.MarketingServicesContract": {
+            "type": "object",
+            "properties": {
+                "discount_percent": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.DiscountPercent"
+                    }
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "param_contract": {
+                    "$ref": "#/definitions/model.ContractParams"
+                },
+                "products": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Product"
+                    }
+                },
+                "requisites": {
+                    "$ref": "#/definitions/model.Requisites"
+                },
+                "supplier_company_manager": {
+                    "$ref": "#/definitions/model.SupplierCompanyManager"
+                }
+            }
+        },
+        "model.Product": {
+            "type": "object",
+            "properties": {
+                "currency": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "product_number": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Requisites": {
+            "type": "object",
+            "properties": {
+                "account_number": {
+                    "type": "string"
+                },
+                "bank_of_beneficiary": {
+                    "type": "string"
+                },
+                "beneficiary": {
+                    "description": "ID                int    `json:\"id\"`",
+                    "type": "string"
+                },
+                "bin": {
+                    "type": "string"
+                },
+                "iic": {
+                    "description": "индивидуальный идентификационный код",
+                    "type": "string"
+                },
+                "kam": {
+                    "type": "string"
+                },
+                "manager": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                }
+            }
+        },
         "model.Right": {
             "type": "object",
             "properties": {
@@ -934,6 +1136,32 @@
                     }
                 },
                 "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.SupplierCompanyManager": {
+            "type": "object",
+            "properties": {
+                "base": {
+                    "description": "Основание - надо понять как правильно назвать это",
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "position": {
+                    "description": "помоему  в этом случае ему нужен слайс стрингов",
+                    "type": "string"
+                },
+                "skype": {
+                    "type": "string"
+                },
+                "work_phone": {
+                    "description": "ID        int    `json:\"id\"`",
                     "type": "string"
                 }
             }

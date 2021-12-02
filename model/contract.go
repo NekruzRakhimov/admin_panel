@@ -1,7 +1,6 @@
 package model
 
 import (
-	"github.com/lib/pq"
 	"time"
 )
 
@@ -87,7 +86,8 @@ type ContractParams struct {
 	//Кратность расчета отложенной скидки TODO: возможно нужно поменять
 	FrequencyDeferredDiscount string `json:"frequency_deferred_discount,omitempty"`
 
-	DeliveryAddress pq.StringArray `json:"delivery_address,omitempty"`
+	//DeliveryAddress pq.StringArray `json:"delivery_address,omitempty"`
+	DeliveryAddress []string `json:"delivery_address,omitempty"`
 	//интервал времени поставки после поступления денежгых средств
 	DeliveryTimeInterval int `json:"delivery_time_interval,omitempty"`
 	//время возврата при условии не поставки

@@ -1,5 +1,103 @@
 basePath: /
 definitions:
+  model.ContractParams:
+    properties:
+      amount_contract:
+        type: integer
+      contract_date:
+        type: string
+      currency:
+        description: CurrencyID       int    `json:"currency_id,omitempty"`
+        type: string
+      date_of_delivery:
+        type: string
+      delivery_address:
+        description: DeliveryAddress pq.StringArray `json:"delivery_address,omitempty"`
+        items:
+          type: string
+        type: array
+      delivery_time_interval:
+        description: интервал времени поставки после поступления денежгых средств
+        type: integer
+      frequency_deferred_discount:
+        description: 'Кратность расчета отложенной скидки TODO: возможно нужно поменять'
+        type: string
+      number_of_contract:
+        type: string
+      prepayment:
+        type: integer
+      return_time_delivery:
+        description: время возврата при условии не поставки
+        type: integer
+    type: object
+  model.DiscountPercent:
+    properties:
+      amount:
+        type: integer
+      comments:
+        type: string
+      discount_amount:
+        type: integer
+      grace_days:
+        type: string
+      is_active:
+        type: boolean
+      name:
+        type: string
+      payment_multiplicity:
+        type: string
+      type:
+        type: string
+    type: object
+  model.MarketingServicesContract:
+    properties:
+      discount_percent:
+        items:
+          $ref: '#/definitions/model.DiscountPercent'
+        type: array
+      id:
+        type: integer
+      param_contract:
+        $ref: '#/definitions/model.ContractParams'
+      products:
+        items:
+          $ref: '#/definitions/model.Product'
+        type: array
+      requisites:
+        $ref: '#/definitions/model.Requisites'
+      supplier_company_manager:
+        $ref: '#/definitions/model.SupplierCompanyManager'
+    type: object
+  model.Product:
+    properties:
+      currency:
+        type: string
+      price:
+        type: number
+      product_number:
+        type: string
+    type: object
+  model.Requisites:
+    properties:
+      account_number:
+        type: string
+      bank_of_beneficiary:
+        type: string
+      beneficiary:
+        description: ID                int    `json:"id"`
+        type: string
+      bin:
+        type: string
+      iic:
+        description: индивидуальный идентификационный код
+        type: string
+      kam:
+        type: string
+      manager:
+        type: string
+      phone:
+        type: string
+    type: object
   model.Right:
     properties:
       code:
@@ -58,6 +156,24 @@ definitions:
           $ref: '#/definitions/model.RightDTO'
         type: array
       status:
+        type: string
+    type: object
+  model.SupplierCompanyManager:
+    properties:
+      base:
+        description: Основание - надо понять как правильно назвать это
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      position:
+        description: помоему  в этом случае ему нужен слайс стрингов
+        type: string
+      skype:
+        type: string
+      work_phone:
+        description: ID        int    `json:"id"`
         type: string
     type: object
   model.User:
@@ -155,6 +271,44 @@ paths:
       summary: Attach Role To User
       tags:
       - users
+  /contract/:
+    post:
+      consumes:
+      - application/json
+      description: Add by json MarketingServicesContract
+      parameters:
+      - description: Add user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.MarketingServicesContract'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create Markiting contract
+      tags:
+      - contract
   /detach_role/{user_id}/{role_id}:
     post:
       consumes:
