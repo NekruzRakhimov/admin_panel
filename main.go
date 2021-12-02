@@ -6,14 +6,14 @@ import (
 	"admin_panel/utils"
 )
 
-// @title Gin Swagger Example API
-// @version 2.0
-// @description This is a sample server server.
+// @title Gin Swagger Admin-Panel Api
+// @version 1.0
+// @description Админка, чтобы проверить роуты и права пользователей.
 // @termsOfService http://swagger.io/terms/
 
 // @contact.name API Support
 // @contact.url http://www.swagger.io/support
-// @contact.email support@swagger.io
+// @contact.email aziz.rahimov0001@gmail.com
 
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
@@ -24,7 +24,7 @@ import (
 func main() {
 	utils.ReadSettings()
 
-	db.StartDbConnection()
+db.StartDbConnection()
 
 	routes.RunAllRoutes()
 }

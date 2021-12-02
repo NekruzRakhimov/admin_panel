@@ -59,7 +59,7 @@ func AddRightsToRole(roleId int, rights []model.RightDTO) error {
 	sqlQuery := "INSERT INTO roles_rights (role_id, right_id) VALUES(?, ?)"
 
 	for _, right := range rights {
-		if err := db.GetDBConn().Exec(sqlQuery, roleId, right.Id).Error; err != nil {
+		if err := db.GetDBConn().Exec(sqlQuery, roleId, right.ID).Error; err != nil {
 			return err
 		}
 	}

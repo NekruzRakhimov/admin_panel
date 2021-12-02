@@ -10,6 +10,17 @@ import (
 	"strconv"
 )
 
+
+// Get All Roles by ADMIN godoc
+// @Summary Get All Roles by Admin
+// @Description Get All Roles by Admin
+// @Accept  json
+// @Produce  json
+// @Tags roles
+// @Success 200 {array} model.Role
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /roles/ [get]
 func GetAllRoles(c *gin.Context) {
 	roles, err := service.GetAllRolesFullInfo()
 	if err != nil {
@@ -21,6 +32,19 @@ func GetAllRoles(c *gin.Context) {
 	c.JSON(http.StatusOK, roles)
 }
 
+
+// Update Role by ADMIN godoc
+// @Summary  Update Role by Admin
+// @Description  Update Role by Admin
+// @Accept  json
+// @Produce  json
+// @Tags roles
+// @Param  id path string true "role ID"
+// @Param  role body model.Role true "Update role"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /roles/{id} [put]
 func EditRole(c *gin.Context) {
 	var role model.Role
 	id, err := strconv.Atoi(c.Param("id"))
@@ -36,7 +60,7 @@ func EditRole(c *gin.Context) {
 		return
 	}
 
-	role.Id = id
+	role.ID = id
 	if err := service.EditRole(role); err != nil {
 		log.Println("[controller.EditRole]|[service.EditRole]| error is: ", err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
@@ -46,6 +70,18 @@ func EditRole(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"reason": fmt.Sprintf("роль c id = %d была успешно обновлена!", id)})
 }
 
+
+// Add Role by ADMIN godoc
+// @Summary  Add Role by Admin
+// @Description  Add Role by Admin
+// @Accept  json
+// @Produce  json
+// @Tags roles
+// @Param  role  body model.Role true "Add role"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /roles/ [post]
 func AddNewRole(c *gin.Context) {
 	var role model.Role
 	if err := c.BindJSON(&role); err != nil {
@@ -63,6 +99,19 @@ func AddNewRole(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"reason": "новая роль была успешно создана!"})
 }
 
+
+// Delete Role by ID  ADMIN godoc
+// @Summary  Delete Role by ID Admin
+// @Description  Delete Role by Admin
+// @Accept  json
+// @Produce  json
+// @Tags roles
+// @Param  id path string true "role ID"
+// @Param  role  body model.Role true "Update role"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /roles/{id} [delete]
 func DeleteRole(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

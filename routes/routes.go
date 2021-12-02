@@ -7,6 +7,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+
+	"log"
+
 	"net/http"
 	"os"
 
@@ -18,8 +21,10 @@ func RunAllRoutes() {
 	r := gin.Default()
 
 
+
 	// Исползование CORS
 	r.Use(controller.CORSMiddleware())
+
 
 	// Установка Logger-а
 	utils.SetLogger()
@@ -36,13 +41,16 @@ func RunAllRoutes() {
 
 	// Запуск сервера
 	//_ = r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
-//	_ = r.Run(":3000")
+
+	//_ = r.Run(":3000")
+
 
 }
 
 func runAllRoutes(r *gin.Engine) {
 	//r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.GET("/", HealthCheck)
+	r.POST("/contract", controller.CreateMarketingContract)
 
 	users := r.Group("/users")
 	users.GET("/", controller.GetAllUsers)
@@ -81,6 +89,7 @@ func runAllRoutes(r *gin.Engine) {
 	//	log.Fatal(err)
 	//}
 
+	//_ = r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
 }
 
 //func Init()  {

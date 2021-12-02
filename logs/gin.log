@@ -1309,3 +1309,933 @@
 [GIN] ::1 - [Sun, 21 Nov 2021 22:38:12 +05] "POST /users/ HTTP/1.1 200 838.6118ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
 [GIN] ::1 - [Sun, 21 Nov 2021 22:38:21 +05] "GET /users/ HTTP/1.1 200 5.0175114s "PostmanRuntime/7.28.4" 
 [GIN] ::1 - [Sun, 21 Nov 2021 23:58:48 +05] "GET /users/ HTTP/1.1 200 5.117038s "PostmanRuntime/7.28.4" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Mon, 22 Nov 2021 20:41:15 +05] "GET /swagger/index.html HTTP/1.1 200 296µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Mon, 22 Nov 2021 20:41:15 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 998.8µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Mon, 22 Nov 2021 20:41:15 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 2.8275ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Mon, 22 Nov 2021 20:41:15 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 830.7µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Mon, 22 Nov 2021 20:41:15 +05] "GET /swagger/doc.json HTTP/1.1 200 1.1038ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Mon, 22 Nov 2021 20:42:18 +05] "GET /swagger/index.html HTTP/1.1 200 595.7µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Mon, 22 Nov 2021 20:42:18 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 1.4001ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Mon, 22 Nov 2021 20:42:18 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 1.9834ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Mon, 22 Nov 2021 20:42:18 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 4.9772ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Mon, 22 Nov 2021 20:42:19 +05] "GET /swagger/doc.json HTTP/1.1 200 765.9µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Mon, 22 Nov 2021 20:42:19 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Mon, 22 Nov 2021 20:42:51 +05] "GET /swagger/index.html HTTP/1.1 200 2.1611ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Mon, 22 Nov 2021 20:42:51 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 1.0002ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Mon, 22 Nov 2021 20:42:51 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 2.2382ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Mon, 22 Nov 2021 20:42:51 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 1.5548ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Mon, 22 Nov 2021 20:42:51 +05] "GET /swagger/doc.json HTTP/1.1 200 835.9µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Tue, 23 Nov 2021 10:09:42 +05] "GET /swagger/index.html HTTP/1.1 200 122.4µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 10:09:42 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 884.9µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 10:09:42 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 3.6066ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 10:09:42 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 1.0562ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 10:09:42 +05] "GET /swagger/doc.json HTTP/1.1 200 737.8µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 10:09:47 +05] "GET /swagger/doc.json HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 10:09:48 +05] "GET /favicon.ico HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Tue, 23 Nov 2021 10:18:09 +05] "GET /swagger/index.html HTTP/1.1 200 1.5029ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 10:18:09 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 10:18:09 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 2.1144ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 10:18:09 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 1.3468ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 10:18:09 +05] "GET /swagger/doc.json HTTP/1.1 200 770.3µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 10:18:09 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 90.1µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 10:18:31 +05] "GET /users/ HTTP/1.1 200 4.436573s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 10:22:23 +05] "DELETE /users/12 HTTP/1.1 200 828.9347ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 10:22:54 +05] "GET /users/ HTTP/1.1 200 4.0920138s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 10:42:12 +05] "GET /users/ HTTP/1.1 200 3.997616s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 10:43:06 +05] "PUT /users/5 HTTP/1.1 200 797.3305ms "PostmanRuntime/7.28.4" 
+[GIN] ::1 - [Tue, 23 Nov 2021 10:43:23 +05] "GET /users/ HTTP/1.1 200 4.0573745s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Tue, 23 Nov 2021 11:03:35 +05] "GET /swagger/index.html HTTP/1.1 200 2.6063ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 11:03:35 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 634.8µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 11:03:35 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 2.8502ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 11:03:35 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 5.0355ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 11:03:35 +05] "GET /swagger/doc.json HTTP/1.1 200 970.2µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+2021/11/23 11:06:54 [controller.EditRole]|[service.EditUser]| error is:  dial tcp: lookup ec2-18-235-154-252.compute-1.amazonaws.com: no such host
+[GIN] ::1 - [Tue, 23 Nov 2021 11:06:54 +05] "PUT /users/5 HTTP/1.1 500 5.3936ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+2021/11/23 11:07:56 [controller.EditRole]|[service.EditUser]| error is:  dial tcp: lookup ec2-18-235-154-252.compute-1.amazonaws.com: no such host
+[GIN] ::1 - [Tue, 23 Nov 2021 11:07:56 +05] "PUT /users/5 HTTP/1.1 500 1.1758ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+2021/11/23 11:07:57 [controller.EditRole]|[service.EditUser]| error is:  dial tcp: lookup ec2-18-235-154-252.compute-1.amazonaws.com: no such host
+[GIN] ::1 - [Tue, 23 Nov 2021 11:07:57 +05] "PUT /users/5 HTTP/1.1 500 1.4522ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+2021/11/23 11:07:57 [controller.EditRole]|[service.EditUser]| error is:  dial tcp: lookup ec2-18-235-154-252.compute-1.amazonaws.com: no such host
+[GIN] ::1 - [Tue, 23 Nov 2021 11:07:57 +05] "PUT /users/5 HTTP/1.1 500 2.8191ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+2021/11/23 11:07:59 [controller.EditRole]|[service.EditUser]| error is:  dial tcp: lookup ec2-18-235-154-252.compute-1.amazonaws.com: no such host
+[GIN] ::1 - [Tue, 23 Nov 2021 11:07:59 +05] "PUT /users/5 HTTP/1.1 500 1.5107ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+2021/11/23 11:07:59 [controller.EditRole]|[service.EditUser]| error is:  dial tcp: lookup ec2-18-235-154-252.compute-1.amazonaws.com: no such host
+[GIN] ::1 - [Tue, 23 Nov 2021 11:07:59 +05] "PUT /users/5 HTTP/1.1 500 848.9µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+2021/11/23 11:07:59 [controller.EditRole]|[service.EditUser]| error is:  dial tcp: lookup ec2-18-235-154-252.compute-1.amazonaws.com: no such host
+[GIN] ::1 - [Tue, 23 Nov 2021 11:07:59 +05] "PUT /users/5 HTTP/1.1 500 913.9µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+2021/11/23 11:08:00 [controller.EditRole]|[service.EditUser]| error is:  dial tcp: lookup ec2-18-235-154-252.compute-1.amazonaws.com: no such host
+[GIN] ::1 - [Tue, 23 Nov 2021 11:08:00 +05] "PUT /users/5 HTTP/1.1 500 1.734ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 11:08:37 +05] "GET /swagger/index.html HTTP/1.1 200 365.9µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 11:08:37 +05] "GET /swagger/swagger-ui.css HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 11:08:37 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 11:08:37 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 304 985.9µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 11:08:37 +05] "GET /swagger/doc.json HTTP/1.1 200 789.2µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Tue, 23 Nov 2021 11:10:57 +05] "GET /swagger/index.html HTTP/1.1 200 562.6µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 11:10:57 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 1.7439ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 11:10:57 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 3.9974ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 11:10:57 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 6.9917ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 11:10:57 +05] "GET /swagger/doc.json HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 11:22:40 +05] "GET / HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 11:22:47 +05] "GET /ping HTTP/1.1 404 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 11:24:26 +05] "GET /users/ HTTP/1.1 200 6.433599s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Tue, 23 Nov 2021 11:25:21 +05] "GET /swagger/index.html HTTP/1.1 200 982.5µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 11:25:22 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 998.9µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 11:25:22 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 2.9927ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 11:25:22 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 10.9727ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 11:25:22 +05] "GET /swagger/doc.json HTTP/1.1 200 2.5533ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 11:25:22 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 553.5µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Tue, 23 Nov 2021 11:33:44 +05] "GET /swagger/index.html HTTP/1.1 200 1.4947ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 11:33:44 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 1.3911ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 11:33:44 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 4.8022ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 11:33:44 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 1.3065ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 11:33:45 +05] "GET /swagger/doc.json HTTP/1.1 200 226.6µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Tue, 23 Nov 2021 17:26:18 +05] "GET /swagger/index.html HTTP/1.1 200 1.5694ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:26:19 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 3.0557ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:26:19 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 3.0988ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:26:19 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 35.7836ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:26:19 +05] "GET /swagger/doc.json HTTP/1.1 200 1.0175ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:26:19 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 515µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Tue, 23 Nov 2021 17:32:52 +05] "GET /swagger/index.html HTTP/1.1 200 801.8µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:32:52 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 1.9999ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:32:52 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 1.6194ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:32:52 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 15.5754ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:32:52 +05] "GET /swagger/doc.json HTTP/1.1 200 1.066ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:32:52 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 1.026ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Tue, 23 Nov 2021 17:33:43 +05] "GET /swagger/index.html HTTP/1.1 200 905.9µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:33:43 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 2.3305ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:33:43 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 1.101ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:33:43 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 10.4665ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:33:44 +05] "GET /swagger/doc.json HTTP/1.1 200 1.0033ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:33:44 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:34:33 +05] "GET /swagger/index.html HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:34:33 +05] "GET /swagger/swagger-ui.css HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:34:33 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:34:33 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:34:33 +05] "GET /swagger/doc.json HTTP/1.1 200 1.0297ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:34:33 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 304 981.1µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Tue, 23 Nov 2021 17:39:49 +05] "GET /swagger/index.html HTTP/1.1 200 1.3863ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:39:49 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 1.1992ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:39:49 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 5.1867ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:39:49 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 16.2116ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:39:49 +05] "GET /swagger/doc.json HTTP/1.1 200 1.0006ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:39:49 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Tue, 23 Nov 2021 17:41:13 +05] "GET /swagger/index.html HTTP/1.1 200 694.8µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:41:13 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 711.9µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:41:13 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 3.4607ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:41:13 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 10.7064ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:41:14 +05] "GET /swagger/doc.json HTTP/1.1 200 1.9802ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:41:14 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 592.9µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Tue, 23 Nov 2021 17:41:47 +05] "GET /swagger/index.html HTTP/1.1 200 253µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:41:47 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 1.1621ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:41:47 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 1.0853ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:41:47 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 14.8177ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:41:47 +05] "GET /swagger/doc.json HTTP/1.1 200 817.3µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN] ::1 - [Tue, 23 Nov 2021 17:41:47 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Wed, 24 Nov 2021 23:51:40 +05] "GET /swagger/index.html HTTP/1.1 200 1.0202ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Wed, 24 Nov 2021 23:51:40 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 1.0037ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Wed, 24 Nov 2021 23:51:40 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 2.0211ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Wed, 24 Nov 2021 23:51:40 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 517.3µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Wed, 24 Nov 2021 23:51:41 +05] "GET /swagger/doc.json HTTP/1.1 200 243.7µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Wed, 24 Nov 2021 23:51:41 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] redirecting request 301: /rights --> /rights
+[GIN] ::1 - [Wed, 24 Nov 2021 23:52:30 +05] "GET /rights HTTP/1.1 200 912.335ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Thu, 25 Nov 2021 00:13:48 +05] "GET /swagger/index.html HTTP/1.1 200 676.8µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:13:48 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 1.2717ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:13:48 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 1.9962ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:13:48 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 5.97ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:13:49 +05] "GET /swagger/doc.json HTTP/1.1 200 2.1753ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] redirecting request 301: /rights --> /rights
+[GIN] ::1 - [Thu, 25 Nov 2021 00:13:57 +05] "GET /rights HTTP/1.1 200 400.7823ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:16:46 +05] "PUT /roles/ HTTP/1.1 404 0s "PostmanRuntime/7.28.4" 
+[GIN-debug] redirecting request 301: /roles --> /roles
+[GIN] ::1 - [Thu, 25 Nov 2021 00:16:59 +05] "GET /roles HTTP/1.1 200 2.1290001s "PostmanRuntime/7.28.4" 
+[GIN-debug] redirecting request 301: /roles --> /roles
+[GIN] ::1 - [Thu, 25 Nov 2021 00:17:14 +05] "GET /roles HTTP/1.1 200 2.0121101s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Thu, 25 Nov 2021 00:20:04 +05] "GET /swagger/index.html HTTP/1.1 200 1.8868ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:20:05 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 1.5131ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:20:05 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 2.4341ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:20:05 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 9.4174ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:20:05 +05] "GET /swagger/doc.json HTTP/1.1 200 869µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] redirecting request 307: /roles --> /roles
+2021/11/25 00:31:39 [controller.AddNewRole]|[service.AddNewRole]| error is:  pq: insert or update on table "roles_rights" violates foreign key constraint "roles_rights_rights_id_fk"
+[GIN] ::1 - [Thu, 25 Nov 2021 00:31:39 +05] "POST /roles HTTP/1.1 500 1.3379943s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:33:07 +05] "GET /swagger/index.html HTTP/1.1 200 642.5µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:33:08 +05] "GET /swagger/swagger-ui.css HTTP/1.1 304 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:33:08 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 304 997.1µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:33:08 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 304 204.7µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:33:08 +05] "GET /swagger/doc.json HTTP/1.1 200 341.9µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] redirecting request 307: /roles --> /roles
+2021/11/25 00:33:21 [controller.AddNewRole]|[service.AddNewRole]| error is:  pq: insert or update on table "roles_rights" violates foreign key constraint "roles_rights_rights_id_fk"
+[GIN] ::1 - [Thu, 25 Nov 2021 00:33:21 +05] "POST /roles HTTP/1.1 500 1.2807097s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] redirecting request 301: /roles --> /roles
+[GIN] ::1 - [Thu, 25 Nov 2021 00:34:08 +05] "GET /roles HTTP/1.1 200 3.0839907s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:36:20 +05] "GET /swagger/doc.json HTTP/1.1 200 148.1µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:36:41 +05] "GET /rights HTTP/1.1 200 426.9856ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] redirecting request 307: /rights --> /rights
+[GIN] ::1 - [Thu, 25 Nov 2021 00:38:03 +05] "POST /rights HTTP/1.1 200 848.9783ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Thu, 25 Nov 2021 00:50:24 +05] "GET /swagger/index.html HTTP/1.1 200 1.5086ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:50:24 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 1.6254ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:50:24 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 1.1522ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:50:24 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 8.8943ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:50:24 +05] "GET /swagger/doc.json HTTP/1.1 200 1.0228ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:50:24 +05] "GET /swagger/favicon-32x32.png HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] redirecting request 301: /rights --> /rights
+[GIN] ::1 - [Thu, 25 Nov 2021 00:50:34 +05] "GET /rights HTTP/1.1 200 394.5285ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:51:13 +05] "PUT /rights/12 HTTP/1.1 200 773.344ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:51:18 +05] "GET /rights HTTP/1.1 200 387.5063ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Thu, 25 Nov 2021 00:55:26 +05] "GET /swagger/index.html HTTP/1.1 200 993.4µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:55:26 +05] "GET /swagger/swagger-ui.css HTTP/1.1 200 652.1µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:55:26 +05] "GET /swagger/swagger-ui-bundle.js HTTP/1.1 200 2.5873ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:55:26 +05] "GET /swagger/swagger-ui-standalone-preset.js HTTP/1.1 200 1.1174ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:55:27 +05] "GET /swagger/doc.json HTTP/1.1 200 741µs "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:55:39 +05] "DELETE /rights/12 HTTP/1.1 200 843.4943ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:55:49 +05] "DELETE /rights/13 HTTP/1.1 200 832.2834ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN] ::1 - [Thu, 25 Nov 2021 00:56:12 +05] "DELETE /rights/9999 HTTP/1.1 200 1.0958279s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] POST   /contract                 --> admin_panel/pkg/controller.CreateMarketingContract (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Wed, 01 Dec 2021 17:08:23 +05] "GET / HTTP/1.1 200 515.083µs "PostmanRuntime/7.28.4" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] POST   /contract                 --> admin_panel/pkg/controller.CreateMarketingContract (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Wed, 01 Dec 2021 17:28:56 +05] "POST /contract HTTP/1.1 400 1.116917ms "PostmanRuntime/7.28.4" 
+[GIN] ::1 - [Wed, 01 Dec 2021 17:29:49 +05] "POST /contract HTTP/1.1 200 10.185167ms "PostmanRuntime/7.28.4" 
+[GIN] ::1 - [Wed, 01 Dec 2021 17:39:21 +05] "POST /contract HTTP/1.1 200 2.901875ms "PostmanRuntime/7.28.4" 
+[GIN] ::1 - [Wed, 01 Dec 2021 17:41:56 +05] "POST /contract HTTP/1.1 200 884.375µs "PostmanRuntime/7.28.4" 
+[GIN] ::1 - [Wed, 01 Dec 2021 17:43:08 +05] "POST /contract HTTP/1.1 200 929.209µs "PostmanRuntime/7.28.4" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] POST   /contract                 --> admin_panel/pkg/controller.CreateMarketingContract (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Wed, 01 Dec 2021 17:44:38 +05] "POST /contract HTTP/1.1 200 8.200667ms "PostmanRuntime/7.28.4" 
+[GIN] ::1 - [Wed, 01 Dec 2021 17:44:39 +05] "POST /contract HTTP/1.1 200 414.25µs "PostmanRuntime/7.28.4" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] POST   /contract                 --> admin_panel/pkg/controller.CreateMarketingContract (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Wed, 01 Dec 2021 17:55:27 +05] "POST /contract HTTP/1.1 200 8.283458ms "PostmanRuntime/7.28.4" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] POST   /contract                 --> admin_panel/pkg/controller.CreateMarketingContract (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Wed, 01 Dec 2021 17:56:32 +05] "POST /contract HTTP/1.1 200 4.202792ms "PostmanRuntime/7.28.4" 
+[GIN] ::1 - [Wed, 01 Dec 2021 17:57:46 +05] "POST /contract HTTP/1.1 200 1.084125ms "PostmanRuntime/7.28.4" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] POST   /contract                 --> admin_panel/pkg/controller.CreateMarketingContract (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Wed, 01 Dec 2021 17:59:32 +05] "POST /contract HTTP/1.1 200 6.784583ms "PostmanRuntime/7.28.4" 
+[GIN] ::1 - [Wed, 01 Dec 2021 18:19:05 +05] "POST /contract HTTP/1.1 200 18.706792ms "PostmanRuntime/7.28.4" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] POST   /contract                 --> admin_panel/pkg/controller.CreateMarketingContract (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+2021/12/01 18:56:45 sql: converting argument $1 type: unsupported type model.Requisites, a struct
+[GIN] ::1 - [Wed, 01 Dec 2021 18:56:45 +05] "POST /contract HTTP/1.1 500 10.009459ms "PostmanRuntime/7.28.4" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] POST   /contract                 --> admin_panel/pkg/controller.CreateMarketingContract (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+2021/12/01 18:57:23 sql: converting argument $1 type: unsupported type model.Requisites, a struct
+[GIN] ::1 - [Wed, 01 Dec 2021 18:57:23 +05] "POST /contract HTTP/1.1 500 11.888792ms "PostmanRuntime/7.28.4" 
+2021/12/01 18:57:24 sql: converting argument $1 type: unsupported type model.Requisites, a struct
+[GIN] ::1 - [Wed, 01 Dec 2021 18:57:24 +05] "POST /contract HTTP/1.1 500 590.834µs "PostmanRuntime/7.28.4" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] POST   /contract                 --> admin_panel/pkg/controller.CreateMarketingContract (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] POST   /contract                 --> admin_panel/pkg/controller.CreateMarketingContract (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+2021/12/01 19:02:07 sql: converting argument $1 type: unsupported type model.Requisites, a struct
+[GIN] ::1 - [Wed, 01 Dec 2021 19:02:07 +05] "POST /contract HTTP/1.1 500 11.185417ms "PostmanRuntime/7.28.4" 
+2021/12/01 19:02:09 sql: converting argument $1 type: unsupported type model.Requisites, a struct
+[GIN] ::1 - [Wed, 01 Dec 2021 19:02:09 +05] "POST /contract HTTP/1.1 500 810.417µs "PostmanRuntime/7.28.4" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] POST   /contract                 --> admin_panel/pkg/controller.CreateMarketingContract (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+2021/12/01 19:04:38 pq: invalid input syntax for type json
+[GIN] ::1 - [Wed, 01 Dec 2021 19:04:38 +05] "POST /contract HTTP/1.1 500 644.355459ms "PostmanRuntime/7.28.4" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] POST   /contract                 --> admin_panel/pkg/controller.CreateMarketingContract (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Wed, 01 Dec 2021 19:11:45 +05] "POST /contract HTTP/1.1 200 1.751648416s "PostmanRuntime/7.28.4" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] POST   /contract                 --> admin_panel/pkg/controller.CreateMarketingContract (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Wed, 01 Dec 2021 20:12:00 +05] "POST /contract HTTP/1.1 400 2.571333ms "PostmanRuntime/7.28.4" 
+2021/12/01 20:14:55 pq: INSERT has more expressions than target columns
+[GIN] ::1 - [Wed, 01 Dec 2021 20:14:55 +05] "POST /contract HTTP/1.1 500 257.52625ms "PostmanRuntime/7.28.4" 
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] POST   /contract                 --> admin_panel/pkg/controller.CreateMarketingContract (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN-debug] GET    /                         --> admin_panel/routes.HealthCheck (6 handlers)
+[GIN-debug] POST   /contract                 --> admin_panel/pkg/controller.CreateMarketingContract (6 handlers)
+[GIN-debug] GET    /users/                   --> admin_panel/pkg/controller.GetAllUsers (6 handlers)
+[GIN-debug] POST   /users/                   --> admin_panel/pkg/controller.CreateNewUser (6 handlers)
+[GIN-debug] PUT    /users/:id                --> admin_panel/pkg/controller.EditUser (6 handlers)
+[GIN-debug] DELETE /users/:id                --> admin_panel/pkg/controller.DeleteUser (6 handlers)
+[GIN-debug] GET    /rights                   --> admin_panel/pkg/controller.GetAllRights (6 handlers)
+[GIN-debug] POST   /rights                   --> admin_panel/pkg/controller.AddNewRight (6 handlers)
+[GIN-debug] PUT    /rights/:id               --> admin_panel/pkg/controller.EditRight (6 handlers)
+[GIN-debug] DELETE /rights/:id               --> admin_panel/pkg/controller.DeleteRight (6 handlers)
+[GIN-debug] GET    /roles                    --> admin_panel/pkg/controller.GetAllRoles (6 handlers)
+[GIN-debug] POST   /roles                    --> admin_panel/pkg/controller.AddNewRole (6 handlers)
+[GIN-debug] PUT    /roles/:id                --> admin_panel/pkg/controller.EditRole (6 handlers)
+[GIN-debug] DELETE /roles/:id                --> admin_panel/pkg/controller.DeleteRole (6 handlers)
+[GIN-debug] POST   /attach_right/:role_id/:right_id --> admin_panel/pkg/controller.AttachRightToRole (6 handlers)
+[GIN-debug] DELETE /detach_right/:role_id/:right_id --> admin_panel/pkg/controller.DetachRightFromRole (6 handlers)
+[GIN-debug] POST   /attach_role/:user_id/:role_id --> admin_panel/pkg/controller.AttachRoleToUser (6 handlers)
+[GIN-debug] DELETE /detach_role/:user_id/:role_id --> admin_panel/pkg/controller.DetachRoleFromUser (6 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] ::1 - [Wed, 01 Dec 2021 20:19:39 +05] "POST /contract HTTP/1.1 200 550.848958ms "PostmanRuntime/7.28.4" 

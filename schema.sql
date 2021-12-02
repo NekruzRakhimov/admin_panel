@@ -117,7 +117,5 @@ create table if not exists users_roles
             on update cascade on delete cascade
 );
 
-
-
 create unique index users_roles_id_uindex
     on users_roles (id);

@@ -13,7 +13,7 @@ func GetAllRolesFullInfo() (roles []model.Role, err error) {
 	}
 
 	for i := range roles {
-		rights, err := repository.GetAllRightsByRoleId(roles[i].Id)
+		rights, err := repository.GetAllRightsByRoleId(roles[i].ID)
 		if err != nil {
 			return nil, err
 		}
@@ -30,7 +30,7 @@ func AddNewRole(role model.Role) error {
 		return err
 	}
 
-	if err := repository.AddRightsToRole(role.Id, role.Rights); err != nil {
+	if err := repository.AddRightsToRole(role.ID, role.Rights); err != nil {
 		return err
 	}
 
