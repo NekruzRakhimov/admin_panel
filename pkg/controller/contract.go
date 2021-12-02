@@ -9,8 +9,8 @@ import (
 )
 
 
-// Create Markiting contract godoc
-// @Summary Create Markiting contract
+// Create Marketing contract godoc
+// @Summary Create marketing contract
 //@Description Add by json MarketingServicesContract
 //@Tags contract
 // @Accept  json
