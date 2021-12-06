@@ -23,7 +23,7 @@ create table marketing_services_contract
     requisites jsonb,
     supplier_company_manager jsonb,
     contract_parameters jsonb,
-    products json,
+    products jsonb,
     discount_percent jsonb
 
 );

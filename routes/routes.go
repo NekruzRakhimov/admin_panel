@@ -7,12 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-
-	"log"
-
 	"net/http"
 	"os"
-
 	//_ "github.com/rizalgowandy/go-swag-sample/docs/ginsimple" // you need to update github.com/rizalgowandy/go-swag-sample with your own project path
 	_ "admin_panel/docs"
 )
@@ -20,11 +16,8 @@ import (
 func RunAllRoutes() {
 	r := gin.Default()
 
-
-
 	// Исползование CORS
 	r.Use(controller.CORSMiddleware())
-
 
 	// Установка Logger-а
 	utils.SetLogger()
@@ -34,8 +27,10 @@ func RunAllRoutes() {
 
 	// Статус код 500, при любых panic()
 	r.Use(gin.Recovery())
+
 	// Исползование CORS
 	r.Use(controller.CORSMiddleware())
+
 	// Запуск роутов
 	runAllRoutes(r)
 
@@ -43,7 +38,6 @@ func RunAllRoutes() {
 	//_ = r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
 
 	//_ = r.Run(":3000")
-
 
 }
 
@@ -126,7 +120,7 @@ func HealthCheck(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": "Server is up and running"})
 }
 
-// HealthCheck godoc
+// Ping godoc
 // @Summary Ping pong
 // @Description Ping.
 // @Tags root
@@ -139,4 +133,3 @@ func Ping(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Ping Pong"})
 
 }
-
