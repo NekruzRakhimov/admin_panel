@@ -4,6 +4,7 @@ import (
 	"admin_panel/model"
 	"admin_panel/pkg/repository"
 	"encoding/json"
+	"fmt"
 	"log"
 )
 
@@ -68,16 +69,20 @@ func GetAllContracts() (contractsMiniInfo []model.ContractMiniInfo, err error) {
 	if err != nil {
 		return nil, err
 	}
+	fmt.Printf(">>>>>>>>>>>>>>>>>contractsWithJson%+v\n", contractsWithJson)
 
 	contracts, err := ConvertContractsFromJsonB(contractsWithJson)
 	if err != nil {
 		return nil, err
 	}
 
+	fmt.Printf(">>>>>>>>>>>>>>>>>contracts%+v\n", contracts)
+
 	for _, contract := range contracts {
 		contractMiniInfo := ConvertContractToContractMiniInfo(contract)
 		contractsMiniInfo = append(contractsMiniInfo, contractMiniInfo)
 	}
+	fmt.Printf(">>>>>>>>>>>>>>>>>contractsMiniInfo%+v\n", contractsMiniInfo)
 
 	return contractsMiniInfo, nil
 }
@@ -113,6 +118,7 @@ func ConvertContractsFromJsonB(contractsWithJsonB []model.ContractWithJsonB) (co
 }
 
 func ConvertContractFromJsonB(contractWithJson model.ContractWithJsonB) (contract model.Contract, err error) {
+	contract.ID = contractWithJson.ID
 	contract.Type = contractWithJson.Type
 	contract.Comment = contractWithJson.Comment
 	contract.Manager = contractWithJson.Manager
