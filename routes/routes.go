@@ -7,7 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"log"
 	"net/http"
 	"os"
 	//_ "github.com/rizalgowandy/go-swag-sample/docs/ginsimple" // you need to update github.com/rizalgowandy/go-swag-sample with your own project path
