@@ -274,6 +274,38 @@ paths:
       summary: Attach Role To User
       tags:
       - users
+  /contract/:
+    get:
+      consumes:
+      - application/json
+      description: Gel All Contract
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Contract'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All Contracts
+      tags:
+      - contracts
   /contract/{type}:
     post:
       consumes:

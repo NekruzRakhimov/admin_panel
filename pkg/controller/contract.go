@@ -42,6 +42,18 @@ func CreateContract(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"reason": "новый договор был успешно создан!"})
 }
 
+
+
+//GetAllContracts contract godoc
+// @Summary Get All Contracts
+// @Description Gel All Contract
+// @Accept  json
+// @Produce  json
+// @Tags contracts
+// @Success 200 {array}  model.Contract
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /contract/ [get]
 func GetAllContracts(c *gin.Context) {
 	contractsMiniInfo, err := service.GetAllContracts()
 	if err != nil {
