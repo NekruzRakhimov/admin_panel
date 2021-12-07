@@ -1,5 +1,108 @@
 basePath: /
 definitions:
+  model.Contract:
+    properties:
+      comment:
+        type: string
+      contract_parameters:
+        $ref: '#/definitions/model.ContractParameters'
+      created_at:
+        type: string
+      discounts:
+        items:
+          $ref: '#/definitions/model.Discount'
+        type: array
+      id:
+        type: integer
+      kam:
+        type: string
+      manager:
+        type: string
+      products:
+        items:
+          $ref: '#/definitions/model.Product'
+        type: array
+      requisites:
+        $ref: '#/definitions/model.Requisites'
+      status:
+        type: string
+      supplier_company_manager:
+        $ref: '#/definitions/model.SupplierCompanyManager'
+      type:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  model.ContractParameters:
+    properties:
+      contract_amount:
+        type: number
+      contract_date:
+        type: string
+      contract_number:
+        type: string
+      currency:
+        type: string
+      date_of_delivery:
+        type: string
+      delivery_address:
+        items:
+          type: string
+        type: array
+      delivery_time_interval:
+        description: интервал времени поставки после поступления денежых средств
+        type: integer
+      frequency_deferred_discount:
+        description: 'Кратность расчета отложенной скидки TODO: возможно нужно поменять'
+        type: string
+      prepayment:
+        type: number
+      return_time_delivery:
+        description: время возврата при условии не поставки
+        type: integer
+    type: object
+  model.Discount:
+    properties:
+      amount:
+        type: number
+      comments:
+        type: string
+      discount_amount:
+        type: number
+      grace_days:
+        type: string
+      name:
+        description: Type                string `json:"type,omitempty"`
+        type: string
+      payment_multiplicity:
+        type: string
+    type: object
+  model.Product:
+    properties:
+      currency:
+        type: string
+      price:
+        type: number
+      product_name:
+        type: string
+      product_number:
+        type: string
+    type: object
+  model.Requisites:
+    properties:
+      account_number:
+        type: string
+      bank_of_beneficiary:
+        type: string
+      beneficiary:
+        type: string
+      bin:
+        type: string
+      iic:
+        type: string
+      phone:
+        type: string
+    type: object
   model.Right:
     properties:
       code:
@@ -58,6 +161,22 @@ definitions:
           $ref: '#/definitions/model.RightDTO'
         type: array
       status:
+        type: string
+    type: object
+  model.SupplierCompanyManager:
+    properties:
+      base:
+        description: Основание - надо понять как правильно назвать это
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      position:
+        type: string
+      skype:
+        type: string
+      work_phone:
         type: string
     type: object
   model.User:
@@ -155,6 +274,49 @@ paths:
       summary: Attach Role To User
       tags:
       - users
+  /contract/{type}:
+    post:
+      consumes:
+      - application/json
+      description: Creating contract
+      parameters:
+      - description: creating contract
+        in: body
+        name: contract
+        required: true
+        schema:
+          $ref: '#/definitions/model.Contract'
+      - description: type of contract
+        in: query
+        name: type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Creating contract
+      tags:
+      - contracts
   /detach_role/{user_id}/{role_id}:
     post:
       consumes:

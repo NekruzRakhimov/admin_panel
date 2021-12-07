@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-// CreateContract
+
 //Creating contract godoc
 // @Summary Creating contract
 // @Description Creating contract
@@ -21,7 +21,7 @@ import (
 // @Success 200 {object} map[string]interface{}
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /contract/ [post]
+// @Router /contract/{type} [post]
 func CreateContract(c *gin.Context) {
 	var contract model.Contract
 
@@ -52,6 +52,9 @@ func GetAllContracts(c *gin.Context) {
 
 	c.JSON(http.StatusOK, contractsMiniInfo)
 }
+
+
+
 
 func CreateMarketingContract(c *gin.Context) {
 	var input model.MarketingServicesContract

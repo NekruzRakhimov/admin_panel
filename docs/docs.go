@@ -117,6 +117,69 @@ var doc = `{
                 }
             }
         },
+        "/contract/{type}": {
+            "post": {
+                "description": "Creating contract",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contracts"
+                ],
+                "summary": "Creating contract",
+                "parameters": [
+                    {
+                        "description": "creating contract",
+                        "name": "contract",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Contract"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "type of contract",
+                        "name": "type",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/detach_role/{user_id}/{role_id}": {
             "post": {
                 "description": "Detach by json Role To User",
@@ -857,6 +920,161 @@ var doc = `{
         }
     },
     "definitions": {
+        "model.Contract": {
+            "type": "object",
+            "properties": {
+                "comment": {
+                    "type": "string"
+                },
+                "contract_parameters": {
+                    "$ref": "#/definitions/model.ContractParameters"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "discounts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Discount"
+                    }
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "kam": {
+                    "type": "string"
+                },
+                "manager": {
+                    "type": "string"
+                },
+                "products": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Product"
+                    }
+                },
+                "requisites": {
+                    "$ref": "#/definitions/model.Requisites"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "supplier_company_manager": {
+                    "$ref": "#/definitions/model.SupplierCompanyManager"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.ContractParameters": {
+            "type": "object",
+            "properties": {
+                "contract_amount": {
+                    "type": "number"
+                },
+                "contract_date": {
+                    "type": "string"
+                },
+                "contract_number": {
+                    "type": "string"
+                },
+                "currency": {
+                    "type": "string"
+                },
+                "date_of_delivery": {
+                    "type": "string"
+                },
+                "delivery_address": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "delivery_time_interval": {
+                    "description": "интервал времени поставки после поступления денежых средств",
+                    "type": "integer"
+                },
+                "frequency_deferred_discount": {
+                    "description": "Кратность расчета отложенной скидки TODO: возможно нужно поменять",
+                    "type": "string"
+                },
+                "prepayment": {
+                    "type": "number"
+                },
+                "return_time_delivery": {
+                    "description": "время возврата при условии не поставки",
+                    "type": "integer"
+                }
+            }
+        },
+        "model.Discount": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "comments": {
+                    "type": "string"
+                },
+                "discount_amount": {
+                    "type": "number"
+                },
+                "grace_days": {
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Type                string ` + "`" + `json:\"type,omitempty\"` + "`" + `",
+                    "type": "string"
+                },
+                "payment_multiplicity": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Product": {
+            "type": "object",
+            "properties": {
+                "currency": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "product_name": {
+                    "type": "string"
+                },
+                "product_number": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Requisites": {
+            "type": "object",
+            "properties": {
+                "account_number": {
+                    "type": "string"
+                },
+                "bank_of_beneficiary": {
+                    "type": "string"
+                },
+                "beneficiary": {
+                    "type": "string"
+                },
+                "bin": {
+                    "type": "string"
+                },
+                "iic": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                }
+            }
+        },
         "model.Right": {
             "type": "object",
             "properties": {
@@ -945,6 +1163,30 @@ var doc = `{
                     }
                 },
                 "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.SupplierCompanyManager": {
+            "type": "object",
+            "properties": {
+                "base": {
+                    "description": "Основание - надо понять как правильно назвать это",
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "position": {
+                    "type": "string"
+                },
+                "skype": {
+                    "type": "string"
+                },
+                "work_phone": {
                     "type": "string"
                 }
             }
