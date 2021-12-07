@@ -104,6 +104,7 @@ func CreateMarketingContract(contract model.MarketingServicesContract) error {
 
 func CreateContract(contractWithJson model.ContractWithJsonB) error {
 	if err := db.GetDBConn().Table("contracts").Omit("status").Create(&contractWithJson).Error; err != nil {
+		log.Println("[repository.CreateContract]|[db.GetDBConn().Table(\"contracts\").Omit(\"status\").Create(&contractWithJson).Error]| error is: ", err.Error())
 		return err
 	}
 	return nil
@@ -112,8 +113,18 @@ func CreateContract(contractWithJson model.ContractWithJsonB) error {
 func GetAllContracts() (contracts []model.ContractWithJsonB, err error) {
 	sqlQuery := "SELECT * FROM contracts"
 	if err := db.GetDBConn().Raw(sqlQuery).Scan(&contracts).Error; err != nil {
+		log.Println("[repository.GetAllContracts]|[db.GetDBConn().Raw(sqlQuery).Scan(&contracts).Error]| error is: ", err.Error())
 		return nil, err
 	}
 
 	return contracts, nil
+}
+
+func GetContractDetails(contractId int) (contract model.ContractWithJsonB, err error) {
+	contract.ID = contractId
+	if err := db.GetDBConn().Table("contracts").Find(&contract).Error; err != nil {
+		return model.ContractWithJsonB{}, err
+	}
+
+	return contract, nil
 }

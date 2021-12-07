@@ -7,6 +7,20 @@ import (
 	"log"
 )
 
+func GetContractDetails(contractId int) (contract model.Contract, err error) {
+	contractWithJsonB, err := repository.GetContractDetails(contractId)
+	if err != nil {
+		return model.Contract{}, err
+	}
+
+	contract, err = ConvertContractFromJsonB(contractWithJsonB)
+	if err != nil {
+		return model.Contract{}, err
+	}
+
+	return contract, nil
+}
+
 func CreateContract(contract model.Contract) (err error) {
 	var contractWithJson model.ContractWithJsonB
 
