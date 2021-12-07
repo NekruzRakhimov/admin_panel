@@ -131,6 +131,46 @@ type ContractsAttachments struct {
 
 //TODO: поменять запрос в репозитории Маркетинговых договорах
 
+
+
+type ContractParams struct {
+	NumberOfContract string `json:"number_of_contract,omitempty"`
+	AmountContract   int    `json:"amount_contract,omitempty"`
+	//CurrencyID       int    `json:"currency_id,omitempty"`
+	Currency       string    `json:"currency,omitempty"`
+
+	Prepayment     int       `json:"prepayment,omitempty"`
+	DateOfDelivery time.Time `json:"date_of_delivery,omitempty"`
+	//Кратность расчета отложенной скидки TODO: возможно нужно поменять
+	FrequencyDeferredDiscount string `json:"frequency_deferred_discount,omitempty"`
+
+	//DeliveryAddress pq.StringArray `json:"delivery_address,omitempty"`
+	DeliveryAddress []string `json:"delivery_address,omitempty"`
+	//интервал времени поставки после поступления денежгых средств
+	DeliveryTimeInterval int `json:"delivery_time_interval,omitempty"`
+	//время возврата при условии не поставки
+	ReturnTimeDelivery int       `json:"return_time_delivery,omitempty"`
+	ContractDate       time.Time `json:"contract_date,omitempty"`
+}
+
+type DiscountPercent struct {
+	Type                string `json:"type,omitempty"`
+	Name                string `json:"name,omitempty"`
+	DiscountAmount      int    `json:"discount_amount,omitempty"`
+	GraceDays           string `json:"grace_days,omitempty"`
+	PaymentMultiplicity string `json:"payment_multiplicity,omitempty"`
+	IsActive            bool   `json:"is_active,omitempty"`
+	Amount              int    `json:"amount,omitempty"`
+	Comments            string `json:"comments,omitempty"`
+}
+
+type Product struct {
+	ProductNumber string  `json:"product_number,omitempty"`
+	Price         float32 `json:"price,omitempty"`
+	Currency      string  `json:"currency,omitempty"`
+}
+
+
 type Currency struct {
 	ID        int       `json:"id"`
 	Alpha3    string    `json:"alpha_3,omitempty"`
