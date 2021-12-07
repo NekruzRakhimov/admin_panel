@@ -11,7 +11,7 @@ import (
 
 
 
-//Creating contract godoc
+//CreateContract contract godoc
 // @Summary Creating contract
 // @Description Creating contract
 // @Accept  json
@@ -69,19 +69,7 @@ func GetAllContracts(c *gin.Context) {
 
 
 
-func CreateMarketingContract(c *gin.Context) {
-=======
-// Create Marketing contract godoc
-// @Summary Create marketing contract
-//@Description Add by json MarketingServicesContract
-//@Tags contract
-// @Accept  json
-// @Produce  json
-// @Param user body model.MarketingServicesContract true "Add user"
-// @Success 200 {object} map[string]interface{}
-// @Failure 400,404 {object} map[string]interface{}
-// @Failure 500 {object} map[string]interface{}
-// @Router /contract/ [post]
+
 func CreateMarketingContract(c *gin.Context)  {
 
 	var input model.MarketingServicesContract

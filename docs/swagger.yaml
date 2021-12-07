@@ -1,1 +1,859 @@
-
+basePath: /
+definitions:
+  model.Contract:
+    properties:
+      comment:
+        type: string
+      contract_parameters:
+        $ref: '#/definitions/model.ContractParameters'
+      created_at:
+        type: string
+      discounts:
+        items:
+          $ref: '#/definitions/model.Discount'
+        type: array
+      id:
+        type: integer
+      kam:
+        type: string
+      manager:
+        type: string
+      products:
+        items:
+          $ref: '#/definitions/model.Product'
+        type: array
+      requisites:
+        $ref: '#/definitions/model.Requisites'
+      status:
+        type: string
+      supplier_company_manager:
+        $ref: '#/definitions/model.SupplierCompanyManager'
+      type:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  model.ContractParameters:
+    properties:
+      contract_amount:
+        type: number
+      contract_date:
+        type: string
+      contract_number:
+        type: string
+      currency:
+        type: string
+      date_of_delivery:
+        type: string
+      delivery_address:
+        items:
+          type: string
+        type: array
+      delivery_time_interval:
+        description: интервал времени поставки после поступления денежых средств
+        type: integer
+      frequency_deferred_discount:
+        description: 'Кратность расчета отложенной скидки TODO: возможно нужно поменять'
+        type: string
+      prepayment:
+        type: number
+      return_time_delivery:
+        description: время возврата при условии не поставки
+        type: integer
+    type: object
+  model.Discount:
+    properties:
+      amount:
+        type: number
+      comments:
+        type: string
+      discount_amount:
+        type: number
+      grace_days:
+        type: string
+      name:
+        description: Type                string `json:"type,omitempty"`
+        type: string
+      payment_multiplicity:
+        type: string
+    type: object
+  model.Product:
+    properties:
+      currency:
+        type: string
+      price:
+        type: number
+      product_name:
+        type: string
+      product_number:
+        type: string
+    type: object
+  model.Requisites:
+    properties:
+      account_number:
+        type: string
+      bank_of_beneficiary:
+        type: string
+      beneficiary:
+        type: string
+      bin:
+        type: string
+      iic:
+        type: string
+      phone:
+        type: string
+    type: object
+  model.Right:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      section:
+        type: string
+    type: object
+  model.RightDTO:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      is_attached:
+        type: boolean
+      section:
+        type: string
+    type: object
+  model.Role:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      rights:
+        items:
+          $ref: '#/definitions/model.RightDTO'
+        type: array
+      status:
+        type: string
+    type: object
+  model.RoleDTO:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      is_attached:
+        type: boolean
+      name:
+        type: string
+      omitempty:
+        items:
+          $ref: '#/definitions/model.RightDTO'
+        type: array
+      status:
+        type: string
+    type: object
+  model.SupplierCompanyManager:
+    properties:
+      base:
+        description: Основание - надо понять как правильно назвать это
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      position:
+        type: string
+      skype:
+        type: string
+      work_phone:
+        type: string
+    type: object
+  model.User:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      last_name:
+        type: string
+      login:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      roles:
+        items:
+          $ref: '#/definitions/model.RoleDTO'
+        type: array
+      status:
+        type: string
+      surname:
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact:
+    email: aziz.rahimov0001@gmail.com
+    name: API Support
+    url: http://www.swagger.io/support
+  description: Админка, чтобы проверить роуты и права пользователей.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Gin Swagger Admin-Panel Api
+  version: "1.0"
+paths:
+  /:
+    get:
+      consumes:
+      - '*/*'
+      description: get the status of server.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show the status of server.
+      tags:
+      - root
+  /attach_role/{user_id}/{role_id}:
+    post:
+      consumes:
+      - application/json
+      description: Attach by json Role To User
+      parameters:
+      - description: user ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: role ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Attach Role To User
+      tags:
+      - users
+  /contract/:
+    get:
+      consumes:
+      - application/json
+      description: Gel All Contract
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Contract'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All Contracts
+      tags:
+      - contracts
+  /contract/{type}:
+    post:
+      consumes:
+      - application/json
+      description: Creating contract
+      parameters:
+      - description: creating contract
+        in: body
+        name: contract
+        required: true
+        schema:
+          $ref: '#/definitions/model.Contract'
+      - description: type of contract
+        in: query
+        name: type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Creating contract
+      tags:
+      - contracts
+  /detach_role/{user_id}/{role_id}:
+    post:
+      consumes:
+      - application/json
+      description: Detach by json Role To User
+      parameters:
+      - description: user ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: role ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Detach Role To User
+      tags:
+      - users
+  /ping:
+    get:
+      consumes:
+      - application/json
+      description: Ping.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Ping pong
+      tags:
+      - root
+  /rights/:
+    get:
+      consumes:
+      - application/json
+      description: Get All Rights by Admin
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Right'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All Rights by Admin
+      tags:
+      - rights
+    post:
+      consumes:
+      - application/json
+      description: Add Right by Admin
+      parameters:
+      - description: add role
+        in: body
+        name: right
+        required: true
+        schema:
+          $ref: '#/definitions/model.Right'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Add Right by Admin
+      tags:
+      - rights
+  /rights/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Right by Admin
+      parameters:
+      - description: right ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete Right by Admin
+      tags:
+      - rights
+    put:
+      consumes:
+      - application/json
+      description: Update Right by Admin
+      parameters:
+      - description: rigth ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: update right
+        in: body
+        name: right
+        required: true
+        schema:
+          $ref: '#/definitions/model.Right'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update Right by Admin
+      tags:
+      - rights
+  /roles/:
+    get:
+      consumes:
+      - application/json
+      description: Get All Roles by Admin
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Role'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All Roles by Admin
+      tags:
+      - roles
+    post:
+      consumes:
+      - application/json
+      description: Add Role by Admin
+      parameters:
+      - description: Add role
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/model.Role'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Add Role by Admin
+      tags:
+      - roles
+  /roles/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Role by Admin
+      parameters:
+      - description: role ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update role
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/model.Role'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete Role by ID Admin
+      tags:
+      - roles
+    put:
+      consumes:
+      - application/json
+      description: Update Role by Admin
+      parameters:
+      - description: role ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update role
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/model.Role'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update Role by Admin
+      tags:
+      - roles
+  /users/:
+    get:
+      consumes:
+      - application/json
+      description: Get All Users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.User'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All Users
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Add by json user
+      parameters:
+      - description: Add user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Add an user
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete user by ID
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: Update by json user
+      parameters:
+      - description: user ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update account
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an user
+      tags:
+      - users
+schemes:
+- http
+swagger: "2.0"
