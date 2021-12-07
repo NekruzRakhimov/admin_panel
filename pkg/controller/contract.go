@@ -7,9 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
+	"strconv"
 )
-
-
 
 //CreateContract contract godoc
 // @Summary Creating contract
@@ -43,15 +42,13 @@ func CreateContract(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"reason": "новый договор был успешно создан!"})
 }
 
-
-
 //GetAllContracts contract godoc
 // @Summary Get All Contracts
 // @Description Gel All Contract
 // @Accept  json
 // @Produce  json
 // @Tags contracts
-// @Success 200 {array}  model.Contract
+// @Success 200 {array}  model.ContractMiniInfo
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /contract/ [get]
@@ -66,11 +63,26 @@ func GetAllContracts(c *gin.Context) {
 	c.JSON(http.StatusOK, contractsMiniInfo)
 }
 
+func GetContractDetails(c *gin.Context) {
+	contractIdStr := c.Query("id")
+	contractId, err := strconv.Atoi(contractIdStr)
+	if err != nil {
+		log.Println("[controller.GetContractDetails]|[strconv.Atoi]| error is: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
 
+	contract, err := service.GetContractDetails(contractId)
+	if err != nil {
+		log.Println("[controller.GetContractDetails]|[service.GetContractDetails]| error is: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
 
+	c.JSON(http.StatusOK, contract)
+}
 
-
-func CreateMarketingContract(c *gin.Context)  {
+func CreateMarketingContract(c *gin.Context) {
 
 	var input model.MarketingServicesContract
 	err := c.BindJSON(&input)

@@ -7,9 +7,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	"log"
 	"net/http"
 	"os"
-
 	//_ "github.com/rizalgowandy/go-swag-sample/docs/ginsimple" // you need to update github.com/rizalgowandy/go-swag-sample with your own project path
 	_ "admin_panel/docs"
 )
@@ -22,7 +22,6 @@ func RunAllRoutes() {
 	r.Use(controller.CORSMiddleware())
 
 	//r.Use(controller.CORSMiddleware())
-
 
 	// Установка Logger-а
 	utils.SetLogger()
@@ -51,6 +50,7 @@ func runAllRoutes(r *gin.Engine) {
 	r.GET("/", HealthCheck)
 	r.POST("/contract/:type", controller.CreateContract)
 	r.GET("/contract", controller.GetAllContracts)
+	r.GET("/contract/:id/details", controller.GetContractDetails)
 
 	users := r.Group("/users")
 	users.GET("/", controller.GetAllUsers)
@@ -95,30 +95,25 @@ func runAllRoutes(r *gin.Engine) {
 	//	log.Fatal(err)
 	//	//}
 
+}
 
-	}
-
-	//func Init()  {
-	//	r := gin.New()
-	//
-	//	// Routes
-	//	r.GET("/ping", Ping)
-	//	r.GET("/", HealthCheck)
-	//
-	//	url := ginSwagger.URL("http://localhost:3000/swagger/doc.json") // The url pointing to API definition
-	//	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
-	//	// use ginSwagger middleware to serve the API docs
-	//	//r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	//
-	//	// Start server
-	//	if err := r.Run(":3000"); err != nil {
-	//		log.Fatal(err)
-	//	}
-	//}
-
-
-
-
+//func Init()  {
+//	r := gin.New()
+//
+//	// Routes
+//	r.GET("/ping", Ping)
+//	r.GET("/", HealthCheck)
+//
+//	url := ginSwagger.URL("http://localhost:3000/swagger/doc.json") // The url pointing to API definition
+//	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
+//	// use ginSwagger middleware to serve the API docs
+//	//r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+//
+//	// Start server
+//	if err := r.Run(":3000"); err != nil {
+//		log.Fatal(err)
+//	}
+//}
 
 // HealthCheck godoc
 // @Summary Show the status of server.
