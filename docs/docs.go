@@ -136,7 +136,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.Contract"
+                                "$ref": "#/definitions/model.ContractMiniInfo"
                             }
                         }
                     },
@@ -1010,6 +1010,38 @@ var doc = `{
                     "$ref": "#/definitions/model.SupplierCompanyManager"
                 },
                 "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.ContractMiniInfo": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "author": {
+                    "type": "string"
+                },
+                "contract_name": {
+                    "type": "string"
+                },
+                "contract_number": {
+                    "type": "string"
+                },
+                "contract_type": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "status": {
                     "type": "string"
                 },
                 "updated_at": {

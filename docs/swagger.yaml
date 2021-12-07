@@ -33,6 +33,27 @@ definitions:
       updated_at:
         type: string
     type: object
+  model.ContractMiniInfo:
+    properties:
+      amount:
+        type: number
+      author:
+        type: string
+      contract_name:
+        type: string
+      contract_number:
+        type: string
+      contract_type:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      status:
+        type: string
+      updated_at:
+        type: string
+    type: object
   model.ContractParameters:
     properties:
       contract_amount:
@@ -286,7 +307,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/model.Contract'
+              $ref: '#/definitions/model.ContractMiniInfo'
             type: array
         "400":
           description: Bad Request
