@@ -44,7 +44,8 @@ func RunAllRoutes() {
 func runAllRoutes(r *gin.Engine) {
 	//r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.GET("/", HealthCheck)
-	r.POST("/contract", controller.CreateMarketingContract)
+	r.POST("/contract/:type", controller.CreateContract)
+	r.GET("/contract", controller.GetAllContracts)
 
 	users := r.Group("/users")
 	users.GET("/", controller.GetAllUsers)

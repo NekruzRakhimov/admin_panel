@@ -10,8 +10,8 @@ import (
 	"strconv"
 )
 
-
-// Get All Rights by ADMIN godoc
+// GetAllRights
+//Get All Rights by ADMIN godoc
 // @Summary Get All Rights by Admin
 // @Description Get All Rights by Admin
 // @Accept  json
@@ -32,8 +32,8 @@ func GetAllRights(c *gin.Context) {
 	c.JSON(http.StatusOK, rights)
 }
 
-
-// Add Right by ADMIN godoc
+// AddNewRight
+//Add Right by ADMIN godoc
 // @Summary Add Right by Admin
 // @Description Add Right by Admin
 // @Accept  json
@@ -61,9 +61,8 @@ func AddNewRight(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"reason": "новое право было успешно создано!"})
 }
 
-
-
-// Update Right by ADMIN godoc
+// EditRight
+//Update Right by ADMIN godoc
 // @Summary Update Right by Admin
 // @Description Update Right by Admin
 // @Accept  json
@@ -100,8 +99,8 @@ func EditRight(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"reason": fmt.Sprintf("право c id = %d было успешно обновлено!", id)})
 }
 
-
-// Delete Right by ADMIN godoc
+// DeleteRight
+//Delete Right by ADMIN godoc
 // @Summary  Delete Right by Admin
 // @Description  Delete Right by Admin
 // @Accept  json
@@ -128,4 +127,3 @@ func DeleteRight(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"reason": fmt.Sprintf("право c id = %d было успешно удалено!", id)})
 }
-
