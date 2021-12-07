@@ -17,20 +17,20 @@ func GetAllCurrency() (currency []model.Currency, err error) {
 
 }
 
-func CreateMarketingContract(contract model.MarketingServicesContract)  error {
+func CreateMarketingContract(contract model.MarketingServicesContract) error {
 	// Структура Requisites
 	req := contract.Requisites // DONE
 	//struct supplier_company_manager
 	SCM := contract.SupplierCompanyManager
 	// Параметры Контракта
-	paramСont := contract.ParamContract
+	paramCont := contract.ParamContract
 	discount := contract.DiscountPercent
 	products := contract.Products
 	reqMarshall, err := json.Marshal(req)
 	if err != nil {
 		return err
 	}
-	paramСontMarshall, err := json.Marshal(paramСont)
+	paramContMarshall, err := json.Marshal(paramCont)
 	if err != nil {
 
 	}
@@ -49,8 +49,8 @@ func CreateMarketingContract(contract model.MarketingServicesContract)  error {
 		return err
 	}
 
-	err = db.GetDBConn().Exec("INSERT INTO marketing_services_contract(requisites, supplier_company_manager, contract_parameters, products,discount_percent)"+
-		"VALUES(?,?,?,?,?)", reqMarshall, SCMMarshall, paramСontMarshall,productsMarshall, discountMarshall).Error
+	err = db.GetDBConn().Exec(`INSERT INTO contract(requisites, supplier_company_manager, contract_parameters, products,discount_percent)
+		VALUES(?,?,?,?,?)`, reqMarshall, SCMMarshall, paramContMarshall, productsMarshall, discountMarshall).Error
 	if err != nil {
 		log.Println(err)
 		return err
@@ -99,6 +99,21 @@ func CreateMarketingContract(contract model.MarketingServicesContract)  error {
 	//	db.GetDBConn().Raw(sqlProd, product.ProductNumber, product.Price, product.Currency).Scan(&product.ID)
 	//}
 
+	return nil
+}
 
-	return  nil
+func CreateContract(contractWithJson model.ContractWithJsonB) error {
+	if err := db.GetDBConn().Table("contracts").Omit("status").Create(&contractWithJson).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func GetAllContracts() (contracts []model.ContractWithJsonB, err error) {
+	sqlQuery := "SELECT * FROM contracts"
+	if err := db.GetDBConn().Raw(sqlQuery).Scan(&contracts).Error; err != nil {
+		return nil, err
+	}
+
+	return contracts, nil
 }

@@ -118,8 +118,8 @@ var doc = `{
             }
         },
         "/contract/": {
-            "post": {
-                "description": "Add by json MarketingServicesContract",
+            "get": {
+                "description": "Gel All Contract",
                 "consumes": [
                     "application/json"
                 ],
@@ -127,18 +127,72 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "contract"
+                    "contracts"
                 ],
-                "summary": "Create marketing contract",
+                "summary": "Get All Contracts",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Contract"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/contract/{type}": {
+            "post": {
+                "description": "Creating contract",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contracts"
+                ],
+                "summary": "Creating contract",
                 "parameters": [
                     {
-                        "description": "Add user",
-                        "name": "user",
+                        "description": "creating contract",
+                        "name": "contract",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.MarketingServicesContract"
+                            "$ref": "#/definitions/model.Contract"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "type of contract",
+                        "name": "type",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -913,92 +967,32 @@ var doc = `{
         }
     },
     "definitions": {
-        "model.ContractParams": {
+        "model.Contract": {
             "type": "object",
             "properties": {
-                "amount_contract": {
-                    "type": "integer"
-                },
-                "contract_date": {
+                "comment": {
                     "type": "string"
                 },
-                "currency": {
-                    "description": "CurrencyID       int    ` + "`" + `json:\"currency_id,omitempty\"` + "`" + `",
+                "contract_parameters": {
+                    "$ref": "#/definitions/model.ContractParameters"
+                },
+                "created_at": {
                     "type": "string"
                 },
-                "date_of_delivery": {
-                    "type": "string"
-                },
-                "delivery_address": {
-                    "description": "DeliveryAddress pq.StringArray ` + "`" + `json:\"delivery_address,omitempty\"` + "`" + `",
+                "discounts": {
                     "type": "array",
                     "items": {
-                        "type": "string"
-                    }
-                },
-                "delivery_time_interval": {
-                    "description": "интервал времени поставки после поступления денежгых средств",
-                    "type": "integer"
-                },
-                "frequency_deferred_discount": {
-                    "description": "Кратность расчета отложенной скидки TODO: возможно нужно поменять",
-                    "type": "string"
-                },
-                "number_of_contract": {
-                    "type": "string"
-                },
-                "prepayment": {
-                    "type": "integer"
-                },
-                "return_time_delivery": {
-                    "description": "время возврата при условии не поставки",
-                    "type": "integer"
-                }
-            }
-        },
-        "model.DiscountPercent": {
-            "type": "object",
-            "properties": {
-                "amount": {
-                    "type": "integer"
-                },
-                "comments": {
-                    "type": "string"
-                },
-                "discount_amount": {
-                    "type": "integer"
-                },
-                "grace_days": {
-                    "type": "string"
-                },
-                "is_active": {
-                    "type": "boolean"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "payment_multiplicity": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                }
-            }
-        },
-        "model.MarketingServicesContract": {
-            "type": "object",
-            "properties": {
-                "discount_percent": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/model.DiscountPercent"
+                        "$ref": "#/definitions/model.Discount"
                     }
                 },
                 "id": {
                     "type": "integer"
                 },
-                "param_contract": {
-                    "$ref": "#/definitions/model.ContractParams"
+                "kam": {
+                    "type": "string"
+                },
+                "manager": {
+                    "type": "string"
                 },
                 "products": {
                     "type": "array",
@@ -1009,8 +1003,82 @@ var doc = `{
                 "requisites": {
                     "$ref": "#/definitions/model.Requisites"
                 },
+                "status": {
+                    "type": "string"
+                },
                 "supplier_company_manager": {
                     "$ref": "#/definitions/model.SupplierCompanyManager"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.ContractParameters": {
+            "type": "object",
+            "properties": {
+                "contract_amount": {
+                    "type": "number"
+                },
+                "contract_date": {
+                    "type": "string"
+                },
+                "contract_number": {
+                    "type": "string"
+                },
+                "currency": {
+                    "type": "string"
+                },
+                "date_of_delivery": {
+                    "type": "string"
+                },
+                "delivery_address": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "delivery_time_interval": {
+                    "description": "интервал времени поставки после поступления денежых средств",
+                    "type": "integer"
+                },
+                "frequency_deferred_discount": {
+                    "description": "Кратность расчета отложенной скидки TODO: возможно нужно поменять",
+                    "type": "string"
+                },
+                "prepayment": {
+                    "type": "number"
+                },
+                "return_time_delivery": {
+                    "description": "время возврата при условии не поставки",
+                    "type": "integer"
+                }
+            }
+        },
+        "model.Discount": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "comments": {
+                    "type": "string"
+                },
+                "discount_amount": {
+                    "type": "number"
+                },
+                "grace_days": {
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Type                string ` + "`" + `json:\"type,omitempty\"` + "`" + `",
+                    "type": "string"
+                },
+                "payment_multiplicity": {
+                    "type": "string"
                 }
             }
         },
@@ -1022,6 +1090,9 @@ var doc = `{
                 },
                 "price": {
                     "type": "number"
+                },
+                "product_name": {
+                    "type": "string"
                 },
                 "product_number": {
                     "type": "string"
@@ -1038,20 +1109,12 @@ var doc = `{
                     "type": "string"
                 },
                 "beneficiary": {
-                    "description": "ID                int    ` + "`" + `json:\"id\"` + "`" + `",
                     "type": "string"
                 },
                 "bin": {
                     "type": "string"
                 },
                 "iic": {
-                    "description": "индивидуальный идентификационный код",
-                    "type": "string"
-                },
-                "kam": {
-                    "type": "string"
-                },
-                "manager": {
                     "type": "string"
                 },
                 "phone": {
@@ -1165,14 +1228,12 @@ var doc = `{
                     "type": "string"
                 },
                 "position": {
-                    "description": "помоему  в этом случае ему нужен слайс стрингов",
                     "type": "string"
                 },
                 "skype": {
                     "type": "string"
                 },
                 "work_phone": {
-                    "description": "ID        int    ` + "`" + `json:\"id\"` + "`" + `",
                     "type": "string"
                 }
             }

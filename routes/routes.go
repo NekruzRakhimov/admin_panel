@@ -3,13 +3,13 @@ package routes
 import (
 	"admin_panel/pkg/controller"
 	"admin_panel/utils"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"os"
+	"log"
 
 	"net/http"
+
 	//_ "github.com/rizalgowandy/go-swag-sample/docs/ginsimple" // you need to update github.com/rizalgowandy/go-swag-sample with your own project path
 	_ "admin_panel/docs"
 )
@@ -18,7 +18,11 @@ func RunAllRoutes() {
 	r := gin.Default()
 
 	// Исползование CORS
+
+	r.Use(controller.CORSMiddleware())
+
 	//r.Use(controller.CORSMiddleware())
+
 
 	// Установка Logger-а
 	utils.SetLogger()
@@ -28,8 +32,10 @@ func RunAllRoutes() {
 
 	// Статус код 500, при любых panic()
 	r.Use(gin.Recovery())
+
 	// Исползование CORS
 	r.Use(controller.CORSMiddleware())
+
 	// Запуск роутов
 	runAllRoutes(r)
 
@@ -43,7 +49,8 @@ func RunAllRoutes() {
 func runAllRoutes(r *gin.Engine) {
 	//r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.GET("/", HealthCheck)
-	r.POST("/contract", controller.CreateMarketingContract)
+	r.POST("/contract/:type", controller.CreateContract)
+	r.GET("/contract", controller.GetAllContracts)
 
 	users := r.Group("/users")
 	users.GET("/", controller.GetAllUsers)
@@ -77,12 +84,18 @@ func runAllRoutes(r *gin.Engine) {
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	//	Start server
+
+	//_ = r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
+	if err := r.Run(":3000"); err != nil {
+		log.Fatal(err)
+	}
+
 	//_ = r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
 	//if err := r.Run(":3000"); err != nil {
 	//	log.Fatal(err)
 	//	//}
 
-		_ = r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
+
 	}
 
 	//func Init()  {
@@ -106,6 +119,7 @@ func runAllRoutes(r *gin.Engine) {
 
 
 
+
 // HealthCheck godoc
 // @Summary Show the status of server.
 // @Description get the status of server.
@@ -122,7 +136,7 @@ func HealthCheck(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": "Server is up and running"})
 }
 
-// HealthCheck godoc
+// Ping godoc
 // @Summary Ping pong
 // @Description Ping.
 // @Tags root
