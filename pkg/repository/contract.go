@@ -114,7 +114,7 @@ func CreateContract(contractWithJson model.ContractWithJsonB) error {
 func GetAllContracts(contractType string) (contracts []model.ContractWithJsonB, err error) {
 	sqlQuery := "SELECT * FROM contracts"
 	if contractType != "" {
-		sqlQuery += fmt.Sprintf(" WHERE type = %s", contractType)
+		sqlQuery += fmt.Sprintf(" WHERE status = '%s'", contractType)
 	}
 	if err := db.GetDBConn().Raw(sqlQuery).Scan(&contracts).Error; err != nil {
 		log.Println("[repository.GetAllContracts]|[db.GetDBConn().Raw(sqlQuery).Scan(&contracts).Error]| error is: ", err.Error())
