@@ -38,7 +38,7 @@ type Contract struct {
 
 type ContractMiniInfo struct {
 	ID             int     `json:"id"`
-	ContractName   string  `json:"contract_name"`
+	ContractorName string  `json:"contractor_name"`
 	ContractNumber string  `json:"contract_number"`
 	ContractType   string  `json:"contract_type"`
 	Status         string  `json:"status"`
@@ -50,6 +50,7 @@ type ContractMiniInfo struct {
 
 // Requisites Ревезиты
 type Requisites struct {
+	ContractorName    string `json:"contractor_name"`
 	Beneficiary       string `json:"beneficiary,omitempty"`
 	BankOfBeneficiary string `json:"bank_of_beneficiary,omitempty"`
 	BIN               string `json:"bin,omitempty"`

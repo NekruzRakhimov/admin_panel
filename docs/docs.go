@@ -130,6 +130,15 @@ var doc = `{
                     "contracts"
                 ],
                 "summary": "Get All Contracts",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "type of contract",
+                        "name": "type",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",

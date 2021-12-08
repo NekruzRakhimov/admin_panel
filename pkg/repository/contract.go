@@ -4,6 +4,7 @@ import (
 	"admin_panel/db"
 	"admin_panel/model"
 	"encoding/json"
+	"fmt"
 	"log"
 )
 
@@ -110,8 +111,11 @@ func CreateContract(contractWithJson model.ContractWithJsonB) error {
 	return nil
 }
 
-func GetAllContracts() (contracts []model.ContractWithJsonB, err error) {
+func GetAllContracts(contractType string) (contracts []model.ContractWithJsonB, err error) {
 	sqlQuery := "SELECT * FROM contracts"
+	if contractType != "" {
+		sqlQuery += fmt.Sprintf(" WHERE type = %s", contractType)
+	}
 	if err := db.GetDBConn().Raw(sqlQuery).Scan(&contracts).Error; err != nil {
 		log.Println("[repository.GetAllContracts]|[db.GetDBConn().Raw(sqlQuery).Scan(&contracts).Error]| error is: ", err.Error())
 		return nil, err

@@ -64,8 +64,8 @@ func CreateContract(contract model.Contract) (err error) {
 	return repository.CreateContract(contractWithJson)
 }
 
-func GetAllContracts() (contractsMiniInfo []model.ContractMiniInfo, err error) {
-	contractsWithJson, err := repository.GetAllContracts()
+func GetAllContracts(contractType string) (contractsMiniInfo []model.ContractMiniInfo, err error) {
+	contractsWithJson, err := repository.GetAllContracts(contractType)
 	if err != nil {
 		return nil, err
 	}
@@ -123,6 +123,7 @@ func ConvertContractFromJsonB(contractWithJson model.ContractWithJsonB) (contrac
 	contract.Comment = contractWithJson.Comment
 	contract.Manager = contractWithJson.Manager
 	contract.KAM = contractWithJson.KAM
+	contract.Status = contractWithJson.Status
 	contract.CreatedAt = contractWithJson.CreatedAt
 	contract.UpdatedAt = contractWithJson.UpdatedAt
 

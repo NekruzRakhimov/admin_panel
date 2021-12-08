@@ -48,12 +48,14 @@ func CreateContract(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Tags contracts
+// @Param  type  query string true "type of contract"
 // @Success 200 {array}  model.ContractMiniInfo
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /contract/ [get]
 func GetAllContracts(c *gin.Context) {
-	contractsMiniInfo, err := service.GetAllContracts()
+	contractType := c.Query("type")
+	contractsMiniInfo, err := service.GetAllContracts(contractType)
 	if err != nil {
 		log.Println("[controller.GetAllContracts]|[service.GetAllContracts]| error is: ", err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
