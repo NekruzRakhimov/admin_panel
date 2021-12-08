@@ -54,7 +54,7 @@ func CreateContract(c *gin.Context) {
 // @Failure 500 {object} map[string]interface{}
 // @Router /contract/ [get]
 func GetAllContracts(c *gin.Context) {
-	contractType := c.Query("type")
+	contractType := c.Query("status")
 	contractsMiniInfo, err := service.GetAllContracts(contractType)
 	if err != nil {
 		log.Println("[controller.GetAllContracts]|[service.GetAllContracts]| error is: ", err.Error())
