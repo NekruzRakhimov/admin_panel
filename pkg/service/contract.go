@@ -202,6 +202,7 @@ func ConvertContractToContractMiniInfo(contract model.Contract) (contractMiniInf
 	contractMiniInfo.CreatedAt = contract.CreatedAt
 	contractMiniInfo.UpdatedAt = contract.UpdatedAt
 	contractMiniInfo.Status = contract.Status
+	contractMiniInfo.Beneficiary = contract.Requisites.Beneficiary
 
 	return contractMiniInfo
 }

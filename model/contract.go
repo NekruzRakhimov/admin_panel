@@ -42,6 +42,7 @@ type ContractMiniInfo struct {
 	ID             int     `json:"id"`
 	PrevContractId int     `json:"-" gorm:"-"`
 	ContractorName string  `json:"contractor_name"`
+	Beneficiary    string  `json:"beneficiary,omitempty"`
 	ContractNumber string  `json:"contract_number"`
 	ContractType   string  `json:"contract_type"`
 	Status         string  `json:"status"`
