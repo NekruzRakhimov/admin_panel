@@ -39,11 +39,11 @@ definitions:
         type: number
       author:
         type: string
-      contract_name:
-        type: string
       contract_number:
         type: string
       contract_type:
+        type: string
+      contractor_name:
         type: string
       created_at:
         type: string
@@ -118,6 +118,8 @@ definitions:
       beneficiary:
         type: string
       bin:
+        type: string
+      contractor_name:
         type: string
       iic:
         type: string
@@ -333,6 +335,42 @@ paths:
       summary: Get All Contracts
       tags:
       - contracts
+  /contract/{id}/details:
+    get:
+      consumes:
+      - application/json
+      description: Gel Contract Details
+      parameters:
+      - description: id of contract
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Contract'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Contract Details
+      tags:
+      - contracts
   /contract/{type}:
     post:
       consumes:
@@ -374,6 +412,54 @@ paths:
             additionalProperties: true
             type: object
       summary: Creating contract
+      tags:
+      - contracts
+  /contract/{type}/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Editing contract
+      parameters:
+      - description: editing contract
+        in: body
+        name: contract
+        required: true
+        schema:
+          $ref: '#/definitions/model.Contract'
+      - description: id of contract
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: type of contract
+        in: path
+        name: type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Editing contract
       tags:
       - contracts
   /detach_role/{user_id}/{role_id}:

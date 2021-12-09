@@ -4,7 +4,6 @@ import (
 	"admin_panel/model"
 	"admin_panel/pkg/repository"
 	"encoding/json"
-	"fmt"
 	"log"
 )
 
@@ -29,6 +28,7 @@ func CreateContract(contract model.Contract) (err error) {
 	contractWithJson.Comment = contract.Comment
 	contractWithJson.Manager = contract.Manager
 	contractWithJson.KAM = contract.KAM
+	contractWithJson.Status = contract.Status
 
 	requisites, err := json.Marshal(contract.Requisites)
 	if err != nil {
@@ -64,25 +64,69 @@ func CreateContract(contract model.Contract) (err error) {
 	return repository.CreateContract(contractWithJson)
 }
 
+func EditContract(contract model.Contract) error {
+	var contractWithJson model.ContractWithJsonB
+
+	contractWithJson.ID = contract.ID
+	contractWithJson.Type = contract.Type
+	contractWithJson.Comment = contract.Comment
+	contractWithJson.Manager = contract.Manager
+	contractWithJson.KAM = contract.KAM
+	contractWithJson.Status = contract.Status
+
+	requisites, err := json.Marshal(contract.Requisites)
+	if err != nil {
+		return err
+	}
+	contractWithJson.Requisites = string(requisites)
+
+	supplierCompanyManager, err := json.Marshal(contract.SupplierCompanyManager)
+	if err != nil {
+		return err
+	}
+	contractWithJson.SupplierCompanyManager = string(supplierCompanyManager)
+
+	contractParameters, err := json.Marshal(contract.ContractParameters)
+	if err != nil {
+		return err
+	}
+	contractWithJson.ContractParameters = string(contractParameters)
+
+	products, err := json.Marshal(contract.Products)
+	if err != nil {
+		return err
+	}
+	contractWithJson.Products = string(products)
+
+	discounts, err := json.Marshal(contract.Discounts)
+	if err != nil {
+		return err
+	}
+	contractWithJson.Discounts = string(discounts)
+
+	log.Printf(">>>>>%+v", contractWithJson)
+	return repository.EditContract(contractWithJson)
+}
+
 func GetAllContracts(contractType string) (contractsMiniInfo []model.ContractMiniInfo, err error) {
 	contractsWithJson, err := repository.GetAllContracts(contractType)
 	if err != nil {
 		return nil, err
 	}
-	fmt.Printf(">>>>>>>>>>>>>>>>>contractsWithJson%+v\n", contractsWithJson)
+	//fmt.Printf(">>>>>>>>>>>>>>>>>contractsWithJson%+v\n", contractsWithJson)
 
 	contracts, err := ConvertContractsFromJsonB(contractsWithJson)
 	if err != nil {
 		return nil, err
 	}
 
-	fmt.Printf(">>>>>>>>>>>>>>>>>contracts%+v\n", contracts)
+	//fmt.Printf(">>>>>>>>>>>>>>>>>contracts%+v\n", contracts)
 
 	for _, contract := range contracts {
 		contractMiniInfo := ConvertContractToContractMiniInfo(contract)
 		contractsMiniInfo = append(contractsMiniInfo, contractMiniInfo)
 	}
-	fmt.Printf(">>>>>>>>>>>>>>>>>contractsMiniInfo%+v\n", contractsMiniInfo)
+	//fmt.Printf(">>>>>>>>>>>>>>>>>contractsMiniInfo%+v\n", contractsMiniInfo)
 
 	return contractsMiniInfo, nil
 }
@@ -95,6 +139,7 @@ func ConvertContractToContractMiniInfo(contract model.Contract) (contractMiniInf
 	}
 
 	contractMiniInfo.ID = contract.ID
+	contractMiniInfo.ContractorName = contract.Requisites.ContractorName
 	contractMiniInfo.ContractNumber = contract.ContractParameters.ContractNumber
 	contractMiniInfo.Amount = contract.ContractParameters.ContractAmount
 	contractMiniInfo.Author = contract.Manager

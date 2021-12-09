@@ -42,6 +42,47 @@ func CreateContract(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"reason": "новый договор был успешно создан!"})
 }
 
+//EditContract contract godoc
+// @Summary Editing contract
+// @Description Editing contract
+// @Accept  json
+// @Produce  json
+// @Tags contracts
+// @Param  contract  body model.Contract true "editing contract"
+// @Param  id  path string true "id of contract"
+// @Param  type  path string true "type of contract"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /contract/{type}/{id} [put]
+func EditContract(c *gin.Context) {
+	var contract model.Contract
+	contract.Type = c.Param("type")
+
+	contractIdStr := c.Param("id")
+	contractId, err := strconv.Atoi(contractIdStr)
+	if err != nil {
+		log.Println("[controller.EditContract]|[strconv.Atoi]| error is: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+	contract.ID = contractId
+
+	if err := c.BindJSON(&contract); err != nil {
+		log.Println("[controller.EditContract]|[c.BindJSO]| error is: ", err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	if err := service.EditContract(contract); err != nil {
+		log.Println("[controller.EditContract]|[service.EditContract]| error is: ", err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"reason": "договор отправлен на согласование!"})
+}
+
 //GetAllContracts contract godoc
 // @Summary Get All Contracts
 // @Description Gel All Contract
@@ -65,8 +106,19 @@ func GetAllContracts(c *gin.Context) {
 	c.JSON(http.StatusOK, contractsMiniInfo)
 }
 
+//GetContractDetails contract godoc
+// @Summary Get Contract Details
+// @Description Gel Contract Details
+// @Accept  json
+// @Produce  json
+// @Tags contracts
+// @Param  id  path string true "id of contract"
+// @Success 200 {object}  model.Contract
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /contract/{id}/details [get]
 func GetContractDetails(c *gin.Context) {
-	contractIdStr := c.Query("id")
+	contractIdStr := c.Param("id")
 	contractId, err := strconv.Atoi(contractIdStr)
 	if err != nil {
 		log.Println("[controller.GetContractDetails]|[strconv.Atoi]| error is: ", err.Error())

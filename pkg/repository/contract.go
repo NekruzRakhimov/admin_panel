@@ -104,8 +104,16 @@ func CreateMarketingContract(contract model.MarketingServicesContract) error {
 }
 
 func CreateContract(contractWithJson model.ContractWithJsonB) error {
-	if err := db.GetDBConn().Table("contracts").Omit("status", "created_at", "updated_at").Create(&contractWithJson).Error; err != nil {
-		log.Println("[repository.CreateContract]|[db.GetDBConn().Table(\"contracts\").Omit(\"status\").Create(&contractWithJson).Error]| error is: ", err.Error())
+	if err := db.GetDBConn().Table("contracts").Omit("created_at", "updated_at").Create(&contractWithJson).Error; err != nil {
+		log.Println("[repository.CreateContract]|[db.GetDBConn().Table(\"contracts\").Create(&contractWithJson).Error]| error is: ", err.Error())
+		return err
+	}
+	return nil
+}
+
+func EditContract(contractWithJson model.ContractWithJsonB) error {
+	if err := db.GetDBConn().Table("contracts").Omit("created_at", "updated_at").Save(&contractWithJson).Error; err != nil {
+		log.Println("[repository.EditContract]|[db.GetDBConn().Table(\"contracts\").Save(&contractWithJson).Error]| error is: ", err.Error())
 		return err
 	}
 	return nil

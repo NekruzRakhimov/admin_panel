@@ -173,6 +173,59 @@ var doc = `{
                 }
             }
         },
+        "/contract/{id}/details": {
+            "get": {
+                "description": "Gel Contract Details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contracts"
+                ],
+                "summary": "Get Contract Details",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id of contract",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Contract"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/contract/{type}": {
             "post": {
                 "description": "Creating contract",
@@ -201,6 +254,76 @@ var doc = `{
                         "description": "type of contract",
                         "name": "type",
                         "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/contract/{type}/{id}": {
+            "put": {
+                "description": "Editing contract",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contracts"
+                ],
+                "summary": "Editing contract",
+                "parameters": [
+                    {
+                        "description": "editing contract",
+                        "name": "contract",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Contract"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of contract",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "type of contract",
+                        "name": "type",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -1035,13 +1158,13 @@ var doc = `{
                 "author": {
                     "type": "string"
                 },
-                "contract_name": {
-                    "type": "string"
-                },
                 "contract_number": {
                     "type": "string"
                 },
                 "contract_type": {
+                    "type": "string"
+                },
+                "contractor_name": {
                     "type": "string"
                 },
                 "created_at": {
@@ -1153,6 +1276,9 @@ var doc = `{
                     "type": "string"
                 },
                 "bin": {
+                    "type": "string"
+                },
+                "contractor_name": {
                     "type": "string"
                 },
                 "iic": {
