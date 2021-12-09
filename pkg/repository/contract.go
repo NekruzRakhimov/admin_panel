@@ -140,3 +140,12 @@ func GetContractDetails(contractId int) (contract model.ContractWithJsonB, err e
 
 	return contract, nil
 }
+
+func ConformContract(contractId int, status string) error {
+	sqlQuery := "UPDATE contracts SET status = $1 WHERE id = $2"
+	if err := db.GetDBConn().Raw(sqlQuery, contractId, status).Error; err != nil {
+		return err
+	}
+
+	return nil
+}

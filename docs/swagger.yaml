@@ -340,7 +340,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Gel Contract Details
+      description: Conform contract
       parameters:
       - description: id of contract
         in: path
@@ -353,7 +353,8 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Contract'
+            additionalProperties: true
+            type: object
         "400":
           description: Bad Request
           schema:
@@ -369,7 +370,7 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Get Contract Details
+      summary: Conform contract
       tags:
       - contracts
   /contract/{type}:

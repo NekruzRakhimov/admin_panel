@@ -53,6 +53,7 @@ func runAllRoutes(r *gin.Engine) {
 	r.PUT("/contract/:type/:id", controller.EditContract)
 	r.GET("/contract", controller.GetAllContracts)
 	r.GET("/contract/:id/details", controller.GetContractDetails)
+	r.PUT("/contract/conform/:id", controller.ConformContract)
 
 	users := r.Group("/users")
 	users.GET("/", controller.GetAllUsers)

@@ -174,6 +174,35 @@ func GetContractDetails(c *gin.Context) {
 	c.JSON(http.StatusOK, contract)
 }
 
+//ConformContract contract godoc
+// @Summary Conform contract
+// @Description Conform contract
+// @Accept  json
+// @Produce  json
+// @Tags contracts
+// @Param  id  path string true "id of contract"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /contract/{id}/details [get]
+func ConformContract(c *gin.Context) {
+	contractIdStr := c.Param("id")
+	contractId, err := strconv.Atoi(contractIdStr)
+	if err != nil {
+		log.Println("[controller.ConformContract]|[strconv.Atoi]| error is: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	if err := service.ConformContract(contractId, "в работе"); err != nil {
+		log.Println("[controller.ConformContract]|[service.ConformContract]| error is: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"reason": "контракт успешно согласован"})
+}
+
 func CreateMarketingContract(c *gin.Context) {
 
 	var input model.MarketingServicesContract

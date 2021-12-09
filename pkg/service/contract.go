@@ -265,6 +265,10 @@ func CreateMarketingContract(contract model.MarketingServicesContract) error {
 	return repository.CreateMarketingContract(contract)
 }
 
+func ConformContract(contractId int, status string) error {
+	return repository.ConformContract(contractId, status)
+}
+
 //func AddNewRight(right model.Right) error {
 //	return repository.AddNewRight(right)
 //}

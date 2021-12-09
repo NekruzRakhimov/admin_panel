@@ -237,7 +237,7 @@ var doc = `{
         },
         "/contract/{id}/details": {
             "get": {
-                "description": "Gel Contract Details",
+                "description": "Conform contract",
                 "consumes": [
                     "application/json"
                 ],
@@ -247,7 +247,7 @@ var doc = `{
                 "tags": [
                     "contracts"
                 ],
-                "summary": "Get Contract Details",
+                "summary": "Conform contract",
                 "parameters": [
                     {
                         "type": "string",
@@ -261,7 +261,8 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Contract"
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "400": {
