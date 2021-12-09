@@ -235,8 +235,8 @@ var doc = `{
                 }
             }
         },
-        "/contract/{id}/details": {
-            "get": {
+        "/contract/conform/{id}": {
+            "put": {
                 "description": "Conform contract",
                 "consumes": [
                     "application/json"
@@ -263,6 +263,59 @@ var doc = `{
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/contract/{id}/details": {
+            "get": {
+                "description": "Gel Contract Details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contracts"
+                ],
+                "summary": "Get Contract Details",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id of contract",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Contract"
                         }
                     },
                     "400": {

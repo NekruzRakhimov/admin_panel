@@ -184,7 +184,7 @@ func GetContractDetails(c *gin.Context) {
 // @Success 200 {object} map[string]interface{}
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /contract/{id}/details [get]
+// @Router /contract/conform/{id} [put]
 func ConformContract(c *gin.Context) {
 	contractIdStr := c.Param("id")
 	contractId, err := strconv.Atoi(contractIdStr)

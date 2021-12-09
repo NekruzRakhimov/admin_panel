@@ -340,7 +340,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Conform contract
+      description: Gel Contract Details
       parameters:
       - description: id of contract
         in: path
@@ -353,8 +353,7 @@ paths:
         "200":
           description: OK
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/model.Contract'
         "400":
           description: Bad Request
           schema:
@@ -370,7 +369,7 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Conform contract
+      summary: Get Contract Details
       tags:
       - contracts
   /contract/{type}:
@@ -505,6 +504,43 @@ paths:
             additionalProperties: true
             type: object
       summary: Creating additional agreement
+      tags:
+      - contracts
+  /contract/conform/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Conform contract
+      parameters:
+      - description: id of contract
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Conform contract
       tags:
       - contracts
   /detach_role/{user_id}/{role_id}:
