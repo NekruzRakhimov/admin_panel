@@ -305,7 +305,7 @@ paths:
       parameters:
       - description: type of contract
         in: query
-        name: type
+        name: status
         required: true
         type: string
       produces:

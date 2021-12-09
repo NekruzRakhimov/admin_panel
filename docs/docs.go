@@ -134,7 +134,7 @@ var doc = `{
                     {
                         "type": "string",
                         "description": "type of contract",
-                        "name": "type",
+                        "name": "status",
                         "in": "query",
                         "required": true
                     }
