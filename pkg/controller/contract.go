@@ -127,7 +127,7 @@ func EditContract(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Tags contracts
-// @Param  status  query string true "status of contract"
+// @Param  status  query string false "status of contract"
 // @Success 200 {array}  model.ContractMiniInfo
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}

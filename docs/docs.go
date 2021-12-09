@@ -135,8 +135,7 @@ var doc = `{
                         "type": "string",
                         "description": "status of contract",
                         "name": "status",
-                        "in": "query",
-                        "required": true
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -1219,6 +1218,9 @@ var doc = `{
                     "type": "number"
                 },
                 "author": {
+                    "type": "string"
+                },
+                "beneficiary": {
                     "type": "string"
                 },
                 "contract_number": {

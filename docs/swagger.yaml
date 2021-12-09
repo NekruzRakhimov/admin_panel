@@ -39,6 +39,8 @@ definitions:
         type: number
       author:
         type: string
+      beneficiary:
+        type: string
       contract_number:
         type: string
       contract_type:
@@ -306,7 +308,6 @@ paths:
       - description: status of contract
         in: query
         name: status
-        required: true
         type: string
       produces:
       - application/json
