@@ -7,6 +7,7 @@ import (
 type ContractWithJsonB struct {
 	ID                     int    `json:"id"`
 	Type                   string `json:"type"`
+	PrevContractId         int    `json:"-"`
 	Status                 string `json:"status"` //вынести статус в отдельную таблицу
 	Requisites             string `json:"requisites"`
 	Manager                string `json:"manager"`
@@ -23,6 +24,7 @@ type ContractWithJsonB struct {
 type Contract struct {
 	ID                     int                    `json:"id"`
 	Type                   string                 `json:"type"`
+	PrevContractId         int                    `json:"-" gorm:"-"`
 	Status                 string                 `json:"status"`
 	Requisites             Requisites             `json:"requisites"`
 	Manager                string                 `json:"manager,omitempty"`
@@ -38,6 +40,7 @@ type Contract struct {
 
 type ContractMiniInfo struct {
 	ID             int     `json:"id"`
+	PrevContractId int     `json:"-" gorm:"-"`
 	ContractorName string  `json:"contractor_name"`
 	ContractNumber string  `json:"contract_number"`
 	ContractType   string  `json:"contract_type"`

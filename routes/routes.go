@@ -49,6 +49,7 @@ func runAllRoutes(r *gin.Engine) {
 	//r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.GET("/", HealthCheck)
 	r.POST("/contract/:type", controller.CreateContract)
+	r.POST("/contract/additional_agreement/:id", controller.AddAdditionalAgreement)
 	r.PUT("/contract/:type/:id", controller.EditContract)
 	r.GET("/contract", controller.GetAllContracts)
 	r.GET("/contract/:id/details", controller.GetContractDetails)

@@ -42,6 +42,44 @@ func CreateContract(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"reason": "новый договор был успешно создан!"})
 }
 
+//AddAdditionalAgreement contract godoc
+// @Summary Creating additional agreement
+// @Description Creating additional agreement
+// @Accept  json
+// @Produce  json
+// @Tags contracts
+// @Param  contract  body model.Contract true "creating contract"
+// @Param  id  path string true "id договора на основе которого создаётся ДС"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /contract/additional_agreement/{id} [post]
+func AddAdditionalAgreement(c *gin.Context) {
+	var contract model.Contract
+	prevContractIdStr := c.Param("id")
+	prevContractId, err := strconv.Atoi(prevContractIdStr)
+	if err != nil {
+		log.Println("[controller.EditContract]|[strconv.Atoi]| error is: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	if err := c.BindJSON(&contract); err != nil {
+		log.Println("[controller.EditContract]|[c.BindJSO]| error is: ", err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+	contract.PrevContractId = prevContractId
+
+	if err := service.AddAdditionalAgreement(contract); err != nil {
+		log.Println("[controller.EditContract]|[service.EditContract]| error is: ", err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"reason": "дополнительное соглашение успешно создано"})
+}
+
 //EditContract contract godoc
 // @Summary Editing contract
 // @Description Editing contract
@@ -66,13 +104,13 @@ func EditContract(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
 	}
-	contract.ID = contractId
 
 	if err := c.BindJSON(&contract); err != nil {
 		log.Println("[controller.EditContract]|[c.BindJSO]| error is: ", err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 		return
 	}
+	contract.ID = contractId
 
 	if err := service.EditContract(contract); err != nil {
 		log.Println("[controller.EditContract]|[service.EditContract]| error is: ", err.Error())
@@ -89,7 +127,7 @@ func EditContract(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Tags contracts
-// @Param  type  query string true "type of contract"
+// @Param  status  query string true "status of contract"
 // @Success 200 {array}  model.ContractMiniInfo
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}

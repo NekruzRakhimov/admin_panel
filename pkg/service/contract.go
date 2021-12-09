@@ -4,6 +4,8 @@ import (
 	"admin_panel/model"
 	"admin_panel/pkg/repository"
 	"encoding/json"
+	"errors"
+	"fmt"
 	"log"
 )
 
@@ -19,6 +21,60 @@ func GetContractDetails(contractId int) (contract model.Contract, err error) {
 	}
 
 	return contract, nil
+}
+
+func AddAdditionalAgreement(contract model.Contract) error {
+	var contractWithJson model.ContractWithJsonB
+
+	contractWithJson.PrevContractId = contract.PrevContractId
+	contractWithJson.Comment = contract.Comment
+	contractWithJson.Manager = contract.Manager
+	contractWithJson.KAM = contract.KAM
+	contractWithJson.Status = contract.Status
+
+	prevContractDetails, err := repository.GetContractDetails(contract.PrevContractId)
+	if err != nil {
+		return err
+	}
+
+	if prevContractDetails.Status != "в работе" {
+		return errors.New(fmt.Sprintf("статус договора - [%s]. Вы не можете добавить к нему ДС", prevContractDetails.Status))
+	}
+
+	contractWithJson.Type = prevContractDetails.Type
+
+	requisites, err := json.Marshal(contract.Requisites)
+	if err != nil {
+		return err
+	}
+	contractWithJson.Requisites = string(requisites)
+
+	supplierCompanyManager, err := json.Marshal(contract.SupplierCompanyManager)
+	if err != nil {
+		return err
+	}
+	contractWithJson.SupplierCompanyManager = string(supplierCompanyManager)
+
+	contractParameters, err := json.Marshal(contract.ContractParameters)
+	if err != nil {
+		return err
+	}
+	contractWithJson.ContractParameters = string(contractParameters)
+
+	products, err := json.Marshal(contract.Products)
+	if err != nil {
+		return err
+	}
+	contractWithJson.Products = string(products)
+
+	discounts, err := json.Marshal(contract.Discounts)
+	if err != nil {
+		return err
+	}
+	contractWithJson.Discounts = string(discounts)
+
+	log.Printf(">>>>>%+v", contractWithJson)
+	return repository.CreateContract(contractWithJson)
 }
 
 func CreateContract(contract model.Contract) (err error) {

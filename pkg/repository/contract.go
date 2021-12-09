@@ -120,9 +120,9 @@ func EditContract(contractWithJson model.ContractWithJsonB) error {
 }
 
 func GetAllContracts(contractType string) (contracts []model.ContractWithJsonB, err error) {
-	sqlQuery := "SELECT * FROM contracts"
+	sqlQuery := "SELECT * FROM contracts WHERE id not in (select prev_contract_id from contracts)"
 	if contractType != "" {
-		sqlQuery += fmt.Sprintf(" WHERE status = '%s'", contractType)
+		sqlQuery += fmt.Sprintf(" AND status = '%s'", contractType)
 	}
 	if err := db.GetDBConn().Raw(sqlQuery).Scan(&contracts).Error; err != nil {
 		log.Println("[repository.GetAllContracts]|[db.GetDBConn().Raw(sqlQuery).Scan(&contracts).Error]| error is: ", err.Error())

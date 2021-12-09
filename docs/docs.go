@@ -133,7 +133,7 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "type of contract",
+                        "description": "status of contract",
                         "name": "status",
                         "in": "query",
                         "required": true
@@ -147,6 +147,69 @@ var doc = `{
                             "items": {
                                 "$ref": "#/definitions/model.ContractMiniInfo"
                             }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/contract/additional_agreement/{id}": {
+            "post": {
+                "description": "Creating additional agreement",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contracts"
+                ],
+                "summary": "Creating additional agreement",
+                "parameters": [
+                    {
+                        "description": "creating contract",
+                        "name": "contract",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Contract"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "id договора на основе которого создаётся ДС",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "400": {
