@@ -124,6 +124,9 @@ func GetAllContracts(contractType string) (contracts []model.ContractWithJsonB, 
 	if contractType != "" {
 		sqlQuery += fmt.Sprintf(" AND status = '%s'", contractType)
 	}
+
+	sqlQuery += "ORDER BY created_at DESC"
+
 	if err := db.GetDBConn().Raw(sqlQuery).Scan(&contracts).Error; err != nil {
 		log.Println("[repository.GetAllContracts]|[db.GetDBConn().Raw(sqlQuery).Scan(&contracts).Error]| error is: ", err.Error())
 		return nil, err
