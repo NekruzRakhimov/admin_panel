@@ -20,6 +20,19 @@ func GetContractDetails(contractId int) (contract model.Contract, err error) {
 		return model.Contract{}, err
 	}
 
+	switch contractWithJsonB.Status {
+	case "черновик":
+		contract.Status = "DRAFT"
+	case "на согласовании":
+		contract.Status = "ON_APPROVAL"
+	case "в работе":
+		contract.Status = "ACTIVE"
+	case "заверщённый":
+		contract.Status = "EXPIRED"
+	default:
+		contract.Status = "UNKNOWN"
+	}
+
 	return contract, nil
 }
 
@@ -30,7 +43,7 @@ func AddAdditionalAgreement(contract model.Contract) error {
 	contractWithJson.Comment = contract.Comment
 	contractWithJson.Manager = contract.Manager
 	contractWithJson.KAM = contract.KAM
-	contractWithJson.Status = contract.Status
+	//contractWithJson.Status = contract.Status
 
 	prevContractDetails, err := repository.GetContractDetails(contract.PrevContractId)
 	if err != nil {
@@ -39,6 +52,19 @@ func AddAdditionalAgreement(contract model.Contract) error {
 
 	if prevContractDetails.Status != "в работе" {
 		return errors.New(fmt.Sprintf("статус договора - [%s]. Вы не можете добавить к нему ДС", prevContractDetails.Status))
+	}
+
+	switch contractWithJson.Status {
+	case "DRAFT":
+		contract.Status = "черновик"
+	case "ON_APPROVAL":
+		contract.Status = "на согласовании"
+	case "ACTIVE":
+		contract.Status = "в работе"
+	case "EXPIRED":
+		contract.Status = "заверщённый"
+	default:
+		contract.Status = "неизвестный"
 	}
 
 	contractWithJson.Type = prevContractDetails.Type
@@ -84,7 +110,19 @@ func CreateContract(contract model.Contract) (err error) {
 	contractWithJson.Comment = contract.Comment
 	contractWithJson.Manager = contract.Manager
 	contractWithJson.KAM = contract.KAM
-	contractWithJson.Status = contract.Status
+	//contractWithJson.Status = contract.Status
+	switch contractWithJson.Status {
+	case "DRAFT":
+		contract.Status = "черновик"
+	case "ON_APPROVAL":
+		contract.Status = "на согласовании"
+	case "ACTIVE":
+		contract.Status = "в работе"
+	case "EXPIRED":
+		contract.Status = "заверщённый"
+	default:
+		contract.Status = "неизвестный"
+	}
 
 	requisites, err := json.Marshal(contract.Requisites)
 	if err != nil {
@@ -128,7 +166,19 @@ func EditContract(contract model.Contract) error {
 	contractWithJson.Comment = contract.Comment
 	contractWithJson.Manager = contract.Manager
 	contractWithJson.KAM = contract.KAM
-	contractWithJson.Status = contract.Status
+	//contractWithJson.Status = contract.Status
+	switch contractWithJson.Status {
+	case "DRAFT":
+		contract.Status = "черновик"
+	case "ON_APPROVAL":
+		contract.Status = "на согласовании"
+	case "ACTIVE":
+		contract.Status = "в работе"
+	case "EXPIRED":
+		contract.Status = "заверщённый"
+	default:
+		contract.Status = "неизвестный"
+	}
 
 	requisites, err := json.Marshal(contract.Requisites)
 	if err != nil {
@@ -194,6 +244,19 @@ func ConvertContractToContractMiniInfo(contract model.Contract) (contractMiniInf
 		contractMiniInfo.ContractType = "Договор поставок"
 	}
 
+	switch contract.Status {
+	case "черновик":
+		contractMiniInfo.Status = "DRAFT"
+	case "на согласовании":
+		contractMiniInfo.Status = "ON_APPROVAL"
+	case "в работе":
+		contractMiniInfo.Status = "ACTIVE"
+	case "заверщённый":
+		contractMiniInfo.Status = "EXPIRED"
+	default:
+		contractMiniInfo.Status = "UNKNOWN"
+	}
+
 	contractMiniInfo.ID = contract.ID
 	contractMiniInfo.ContractorName = contract.Requisites.ContractorName
 	contractMiniInfo.ContractNumber = contract.ContractParameters.ContractNumber
@@ -201,7 +264,7 @@ func ConvertContractToContractMiniInfo(contract model.Contract) (contractMiniInf
 	contractMiniInfo.Author = contract.Manager
 	contractMiniInfo.CreatedAt = contract.CreatedAt
 	contractMiniInfo.UpdatedAt = contract.UpdatedAt
-	contractMiniInfo.Status = contract.Status
+	//contractMiniInfo.Status = contract.Status
 	contractMiniInfo.Beneficiary = contract.Requisites.Beneficiary
 
 	return contractMiniInfo
