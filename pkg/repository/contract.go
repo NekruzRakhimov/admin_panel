@@ -104,6 +104,7 @@ func CreateMarketingContract(contract model.MarketingServicesContract) error {
 }
 
 func CreateContract(contractWithJson model.ContractWithJsonB) error {
+	fmt.Printf(">>>> %+v", contractWithJson)
 	if err := db.GetDBConn().Table("contracts").Omit("created_at", "updated_at").Create(&contractWithJson).Error; err != nil {
 		log.Println("[repository.CreateContract]|[db.GetDBConn().Table(\"contracts\").Create(&contractWithJson).Error]| error is: ", err.Error())
 		return err

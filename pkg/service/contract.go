@@ -54,17 +54,17 @@ func AddAdditionalAgreement(contract model.Contract) error {
 		return errors.New(fmt.Sprintf("статус договора - [%s]. Вы не можете добавить к нему ДС", prevContractDetails.Status))
 	}
 
-	switch contractWithJson.Status {
+	switch contract.Status {
 	case "DRAFT":
-		contract.Status = "черновик"
+		contractWithJson.Status = "черновик"
 	case "ON_APPROVAL":
-		contract.Status = "на согласовании"
+		contractWithJson.Status = "на согласовании"
 	case "ACTIVE":
-		contract.Status = "в работе"
+		contractWithJson.Status = "в работе"
 	case "EXPIRED":
-		contract.Status = "заверщённый"
+		contractWithJson.Status = "заверщённый"
 	default:
-		contract.Status = "неизвестный"
+		contractWithJson.Status = "неизвестный"
 	}
 
 	contractWithJson.Type = prevContractDetails.Type
@@ -111,17 +111,17 @@ func CreateContract(contract model.Contract) (err error) {
 	contractWithJson.Manager = contract.Manager
 	contractWithJson.KAM = contract.KAM
 	//contractWithJson.Status = contract.Status
-	switch contractWithJson.Status {
+	switch contract.Status {
 	case "DRAFT":
-		contract.Status = "черновик"
+		contractWithJson.Status = "черновик"
 	case "ON_APPROVAL":
-		contract.Status = "на согласовании"
+		contractWithJson.Status = "на согласовании"
 	case "ACTIVE":
-		contract.Status = "в работе"
+		contractWithJson.Status = "в работе"
 	case "EXPIRED":
-		contract.Status = "заверщённый"
+		contractWithJson.Status = "заверщённый"
 	default:
-		contract.Status = "неизвестный"
+		contractWithJson.Status = "неизвестный"
 	}
 
 	requisites, err := json.Marshal(contract.Requisites)
@@ -167,17 +167,17 @@ func EditContract(contract model.Contract) error {
 	contractWithJson.Manager = contract.Manager
 	contractWithJson.KAM = contract.KAM
 	//contractWithJson.Status = contract.Status
-	switch contractWithJson.Status {
+	switch contract.Status {
 	case "DRAFT":
-		contract.Status = "черновик"
+		contractWithJson.Status = "черновик"
 	case "ON_APPROVAL":
-		contract.Status = "на согласовании"
+		contractWithJson.Status = "на согласовании"
 	case "ACTIVE":
-		contract.Status = "в работе"
+		contractWithJson.Status = "в работе"
 	case "EXPIRED":
-		contract.Status = "заверщённый"
+		contractWithJson.Status = "заверщённый"
 	default:
-		contract.Status = "неизвестный"
+		contractWithJson.Status = "неизвестный"
 	}
 
 	requisites, err := json.Marshal(contract.Requisites)
