@@ -54,6 +54,7 @@ func runAllRoutes(r *gin.Engine) {
 	r.GET("/contract", controller.GetAllContracts)
 	r.GET("/contract/:id/details", controller.GetContractDetails)
 	r.PUT("/contract/conform/:id", controller.ConformContract)
+	r.PUT("/contract/cancel/:id", controller.CancelContract)
 
 	dictionary := r.Group("/dictionary")
 	dictionary.GET("/currencies", controller.GetAllCurrencies)
@@ -106,24 +107,6 @@ func runAllRoutes(r *gin.Engine) {
 	//	//}
 
 }
-
-//func Init()  {
-//	r := gin.New()
-//
-//	// Routes
-//	r.GET("/ping", Ping)
-//	r.GET("/", HealthCheck)
-//
-//	url := ginSwagger.URL("http://localhost:3000/swagger/doc.json") // The url pointing to API definition
-//	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
-//	// use ginSwagger middleware to serve the API docs
-//	//r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-//
-//	// Start server
-//	if err := r.Run(":3000"); err != nil {
-//		log.Fatal(err)
-//	}
-//}
 
 // HealthCheck godoc
 // @Summary Show the status of server.

@@ -3,7 +3,6 @@ package controller
 import (
 	"admin_panel/model"
 	"admin_panel/pkg/service"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
@@ -190,7 +189,7 @@ func ConformContract(c *gin.Context) {
 	contractId, err := strconv.Atoi(contractIdStr)
 	if err != nil {
 		log.Println("[controller.ConformContract]|[strconv.Atoi]| error is: ", err.Error())
-		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 		return
 	}
 
@@ -203,48 +202,31 @@ func ConformContract(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"reason": "контракт успешно согласован"})
 }
 
-func CreateMarketingContract(c *gin.Context) {
-
-	var input model.MarketingServicesContract
-	err := c.BindJSON(&input)
-	fmt.Println("======================================================____", input)
+//CancelContract contract godoc
+// @Summary Cancel contract
+// @Description Cancel contract
+// @Accept  json
+// @Produce  json
+// @Tags contracts
+// @Param  id  path string true "id of contract"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /contract/cancel/{id} [put]
+func CancelContract(c *gin.Context) {
+	contractIdStr := c.Param("id")
+	contractId, err := strconv.Atoi(contractIdStr)
 	if err != nil {
+		log.Println("[controller.CancelContract]|[strconv.Atoi]| error is: ", err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 		return
-
 	}
-	err = service.CreateMarketingContract(input)
-	if err != nil {
+
+	if err := service.CancelContract(contractId); err != nil {
+		log.Println("[controller.CancelContract]|[service.CancelContract]| error is: ", err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"reason": "договор успешно создан"})
-}
-
-//func AddNewRight(c *gin.Context) {
-//	var right model.Right
-//	if err := c.BindJSON(&right); err != nil {
-//		log.Println("[controller.AddNewRight]|[binding json]| error is: ", err.Error())
-//		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
-//		return
-//	}
-//
-//	if err := service.AddNewRight(right); err != nil {
-//		log.Println("[controller.AddNewRight]|[service.AddNewRight]| error is: ", err.Error())
-//		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-//		return
-//	}
-//
-//	c.JSON(http.StatusOK, gin.H{"reason": "новое право было успешно создано!"})
-//}
-
-func GetAllCurrency(c *gin.Context) {
-	currency, err := service.GetAllCurrency()
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	}
-
-	c.JSON(http.StatusOK, currency)
-
+	c.JSON(http.StatusOK, gin.H{"reason": "договор был успешно отменён"})
 }

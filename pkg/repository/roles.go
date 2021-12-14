@@ -37,7 +37,7 @@ func DeleteRole(roleId int) error {
 	return nil
 }
 
-func AttachRightToRole (roleId, rightId int) error {
+func AttachRightToRole(roleId, rightId int) error {
 	sqlQuery := "INSERT INTO roles_rights (role_id, right_id) VALUES(?, ?)"
 	if err := db.GetDBConn().Exec(sqlQuery, roleId, rightId).Error; err != nil {
 		return err
@@ -46,7 +46,7 @@ func AttachRightToRole (roleId, rightId int) error {
 	return nil
 }
 
-func DetachRightFromRole (roleId, rightId int) error { // todo: затем заменить это уаление на soft_delete
+func DetachRightFromRole(roleId, rightId int) error { // todo: затем заменить это удаление на soft_delete
 	sqlQuery := "DELETE FROM roles_rights WHERE role_id = ? AND right_id = ?"
 	if err := db.GetDBConn().Exec(sqlQuery, roleId, rightId).Error; err != nil {
 		return err

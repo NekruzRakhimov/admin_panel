@@ -320,18 +320,26 @@ func ConvertContractFromJsonB(contractWithJson model.ContractWithJsonB) (contrac
 	return contract, nil
 }
 
-func GetAllCurrency() (rights []model.Currency, err error) {
-	return repository.GetAllCurrency()
-}
-
-func CreateMarketingContract(contract model.MarketingServicesContract) error {
-	return repository.CreateMarketingContract(contract)
-}
-
 func ConformContract(contractId int, status string) error {
 	return repository.ConformContract(contractId, status)
 }
 
-//func AddNewRight(right model.Right) error {
-//	return repository.AddNewRight(right)
-//}
+func CancelContract(contractId int) error {
+	contract, err := repository.GetContractDetails(contractId)
+	if err != nil {
+		return err
+	}
+
+	switch contract.Status {
+	case "черновик":
+		if err := repository.DisActiveContract(contractId); err != nil {
+			return err
+		}
+	case "на согласовании":
+		if err := repository.ChangeContractStatus(contractId, "черновик"); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
