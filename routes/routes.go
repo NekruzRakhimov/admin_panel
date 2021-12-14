@@ -55,6 +55,12 @@ func runAllRoutes(r *gin.Engine) {
 	r.GET("/contract/:id/details", controller.GetContractDetails)
 	r.PUT("/contract/conform/:id", controller.ConformContract)
 
+	dictionary := r.Group("/dictionary")
+	dictionary.GET("/currencies", controller.GetAllCurrencies)
+	dictionary.GET("/positions", controller.GetAllPositions)
+	dictionary.GET("/addresses", controller.GetAllAddresses)
+	dictionary.GET("/frequency_deferred_discounts", controller.GetAllFrequencyDeferredDiscounts)
+
 	users := r.Group("/users")
 	users.GET("/", controller.GetAllUsers)
 

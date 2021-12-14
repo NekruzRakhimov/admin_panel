@@ -1,9 +1,5 @@
 package model
 
-import (
-	"time"
-)
-
 type ContractWithJsonB struct {
 	ID                     int    `json:"id"`
 	Type                   string `json:"type"`
@@ -136,17 +132,17 @@ type ContractsAttachments struct {
 
 //TODO: поменять запрос в репозитории Маркетинговых договорах
 
-type Currency struct {
-	ID        int       `json:"id"`
-	Alpha3    string    `json:"alpha_3,omitempty"`
-	Symbol    string    `json:"symbol,omitempty"`
-	Name      string    `json:"name,omitempty"`
-	ImageName string    `json:"image_name,omitempty"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-	DeletedAt time.Time `json:"deleted_at"`
-	IsRemoved bool      `json:"is_removed"`
-}
+//type Currency struct {
+//	ID        int       `json:"id"`
+//	Alpha3    string    `json:"alpha_3,omitempty"`
+//	Symbol    string    `json:"symbol,omitempty"`
+//	Name      string    `json:"name,omitempty"`
+//	ImageName string    `json:"image_name,omitempty"`
+//	CreatedAt time.Time `json:"created_at"`
+//	UpdatedAt time.Time `json:"updated_at"`
+//	DeletedAt time.Time `json:"deleted_at"`
+//	IsRemoved bool      `json:"is_removed"`
+//}
 
 type MarketingServicesContract struct {
 	ID                     int                    `json:"id,omitempty"`
@@ -156,4 +152,28 @@ type MarketingServicesContract struct {
 	ParamContract   ContractParameters `json:"param_contract,omitempty"`
 	DiscountPercent []Discount         `json:"discount_percent,omitempty"`
 	Products        []Product          `json:"products,omitempty"`
+}
+
+type Currency struct {
+	ID          int    `json:"id"`
+	Code        string `json:"code"`
+	Description string `json:"description"`
+}
+
+type FrequencyDeferredDiscount struct {
+	ID          int    `json:"id"`
+	Code        string `json:"code"`
+	Description string `json:"description"`
+}
+
+type Address struct {
+	ID          int    `json:"id"`
+	Code        string `json:"code"`
+	Description string `json:"description"`
+}
+
+type Position struct {
+	ID          int    `json:"id"`
+	Code        string `json:"code"`
+	Description string `json:"description"`
 }

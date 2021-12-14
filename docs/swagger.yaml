@@ -1,5 +1,14 @@
 basePath: /
 definitions:
+  model.Address:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+    type: object
   model.Contract:
     properties:
       comment:
@@ -84,6 +93,15 @@ definitions:
         description: время возврата при условии не поставки
         type: integer
     type: object
+  model.Currency:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+    type: object
   model.Discount:
     properties:
       amount:
@@ -99,6 +117,24 @@ definitions:
         type: string
       payment_multiplicity:
         type: string
+    type: object
+  model.FrequencyDeferredDiscount:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+    type: object
+  model.Position:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
     type: object
   model.Product:
     properties:
@@ -585,6 +621,134 @@ paths:
       summary: Detach Role To User
       tags:
       - users
+  /dictionary/addresses:
+    get:
+      consumes:
+      - application/json
+      description: Gel All Addresses
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Address'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All Addresses
+      tags:
+      - dictionary
+  /dictionary/currencies:
+    get:
+      consumes:
+      - application/json
+      description: Gel All Currencies
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Currency'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All Currencies
+      tags:
+      - dictionary
+  /dictionary/frequency_deferred_discounts:
+    get:
+      consumes:
+      - application/json
+      description: Gel All FrequencyDeferredDiscounts
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.FrequencyDeferredDiscount'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All FrequencyDeferredDiscounts
+      tags:
+      - dictionary
+  /dictionary/positions:
+    get:
+      consumes:
+      - application/json
+      description: Gel All Positions
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Position'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All Positions
+      tags:
+      - dictionary
   /ping:
     get:
       consumes:
