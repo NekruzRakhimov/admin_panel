@@ -48,13 +48,15 @@ func RunAllRoutes() {
 func runAllRoutes(r *gin.Engine) {
 	//r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.GET("/", HealthCheck)
-	r.POST("/contract/:type", controller.CreateContract)
-	r.POST("/contract/additional_agreement/:id", controller.AddAdditionalAgreement)
-	r.PUT("/contract/:type/:id", controller.EditContract)
-	r.GET("/contract", controller.GetAllContracts)
-	r.GET("/contract/:id/details", controller.GetContractDetails)
-	r.PUT("/contract/conform/:id", controller.ConformContract)
-	r.PUT("/contract/cancel/:id", controller.CancelContract)
+
+	contract := r.Group("/contract")
+	contract.GET("", controller.GetAllContracts)
+	contract.POST("/:type", controller.CreateContract)
+	contract.POST("/additional_agreement/:id", controller.AddAdditionalAgreement)
+	contract.PUT("/:type/:id", controller.EditContract)
+	contract.GET("/:id/details", controller.GetContractDetails)
+	contract.PUT("/conform/:id", controller.ConformContract)
+	contract.PUT("/cancel/:id", controller.CancelContract)
 
 	dictionary := r.Group("/dictionary")
 	dictionary.GET("/currencies", controller.GetAllCurrencies)
@@ -64,7 +66,6 @@ func runAllRoutes(r *gin.Engine) {
 
 	users := r.Group("/users")
 	users.GET("/", controller.GetAllUsers)
-
 	users.POST("/", controller.CreateNewUser)
 	users.PUT("/:id", controller.EditUser)
 	users.DELETE("/:id", controller.DeleteUser)

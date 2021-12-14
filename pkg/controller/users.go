@@ -10,8 +10,7 @@ import (
 	"strconv"
 )
 
-
-// Get All Users godoc
+// GetAllUsers Get All Users godoc
 // @Summary Get All Users
 // @Description Get All Users
 // @Accept  json
@@ -32,7 +31,7 @@ func GetAllUsers(c *gin.Context) {
 	c.JSON(http.StatusOK, users)
 }
 
-// Add User godoc
+// CreateNewUser Add User godoc
 // @Summary Add an user
 //@Description Add by json user
 //@Tags users
@@ -60,8 +59,7 @@ func CreateNewUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"reason": "пользователь успешно создан!"})
 }
 
-
-// Update User godoc
+// EditUser Update User godoc
 // @Summary Update an user
 // @Description Update by json user
 // @Tags users
@@ -98,10 +96,6 @@ func EditUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"reason": fmt.Sprintf("данные о пользователе c id = %d была успешно обновлены!", id)})
 }
 
-
-
-
-
 //DeleteUser godoc
 //@Summary Delete user by ID
 //@Tags users
@@ -128,8 +122,7 @@ func DeleteUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"reason": fmt.Sprintf("пользователь c id = %d был успешно удален!", id)})
 }
 
-
-// Attach Role To User godoc
+// AttachRoleToUser Attach Role To User godoc
 // @Summary Attach Role To User
 // @Description Attach by json Role To User
 // @Tags users
@@ -165,9 +158,7 @@ func AttachRoleToUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"reason": fmt.Sprintf("роль c id = %d было успешна привязана к пользоватлю с id = %d", roleId, userId)})
 }
 
-
-
-// Detach Role To User godoc
+// DetachRoleFromUser Detach Role To User godoc
 // @Summary Detach Role To User
 // @Description Detach by json Role To User
 // @Tags users

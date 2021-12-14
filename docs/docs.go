@@ -1840,6 +1840,9 @@ var doc = `{
                 "name": {
                     "type": "string"
                 },
+                "organization": {
+                    "type": "string"
+                },
                 "password": {
                     "type": "string"
                 },

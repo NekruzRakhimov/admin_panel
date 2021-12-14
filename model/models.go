@@ -1,15 +1,16 @@
 package model
 
 type User struct {
-	ID       int       `json:"id"`
-	Name     string    `json:"name"`
-	Surname  string    `json:"surname"`
-	LastName string    `json:"last_name"`
-	Login    string    `json:"login"`
-	Email    string    `json:"email"`
-	Password string    `json:"password"`
-	Status   string    `json:"status"`
-	Roles    []RoleDTO `json:"roles,omitempty"`
+	ID           int       `json:"id"`
+	Name         string    `json:"name"`
+	Surname      string    `json:"surname"`
+	LastName     string    `json:"last_name"`
+	Login        string    `json:"login"`
+	Email        string    `json:"email"`
+	Password     string    `json:"password"`
+	Status       string    `json:"status"`
+	Organization string    `json:"organization"`
+	Roles        []RoleDTO `json:"roles,omitempty"`
 }
 
 type Role struct {
