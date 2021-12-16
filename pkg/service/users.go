@@ -57,5 +57,16 @@ func DetachRoleFromUser(userId, roleId int) error {
 }
 
 func GetUserById(userId int) (model.User, error) {
-	return repository.GetUserById(userId)
+	user, err := repository.GetUserById(userId)
+	if err != nil {
+		return model.User{}, err
+	}
+
+	roles, err := repository.GetAllRolesByUserId(userId)
+	if err != nil {
+		return model.User{}, err
+	}
+	user.Roles = roles
+
+	return user, err
 }

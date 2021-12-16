@@ -25,7 +25,18 @@ func GetAllRolesFullInfo() (roles []model.Role, err error) {
 }
 
 func GetRoleByID(roleId int) (role model.Role, err error) {
-	return repository.GetRoleByID(roleId)
+	role, err = repository.GetRoleByID(roleId)
+	if err != nil {
+		return model.Role{}, err
+	}
+
+	rights, err := repository.GetAllRightsByRoleId(roleId)
+	if err != nil {
+		return model.Role{}, err
+	}
+	role.Rights = rights
+
+	return role, err
 }
 
 func AddNewRole(role model.Role) error {
