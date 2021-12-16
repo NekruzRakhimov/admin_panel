@@ -24,6 +24,10 @@ func GetAllRolesFullInfo() (roles []model.Role, err error) {
 	return roles, nil
 }
 
+func GetRoleByID(roleId int) (role model.Role, err error) {
+	return repository.GetRoleByID(roleId)
+}
+
 func AddNewRole(role model.Role) error {
 	role, err := repository.AddNewRole(role)
 	if err != nil {
@@ -45,10 +49,10 @@ func DeleteRole(roleId int) error {
 	return repository.DeleteRole(roleId)
 }
 
-func AttachRightToRole (roleId, rightId int) error {
+func AttachRightToRole(roleId, rightId int) error {
 	return repository.AttachRightToRole(roleId, rightId)
 }
 
-func DetachRightFromRole (roleId, rightId int) error {
+func DetachRightFromRole(roleId, rightId int) error {
 	return repository.DetachRightFromRole(roleId, rightId)
 }

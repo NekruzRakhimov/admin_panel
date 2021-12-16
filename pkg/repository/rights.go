@@ -66,3 +66,12 @@ func AddRightsToRole(roleId int, rights []model.RightDTO) error {
 
 	return nil
 }
+
+func GetRightByID(rightId int) (right model.Right, err error) {
+	right.ID = rightId
+	if err := db.GetDBConn().Table("rights").Find(&right).Error; err != nil {
+		return model.Right{}, err
+	}
+
+	return right, nil
+}

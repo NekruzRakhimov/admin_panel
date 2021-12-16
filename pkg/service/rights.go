@@ -20,3 +20,7 @@ func EditRight(right model.Right) error {
 func DeleteRight(id int) error {
 	return repository.DeleteRight(id)
 }
+
+func GetRightByID(rightId int) (model.Right, error) {
+	return repository.GetRightByID(rightId)
+}

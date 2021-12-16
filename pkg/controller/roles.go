@@ -10,8 +10,7 @@ import (
 	"strconv"
 )
 
-
-// Get All Roles by ADMIN godoc
+// GetAllRoles Get All Roles by ADMIN godoc
 // @Summary Get All Roles by Admin
 // @Description Get All Roles by Admin
 // @Accept  json
@@ -32,8 +31,7 @@ func GetAllRoles(c *gin.Context) {
 	c.JSON(http.StatusOK, roles)
 }
 
-
-// Update Role by ADMIN godoc
+// EditRole Update Role by ADMIN godoc
 // @Summary  Update Role by Admin
 // @Description  Update Role by Admin
 // @Accept  json
@@ -70,8 +68,7 @@ func EditRole(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"reason": fmt.Sprintf("роль c id = %d была успешно обновлена!", id)})
 }
 
-
-// Add Role by ADMIN godoc
+// AddNewRole Add Role by ADMIN godoc
 // @Summary  Add Role by Admin
 // @Description  Add Role by Admin
 // @Accept  json
@@ -99,8 +96,7 @@ func AddNewRole(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"reason": "новая роль была успешно создана!"})
 }
 
-
-// Delete Role by ID  ADMIN godoc
+// DeleteRole Delete Role by ID  ADMIN godoc
 // @Summary  Delete Role by ID Admin
 // @Description  Delete Role by Admin
 // @Accept  json
@@ -129,6 +125,18 @@ func DeleteRole(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"reason": fmt.Sprintf("роль c id = %d было успешна удалена!", id)})
 }
 
+// AttachRightToRole Attach Right to Role godoc
+// @Summary  Attach Right to Role
+// @Description  Attach Right to Role
+// @Accept  json
+// @Produce  json
+// @Tags roles
+// @Param  role_id path string true "role ID"
+// @Param  right_id path string true "right ID"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /attach_right/{role_id}/{right_id} [post]
 func AttachRightToRole(c *gin.Context) {
 	roleId, err := strconv.Atoi(c.Param("role_id"))
 	if err != nil {
@@ -153,6 +161,18 @@ func AttachRightToRole(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"reason": fmt.Sprintf("право c id = %d было успешна привязана к роли с id = %d", rightId, roleId)})
 }
 
+// DetachRightFromRole Detach Right to Role godoc
+// @Summary  Detach Right to Role
+// @Description  Detach Right to Role
+// @Accept  json
+// @Produce  json
+// @Tags roles
+// @Param  role_id path string true "role ID"
+// @Param  right_id path string true "right ID"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /attach_right/{role_id}/{right_id} [delete]
 func DetachRightFromRole(c *gin.Context) {
 	roleId, err := strconv.Atoi(c.Param("role_id"))
 	if err != nil {
@@ -175,4 +195,34 @@ func DetachRightFromRole(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"reason": fmt.Sprintf("право c id = %d было успешна отнята от роли с id = %d", rightId, roleId)})
+}
+
+// GetRoleByID Get Role by ID godoc
+// @Summary Get Role by ID
+// @Description et Role by ID
+// @Accept  json
+// @Produce  json
+// @Tags roles
+// @Param  id path int true "role ID"
+// @Success 200 {object} model.Role
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /roles/{id}/details [get]
+func GetRoleByID(c *gin.Context) {
+	roleIdStr := c.Param("id")
+	roleId, err := strconv.Atoi(roleIdStr)
+	if err != nil {
+		log.Println("[controller.GetRoleByID]|[strconv.Atoi]| error is: ", err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	role, err := service.GetRoleByID(roleId)
+	if err != nil {
+		log.Println("[controller.GetRoleByID]|[service.GetRoleByID]| error is: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, role)
 }

@@ -13,6 +13,15 @@ func GetAllRoles() (roles []model.Role, err error) {
 	return roles, nil
 }
 
+func GetRoleByID(roleId int) (role model.Role, err error) {
+	role.ID = roleId
+	if err := db.GetDBConn().Table("roles").Find(&role).Error; err != nil {
+		return model.Role{}, err
+	}
+
+	return role, nil
+}
+
 func AddNewRole(role model.Role) (model.Role, error) {
 	if err := db.GetDBConn().Table("roles").Save(&role).Error; err != nil {
 		return model.Role{}, err

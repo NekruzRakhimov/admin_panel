@@ -66,18 +66,21 @@ func runAllRoutes(r *gin.Engine) {
 
 	users := r.Group("/users")
 	users.GET("/", controller.GetAllUsers)
+	users.GET("/:id/details", controller.GetUserById)
 	users.POST("/", controller.CreateNewUser)
 	users.PUT("/:id", controller.EditUser)
 	users.DELETE("/:id", controller.DeleteUser)
 
 	rights := r.Group("/rights")
 	rights.GET("", controller.GetAllRights)
+	rights.GET("/:id/details", controller.GetRightByID)
 	rights.POST("", controller.AddNewRight)
 	rights.PUT("/:id", controller.EditRight)
 	rights.DELETE("/:id", controller.DeleteRight)
 
 	roles := r.Group("/roles")
 	roles.GET("", controller.GetAllRoles)
+	roles.GET("/:id/details", controller.GetRoleByID)
 	roles.POST("", controller.AddNewRole)
 	roles.PUT("/:id", controller.EditRole)
 	roles.DELETE("/:id", controller.DeleteRole)

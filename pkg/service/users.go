@@ -48,10 +48,14 @@ func DeleteUser(userId int) error {
 	return repository.DeleteUser(userId)
 }
 
-func AttachRoleToUser (userId, roleId int) error {
+func AttachRoleToUser(userId, roleId int) error {
 	return repository.AttachRoleToUser(userId, roleId)
 }
 
-func DetachRoleFromUser (userId, roleId int) error {
+func DetachRoleFromUser(userId, roleId int) error {
 	return repository.DetachRoleFromUser(userId, roleId)
+}
+
+func GetUserById(userId int) (model.User, error) {
+	return repository.GetUserById(userId)
 }

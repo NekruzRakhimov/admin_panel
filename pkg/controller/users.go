@@ -169,7 +169,7 @@ func AttachRoleToUser(c *gin.Context) {
 // @Success 200 {object} map[string]interface{}
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /detach_role/{user_id}/{role_id} [post]
+// @Router /detach_role/{user_id}/{role_id} [delete]
 func DetachRoleFromUser(c *gin.Context) {
 	userId, err := strconv.Atoi(c.Param("user_id"))
 	if err != nil {
@@ -192,4 +192,34 @@ func DetachRoleFromUser(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"reason": fmt.Sprintf("роль c id = %d было успешна отнята от пользователя с id = %d", roleId, userId)})
+}
+
+// GetUserById Get User by ID godoc
+// @Summary Get User by ID
+// @Description Get User by ID
+// @Accept  json
+// @Produce  json
+// @Tags users
+// @Param  id path int true "user ID"
+// @Success 200 {object} model.User
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /users/{id}/details [get]
+func GetUserById(c *gin.Context) {
+	userIdStr := c.Param("id")
+	userId, err := strconv.Atoi(userIdStr)
+	if err != nil {
+		log.Println("[controller.GetUserById]|[strconv.Atoi]| error is: ", err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	user, err := service.GetUserById(userId)
+	if err != nil {
+		log.Println("[controller.GetUserById]|[service.GetUserById]| error is: ", err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, user)
 }

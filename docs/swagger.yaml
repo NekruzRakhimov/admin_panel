@@ -295,6 +295,89 @@ paths:
       summary: Show the status of server.
       tags:
       - root
+  /attach_right/{role_id}/{right_id}:
+    delete:
+      consumes:
+      - application/json
+      description: Detach Right to Role
+      parameters:
+      - description: role ID
+        in: path
+        name: role_id
+        required: true
+        type: string
+      - description: right ID
+        in: path
+        name: right_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Detach Right to Role
+      tags:
+      - roles
+    post:
+      consumes:
+      - application/json
+      description: Attach Right to Role
+      parameters:
+      - description: role ID
+        in: path
+        name: role_id
+        required: true
+        type: string
+      - description: right ID
+        in: path
+        name: right_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Attach Right to Role
+      tags:
+      - roles
   /attach_role/{user_id}/{role_id}:
     post:
       consumes:
@@ -619,7 +702,7 @@ paths:
       tags:
       - contracts
   /detach_role/{user_id}/{role_id}:
-    post:
+    delete:
       consumes:
       - application/json
       description: Detach by json Role To User
@@ -952,6 +1035,42 @@ paths:
       summary: Update Right by Admin
       tags:
       - rights
+  /rights/{id}/details:
+    get:
+      consumes:
+      - application/json
+      description: Get Right by ID
+      parameters:
+      - description: user ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Right'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Right by ID
+      tags:
+      - rights
   /roles/:
     get:
       consumes:
@@ -1106,6 +1225,42 @@ paths:
       summary: Update Role by Admin
       tags:
       - roles
+  /roles/{id}/details:
+    get:
+      consumes:
+      - application/json
+      description: et Role by ID
+      parameters:
+      - description: role ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Role'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Role by ID
+      tags:
+      - roles
   /users/:
     get:
       consumes:
@@ -1249,6 +1404,42 @@ paths:
             additionalProperties: true
             type: object
       summary: Update an user
+      tags:
+      - users
+  /users/{id}/details:
+    get:
+      consumes:
+      - application/json
+      description: Get User by ID
+      parameters:
+      - description: user ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get User by ID
       tags:
       - users
 schemes:

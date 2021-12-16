@@ -127,3 +127,33 @@ func DeleteRight(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"reason": fmt.Sprintf("право c id = %d было успешно удалено!", id)})
 }
+
+//GetRightByID Get Right by ID godoc
+// @Summary Get Right by ID
+// @Description Get Right by ID
+// @Accept  json
+// @Produce  json
+// @Tags rights
+// @Param  id path int true "user ID"
+// @Success 200 {object} model.Right
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /rights/{id}/details [get]
+func GetRightByID(c *gin.Context) {
+	rightIdStr := c.Param("id")
+	rightId, err := strconv.Atoi(rightIdStr)
+	if err != nil {
+		log.Println("[controller.GetRightByID]|[strconv.Atoi]| error is: ", err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	right, err := service.GetRightByID(rightId)
+	if err != nil {
+		log.Println("[controller.GetRightByID]|[service.GetRightByID]| error is: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, right)
+}

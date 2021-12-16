@@ -66,7 +66,7 @@ func DeleteUser(roleId int) error {
 	return nil
 }
 
-func AttachRoleToUser (userId, roleId int) error {
+func AttachRoleToUser(userId, roleId int) error {
 	sqlQuery := "INSERT INTO users_roles (user_id, role_id) VALUES(?, ?)"
 	if err := db.GetDBConn().Exec(sqlQuery, userId, roleId).Error; err != nil {
 		return err
@@ -75,11 +75,20 @@ func AttachRoleToUser (userId, roleId int) error {
 	return nil
 }
 
-func DetachRoleFromUser (userId, roleId int) error { // todo: затем заменить это удаление на soft_delete
+func DetachRoleFromUser(userId, roleId int) error { // todo: затем заменить это удаление на soft_delete
 	sqlQuery := "DELETE FROM users_roles WHERE user_id = ? AND role_id = ?"
 	if err := db.GetDBConn().Exec(sqlQuery, userId, roleId).Error; err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func GetUserById(userId int) (user model.User, err error) {
+	user.ID = userId
+	if err := db.GetDBConn().Table("users").Omit("password").Find(&user).Error; err != nil {
+		return model.User{}, err
+	}
+
+	return user, nil
 }
