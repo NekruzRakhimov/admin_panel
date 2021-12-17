@@ -86,3 +86,12 @@ func DisActiveContract(contractId int) error {
 
 	return nil
 }
+
+func FinishContract(contractId int) error {
+	sqlQuery := "UPDATE contracts SET status = ?, updated_at = now() WHERE id = ?"
+	if err := db.GetDBConn().Exec(sqlQuery, "заверщённый", contractId).Error; err != nil {
+		return err
+	}
+
+	return nil
+}

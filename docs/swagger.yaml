@@ -701,6 +701,43 @@ paths:
       summary: Conform contract
       tags:
       - contracts
+  /contract/finish/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Finish contract
+      parameters:
+      - description: id of contract
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Finish contract
+      tags:
+      - contracts
   /detach_role/{user_id}/{role_id}:
     delete:
       consumes:

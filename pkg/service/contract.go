@@ -343,3 +343,7 @@ func CancelContract(contractId int) error {
 
 	return nil
 }
+
+func FinishContract(contractId int) error {
+	return repository.FinishContract(contractId)
+}

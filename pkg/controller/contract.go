@@ -230,3 +230,32 @@ func CancelContract(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"reason": "договор был успешно отменён"})
 }
+
+//FinishContract contract godoc
+// @Summary Finish contract
+// @Description Finish contract
+// @Accept  json
+// @Produce  json
+// @Tags contracts
+// @Param  id  path string true "id of contract"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /contract/finish/{id} [put]
+func FinishContract(c *gin.Context) {
+	contractIdStr := c.Param("id")
+	contractId, err := strconv.Atoi(contractIdStr)
+	if err != nil {
+		log.Println("[controller.FinishContract]|[strconv.Atoi]| error is: ", err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	if err := service.FinishContract(contractId); err != nil {
+		log.Println("[controller.FinishContract]|[service.FinishContract]| error is: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"reason": "договор был успешно завершён"})
+}
