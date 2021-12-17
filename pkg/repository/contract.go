@@ -62,7 +62,7 @@ func GetContractDetails(contractId int) (contract model.ContractWithJsonB, err e
 
 func ConformContract(contractId int, status string) error {
 	sqlQuery := "UPDATE contracts SET status = $1 WHERE id = $2"
-	if err := db.GetDBConn().Exec(sqlQuery, contractId, status).Error; err != nil {
+	if err := db.GetDBConn().Exec(sqlQuery, status, contractId).Error; err != nil {
 		return err
 	}
 
