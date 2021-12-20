@@ -541,7 +541,7 @@ var doc = `{
                     {
                         "type": "string",
                         "description": "comment of contract",
-                        "name": "id",
+                        "name": "comment",
                         "in": "query",
                         "required": true
                     }

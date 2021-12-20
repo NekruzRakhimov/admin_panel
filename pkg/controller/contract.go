@@ -267,7 +267,7 @@ func FinishContract(c *gin.Context) {
 // @Produce  json
 // @Tags contracts
 // @Param  id  path string true "id of contract"
-// @Param  id  query string true "comment of contract"
+// @Param  comment  query string true "comment of contract"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}

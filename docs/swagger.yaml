@@ -751,7 +751,7 @@ paths:
         type: string
       - description: comment of contract
         in: query
-        name: id
+        name: comment
         required: true
         type: string
       produces:
