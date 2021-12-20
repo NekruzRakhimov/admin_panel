@@ -738,6 +738,48 @@ paths:
       summary: Finish contract
       tags:
       - contracts
+  /contract/revision/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Revision contract
+      parameters:
+      - description: id of contract
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: comment of contract
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Revision contract
+      tags:
+      - contracts
   /detach_role/{user_id}/{role_id}:
     delete:
       consumes:

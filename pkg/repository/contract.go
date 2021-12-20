@@ -95,3 +95,13 @@ func FinishContract(contractId int) error {
 
 	return nil
 }
+
+func RevisionContract(contractId int, comment string) error {
+	sqlQuery := "UPDATE contracts SET status = ?, comment = ?, updated_at = now() WHERE id = ?"
+	//TODO: добавить проверку статуса договора
+	if err := db.GetDBConn().Raw(sqlQuery, "черновик", comment, contractId).Error; err != nil {
+		return err
+	}
+
+	return nil
+}

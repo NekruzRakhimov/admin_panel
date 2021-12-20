@@ -259,3 +259,34 @@ func FinishContract(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"reason": "договор был успешно завершён"})
 }
+
+//RevisionContract contract godoc
+// @Summary Revision contract
+// @Description Revision contract
+// @Accept  json
+// @Produce  json
+// @Tags contracts
+// @Param  id  path string true "id of contract"
+// @Param  id  query string true "comment of contract"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /contract/revision/{id} [put]
+func RevisionContract(c *gin.Context) {
+	contractIdStr := c.Param("id")
+	contractId, err := strconv.Atoi(contractIdStr)
+	if err != nil {
+		log.Println("[controller.RevisionContract]|[strconv.Atoi]| error is: ", err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	comment := c.Query("comment")
+	if err := service.RevisionContract(contractId, comment); err != nil {
+		log.Println("[controller.RevisionContract]|[service.RevisionContract]| error is: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"reason": "договор был на отправлен доработку!"})
+}
