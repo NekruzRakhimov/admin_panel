@@ -290,3 +290,11 @@ func RevisionContract(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"reason": "договор был на отправлен доработку!"})
 }
+
+func GetProductsTemplate(c *gin.Context) {
+	c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	c.File("files/applications/products_template.xlsx")
+}
+
+func ConvertExcelToStruct(c *gin.Context) {
+}
