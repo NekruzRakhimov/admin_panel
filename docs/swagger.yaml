@@ -41,6 +41,8 @@ definitions:
         type: string
       updated_at:
         type: string
+      with_temperature_conditions:
+        type: boolean
     type: object
   model.ContractMiniInfo:
     properties:
@@ -142,9 +144,15 @@ definitions:
         type: string
       price:
         type: number
+      producer:
+        type: string
       product_name:
         type: string
       product_number:
+        type: string
+      storage_condition:
+        type: string
+      substance:
         type: string
     type: object
   model.Requisites:

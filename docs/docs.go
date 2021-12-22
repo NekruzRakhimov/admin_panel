@@ -1912,6 +1912,9 @@ var doc = `{
                 },
                 "updated_at": {
                     "type": "string"
+                },
+                "with_temperature_conditions": {
+                    "type": "boolean"
                 }
             }
         },
@@ -2066,10 +2069,19 @@ var doc = `{
                 "price": {
                     "type": "number"
                 },
+                "producer": {
+                    "type": "string"
+                },
                 "product_name": {
                     "type": "string"
                 },
                 "product_number": {
+                    "type": "string"
+                },
+                "storage_condition": {
+                    "type": "string"
+                },
+                "substance": {
                     "type": "string"
                 }
             }
