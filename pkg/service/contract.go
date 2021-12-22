@@ -110,6 +110,7 @@ func CreateContract(contract model.Contract) (err error) {
 	contractWithJson.Comment = contract.Comment
 	contractWithJson.Manager = contract.Manager
 	contractWithJson.KAM = contract.KAM
+	contractWithJson.WithTemperatureConditions = contract.WithTemperatureConditions
 	//contractWithJson.Status = contract.Status
 	switch contract.Status {
 	case "DRAFT":
@@ -166,6 +167,7 @@ func EditContract(contract model.Contract) error {
 	contractWithJson.Comment = contract.Comment
 	contractWithJson.Manager = contract.Manager
 	contractWithJson.KAM = contract.KAM
+	contractWithJson.WithTemperatureConditions = contract.WithTemperatureConditions
 	//contractWithJson.Status = contract.Status
 	switch contract.Status {
 	case "DRAFT":
@@ -291,6 +293,7 @@ func ConvertContractFromJsonB(contractWithJson model.ContractWithJsonB) (contrac
 	contract.Status = contractWithJson.Status
 	contract.CreatedAt = contractWithJson.CreatedAt
 	contract.UpdatedAt = contractWithJson.UpdatedAt
+	contract.WithTemperatureConditions = contractWithJson.WithTemperatureConditions
 
 	err = json.Unmarshal([]byte(contractWithJson.Requisites), &contract.Requisites)
 	if err != nil {

@@ -1,37 +1,39 @@
 package model
 
 type ContractWithJsonB struct {
-	ID                     int    `json:"id"`
-	Type                   string `json:"type"`
-	PrevContractId         int    `json:"-"`
-	Status                 string `json:"status"` //вынести статус в отдельную таблицу
-	Requisites             string `json:"requisites"`
-	Manager                string `json:"manager"`
-	KAM                    string `json:"kam"`
-	SupplierCompanyManager string `json:"supplier_company_manager"`
-	ContractParameters     string `json:"contract_parameters"`
-	Products               string `json:"products"`
-	Discounts              string `json:"discounts"`
-	Comment                string `json:"comment"`
-	CreatedAt              string `json:"created_at,omitempty"`
-	UpdatedAt              string `json:"updated_at,omitempty"`
+	ID                        int    `json:"id"`
+	Type                      string `json:"type"`
+	PrevContractId            int    `json:"-"`
+	Status                    string `json:"status"` //вынести статус в отдельную таблицу
+	Requisites                string `json:"requisites"`
+	Manager                   string `json:"manager"`
+	KAM                       string `json:"kam"`
+	SupplierCompanyManager    string `json:"supplier_company_manager"`
+	ContractParameters        string `json:"contract_parameters"`
+	WithTemperatureConditions bool   `json:"with_temperature_conditions"`
+	Products                  string `json:"products"`
+	Discounts                 string `json:"discounts"`
+	Comment                   string `json:"comment"`
+	CreatedAt                 string `json:"created_at,omitempty"`
+	UpdatedAt                 string `json:"updated_at,omitempty"`
 }
 
 type Contract struct {
-	ID                     int                    `json:"id"`
-	Type                   string                 `json:"type"`
-	PrevContractId         int                    `json:"-" gorm:"-"`
-	Status                 string                 `json:"status"`
-	Requisites             Requisites             `json:"requisites"`
-	Manager                string                 `json:"manager,omitempty"`
-	KAM                    string                 `json:"kam,omitempty"`
-	SupplierCompanyManager SupplierCompanyManager `json:"supplier_company_manager"`
-	ContractParameters     ContractParameters     `json:"contract_parameters"`
-	Products               []Product              `json:"products"`
-	Discounts              []Discount             `json:"discounts"`
-	Comment                string                 `json:"comment"`
-	CreatedAt              string                 `json:"created_at,omitempty"`
-	UpdatedAt              string                 `json:"updated_at,omitempty"`
+	ID                        int                    `json:"id"`
+	Type                      string                 `json:"type"`
+	PrevContractId            int                    `json:"-" gorm:"-"`
+	Status                    string                 `json:"status"`
+	Requisites                Requisites             `json:"requisites"`
+	Manager                   string                 `json:"manager,omitempty"`
+	KAM                       string                 `json:"kam,omitempty"`
+	SupplierCompanyManager    SupplierCompanyManager `json:"supplier_company_manager"`
+	ContractParameters        ContractParameters     `json:"contract_parameters"`
+	WithTemperatureConditions bool                   `json:"with_temperature_conditions"`
+	Products                  []Product              `json:"products"`
+	Discounts                 []Discount             `json:"discounts"`
+	Comment                   string                 `json:"comment"`
+	CreatedAt                 string                 `json:"created_at,omitempty"`
+	UpdatedAt                 string                 `json:"updated_at,omitempty"`
 }
 
 type ContractMiniInfo struct {
@@ -84,10 +86,13 @@ type ContractParameters struct {
 }
 
 type Product struct {
-	ProductNumber string  `json:"product_number,omitempty"`
-	ProductName   string  `json:"product_name"`
-	Price         float32 `json:"price,omitempty"`
-	Currency      string  `json:"currency,omitempty"`
+	ProductNumber    string  `json:"product_number,omitempty"`
+	ProductName      string  `json:"product_name"`
+	Price            float32 `json:"price,omitempty"`
+	Currency         string  `json:"currency,omitempty"`
+	Substance        string  `json:"substance"`
+	StorageCondition string  `json:"storage_condition"`
+	Producer         string  `json:"producer"`
 }
 
 type Discount struct {
