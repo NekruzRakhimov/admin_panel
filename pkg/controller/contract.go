@@ -3,7 +3,9 @@ package controller
 import (
 	"admin_panel/model"
 	"admin_panel/pkg/service"
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/xuri/excelize/v2"
 	"log"
 	"net/http"
 	"strconv"
@@ -288,6 +290,8 @@ func RevisionContract(c *gin.Context) {
 		return
 	}
 
+	fmt.Println("id: ", contractId)
+	fmt.Println("comment: ", comment)
 	c.JSON(http.StatusOK, gin.H{"reason": "договор был на отправлен доработку!"})
 }
 
@@ -297,4 +301,101 @@ func GetProductsTemplate(c *gin.Context) {
 }
 
 func ConvertExcelToStruct(c *gin.Context) {
+	img, err := c.FormFile("file")
+	if err != nil {
+		log.Println("[controller.ConvertExcelToStruct]|[c.FormFile(\"file\")]| error is: ", err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	//file, err := os.Create("files/applications/products_template.xlsx")
+	//if err != nil {
+	//	log.Println("[controller.ConvertExcelToStruct]|[os.Create]| error is: ", err.Error())
+	//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+	//	return
+	//}
+
+	if err := c.SaveUploadedFile(img, "files/applications/products_template.xlsx"); err != nil {
+		log.Println("[controller.ConvertExcelToStruct]|[c.SaveUploadedFile]| error is: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	f, err := excelize.OpenFile("files/applications/products_template.xlsx")
+	//c.JSON(http.StatusOK, gin.H{"reason": "ok"})
+	if err != nil {
+		log.Println("[controller.ConvertExcelToStruct]|[excelize.OpenFile]| error is: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	var products []model.Product
+	counter := 2
+	for {
+		var product model.Product
+		product.ProductNumber, err = f.GetCellValue("page1", fmt.Sprintf("A%d", counter))
+		if err != nil {
+			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+			return
+		}
+
+		if product.ProductNumber == "" {
+			break
+		}
+
+		product.ProductName, err = f.GetCellValue("page1", fmt.Sprintf("B%d", counter))
+		if err != nil {
+			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+			return
+		}
+
+		priceStr, err := f.GetCellValue("page1", fmt.Sprintf("C%d", counter))
+		if err != nil {
+			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+			return
+		}
+
+		product.Price, err = strconv.ParseFloat(priceStr, 2)
+		if err != nil {
+			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+			return
+		}
+
+		product.Currency, err = f.GetCellValue("page1", fmt.Sprintf("D%d", counter))
+		if err != nil {
+			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+			return
+		}
+
+		product.Substance, err = f.GetCellValue("page1", fmt.Sprintf("E%d", counter))
+		if err != nil {
+			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+			return
+		}
+
+		product.StorageCondition, err = f.GetCellValue("page1", fmt.Sprintf("F%d", counter))
+		if err != nil {
+			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+			return
+		}
+
+		product.Producer, err = f.GetCellValue("page1", fmt.Sprintf("G%d", counter))
+		if err != nil {
+			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+			return
+		}
+
+		products = append(products, product)
+		counter++
+	}
+
+	c.JSON(http.StatusOK, products)
 }

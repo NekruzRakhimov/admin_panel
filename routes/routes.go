@@ -60,6 +60,7 @@ func runAllRoutes(r *gin.Engine) {
 	contract.PUT("/cancel/:id", controller.CancelContract)
 	contract.PUT("/finish/:id", controller.FinishContract)
 	contract.PUT("/revision/:id", controller.RevisionContract)
+	contract.GET("/products", controller.ConvertExcelToStruct)
 
 	dictionary := r.Group("/dictionary")
 	dictionary.GET("/currencies", controller.GetAllCurrencies)

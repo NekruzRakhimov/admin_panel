@@ -29,6 +29,8 @@ func GetContractDetails(contractId int) (contract model.Contract, err error) {
 		contract.Status = "ACTIVE"
 	case "заверщённый":
 		contract.Status = "EXPIRED"
+	case "отменен":
+		contract.Status = "CANCELED"
 	default:
 		contract.Status = "UNKNOWN"
 	}
@@ -121,6 +123,8 @@ func CreateContract(contract model.Contract) (err error) {
 		contractWithJson.Status = "в работе"
 	case "EXPIRED":
 		contractWithJson.Status = "заверщённый"
+	case "CANCELED":
+		contractWithJson.Status = "отменен"
 	default:
 		contractWithJson.Status = "неизвестный"
 	}
@@ -178,6 +182,8 @@ func EditContract(contract model.Contract) error {
 		contractWithJson.Status = "в работе"
 	case "EXPIRED":
 		contractWithJson.Status = "заверщённый"
+	case "CANCELED":
+		contractWithJson.Status = "отменен"
 	default:
 		contractWithJson.Status = "неизвестный"
 	}
@@ -255,6 +261,8 @@ func ConvertContractToContractMiniInfo(contract model.Contract) (contractMiniInf
 		contractMiniInfo.Status = "ACTIVE"
 	case "заверщённый":
 		contractMiniInfo.Status = "EXPIRED"
+	case "отменен":
+		contractMiniInfo.Status = "CANCELED"
 	default:
 		contractMiniInfo.Status = "UNKNOWN"
 	}
@@ -328,20 +336,22 @@ func ConformContract(contractId int, status string) error {
 }
 
 func CancelContract(contractId int) error {
-	contract, err := repository.GetContractDetails(contractId)
+	_, err := repository.GetContractDetails(contractId)
 	if err != nil {
 		return err
 	}
 
-	switch contract.Status {
-	case "черновик":
-		if err := repository.DisActiveContract(contractId); err != nil {
-			return err
-		}
-	case "на согласовании":
-		if err := repository.ChangeContractStatus(contractId, "черновик"); err != nil {
-			return err
-		}
+	//switch contract.Status {
+	//case "черновик":
+	//	if err := repository.DisActiveContract(contractId); err != nil {
+	//		return err
+	//	}
+	//case "на согласовании":
+	//
+	//}
+
+	if err := repository.ChangeContractStatus(contractId, "отменен"); err != nil {
+		return err
 	}
 
 	return nil

@@ -88,7 +88,7 @@ type ContractParameters struct {
 type Product struct {
 	ProductNumber    string  `json:"product_number,omitempty"`
 	ProductName      string  `json:"product_name"`
-	Price            float32 `json:"price,omitempty"`
+	Price            float64 `json:"price,omitempty"`
 	Currency         string  `json:"currency,omitempty"`
 	Substance        string  `json:"substance"`
 	StorageCondition string  `json:"storage_condition"`

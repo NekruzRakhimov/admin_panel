@@ -97,11 +97,14 @@ func FinishContract(contractId int) error {
 }
 
 func RevisionContract(contractId int, comment string) error {
+	fmt.Println("[repository.RevisionContract]|[BEGIN]")
 	sqlQuery := "UPDATE contracts SET status = ?, comment = ?, updated_at = now() WHERE id = ?"
 	//TODO: добавить проверку статуса договора
-	if err := db.GetDBConn().Raw(sqlQuery, "черновик", comment, contractId).Error; err != nil {
+	err := db.GetDBConn().Exec(sqlQuery, "черновик", comment, contractId).Error
+	if err != nil {
 		return err
 	}
 
+	fmt.Println("[repository.RevisionContract]|[END]")
 	return nil
 }
