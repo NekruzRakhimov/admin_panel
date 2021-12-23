@@ -62,7 +62,7 @@ func FormContract(c *gin.Context) {
 }
 
 func WithoutTempConditions(c *gin.Context, contract model.Contract) {
-	doc, err := document.Open("without_temp_cond.docx")
+	doc, err := document.Open("files/contracts/without_temp_cond.docx")
 	if err != nil {
 		log.Fatalf("error opening document: %s", err)
 	}
