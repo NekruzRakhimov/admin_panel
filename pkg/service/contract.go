@@ -106,6 +106,19 @@ func AddAdditionalAgreement(contract model.Contract) error {
 }
 
 func CreateContract(contract model.Contract) (err error) {
+	contractsMiniInfo, err := GetAllContracts("")
+	if err != nil {
+		return err
+	}
+	fmt.Printf("contractsMiniInfo: %+v\n", contractsMiniInfo)
+	fmt.Printf("contract: %+v\n", contract)
+
+	for _, contractMiniInfo := range contractsMiniInfo {
+		if contractMiniInfo.ContractNumber == contract.ContractParameters.ContractNumber {
+			return errors.New("договор с таким номером уже существует")
+		}
+	}
+
 	var contractWithJson model.ContractWithJsonB
 
 	contractWithJson.Type = contract.Type
