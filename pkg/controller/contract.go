@@ -43,43 +43,6 @@ func CreateContract(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"reason": "новый договор был успешно создан!"})
 }
 
-//FormContract contract godoc
-// @Summary Forming contract
-// @Description Forming contract
-// @Accept  json
-// @Produce  file
-// @Tags contracts
-// @Param  contract  body model.Contract true "forming contract"
-// @Param  with_temp_conditions  param string true "with temperature conditions"
-// @Success 200 {object} map[string]interface{}
-// @Failure 400,404 {object} map[string]interface{}
-// @Failure 500 {object} map[string]interface{}
-// @Router /contract/{type} [post]
-func FormContract(c *gin.Context) {
-	var contract model.Contract
-
-	if err := c.BindJSON(&contract); err != nil {
-		log.Println("[controller.FormContract]|[c.BindJSO]| error is: ", err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
-		return
-	}
-
-	contract.Type = c.Param("type")
-
-	withTempConditions, err := strconv.ParseBool(c.Param("with_temp_conditions"))
-	if err != nil {
-		log.Println("[controller.FormContract]|[strconv.ParseBool]| error is: ", err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
-		return
-	}
-
-	if withTempConditions {
-		c.File("files/contracts/with_temp_conditions")
-	} else {
-		c.File("files/contracts/without_temp_conditions")
-	}
-}
-
 //AddAdditionalAgreement contract godoc
 // @Summary Creating additional agreement
 // @Description Creating additional agreement

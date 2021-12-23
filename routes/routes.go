@@ -53,7 +53,6 @@ func runAllRoutes(r *gin.Engine) {
 	contract.GET("", controller.GetAllContracts)
 	contract.GET("/products_template", controller.GetProductsTemplate)
 	contract.POST("/:type", controller.CreateContract)
-	contract.POST("/form/:with_temp_conditions", controller.FormContract)
 	contract.POST("/additional_agreement/:id", controller.AddAdditionalAgreement)
 	contract.PUT("/:type/:id", controller.EditContract)
 	contract.GET("/:id/details", controller.GetContractDetails)
@@ -62,6 +61,8 @@ func runAllRoutes(r *gin.Engine) {
 	contract.PUT("/finish/:id", controller.FinishContract)
 	contract.PUT("/revision/:id", controller.RevisionContract)
 	contract.POST("/products", controller.ConvertExcelToStruct)
+
+	contract.POST("/form/:with_temp_conditions", controller.FormContract)
 
 	dictionary := r.Group("/dictionary")
 	dictionary.GET("/currencies", controller.GetAllCurrencies)
@@ -105,7 +106,7 @@ func runAllRoutes(r *gin.Engine) {
 	//	Start server
 
 	_ = r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
-	//_ = r.Run(fmt.Sprintf("%s:%s", "localhost", "3000"))
+	//_ = r.Run(fmt.Sprintf("%s:%s", "localhost", "3001"))
 	//if err := r.Run(":3000"); err != nil {
 	//	log.Fatal(err)
 	//}
