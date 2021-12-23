@@ -53,6 +53,7 @@ func runAllRoutes(r *gin.Engine) {
 	contract.GET("", controller.GetAllContracts)
 	contract.GET("/products_template", controller.GetProductsTemplate)
 	contract.POST("/:type", controller.CreateContract)
+	contract.POST("/form/:with_temp_conditions", controller.FormContract)
 	contract.POST("/additional_agreement/:id", controller.AddAdditionalAgreement)
 	contract.PUT("/:type/:id", controller.EditContract)
 	contract.GET("/:id/details", controller.GetContractDetails)
@@ -113,7 +114,6 @@ func runAllRoutes(r *gin.Engine) {
 	//if err := r.Run(":3000"); err != nil {
 	//	log.Fatal(err)
 	//	//}
-
 }
 
 // HealthCheck godoc

@@ -37,6 +37,8 @@ func GetAllContracts(contractStatus string) (contracts []model.ContractWithJsonB
 			contractStatusRus = "в работе"
 		case "EXPIRED":
 			contractStatusRus = "заверщённый"
+		case "CANCELED":
+			contractStatusRus = "отменен"
 		}
 		sqlQuery += fmt.Sprintf(" AND status = '%s'", contractStatusRus)
 	}

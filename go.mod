@@ -14,6 +14,7 @@ require (
 	github.com/swaggo/files v0.0.0-20210815190702-a29dd2bc99b2
 	github.com/swaggo/gin-swagger v1.3.3
 	github.com/swaggo/swag v1.7.6
+	github.com/unidoc/unioffice v1.16.0 // indirect
 	github.com/xuri/excelize/v2 v2.4.1 // indirect
 	golang.org/x/crypto v0.0.0-20211115234514-b4de73f9ece8 // indirect
 	golang.org/x/net v0.0.0-20211206223403-eba003a116a9 // indirect
