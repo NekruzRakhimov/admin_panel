@@ -323,7 +323,7 @@ func RevisionContract(c *gin.Context) {
 	comment := c.Query("comment")
 	if err := service.RevisionContract(contractId, comment); err != nil {
 		log.Println("[controller.RevisionContract]|[service.RevisionContract]| error is: ", err.Error())
-		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": "добавьте комментарий перед отправкой договора на доработки"})
 		return
 	}
 
