@@ -764,6 +764,69 @@ var doc = `{
                 }
             }
         },
+        "/counterparty/{client}/{organization}": {
+            "get": {
+                "description": "Берет данные контрагента",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contracts"
+                ],
+                "summary": "Get CounterpartyContract",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "BINClient",
+                        "name": "client",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "BINOrganization",
+                        "name": "organization",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Counterparty"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/detach_role/{user_id}/{role_id}": {
             "delete": {
                 "description": "Detach by json Role To User",
@@ -1918,6 +1981,23 @@ var doc = `{
                 }
             }
         },
+        "model.ContractCounterparty": {
+            "type": "object",
+            "properties": {
+                "discount": {
+                    "type": "integer"
+                },
+                "id_1C": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price_type": {
+                    "type": "string"
+                }
+            }
+        },
         "model.ContractMiniInfo": {
             "type": "object",
             "properties": {
@@ -1991,6 +2071,29 @@ var doc = `{
                 "return_time_delivery": {
                     "description": "время возврата при условии не поставки",
                     "type": "integer"
+                }
+            }
+        },
+        "model.Counterparty": {
+            "type": "object",
+            "properties": {
+                "bin": {
+                    "type": "string"
+                },
+                "contracts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.ContractCounterparty"
+                    }
+                },
+                "id_1C": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "organization": {
+                    "type": "string"
                 }
             }
         },

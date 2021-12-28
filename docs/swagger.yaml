@@ -44,6 +44,17 @@ definitions:
       with_temperature_conditions:
         type: boolean
     type: object
+  model.ContractCounterparty:
+    properties:
+      discount:
+        type: integer
+      id_1C:
+        type: string
+      name:
+        type: string
+      price_type:
+        type: string
+    type: object
   model.ContractMiniInfo:
     properties:
       amount:
@@ -94,6 +105,21 @@ definitions:
       return_time_delivery:
         description: время возврата при условии не поставки
         type: integer
+    type: object
+  model.Counterparty:
+    properties:
+      bin:
+        type: string
+      contracts:
+        items:
+          $ref: '#/definitions/model.ContractCounterparty'
+        type: array
+      id_1C:
+        type: string
+      name:
+        type: string
+      organization:
+        type: string
     type: object
   model.Currency:
     properties:
@@ -786,6 +812,49 @@ paths:
             additionalProperties: true
             type: object
       summary: Revision contract
+      tags:
+      - contracts
+  /counterparty/{client}/{organization}:
+    get:
+      consumes:
+      - application/json
+      description: Берет данные контрагента
+      parameters:
+      - description: BINClient
+        in: path
+        name: client
+        required: true
+        type: string
+      - description: BINOrganization
+        in: path
+        name: organization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Counterparty'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get CounterpartyContract
       tags:
       - contracts
   /detach_role/{user_id}/{role_id}:

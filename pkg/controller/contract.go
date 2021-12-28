@@ -399,3 +399,31 @@ func ConvertExcelToStruct(c *gin.Context) {
 
 	c.JSON(http.StatusOK, products)
 }
+
+// CounterpartyContract GetCounterpartyContract contract godoc
+// @Summary Get CounterpartyContract
+// @Description Берет данные контрагента
+// @Accept  json
+// @Produce  json
+// @Tags contracts
+// @Param client path string true "BINClient"
+// @Param organization path string true "BINOrganization"
+// @Success 200 {array}  model.Counterparty
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /counterparty/{client}/{organization} [get]
+func CounterpartyContract(c *gin.Context) {
+	binClient := c.Param("client")
+	binOrganization := c.Param("organization")
+	//organization := c.Query("organization")
+	fmt.Println(binClient, "Клиент")
+	fmt.Println(binOrganization, "Организация")
+
+	contract, err := service.CounterpartyContract(binClient, binOrganization)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data:": contract})
+
+}

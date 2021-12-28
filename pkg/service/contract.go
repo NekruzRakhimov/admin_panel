@@ -6,7 +6,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"net/http"
 )
 
 func GetContractDetails(contractId int) (contract model.Contract, err error) {
@@ -376,4 +378,45 @@ func FinishContract(contractId int) error {
 
 func RevisionContract(contractId int, comment string) error {
 	return repository.RevisionContract(contractId, comment)
+}
+
+
+func CounterpartyContract(binClient string, binOrganization string) ([]model.Counterparty, error) {
+	client := &http.Client{}
+	endpoint := fmt.Sprintf("http://188.225.10.191:5555/api/v2/counterparty/%s/%s", binClient, binOrganization)
+	r, err := http.NewRequest("GET", endpoint, nil) // URL-encoded payload
+	if err != nil {
+		log.Fatal(err)
+	}
+	r.Header.Add("Content-Type", "application/json")
+
+	// Create a Bearer string by appending string access token
+	var bearer = "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InQua3VzYWlub3ZAbWxhZGV4Lmt6IiwidXNlcklkIjoiNWQ2YzlhNGU0MDVjOWU3NmI3NDI4ZTk3IiwiaWF0IjoxNjMwMDM3MzczLCJleHAiOjE2NjE1NzMzNzN9.yXp9zxxOAJeH53vpa_4Ht4MBQDrThgxxYO1pxFK4t4M"
+	//TODO: Надо токен в конфиге или переменой окружения хранить
+	r.Header.Add("Authorization", bearer)
+
+	res, err := client.Do(r)
+	if err != nil {
+		//log.Fatal(err)
+		return nil, err
+	}
+	log.Println(res.Status)
+	defer res.Body.Close()
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	//log.Println(string(body))
+	var contractCounterparty []model.Counterparty
+	// ----------> часть Unmarshall json ->
+	err = json.Unmarshal(body, &contractCounterparty)
+	if err != nil {
+
+		return nil, err
+	}
+
+
+
+
+	return contractCounterparty, nil
 }

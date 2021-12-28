@@ -3,13 +3,11 @@ package routes
 import (
 	"admin_panel/pkg/controller"
 	"admin_panel/utils"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	"log"
 	"net/http"
-	"os"
-
 	//_ "github.com/rizalgowandy/go-swag-sample/docs/ginsimple" // you need to update github.com/rizalgowandy/go-swag-sample with your own project path
 	_ "admin_panel/docs"
 )
@@ -48,6 +46,13 @@ func RunAllRoutes() {
 func runAllRoutes(r *gin.Engine) {
 	//r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.GET("/", HealthCheck)
+	//TODO: интеграция по договорам
+
+	//TODO:  добавить функцию обработчика
+	r.GET("/counterparty/:client/:organization", controller.CounterpartyContract)
+
+
+
 
 	contract := r.Group("/contract")
 	contract.GET("", controller.GetAllContracts)
@@ -105,16 +110,13 @@ func runAllRoutes(r *gin.Engine) {
 
 	//	Start server
 
-	_ = r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
-	//_ = r.Run(fmt.Sprintf("%s:%s", "localhost", "3001"))
-	//if err := r.Run(":3000"); err != nil {
-	//	log.Fatal(err)
-	//}
-
 	//_ = r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
-	//if err := r.Run(":3000"); err != nil {
-	//	log.Fatal(err)
-	//	//}
+	//_ = r.Run(fmt.Sprintf("%s:%s", "localhost", "3001"))
+	if err := r.Run(":3000"); err != nil {
+		log.Fatal(err)
+	}
+
+
 }
 
 // HealthCheck godoc
