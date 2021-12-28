@@ -764,7 +764,7 @@ var doc = `{
                 }
             }
         },
-        "/counterparty/{client}/{organization}": {
+        "/counterparty/{client}": {
             "get": {
                 "description": "Берет данные контрагента",
                 "consumes": [
@@ -782,13 +782,6 @@ var doc = `{
                         "type": "string",
                         "description": "BINClient",
                         "name": "client",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "BINOrganization",
-                        "name": "organization",
                         "in": "path",
                         "required": true
                     }

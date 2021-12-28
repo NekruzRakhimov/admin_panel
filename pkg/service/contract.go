@@ -381,9 +381,10 @@ func RevisionContract(contractId int, comment string) error {
 }
 
 
-func CounterpartyContract(binClient string, binOrganization string) ([]model.Counterparty, error) {
+func CounterpartyContract(binClient string) ([]model.Counterparty, error) {
+	var binOrganizationAKNIET = "060540001442"
 	client := &http.Client{}
-	endpoint := fmt.Sprintf("http://188.225.10.191:5555/api/v2/counterparty/%s/%s", binClient, binOrganization)
+	endpoint := fmt.Sprintf("http://188.225.10.191:5555/api/v2/counterparty/%s/%s", binClient, binOrganizationAKNIET)
 	r, err := http.NewRequest("GET", endpoint, nil) // URL-encoded payload
 	if err != nil {
 		log.Fatal(err)
@@ -406,7 +407,7 @@ func CounterpartyContract(binClient string, binOrganization string) ([]model.Cou
 	if err != nil {
 		log.Fatal(err)
 	}
-	//log.Println(string(body))
+	log.Println(string(body))
 	var contractCounterparty []model.Counterparty
 	// ----------> часть Unmarshall json ->
 	err = json.Unmarshal(body, &contractCounterparty)

@@ -814,7 +814,7 @@ paths:
       summary: Revision contract
       tags:
       - contracts
-  /counterparty/{client}/{organization}:
+  /counterparty/{client}:
     get:
       consumes:
       - application/json
@@ -823,11 +823,6 @@ paths:
       - description: BINClient
         in: path
         name: client
-        required: true
-        type: string
-      - description: BINOrganization
-        in: path
-        name: organization
         required: true
         type: string
       produces:
