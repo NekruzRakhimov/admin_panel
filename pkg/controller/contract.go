@@ -414,14 +414,12 @@ func ConvertExcelToStruct(c *gin.Context) {
 func CounterpartyContract(c *gin.Context) {
 	binClient := c.Param("client")
 
-	//organization := c.Query("organization")
-
-
 	contract, err := service.CounterpartyContract(binClient)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data:": contract})
+
+	c.JSON(http.StatusOK, contract)
 
 }
