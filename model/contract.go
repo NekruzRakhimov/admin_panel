@@ -182,3 +182,11 @@ type Position struct {
 	Code        string `json:"code"`
 	Description string `json:"description"`
 }
+
+type ContractStatusHistory struct {
+	ID        int    `json:"id"`
+	Author    string `json:"author"`
+	Status    string `json:"status"`
+	StartDate string `json:"start_date" gorm:"created_at"`
+	EndDate   string `json:"end_date"`
+}

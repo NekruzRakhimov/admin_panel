@@ -458,3 +458,7 @@ func CounterpartyContract(binClient string) ([]model.Counterparty, error) {
 
 	return contractCounterparty, nil
 }
+
+func GetContractStatusChangesHistory(contractId int) (history []model.ContractStatusHistory, err error) {
+	return repository.GetContractStatusChangesHistory(contractId)
+}

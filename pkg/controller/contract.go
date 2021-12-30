@@ -263,6 +263,36 @@ func GetContractHistory(c *gin.Context) {
 	c.JSON(http.StatusOK, contracts)
 }
 
+//GetContractStatusChangesHistory contract godoc
+// @Summary Get Contract Status Changes History
+// @Description Gel Contract Status Changes History
+// @Accept  json
+// @Produce  json
+// @Tags contracts
+// @Param  id  path string true "id of contract"
+// @Success 200 {array}  model.ContractStatusHistory
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /contract/status_history/{id} [get]
+func GetContractStatusChangesHistory(c *gin.Context) {
+	contractIdStr := c.Param("id")
+	contractId, err := strconv.Atoi(contractIdStr)
+	if err != nil {
+		log.Println("[controller.GetContractStatusChangesHistory]|[strconv.Atoi]| error is: ", err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	contractStatusHistory, err := service.GetContractStatusChangesHistory(contractId)
+	if err != nil {
+		log.Println("[controller.GetContractStatusChangesHistory]|[service.GetContractStatusChangesHistory]| error is: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, contractStatusHistory)
+}
+
 //FinishContract contract godoc
 // @Summary Finish contract
 // @Description Finish contract

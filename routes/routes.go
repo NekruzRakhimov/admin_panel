@@ -66,6 +66,7 @@ func runAllRoutes(r *gin.Engine) {
 	contract.PUT("/revision/:id", controller.RevisionContract)
 	contract.POST("/products", controller.ConvertExcelToStruct)
 	contract.GET("/history/:id", controller.GetContractHistory)
+	contract.GET("/status_history/:id", controller.GetContractStatusChangesHistory)
 
 	contract.POST("/form/:with_temp_conditions", controller.FormContract)
 

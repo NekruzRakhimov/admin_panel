@@ -21,6 +21,11 @@ func EditContract(contractWithJson model.ContractWithJsonB) error {
 		log.Println("[repository.EditContract]|[db.GetDBConn().Table(\"contracts\").Save(&contractWithJson).Error]| error is: ", err.Error())
 		return err
 	}
+
+	if err := RecordContractStatusChange(contractWithJson.ID, contractWithJson.Status); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -68,12 +73,20 @@ func ConformContract(contractId int, status string) error {
 		return err
 	}
 
+	if err := RecordContractStatusChange(contractId, status); err != nil {
+		return err
+	}
+
 	return nil
 }
 
 func ChangeContractStatus(contractId int, status string) error {
 	sqlQuery := "UPDATE contracts SET status = $1 WHERE id = $2"
 	if err := db.GetDBConn().Exec(sqlQuery, status, contractId).Error; err != nil {
+		return err
+	}
+
+	if err := RecordContractStatusChange(contractId, status); err != nil {
 		return err
 	}
 
@@ -95,6 +108,10 @@ func FinishContract(contractId int) error {
 		return err
 	}
 
+	if err := RecordContractStatusChange(contractId, "заверщённый"); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -107,6 +124,29 @@ func RevisionContract(contractId int, comment string) error {
 		return err
 	}
 
+	if err := RecordContractStatusChange(contractId, "черновик"); err != nil {
+		return err
+	}
+
 	fmt.Println("[repository.RevisionContract]|[END]")
+	return nil
+}
+
+func GetContractStatusChangesHistory(contractId int) (history []model.ContractStatusHistory, err error) {
+	sqlQuery := "SELECT * FROM status_changes_history WHERE contract_id = ?"
+	if err := db.GetDBConn().Raw(sqlQuery, contractId).Scan(&history).Error; err != nil {
+		return nil, err
+	}
+
+	return history, nil
+}
+
+func RecordContractStatusChange(contractId int, status string) error {
+	sqlQuery := "INSERT INTO status_changes_history (contract_id, status) VALUES (?, ?)"
+
+	if err := db.GetDBConn().Exec(sqlQuery, contractId, status).Error; err != nil {
+		return err
+	}
+
 	return nil
 }

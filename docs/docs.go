@@ -634,6 +634,62 @@ var doc = `{
                 }
             }
         },
+        "/contract/status_history/{id}": {
+            "get": {
+                "description": "Gel Contract Status Changes History",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contracts"
+                ],
+                "summary": "Get Contract Status Changes History",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id of contract",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.ContractStatusHistory"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/contract/{id}/details": {
             "get": {
                 "description": "Gel Contract Details",
@@ -2120,6 +2176,26 @@ var doc = `{
                 "return_time_delivery": {
                     "description": "время возврата при условии не поставки",
                     "type": "integer"
+                }
+            }
+        },
+        "model.ContractStatusHistory": {
+            "type": "object",
+            "properties": {
+                "author": {
+                    "type": "string"
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "start_date": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
                 }
             }
         },
