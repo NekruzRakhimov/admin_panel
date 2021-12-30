@@ -317,6 +317,7 @@ func ConvertContractFromJsonB(contractWithJson model.ContractWithJsonB) (contrac
 	contract.CreatedAt = contractWithJson.CreatedAt
 	contract.UpdatedAt = contractWithJson.UpdatedAt
 	contract.WithTemperatureConditions = contractWithJson.WithTemperatureConditions
+	contract.PrevContractId = contractWithJson.PrevContractId
 
 	err = json.Unmarshal([]byte(contractWithJson.Requisites), &contract.Requisites)
 	if err != nil {
@@ -372,6 +373,46 @@ func CancelContract(contractId int) error {
 	return nil
 }
 
+func GetContractHistory(contractId int) (contracts []model.Contract, err error) {
+	contractWithJsonB, err := repository.GetContractDetails(contractId)
+	if err != nil {
+		return nil, err
+	}
+
+	contract, err := ConvertContractFromJsonB(contractWithJsonB)
+	if err != nil {
+		return nil, err
+	}
+
+	log.Printf("contract (outside the loop): %+v\n", contract)
+	contracts = append(contracts, contract)
+
+	if contract.PrevContractId != 0 {
+		prevContractId := contract.PrevContractId
+		for {
+			if prevContractId == 0 {
+				break
+			}
+
+			contractWithJsonBLoc, err := repository.GetContractDetails(prevContractId)
+			if err != nil {
+				return nil, err
+			}
+
+			contractLoc, err := ConvertContractFromJsonB(contractWithJsonBLoc)
+			if err != nil {
+				return nil, err
+			}
+
+			contracts = append(contracts, contractLoc)
+			log.Printf("contractLoc (outside the loop): %+v\n", contractLoc)
+			prevContractId = contractLoc.PrevContractId
+		}
+	}
+
+	return contracts, nil
+}
+
 func FinishContract(contractId int) error {
 	return repository.FinishContract(contractId)
 }
@@ -379,7 +420,6 @@ func FinishContract(contractId int) error {
 func RevisionContract(contractId int, comment string) error {
 	return repository.RevisionContract(contractId, comment)
 }
-
 
 func CounterpartyContract(binClient string) ([]model.Counterparty, error) {
 	var binOrganizationAKNIET = "060540001442"
@@ -415,9 +455,6 @@ func CounterpartyContract(binClient string) ([]model.Counterparty, error) {
 
 		return nil, err
 	}
-
-
-
 
 	return contractCounterparty, nil
 }

@@ -23,7 +23,6 @@ import (
 // @schemes http
 func main() {
 
-	
 	utils.ReadSettings()
 
 	db.StartDbConnection()

@@ -517,6 +517,62 @@ var doc = `{
                 }
             }
         },
+        "/contract/history/{id}": {
+            "get": {
+                "description": "Gel Contract History",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contracts"
+                ],
+                "summary": "Get Contract History",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id of contract",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Contract"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/contract/revision/{id}": {
             "put": {
                 "description": "Revision contract",
@@ -2377,7 +2433,7 @@ type swaggerInfo struct {
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
 	Version:     "1.0",
-	Host:        "localhost:3000",
+	Host:        "localhost:3001",
 	BasePath:    "/",
 	Schemes:     []string{"http"},
 	Title:       "Gin Swagger Admin-Panel Api",

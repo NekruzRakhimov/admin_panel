@@ -53,9 +53,6 @@ func runAllRoutes(r *gin.Engine) {
 	//TODO:  добавить функцию обработчика
 	r.GET("/counterparty/:client", controller.CounterpartyContract)
 
-
-
-
 	contract := r.Group("/contract")
 	contract.GET("", controller.GetAllContracts)
 	contract.GET("/products_template", controller.GetProductsTemplate)
@@ -68,6 +65,7 @@ func runAllRoutes(r *gin.Engine) {
 	contract.PUT("/finish/:id", controller.FinishContract)
 	contract.PUT("/revision/:id", controller.RevisionContract)
 	contract.POST("/products", controller.ConvertExcelToStruct)
+	contract.GET("/history/:id", controller.GetContractHistory)
 
 	contract.POST("/form/:with_temp_conditions", controller.FormContract)
 
@@ -117,7 +115,6 @@ func runAllRoutes(r *gin.Engine) {
 	//if err := r.Run(":3000"); err != nil {
 	//	log.Fatal(err)
 	//}
-
 
 }
 
