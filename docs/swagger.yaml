@@ -299,7 +299,7 @@ definitions:
       surname:
         type: string
     type: object
-host: localhost:3001
+host: localhost:3000
 info:
   contact:
     email: aziz.rahimov0001@gmail.com
