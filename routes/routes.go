@@ -52,6 +52,7 @@ func runAllRoutes(r *gin.Engine) {
 
 	//TODO:  добавить функцию обработчика
 	r.GET("/counterparty/:client", controller.CounterpartyContract)
+	r.GET("/notification", controller.Notification)
 
 	contract := r.Group("/contract")
 	contract.GET("", controller.GetAllContracts)
