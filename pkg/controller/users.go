@@ -34,14 +34,24 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token, err := service.GenerateToken(request.Login, request.Password)
+	accessToken, err := service.GenerateToken(request.Login, request.Password)
 	if err != nil {
 		log.Println("[controller.Login]|[service.GenerateToken]| error is: ", err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"token": token})
+	refreshToken, err := service.GenerateToken(request.Login, accessToken)
+	if err != nil {
+		log.Println("[controller.Login]|[service.GenerateToken]| error is: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"access":  accessToken,
+		"refresh": refreshToken,
+	})
 }
 
 // GetAllUsers Get All Users godoc
