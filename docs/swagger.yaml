@@ -1,5 +1,12 @@
 basePath: /
 definitions:
+  controller.LoginData:
+    properties:
+      login:
+        type: string
+      password:
+        type: string
+    type: object
   model.Address:
     properties:
       code:
@@ -1111,6 +1118,44 @@ paths:
       summary: Get All Positions
       tags:
       - dictionary
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: login
+      parameters:
+      - description: login
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/controller.LoginData'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: login
+      tags:
+      - Auth
   /ping:
     get:
       consumes:

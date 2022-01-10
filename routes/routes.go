@@ -50,6 +50,8 @@ func runAllRoutes(r *gin.Engine) {
 	r.GET("/", HealthCheck)
 	//TODO: интеграция по договорам
 
+	r.POST("/login", controller.Login)
+
 	//TODO:  добавить функцию обработчика
 	r.GET("/counterparty/:client", controller.CounterpartyContract)
 	r.GET("/notification", controller.Notification)

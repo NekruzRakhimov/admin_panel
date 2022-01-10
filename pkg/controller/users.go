@@ -10,6 +10,50 @@ import (
 	"strconv"
 )
 
+type LoginData struct {
+	Login    string `json:"login"`
+	Password string `json:"password"`
+}
+
+// Login log in godoc
+// @Summary login
+//@Description login
+//@Tags Auth
+// @Accept  json
+// @Produce  json
+// @Param user body LoginData true "login"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /login [post]
+func Login(c *gin.Context) {
+	var request LoginData
+	if err := c.BindJSON(&request); err != nil {
+		log.Println("[controller.Login]|[controller.c.BindJSON(&request)]| error is: ", err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	accessToken, err := service.GenerateToken(request.Login, request.Password)
+	if err != nil {
+		log.Println("[controller.Login]|[service.GenerateToken]| error is: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	refreshToken, err := service.GenerateToken(request.Login, accessToken)
+	if err != nil {
+		log.Println("[controller.Login]|[service.GenerateToken]| error is: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"access":  accessToken,
+		"refresh": refreshToken,
+	})
+}
+
 // GetAllUsers Get All Users godoc
 // @Summary Get All Users
 // @Description Get All Users
