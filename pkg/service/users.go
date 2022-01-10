@@ -4,7 +4,9 @@ import (
 	"admin_panel/model"
 	"admin_panel/pkg/repository"
 	"fmt"
+	"github.com/dgrijalva/jwt-go"
 	"log"
+	"time"
 )
 
 func GetAllUsersFullInfo() (users []model.User, err error) {
@@ -69,4 +71,32 @@ func GetUserById(userId int) (model.User, error) {
 	user.Roles = roles
 
 	return user, err
+}
+
+const (
+	salt       = "hjqrhjqw124617ajfhajs"
+	signingKey = "qrkjk#4#%35FSFJlja#4353KSFjH"
+	tokenTTL   = 12 * time.Hour
+)
+
+type tokenClaims struct {
+	jwt.StandardClaims
+	UserId int64 `json:"user_id"`
+}
+
+func GenerateToken(username, password string) (string, error) {
+	//user, err := s.repo.GetUser(username, generatePasswordHash(password))
+	//if err != nil {
+	//	return "", err
+	//}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &tokenClaims{
+		jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(tokenTTL).Unix(),
+			IssuedAt:  time.Now().Unix(),
+			Issuer:    "Server",
+		},
+		0,
+	})
+
+	return token.SignedString([]byte(signingKey))
 }
