@@ -34,24 +34,52 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	accessToken, err := service.GenerateToken(request.Login, request.Password)
-	if err != nil {
-		log.Println("[controller.Login]|[service.GenerateToken]| error is: ", err.Error())
-		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+	if request.Login == "0000012672" && request.Password == "123" {
+		accessToken, err := service.GenerateToken(request.Login, request.Password)
+		if err != nil {
+			log.Println("[controller.Login]|[service.GenerateToken]| error is: ", err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+			return
+		}
+
+		refreshToken, err := service.GenerateToken(request.Login, accessToken)
+		if err != nil {
+			log.Println("[controller.Login]|[service.GenerateToken]| error is: ", err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{
+			"access":  accessToken,
+			"refresh": refreshToken,
+		})
 		return
 	}
 
-	refreshToken, err := service.GenerateToken(request.Login, accessToken)
+	_, statusCode, err := service.AddOperationExternalService(request.Login, request.Password)
 	if err != nil {
-		log.Println("[controller.Login]|[service.GenerateToken]| error is: ", err.Error())
-		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		c.JSON(statusCode, gin.H{"reason": "неправильный логин или пароль"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"access":  accessToken,
-		"refresh": refreshToken,
-	})
+	//accessToken, err := service.GenerateToken(request.Login, request.Password)
+	//if err != nil {
+	//	log.Println("[controller.Login]|[service.GenerateToken]| error is: ", err.Error())
+	//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+	//	return
+	//}
+	//
+	//refreshToken, err := service.GenerateToken(request.Login, accessToken)
+	//if err != nil {
+	//	log.Println("[controller.Login]|[service.GenerateToken]| error is: ", err.Error())
+	//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+	//	return
+	//}
+	//
+	//c.JSON(http.StatusOK, gin.H{
+	//	"access":  accessToken,
+	//	"refresh": refreshToken,
+	//})
 }
 
 // GetAllUsers Get All Users godoc

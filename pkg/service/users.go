@@ -89,6 +89,7 @@ func GenerateToken(username, password string) (string, error) {
 	//if err != nil {
 	//	return "", err
 	//}
+
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &tokenClaims{
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(tokenTTL).Unix(),
