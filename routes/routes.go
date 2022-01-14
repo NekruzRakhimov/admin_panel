@@ -46,8 +46,11 @@ func RunAllRoutes() {
 }
 
 func runAllRoutes(r *gin.Engine) {
-	//r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	r.GET("/", HealthCheck)
+	r.GET("/cars", controller.GetCarsBrand)
+
+	//r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	//TODO: интеграция по договорам
 
 	r.POST("/login", controller.Login)

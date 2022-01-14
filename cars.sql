@@ -4,6 +4,8 @@ CREATE TABLE cars(
 
 
 
+
+
 INSERT INTO cars(cars_info)
 VALUES('{"brand": "Toyota", "color": ["red", "black"], "price": 285000, "sold": true}'),
       ('{"brand": "Honda", "color": ["blue", "pink"], "price": 25000, "sold": false}'),
@@ -29,3 +31,7 @@ SELECT * FROM contracts WHERE data = '{"a":1}';
 
 
 SELECT contract_date FROM contracts;
+
+SELECT contract_parameters -> 'contract_date' AS data FROM contracts;
+
+SELECT  cars_info -> 'brand' AS brand FROM cars;

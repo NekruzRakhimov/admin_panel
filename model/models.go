@@ -39,6 +39,10 @@ type Right struct {
 	Description string `json:"description"`
 }
 
+type Cars struct {
+	Brand string `json:"brand"`
+}
+
 type RightDTO struct {
 	ID          int    `json:"id"`
 	Code        string `json:"code"`
