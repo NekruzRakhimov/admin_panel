@@ -3,6 +3,7 @@ package service
 import (
 	"admin_panel/model"
 	"admin_panel/pkg/repository"
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -348,8 +349,33 @@ func ConvertContractFromJsonB(contractWithJson model.ContractWithJsonB) (contrac
 }
 
 func ConformContract(contractId int, status string) error {
-	return repository.ConformContract(contractId, status)
+	if err := repository.ConformContract(contractId, status); err != nil {
+		return err
+	}
+
+
+	//todo SAVE TO 1c
+	contract, err := GetContractDetails(contractId)
+	if err != nil {
+		return err
+	}
+
+	respContract, err := SaveContract1C(contract)
+	if err != nil {
+		return err
+	}
+
+	err = repository.SaveContractExternalCode(contractId, respContract.ContractCode)
+	if err != nil {
+		return err
+	}
+
+
+	return nil
+
 }
+
+
 
 func CancelContract(contractId int) error {
 	_, err := repository.GetContractDetails(contractId)
@@ -461,4 +487,52 @@ func CounterpartyContract(binClient string) ([]model.Counterparty, error) {
 
 func GetContractStatusChangesHistory(contractId int) (history []model.ContractStatusHistory, err error) {
 	return repository.GetContractStatusChangesHistory(contractId)
+}
+
+
+
+
+func SaveContract1C(contract  model.Contract) (model.RespContract,  error) {
+	var respContract1C model.RespContract
+
+	saveContract := new(bytes.Buffer)
+	err := json.NewEncoder(saveContract).Encode(contract)
+	if err != nil {
+		return respContract1C, err
+	}
+	client := &http.Client{}
+	//endpoint := fmt.Sprintf("http://188.225.10.191:5555/api/v2/counterparty/%s/%s", binClient, binOrganizationAKNIET)
+	r, err := http.NewRequest("POST", "http://192.168.0.33/AQG_ULAN/hs/integration/create_contract", saveContract) // URL-encoded payload
+	if err != nil {
+		log.Fatal(err)
+	}
+	r.Header.Add("Content-Type", "application/json")
+
+
+
+	res, err := client.Do(r)
+	if err != nil {
+		//log.Fatal(err)
+		return  respContract1C,err
+	}
+	log.Println(res.Status)
+	defer res.Body.Close()
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return respContract1C,  err
+
+	}
+	log.Println(string(body))
+
+	// ----------> часть Unmarshall json ->
+	err = json.Unmarshal(body, &respContract1C)
+	if err != nil {
+		return respContract1C, err
+	}
+
+
+	//TODO: необходим статус то что данные успешно сохранились в 1С и
+
+	//TODO: также сделать проверку статус кода
+	return respContract1C, nil
 }

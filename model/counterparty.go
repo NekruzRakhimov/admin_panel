@@ -14,3 +14,8 @@ type ContractCounterparty struct {
 	ID1C      string `json:"id_1C"`
 	PriceType string `json:"price_type"`
 }
+//
+type RespContract struct {
+	ContractCode string `json:"contract_code"`
+	Status       string `json:"status"`
+}

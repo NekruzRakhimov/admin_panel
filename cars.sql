@@ -15,7 +15,7 @@ VALUES('{"brand": "Toyota", "color": ["red", "black"], "price": 285000, "sold": 
 SELECT cars_info -> 'brand' AS car_name FROM cars;
 
 
-SELECT *FROM contracts;
+
 
 
 SELECT contract_parameters -> 'contract_date' AS end_date FROM contracts;
@@ -34,4 +34,4 @@ SELECT contract_date FROM contracts;
 
 SELECT contract_parameters -> 'contract_date' AS data FROM contracts;
 
-SELECT  cars_info -> 'brand' AS brand FROM cars;
+SELECT  cars_info -> 'brand' AS brand, cars_info -> 'color' AS color FROM cars;

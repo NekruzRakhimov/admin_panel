@@ -42,9 +42,6 @@ create unique index roles_id_uindex
     on roles (id);
 
 
-
-
-
 -- auto-generated definition
 create table roles_rights
 (
@@ -68,8 +65,6 @@ create table roles_rights
 
 create unique index roles_rights_id_uindex
     on roles_rights (id);
-
-
 
 
 -- auto-generated definition
@@ -96,25 +91,63 @@ create unique index users_id_uindex
     on users (id);
 
 
-
 -- auto-generated definition
 create table if not exists users_roles
 (
-    id         serial not null
-        constraint users_roles_pk
-            primary key,
-    role_id    integer
-        constraint users_roles_roles_id_fk
-            references roles
-            on update cascade on delete set null,
-    created_at timestamp with time zone default CURRENT_TIMESTAMP,
-    updated_at timestamp with time zone,
-    deleted_at timestamp with time zone,
-    is_removed boolean                  default false,
-    user_id    integer
-        constraint users_roles_users_id_fk
-            references users
-            on update cascade on delete cascade
+    id
+    serial
+    not
+    null
+    constraint
+    users_roles_pk
+    primary
+    key,
+    role_id
+    integer
+    constraint
+    users_roles_roles_id_fk
+    references
+    roles
+    on
+    update
+    cascade
+    on
+    delete
+    set
+    null,
+    created_at
+    timestamp
+    with
+    time
+    zone
+    default
+    CURRENT_TIMESTAMP,
+    updated_at
+    timestamp
+    with
+    time
+    zone,
+    deleted_at
+    timestamp
+    with
+    time
+    zone,
+    is_removed
+    boolean
+    default
+    false,
+    user_id
+    integer
+    constraint
+    users_roles_users_id_fk
+    references
+    users
+    on
+    update
+    cascade
+    on
+    delete
+    cascade
 );
 
 create unique index users_roles_id_uindex

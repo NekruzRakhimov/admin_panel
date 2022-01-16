@@ -3,7 +3,6 @@ package service
 import (
 	"admin_panel/db"
 	"admin_panel/model"
-	"fmt"
 )
 
 //TODO:
@@ -15,7 +14,7 @@ import (
 
 func Notification() {
 
-	//	//timeUpContracts := time.Now().Add(60 * time.Hour)
+
 	//	fmt.Println("ВЫЗОВ")
 	//	//var contracts []model.Contract
 	//	var data string
@@ -31,10 +30,17 @@ func Notification() {
 	//
 	//	//json.Unmarshal(bDate, &date)
 	//	fmt.Println(data, "ДАТА")
+	var notification []model.Notification
+	//db.GetDBConn().Raw("SELECT cars_info -> 'brand' AS brand  FROM cars").Scan(&cars)
+	scan := db.GetDBConn().Raw("SELECT requisites -> 'bin' AS bin, contract_parameters -> 'contract_date' AS end_date, contract_parameters -> contract_number  AS   contract_number, type, supplier_company_manager -> email  AS email FROM contacts").Scan(&notification)
+	if scan.RecordNotFound() == false{
+		// добавить в бд
+	}
+	// если запись найдена то обновляем
+	//timeUpContracts := time.Now().Add(1440 * time.Hour)
 
-	var cars []model.Cars
-	db.GetDBConn().Raw("SELECT cars_info -> 'brand' AS brand  FROM cars").Scan(&cars)
 
-	fmt.Println(cars)
+	//TODO:  запихнуть эти даннные в другую таблицу
+	//fmt.Println(cars)
 
 }
