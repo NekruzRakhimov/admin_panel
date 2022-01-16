@@ -353,7 +353,6 @@ func ConformContract(contractId int, status string) error {
 		return err
 	}
 
-
 	//todo SAVE TO 1c
 	contract, err := GetContractDetails(contractId)
 	if err != nil {
@@ -370,12 +369,9 @@ func ConformContract(contractId int, status string) error {
 		return err
 	}
 
-
 	return nil
 
 }
-
-
 
 func CancelContract(contractId int) error {
 	_, err := repository.GetContractDetails(contractId)
@@ -489,10 +485,7 @@ func GetContractStatusChangesHistory(contractId int) (history []model.ContractSt
 	return repository.GetContractStatusChangesHistory(contractId)
 }
 
-
-
-
-func SaveContract1C(contract  model.Contract) (model.RespContract,  error) {
+func SaveContract1C(contract model.Contract) (model.RespContract, error) {
 	var respContract1C model.RespContract
 
 	saveContract := new(bytes.Buffer)
@@ -502,24 +495,22 @@ func SaveContract1C(contract  model.Contract) (model.RespContract,  error) {
 	}
 	client := &http.Client{}
 	//endpoint := fmt.Sprintf("http://188.225.10.191:5555/api/v2/counterparty/%s/%s", binClient, binOrganizationAKNIET)
-	r, err := http.NewRequest("POST", "http://192.168.0.33/AQG_ULAN/hs/integration/create_contract", saveContract) // URL-encoded payload
+	r, err := http.NewRequest("POST", "http://89.218.153.38:8081/AQG_ULAN/hs/integration/create_contract", saveContract) // URL-encoded payload
 	if err != nil {
 		log.Fatal(err)
 	}
 	r.Header.Add("Content-Type", "application/json")
 
-
-
 	res, err := client.Do(r)
 	if err != nil {
 		//log.Fatal(err)
-		return  respContract1C,err
+		return respContract1C, err
 	}
 	log.Println(res.Status)
 	defer res.Body.Close()
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		return respContract1C,  err
+		return respContract1C, err
 
 	}
 	log.Println(string(body))
@@ -529,7 +520,6 @@ func SaveContract1C(contract  model.Contract) (model.RespContract,  error) {
 	if err != nil {
 		return respContract1C, err
 	}
-
 
 	//TODO: необходим статус то что данные успешно сохранились в 1С и
 
