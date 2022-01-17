@@ -15,12 +15,9 @@ import (
 // я думаю сделать select -> если договор найден, пропускай ее
 
 func Notification() {
-
 	endDateContract := time.Now().Add((24 * 60) * time.Hour)
-
 	var notifications []model.Notification
 	var notification model.Notification
-
 	//db.GetDBConn().Raw("SELECT cars_info -> 'brand' AS brand  FROM cars").Scan(&cars)
 	scan := db.GetDBConn().Raw("SELECT requisites -> 'bin' AS bin, contract_parameters -> 'contract_date' AS end_date, contract_parameters -> contract_number  AS   contract_number, type, supplier_company_manager -> email  AS email FROM contacts").Scan(&notifications)
 	for _, value := range notifications {
