@@ -20,7 +20,7 @@ func Notification() {
 	var notifications []model.Notification
 	var notification model.Notification
 	//db.GetDBConn().Raw("SELECT cars_info -> 'brand' AS brand  FROM cars").Scan(&cars)
-	scan := db.GetDBConn().Raw("SELECT requisites -> 'bin' AS bin, contract_parameters -> 'contract_date' AS contract_date, contract_parameters -> 'contract_number'  AS   contract_number, type, supplier_company_manager -> 'email'  AS email").Scan(&notifications)
+	scan := db.GetDBConn().Raw("SELECT requisites -> 'bin' AS bin, contract_parameters -> 'contract_date' AS contract_date, contract_parameters -> 'contract_number'  AS   contract_number, type, supplier_company_manager -> 'email'  AS email FROM contracts").Scan(&notifications)
 	log.Println(" Массив Данных которые получили с уведомлений", notifications)
 
 	for _, value := range notifications {
