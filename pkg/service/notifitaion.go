@@ -39,7 +39,7 @@ func Notification() {
 		log.Println("Проверка времени", res)
 		if endDateContract.After(t) {
 			//TODO: сделаем выборку дог номеров, если они не сущ, потом только добавить в бд
-			resultNotification := db.GetDBConn().Raw("SELECT id FROM notification where contract_number = $", value.ContractNumber)
+			resultNotification := db.GetDBConn().Exec("SELECT id FROM notification where contract_number = $", value.ContractNumber)
 			log.Println(resultNotification.RecordNotFound(), "Проверка номера договора, если оно не найдено")
 			log.Println("scan.RecordNotFound()", scan.RecordNotFound())
 			//if resultNotification.RecordNotFound() == false {
