@@ -37,7 +37,8 @@ SELECT contract_parameters -> 'contract_date' AS data FROM contracts;
 SELECT  cars_info -> 'brand' AS brand, cars_info -> 'color' AS color FROM cars;
 
 
-SELECT requisites -> 'bin' AS bin, contract_parameters -> 'contract_date' AS end_date, contract_parameters -> 'contract_number'  AS   contract_number, type, supplier_company_manager -> 'email'  AS email
+SELECT requisites -> 'bin' AS bin, contract_parameters -> 'contract_date' AS end_date, contract_parameters -> 'contract_number'  AS   contract_number,
+       type, supplier_company_manager -> 'email'  AS email, status
 FROM contracts Where  status = 'в работе';
 
 SELECT  contract_parameters -> ''

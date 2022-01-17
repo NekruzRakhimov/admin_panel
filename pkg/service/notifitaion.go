@@ -20,16 +20,15 @@ func Notification() {
 	var notifications []model.Notification
 	var notification model.Notification
 	//db.GetDBConn().Raw("SELECT cars_info -> 'brand' AS brand  FROM cars").Scan(&cars)
-	scan := db.GetDBConn().Raw("SELECT requisites -> 'bin' AS bin, contract_parameters -> 'contract_date' AS contract_date, contract_parameters -> 'contract_number'  AS   contract_number, type, supplier_company_manager -> 'email'  AS email FROM contracts").Scan(&notifications)
+	scan := db.GetDBConn().Raw("SELECT requisites -> 'bin' AS bin, contract_parameters -> 'contract_date' AS contract_date, contract_parameters -> 'contract_number'  AS   contract_number, type, supplier_company_manager -> 'email'  AS email FROM contracts WHERE status = 'в работе'").Scan(&notifications)
 	//log.Println(" Массив Данных которые получили с уведомлений", notifications)
 
 	for _, value := range notifications {
-		log.Println(value, "ОБЩЕЕ")
-		log.Println(value.Type, "TYPE")
-		log.Println(value.ContractDate, "DATE")
-		log.Println(value.ContractNumber, "NUMBER")
-		log.Println(value.Email, "EMAIL")
-
+		if value.Type == "supply" {
+			value.Type = "Договор поставок"
+		} else if value.Type == "marketing_services" {
+			value.Type = "Договор маркетинговых услуг"
+		}
 		layout := "2006-01-02T15:04:05.000Z"
 		//str := "2014-11-12T11:45:26.371Z"
 		t, err := time.Parse(layout, value.ContractDate)
@@ -39,12 +38,20 @@ func Notification() {
 		res := endDateContract.After(t)
 		log.Println("Проверка времени", res)
 		if endDateContract.After(t) {
+			//TODO: сделаем выборку дог номеров, если они не сущ, потом только добавить в бд
+			resultNotification := db.GetDBConn().Raw("SELECT id FROM notification where contract_number = $", value.ContractNumber)
+			log.Println(resultNotification, "Проверка номера договора, если оно не найдено")
+			if resultNotification.RecordNotFound() == true {
+				db.GetDBConn().Exec("INSERT into notification (bin, contract_date, contract_number, type, email) VALUES ($1, $2, $3, $4, $5)",
+					value.Bin, value.ContractDate, value.ContractNumber, value.Type, value.Email).Scan(&notification)
+
+			}
+
 			// наверное вот это не сработало
 			log.Println("scan.RecordNotFound()", scan.RecordNotFound())
 			//if scan.RecordNotFound() == false {
 			// если запиши нет, то в этом случае добавлеяем данные в бд
-			db.GetDBConn().Exec("INSERT into notification (bin, contract_date, contract_number, type, email) VALUES ($1, $2, $3, $4, $5)",
-				value.Bin, value.ContractDate, value.ContractNumber, value.Type, value.Email).Scan(&notification)
+
 			//TODO: после чего отправляем уведомлние
 			// также тест, то что договор истекает и потом данные
 
