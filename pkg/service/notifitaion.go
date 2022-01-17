@@ -33,15 +33,17 @@ func Notification() {
 		res := endDateContract.After(t)
 		log.Println("Проверка времени", res)
 		if endDateContract.After(t) {
-			if scan.RecordNotFound() == false {
-				// если запиши нет, то в этом случае добавлеяем данные в бд
-				db.GetDBConn().Raw("INSERT into notifications (bin, contract_date, contract_number, type, email) VALUES ($1, $2, $3, $4, $5)",
-					value.Bin, value.ContractDate, value.ContractNumber, value.Type, value.Email).Scan(&notification)
-				//TODO: после чего отправляем уведомлние
-				// также тест, то что договор истекает и потом данные
+			// наверное вот это не сработало
+			log.Println("scan.RecordNotFound()", scan.RecordNotFound())
+			//if scan.RecordNotFound() == false {
+			// если запиши нет, то в этом случае добавлеяем данные в бд
+			db.GetDBConn().Raw("INSERT into notifications (bin, contract_date, contract_number, type, email) VALUES ($1, $2, $3, $4, $5)",
+				value.Bin, value.ContractDate, value.ContractNumber, value.Type, value.Email).Scan(&notification)
+			//TODO: после чего отправляем уведомлние
+			// также тест, то что договор истекает и потом данные
 
-				log.Println("Данные которые получили с уведомлений", notifications)
-			}
+			log.Println("Данные которые получили с уведомлений", notifications)
+			//}
 			//TODO: но если все таки запись найдена, то можем обновить или ничего не делать
 		}
 	}
