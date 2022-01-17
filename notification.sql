@@ -21,3 +21,5 @@ drop table notification;
 
 INSERT INTO notification(bin, contract_date, contract_type, email, status)
 VALUES
+
+SELECT id FROM notification where contract_number = '312312';
