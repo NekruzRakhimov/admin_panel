@@ -354,16 +354,16 @@ func ConformContract(contractId int, status string) error {
 	}
 
 	//todo SAVE TO 1c
-	_, err := GetContractDetails(contractId)
+	contract, err := GetContractDetails(contractId)
 	if err != nil {
 		return err
 	}
 
-	//respContract, err := SaveContract1C(contract)
+	SaveContract1C(contract)
 	//if err != nil {
 	//	return err
 	//}
-	//
+
 	//err = repository.SaveContractExternalCode(contractId, respContract.ContractCode)
 	//if err != nil {
 	//	return err
