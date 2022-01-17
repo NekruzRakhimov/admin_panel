@@ -10,7 +10,7 @@ import (
 func RunJobs() {
 	fmt.Println("вызов Джоба")
 	// вызов сервис
-	err := gocron.Every(1).Hour().Do(service.Notification)
+	err := gocron.Every(120).Minutes().Do(service.Notification)
 	if err != nil {
 		log.Println("ошибка ")
 		return
