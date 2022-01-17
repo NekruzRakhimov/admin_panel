@@ -21,9 +21,15 @@ func Notification() {
 	var notification model.Notification
 	//db.GetDBConn().Raw("SELECT cars_info -> 'brand' AS brand  FROM cars").Scan(&cars)
 	scan := db.GetDBConn().Raw("SELECT requisites -> 'bin' AS bin, contract_parameters -> 'contract_date' AS contract_date, contract_parameters -> 'contract_number'  AS   contract_number, type, supplier_company_manager -> 'email'  AS email FROM contracts").Scan(&notifications)
-	log.Println(" Массив Данных которые получили с уведомлений", notifications)
+	//log.Println(" Массив Данных которые получили с уведомлений", notifications)
 
 	for _, value := range notifications {
+		log.Println(value, "ОБЩЕЕ")
+		log.Println(value.Type, "TYPE")
+		log.Println(value.ContractDate, "DATE")
+		log.Println(value.ContractNumber, "NUMBER")
+		log.Println(value.Email, "EMAIL")
+
 		layout := "2006-01-02T15:04:05.000Z"
 		//str := "2014-11-12T11:45:26.371Z"
 		t, err := time.Parse(layout, value.ContractDate)
@@ -42,7 +48,9 @@ func Notification() {
 			//TODO: после чего отправляем уведомлние
 			// также тест, то что договор истекает и потом данные
 
-			log.Println("Данные которые получили с уведомлений", notifications)
+			log.Println(notification.ContractNumber, "Номер контаркта")
+
+			log.Println("Данные которые получили с уведомлений", notification)
 			//}
 			//TODO: но если все таки запись найдена, то можем обновить или ничего не делать
 		}

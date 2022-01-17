@@ -9,4 +9,7 @@ CREATE TABLE notification
     status        bool
 );
 
+SELECT * FROM notification;
+
+
 drop table notification;

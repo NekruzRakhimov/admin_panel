@@ -28,7 +28,7 @@ func main() {
 
 	db.StartDbConnection()
 
-	jobs.RunJobs()
+	go jobs.RunJobs()
 
 	routes.RunAllRoutes()
 }
