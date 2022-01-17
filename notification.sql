@@ -1,10 +1,12 @@
 CREATE TABLE notification
 (
-    id primary big serial,
+    id  bigserial primary key,
     bin           varchar,
     created_at    timestamp default current_timestamp,
-    end_date      varchar,
+    contract_date      varchar,
     contract_type varchar,
     email         varchar,
-    status        bool;
-)
+    status        bool
+);
+
+drop table notification;

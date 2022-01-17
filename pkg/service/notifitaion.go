@@ -4,6 +4,7 @@ import (
 	"admin_panel/db"
 	"admin_panel/model"
 	"fmt"
+	"log"
 	"time"
 )
 
@@ -19,7 +20,9 @@ func Notification() {
 	var notifications []model.Notification
 	var notification model.Notification
 	//db.GetDBConn().Raw("SELECT cars_info -> 'brand' AS brand  FROM cars").Scan(&cars)
-	scan := db.GetDBConn().Raw("SELECT requisites -> 'bin' AS bin, contract_parameters -> 'contract_date' AS end_date, contract_parameters -> contract_number  AS   contract_number, type, supplier_company_manager -> email  AS email FROM contacts").Scan(&notifications)
+	scan := db.GetDBConn().Raw("SELECT requisites -> 'bin' AS bin, contract_parameters -> 'contract_date' AS contract_date, contract_parameters -> 'contract_number'  AS   contract_number, type, supplier_company_manager -> 'email'  AS email").Scan(&notifications)
+	log.Println(" Массив Данных которые получили с уведомлений", notifications)
+
 	for _, value := range notifications {
 		layout := "2006-01-02T15:04:05.000Z"
 		//str := "2014-11-12T11:45:26.371Z"
@@ -27,20 +30,20 @@ func Notification() {
 		if err != nil {
 			fmt.Println(err)
 		}
+		res := endDateContract.After(t)
+		log.Println("Проверка времени", res)
 		if endDateContract.After(t) {
 			if scan.RecordNotFound() == false {
 				// если запиши нет, то в этом случае добавлеяем данные в бд
 				db.GetDBConn().Raw("INSERT into notifications (bin, contract_date, contract_number, type, email) VALUES ($1, $2, $3, $4, $5)",
 					value.Bin, value.ContractDate, value.ContractNumber, value.Type, value.Email).Scan(&notification)
-					//TODO: после чего отправляем уведомлние
-					// также тест, то что договор истекает и потом данные
+				//TODO: после чего отправляем уведомлние
+				// также тест, то что договор истекает и потом данные
 
-
+				log.Println("Данные которые получили с уведомлений", notifications)
 			}
 			//TODO: но если все таки запись найдена, то можем обновить или ничего не делать
 		}
 	}
-
-
 
 }
