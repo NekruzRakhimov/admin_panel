@@ -42,11 +42,11 @@ func Notification() {
 			resultNotification := db.GetDBConn().Raw("SELECT id FROM notification where contract_number = $", value.ContractNumber)
 			log.Println(resultNotification.RecordNotFound(), "Проверка номера договора, если оно не найдено")
 			log.Println("scan.RecordNotFound()", scan.RecordNotFound())
-			if resultNotification.RecordNotFound() == false {
-				db.GetDBConn().Exec("INSERT into notification (bin, contract_date, contract_number, type, email) VALUES ($1, $2, $3, $4, $5)",
-					value.Bin, value.ContractDate, value.ContractNumber, value.Type, value.Email).Scan(&notification)
+			//if resultNotification.RecordNotFound() == false {
+			db.GetDBConn().Exec("INSERT into notification (bin, contract_date, contract_number, type, email) VALUES ($1, $2, $3, $4, $5)",
+				value.Bin, value.ContractDate, value.ContractNumber, value.Type, value.Email).Scan(&notification)
 
-			}
+			//}
 
 			// наверное вот это не сработало
 
