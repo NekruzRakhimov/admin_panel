@@ -354,20 +354,20 @@ func ConformContract(contractId int, status string) error {
 	}
 
 	//todo SAVE TO 1c
-	contract, err := GetContractDetails(contractId)
+	_, err := GetContractDetails(contractId)
 	if err != nil {
 		return err
 	}
 
-	respContract, err := SaveContract1C(contract)
-	if err != nil {
-		return err
-	}
-
-	err = repository.SaveContractExternalCode(contractId, respContract.ContractCode)
-	if err != nil {
-		return err
-	}
+	//respContract, err := SaveContract1C(contract)
+	//if err != nil {
+	//	return err
+	//}
+	//
+	//err = repository.SaveContractExternalCode(contractId, respContract.ContractCode)
+	//if err != nil {
+	//	return err
+	//}
 
 	return nil
 
@@ -500,6 +500,7 @@ func SaveContract1C(contract model.Contract) (model.RespContract, error) {
 		log.Fatal(err)
 	}
 	r.Header.Add("Content-Type", "application/json")
+	r.SetBasicAuth("http_client", "123456")
 
 	res, err := client.Do(r)
 	if err != nil {
