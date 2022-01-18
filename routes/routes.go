@@ -8,8 +8,6 @@ import (
 	"github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"net/http"
-	"os"
-
 	//_ "github.com/rizalgowandy/go-swag-sample/docs/ginsimple" // you need to update github.com/rizalgowandy/go-swag-sample with your own project path
 	_ "admin_panel/docs"
 )
@@ -48,6 +46,9 @@ func RunAllRoutes() {
 func runAllRoutes(r *gin.Engine) {
 
 	r.GET("/", HealthCheck)
+	r.POST("/getcontractnumb", controller.GetIdNotification)
+	r.GET("/notifications", controller.GetNotifications)
+
 	r.GET("/cars", controller.GetCarsBrand)
 
 	//r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
@@ -128,8 +129,8 @@ func runAllRoutes(r *gin.Engine) {
 
 	//	Start server
 
-	_ = r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
-	//_ = r.Run(fmt.Sprintf("%s:%s", "localhost", "3001"))
+	//_ = r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
+	_ = r.Run(fmt.Sprintf("%s:%s", "localhost", "3001"))
 	///if err := r.Run(":3000"); err != nil {
 	//log.Fatal(err)
 	//}

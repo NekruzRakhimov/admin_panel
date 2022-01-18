@@ -3,6 +3,7 @@ package service
 import (
 	"admin_panel/db"
 	"admin_panel/model"
+	"admin_panel/pkg/repository"
 	"fmt"
 	"log"
 	"time"
@@ -70,5 +71,27 @@ func Notification() {
 			//TODO: но если все таки запись найдена, то можем обновить или ничего не делать
 		}
 	}
+
+}
+
+func GetContractNot(contractNum string) int {
+	var data struct {
+		ID  int    `json:"id"`
+		Bin string `json:"bin"`
+	}
+	var notifications []model.Notification
+
+	db.GetDBConn().Raw("SELECT requisites -> 'bin' AS bin, contract_parameters -> 'contract_date' AS contract_date, contract_parameters -> 'contract_number'  AS   contract_number, type, supplier_company_manager -> 'email'  AS email FROM contracts WHERE status = 'в работе'").Scan(&notifications)
+	fmt.Println(notifications)
+
+	//db.GetDBConn().Raw("SELECT id, bin FROM notification where contract_number = $1", contractNum).Scan(&data)
+	fmt.Println(data)
+
+	return data.ID
+
+}
+
+func GetNotifications() []model.Notification {
+	return repository.GetNotification()
 
 }
