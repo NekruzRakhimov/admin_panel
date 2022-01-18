@@ -24,6 +24,8 @@ func Notification() {
 	//log.Println(" Массив Данных которые получили с уведомлений", notifications)
 
 	for _, value := range notifications {
+		log.Println("Contract Numb", value.ContractNumber)
+
 		if value.Type == "supply" {
 			value.Type = "Договор поставок"
 		} else if value.Type == "marketing_services" {
@@ -40,7 +42,7 @@ func Notification() {
 		if endDateContract.After(t) {
 			//TODO: сделаем выборку дог номеров, если они не сущ, потом только добавить в бд
 			var id int
-			db.GetDBConn().Raw("SELECT id FROM notification where contract_number = $", value.ContractNumber).Scan(&id)
+			db.GetDBConn().Raw("SELECT id FROM notification where contract_number = $1", value.ContractNumber).Scan(&id)
 			log.Println("Результат ID", id)
 			if id == 0 {
 				db.GetDBConn().Exec("INSERT into notification (bin, contract_date, contract_number, type, email) VALUES ($1, $2, $3, $4, $5)",
