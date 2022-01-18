@@ -3,6 +3,9 @@ package service
 import (
 	"admin_panel/db"
 	"admin_panel/model"
+	"fmt"
+	"log"
+	"time"
 )
 
 //TODO:
@@ -13,34 +16,52 @@ import (
 // я думаю сделать select -> если договор найден, пропускай ее
 
 func Notification() {
-
-
-	//	fmt.Println("ВЫЗОВ")
-	//	//var contracts []model.Contract
-	//	var data string
-	//	//db.GetDBConn().Model(&contracts).Find()
-	//	//	db.GetDBConn().Model(&contracts).Find("contracts")
-	//	//var bDate []byte
-	/////	db.GetDBConn().Raw("SELECT contract_parameters -> 'contract_date' AS data FROM contracts").Scan(&data)
-	//	//for _, value := range contracts {
-	//	//	//TODO: тут будет сравнение
-	//	//
-	//	//}
-	//	//fmt.Println(string(bDate), "бинарные данные")
-	//
-	//	//json.Unmarshal(bDate, &date)
-	//	fmt.Println(data, "ДАТА")
-	var notification []model.Notification
+	endDateContract := time.Now().Add((24 * 60) * time.Hour)
+	var notifications []model.Notification
+	var notification model.Notification
 	//db.GetDBConn().Raw("SELECT cars_info -> 'brand' AS brand  FROM cars").Scan(&cars)
-	scan := db.GetDBConn().Raw("SELECT requisites -> 'bin' AS bin, contract_parameters -> 'contract_date' AS end_date, contract_parameters -> contract_number  AS   contract_number, type, supplier_company_manager -> email  AS email FROM contacts").Scan(&notification)
-	if scan.RecordNotFound() == false{
-		// добавить в бд
+	scan := db.GetDBConn().Raw("SELECT requisites -> 'bin' AS bin, contract_parameters -> 'contract_date' AS contract_date, contract_parameters -> 'contract_number'  AS   contract_number, type, supplier_company_manager -> 'email'  AS email FROM contracts WHERE status = 'в работе'").Scan(&notifications)
+	//log.Println(" Массив Данных которые получили с уведомлений", notifications)
+
+	for _, value := range notifications {
+		if value.Type == "supply" {
+			value.Type = "Договор поставок"
+		} else if value.Type == "marketing_services" {
+			value.Type = "Договор маркетинговых услуг"
+		}
+		layout := "2006-01-02T15:04:05.000Z"
+		//str := "2014-11-12T11:45:26.371Z"
+		t, err := time.Parse(layout, value.ContractDate)
+		if err != nil {
+			fmt.Println(err)
+		}
+		res := endDateContract.After(t)
+		log.Println("Проверка времени", res)
+		if endDateContract.After(t) {
+			//TODO: сделаем выборку дог номеров, если они не сущ, потом только добавить в бд
+			resultNotification := db.GetDBConn().Exec("SELECT id FROM notification where contract_number = $", value.ContractNumber)
+			log.Println(resultNotification.RecordNotFound(), "Проверка номера договора, если оно не найдено")
+			log.Println("scan.RecordNotFound()", scan.RecordNotFound())
+			//if resultNotification.RecordNotFound() == false {
+			db.GetDBConn().Exec("INSERT into notification (bin, contract_date, contract_number, type, email) VALUES ($1, $2, $3, $4, $5)",
+				value.Bin, value.ContractDate, value.ContractNumber, value.Type, value.Email).Scan(&notification)
+
+			//}
+
+			// наверное вот это не сработало
+
+			//if scan.RecordNotFound() == false {
+			// если запиши нет, то в этом случае добавлеяем данные в бд
+
+			//TODO: после чего отправляем уведомлние
+			// также тест, то что договор истекает и потом данные
+
+			log.Println(notification.ContractNumber, "Номер контаркта")
+
+			log.Println("Данные которые получили с уведомлений", notification)
+			//}
+			//TODO: но если все таки запись найдена, то можем обновить или ничего не делать
+		}
 	}
-	// если запись найдена то обновляем
-	//timeUpContracts := time.Now().Add(1440 * time.Hour)
-
-
-	//TODO:  запихнуть эти даннные в другую таблицу
-	//fmt.Println(cars)
 
 }
