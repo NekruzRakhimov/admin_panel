@@ -42,3 +42,8 @@ SELECT requisites -> 'bin' AS bin, contract_parameters -> 'contract_date' AS end
 FROM contracts Where  status = 'в работе';
 
 SELECT  contract_parameters -> ''
+
+
+SELECT *FROM contracts;
+
+SELECT requisites -> 'contractor_name' AS contractor_name FROM contracts;
