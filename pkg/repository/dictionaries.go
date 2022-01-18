@@ -40,3 +40,73 @@ func GetAllFrequencyDeferredDiscounts() (frequencyDeferredDiscounts []model.Freq
 
 	return frequencyDeferredDiscounts, nil
 }
+
+func GetAllDictionaries() (dictionaries []model.Dictionary, err error) {
+	sqlQuery := "SELECT * FROM dictionaries WHERE is_removed = false ORDER BY id"
+	err = db.GetDBConn().Raw(sqlQuery).Scan(&dictionaries).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return dictionaries, nil
+}
+
+func CreateDictionary(dictionary model.Dictionary) error {
+	if err := db.GetDBConn().Table("dictionaries").Omit("author").Create(&dictionary).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func EditDictionary(dictionary model.Dictionary) error {
+	if err := db.GetDBConn().Table("dictionaries").Omit("author").Save(&dictionary).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func DeleteDictionary(dictionaryID int) error {
+	sqlQuery := "UPDATE dictionaries SET is_removed = true, deleted_at = now() WHERE id = ?"
+	if err := db.GetDBConn().Exec(sqlQuery, dictionaryID).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func GetAllDictionaryValues(dictionaryID int) (dictionaryValues []model.DictionaryValue, err error) {
+	sqlQuery := "SELECT * FROM dictionary_values WHERE dictionary_id = ? ORDER BY id"
+	err = db.GetDBConn().Raw(sqlQuery, dictionaryID).Scan(&dictionaryValues).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return dictionaryValues, nil
+}
+
+func CreateDictionaryValue(dictionaryValue model.DictionaryValue) error {
+	if err := db.GetDBConn().Table("dictionary_values").Create(&dictionaryValue).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func EditDictionaryValue(dictionaryValue model.DictionaryValue) error {
+	if err := db.GetDBConn().Table("dictionary_values").Save(&dictionaryValue).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func DeleteDictionaryValue(dictionaryID, dictionaryValueID int) error {
+	sqlQuery := "DELETE FROM dictionary_values WHERE id = ? AND dictionary_id = ?"
+	if err := db.GetDBConn().Exec(sqlQuery, dictionaryValueID, dictionaryID).Error; err != nil {
+		return err
+	}
+
+	return nil
+}

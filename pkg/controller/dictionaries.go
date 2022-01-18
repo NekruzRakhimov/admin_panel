@@ -1,10 +1,254 @@
 package controller
 
 import (
+	"admin_panel/model"
 	"admin_panel/pkg/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
+
+//GetAllDictionaries dictionary godoc
+// @Summary Get All Dictionaries
+// @Description Gel All Dictionaries
+// @Accept  json
+// @Produce  json
+// @Tags dictionary
+// @Success 200 {array}  model.Dictionary
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /dictionary [get]
+func GetAllDictionaries(c *gin.Context) {
+	dictionaries, err := service.GetAllDictionaries()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, dictionaries)
+}
+
+// CreatDictionary Create Dictionary godoc
+// @Summary Create Dictionary
+// @Description Create Dictionary
+// @Tags dictionary
+// @Accept  json
+// @Produce  json
+// @Param Dictionary body model.Dictionary true "Create Dictionary"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /dictionary [post]
+func CreatDictionary(c *gin.Context) {
+	var dictionary model.Dictionary
+	err := c.BindJSON(&dictionary)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	if err := service.CreateDictionary(dictionary); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"reason": "новый справочник был успешно создан!"})
+}
+
+// EditDictionary Update Dictionary godoc
+// @Summary Update Dictionary user
+// @Description Update Dictionary
+// @Tags dictionary
+// @Accept  json
+// @Produce  json
+// @Param  id path int true "Dictionary ID"
+// @Param  Dictionary body model.Dictionary true "Update account"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /dictionary/{id} [put]
+func EditDictionary(c *gin.Context) {
+	var dictionary model.Dictionary
+	err := c.BindJSON(&dictionary)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	dictionary.ID, err = strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	if err := service.EditDictionary(dictionary); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"reason": "справочник был успешно изменен!"})
+}
+
+//DeleteDictionary godoc
+//@Summary Dictionary user by ID
+//@Tags dictionary
+//@Produce json
+//@Param id path string true "dictionary ID"
+//@Success 200 {object} map[string]interface{}
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+//@Router /dictionary/{id} [delete]
+func DeleteDictionary(c *gin.Context) {
+	dictionaryID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	if err := service.DeleteDictionary(dictionaryID); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"reason": "справочник был успешно удален!"})
+}
+
+// CreateDictionaryValue Create Dictionary Value godoc
+// @Summary Create Dictionary Value
+// @Description Create Dictionary Value
+// @Tags dictionary_values
+// @Accept  json
+// @Produce  json
+// @Param id path string true "dictionary ID"
+// @Param DictionaryValue body model.DictionaryValue true  "Dictionary Value"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /dictionary/{id}/value [post]
+func CreateDictionaryValue(c *gin.Context) {
+	var dictionaryValue model.DictionaryValue
+	err := c.BindJSON(&dictionaryValue)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	dictionaryValue.DictionaryID, err = strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	if err := service.CreateDictionaryValue(dictionaryValue); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"reason": "новое значение для справочника было успешно создано!"})
+}
+
+//GetAllDictionaryValues Get All Dictionary Values godoc
+// @Summary Get All Dictionary Values
+// @Description Gel All Dictionary Values
+// @Accept  json
+// @Produce  json
+// @Tags dictionary_values
+// @Param id path string true "dictionary ID"
+// @Success 200 {array}  model.DictionaryValue
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /dictionary/{id}/value [get]
+func GetAllDictionaryValues(c *gin.Context) {
+	dictionaryID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	dictionaryValues, err := service.GetAllDictionaryValues(dictionaryID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, dictionaryValues)
+}
+
+// EditDictionaryValue Dictionary Values godoc
+// @Summary Update Dictionary Values
+// @Description Update Dictionary Values
+// @Tags dictionary_values
+// @Accept  json
+// @Produce  json
+// @Param id path string true "dictionary ID"
+// @Param DictionaryValue body model.DictionaryValue true  "Dictionary Value"
+// @Param value_id path string true "value ID"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /dictionary/{id}/value/{value_id} [put]
+func EditDictionaryValue(c *gin.Context) {
+	dictionaryID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	dictionaryValueID, err := strconv.Atoi(c.Param("value_id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	var dictionaryValue model.DictionaryValue
+	err = c.BindJSON(&dictionaryValue)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	dictionaryValue.ID = dictionaryValueID
+	dictionaryValue.DictionaryID = dictionaryID
+
+	if err := service.EditDictionaryValue(dictionaryValue); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"reason": "значение справочника было успешно изменено!"})
+
+}
+
+// DeleteDictionaryValue Delete Dictionary Values godoc
+// @Summary Delete Dictionary Values by ID
+// @Tags dictionary_values
+// @Produce json
+// @Param id path string true "dictionary ID"
+// @Param value_id path string true "value ID"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /dictionary/{id}/value/{value_id} [delete]
+func DeleteDictionaryValue(c *gin.Context) {
+	dictionaryID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	dictionaryValueID, err := strconv.Atoi(c.Param("value_id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	if err := service.DeleteDictionaryValue(dictionaryID, dictionaryValueID); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"reason": "значение справочника было успешно удалено!"})
+}
 
 //GetAllCurrencies dictionary godoc
 // @Summary Get All Currencies

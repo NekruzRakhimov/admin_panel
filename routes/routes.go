@@ -7,9 +7,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	"net/http"
 	"os"
 
-	"net/http"
 	//_ "github.com/rizalgowandy/go-swag-sample/docs/ginsimple" // you need to update github.com/rizalgowandy/go-swag-sample with your own project path
 	_ "admin_panel/docs"
 )
@@ -77,6 +77,17 @@ func runAllRoutes(r *gin.Engine) {
 	contract.POST("/form/:with_temp_conditions", controller.FormContract)
 
 	dictionary := r.Group("/dictionary")
+	dictionary.GET("", controller.GetAllDictionaries)
+	dictionary.POST("", controller.CreatDictionary)
+	dictionary.PUT("/:id", controller.EditDictionary)
+	dictionary.DELETE("/:id", controller.DeleteDictionary)
+
+	dictionaryValues := dictionary.Group("/:id/value")
+	dictionaryValues.GET("", controller.GetAllDictionaryValues)
+	dictionaryValues.POST("", controller.CreateDictionaryValue)
+	dictionaryValues.PUT("/:value_id", controller.EditDictionaryValue)
+	dictionaryValues.DELETE("/:value_id", controller.DeleteDictionaryValue)
+
 	dictionary.GET("/currencies", controller.GetAllCurrencies)
 	dictionary.GET("/positions", controller.GetAllPositions)
 	dictionary.GET("/addresses", controller.GetAllAddresses)

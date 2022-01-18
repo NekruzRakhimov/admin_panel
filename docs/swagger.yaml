@@ -150,6 +150,26 @@ definitions:
       id:
         type: integer
     type: object
+  model.Dictionary:
+    properties:
+      author:
+        type: string
+      id:
+        type: integer
+      last_update:
+        type: string
+      name:
+        type: string
+    type: object
+  model.DictionaryValue:
+    properties:
+      dictionary_id:
+        type: integer
+      id:
+        type: integer
+      value:
+        type: string
+    type: object
   model.Discount:
     properties:
       amount:
@@ -990,6 +1010,317 @@ paths:
       summary: Detach Role To User
       tags:
       - users
+  /dictionary:
+    get:
+      consumes:
+      - application/json
+      description: Gel All Dictionaries
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Dictionary'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All Dictionaries
+      tags:
+      - dictionary
+    post:
+      consumes:
+      - application/json
+      description: Create Dictionary
+      parameters:
+      - description: Create Dictionary
+        in: body
+        name: Dictionary
+        required: true
+        schema:
+          $ref: '#/definitions/model.Dictionary'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create Dictionary
+      tags:
+      - dictionary
+  /dictionary/{id}:
+    delete:
+      parameters:
+      - description: dictionary ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Dictionary user by ID
+      tags:
+      - dictionary
+    put:
+      consumes:
+      - application/json
+      description: Update Dictionary
+      parameters:
+      - description: Dictionary ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update account
+        in: body
+        name: Dictionary
+        required: true
+        schema:
+          $ref: '#/definitions/model.Dictionary'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update Dictionary user
+      tags:
+      - dictionary
+  /dictionary/{id}/value:
+    get:
+      consumes:
+      - application/json
+      description: Gel All Dictionary Values
+      parameters:
+      - description: dictionary ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.DictionaryValue'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All Dictionary Values
+      tags:
+      - dictionary_values
+    post:
+      consumes:
+      - application/json
+      description: Create Dictionary Value
+      parameters:
+      - description: dictionary ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Dictionary Value
+        in: body
+        name: DictionaryValue
+        required: true
+        schema:
+          $ref: '#/definitions/model.DictionaryValue'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create Dictionary Value
+      tags:
+      - dictionary_values
+  /dictionary/{id}/value/{value_id}:
+    delete:
+      parameters:
+      - description: dictionary ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: value ID
+        in: path
+        name: value_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete Dictionary Values by ID
+      tags:
+      - dictionary_values
+    put:
+      consumes:
+      - application/json
+      description: Update Dictionary Values
+      parameters:
+      - description: dictionary ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Dictionary Value
+        in: body
+        name: DictionaryValue
+        required: true
+        schema:
+          $ref: '#/definitions/model.DictionaryValue'
+      - description: value ID
+        in: path
+        name: value_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update Dictionary Values
+      tags:
+      - dictionary_values
   /dictionary/addresses:
     get:
       consumes:
