@@ -1,6 +1,7 @@
 package model
 
 type Notification struct {
+	Id             int    `json:"id"`
 	Bin            string `json:"bin"`
 	ContractDate   string `json:"contract_date"`
 	ContractNumber string `json:"contract_number"`

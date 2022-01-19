@@ -6,6 +6,6 @@ import (
 )
 
 func GetNotification() (notifications []model.Notification) {
-	db.GetDBConn().Raw("SELECT bin, contract_number, contract_date, type, email, status FROM notification").Scan(&notifications)
+	db.GetDBConn().Raw("SELECT id, bin, contract_number, contract_date, type, email, status FROM notification").Scan(&notifications)
 	return notifications
 }
