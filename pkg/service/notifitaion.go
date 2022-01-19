@@ -3,6 +3,7 @@ package service
 import (
 	"admin_panel/db"
 	"admin_panel/model"
+	"admin_panel/pkg/repository"
 	"fmt"
 	"log"
 	"time"
@@ -24,6 +25,8 @@ func Notification() {
 	//log.Println(" Массив Данных которые получили с уведомлений", notifications)
 
 	for _, value := range notifications {
+		log.Println("Contract Numb", value.ContractNumber)
+
 		if value.Type == "supply" {
 			value.Type = "Договор поставок"
 		} else if value.Type == "marketing_services" {
@@ -39,12 +42,17 @@ func Notification() {
 		log.Println("Проверка времени", res)
 		if endDateContract.After(t) {
 			//TODO: сделаем выборку дог номеров, если они не сущ, потом только добавить в бд
-			resultNotification := db.GetDBConn().Exec("SELECT id FROM notification where contract_number = $", value.ContractNumber)
-			log.Println(resultNotification.RecordNotFound(), "Проверка номера договора, если оно не найдено")
+			var id int
+			db.GetDBConn().Raw("SELECT id FROM notification where contract_number = $1", value.ContractNumber).Scan(&id)
+			log.Println("Результат ID", id)
+			if id == 0 {
+				db.GetDBConn().Exec("INSERT into notification (bin, contract_date, contract_number, type, email) VALUES ($1, $2, $3, $4, $5)",
+					value.Bin, value.ContractDate, value.ContractNumber, value.Type, value.Email).Scan(&notification)
+
+			}
+
 			log.Println("scan.RecordNotFound()", scan.RecordNotFound())
 			//if resultNotification.RecordNotFound() == false {
-			db.GetDBConn().Exec("INSERT into notification (bin, contract_date, contract_number, type, email) VALUES ($1, $2, $3, $4, $5)",
-				value.Bin, value.ContractDate, value.ContractNumber, value.Type, value.Email).Scan(&notification)
 
 			//}
 
@@ -63,5 +71,27 @@ func Notification() {
 			//TODO: но если все таки запись найдена, то можем обновить или ничего не делать
 		}
 	}
+
+}
+
+func GetContractNot(contractNum string) int {
+	var data struct {
+		ID  int    `json:"id"`
+		Bin string `json:"bin"`
+	}
+	var notifications []model.Notification
+
+	db.GetDBConn().Raw("SELECT requisites -> 'bin' AS bin, contract_parameters -> 'contract_date' AS contract_date, contract_parameters -> 'contract_number'  AS   contract_number, type, supplier_company_manager -> 'email'  AS email FROM contracts WHERE status = 'в работе'").Scan(&notifications)
+	fmt.Println(notifications)
+
+	//db.GetDBConn().Raw("SELECT id, bin FROM notification where contract_number = $1", contractNum).Scan(&data)
+	fmt.Println(data)
+
+	return data.ID
+
+}
+
+func GetNotifications() []model.Notification {
+	return repository.GetNotification()
 
 }

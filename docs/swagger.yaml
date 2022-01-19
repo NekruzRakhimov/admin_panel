@@ -195,6 +195,21 @@ definitions:
       id:
         type: integer
     type: object
+  model.Notification:
+    properties:
+      bin:
+        type: string
+      contract_date:
+        type: string
+      contract_number:
+        type: string
+      email:
+        type: string
+      status:
+        type: boolean
+      type:
+        type: string
+    type: object
   model.Position:
     properties:
       code:
@@ -1487,6 +1502,23 @@ paths:
       summary: login
       tags:
       - Auth
+  /notifications:
+    get:
+      consumes:
+      - application/json
+      description: get notifications
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Notification'
+            type: array
+      summary: List Notifications
+      tags:
+      - notifications
   /ping:
     get:
       consumes:

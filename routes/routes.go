@@ -48,6 +48,9 @@ func RunAllRoutes() {
 func runAllRoutes(r *gin.Engine) {
 
 	r.GET("/", HealthCheck)
+	r.POST("/getcontractnumb", controller.GetIdNotification)
+	r.GET("/notifications", controller.GetNotifications)
+
 	r.GET("/cars", controller.GetCarsBrand)
 
 	//r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
@@ -129,7 +132,7 @@ func runAllRoutes(r *gin.Engine) {
 	//	Start server
 
 	_ = r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
-	//_ = r.Run(fmt.Sprintf("%s:%s", "localhost", "3001"))
+	//_ = r.Run(fmt.Sprintf("%s:%s", "localhost", "3000"))
 	///if err := r.Run(":3000"); err != nil {
 	//log.Fatal(err)
 	//}
