@@ -3,13 +3,11 @@ package service
 import (
 	"admin_panel/model"
 	"admin_panel/pkg/repository"
-	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"log"
-	"net/http"
+	"strings"
 )
 
 func GetContractDetails(contractId int) (contract model.Contract, err error) {
@@ -359,7 +357,28 @@ func ConformContract(contractId int, status string) error {
 		return err
 	}
 
-	SaveContract1C(contract)
+	contractFor1C := ConvertContractToContractDTOFor1CStruct(contract)
+	parts := strings.Split(contractFor1C.ContractParameters.StartDate, " ")
+	if len(parts) > 0 {
+		contractFor1C.ContractParameters.StartDate = parts[0]
+	}
+
+	parts = strings.Split(contractFor1C.ContractParameters.EndDate, " ")
+	if len(parts) > 0 {
+		contractFor1C.ContractParameters.EndDate = parts[0]
+	}
+
+	parts = strings.Split(contractFor1C.CreatedAt, " ")
+	if len(parts) > 0 {
+		contractFor1C.CreatedAt = parts[0]
+	}
+
+	parts = strings.Split(contractFor1C.UpdatedAt, " ")
+	if len(parts) > 0 {
+		contractFor1C.UpdatedAt = parts[0]
+	}
+
+	SaveContract1C(contractFor1C)
 	//if err != nil {
 	//	return err
 	//}
@@ -371,6 +390,41 @@ func ConformContract(contractId int, status string) error {
 
 	return nil
 
+}
+
+func ConvertContractToContractDTOFor1CStruct(contract model.Contract) (contractFor1C model.ContractDTOFor1C) {
+	contractFor1C = model.ContractDTOFor1C{
+		ID:                     contract.ID,
+		Type:                   contract.Type,
+		PrevContractId:         contract.PrevContractId,
+		Status:                 contract.Status,
+		Requisites:             contract.Requisites,
+		Manager:                contract.Manager,
+		KAM:                    contract.KAM,
+		SupplierCompanyManager: contract.SupplierCompanyManager,
+		ContractParameters: model.ContractParametersDTOFor1C{
+			ContractNumber:            contract.ContractParameters.ContractNumber,
+			ContractAmount:            contract.ContractParameters.ContractAmount,
+			Currency:                  contract.ContractParameters.Currency,
+			Prepayment:                contract.ContractParameters.Prepayment,
+			DateOfDelivery:            contract.ContractParameters.DateOfDelivery,
+			FrequencyDeferredDiscount: contract.ContractParameters.FrequencyDeferredDiscount,
+			DeliveryAddress:           strings.Join(contract.ContractParameters.DeliveryAddress, "; "),
+			DeliveryTimeInterval:      contract.ContractParameters.DeliveryTimeInterval,
+			ReturnTimeDelivery:        contract.ContractParameters.ReturnTimeDelivery,
+			PriceType:                 "оптом",
+			StartDate:                 contract.CreatedAt,
+			EndDate:                   contract.ContractParameters.ContractDate,
+		},
+		WithTemperatureConditions: contract.WithTemperatureConditions,
+		Products:                  contract.Products,
+		Discounts:                 contract.Discounts,
+		Comment:                   contract.Comment,
+		CreatedAt:                 contract.CreatedAt,
+		UpdatedAt:                 contract.UpdatedAt,
+	}
+
+	return contractFor1C
 }
 
 func CancelContract(contractId int) error {
@@ -443,87 +497,6 @@ func RevisionContract(contractId int, comment string) error {
 	return repository.RevisionContract(contractId, comment)
 }
 
-func CounterpartyContract(binClient string) ([]model.Counterparty, error) {
-	var binOrganizationAKNIET = "060540001442"
-	client := &http.Client{}
-	endpoint := fmt.Sprintf("http://188.225.10.191:5555/api/v2/counterparty/%s/%s", binClient, binOrganizationAKNIET)
-	r, err := http.NewRequest("GET", endpoint, nil) // URL-encoded payload
-	if err != nil {
-		log.Fatal(err)
-	}
-	r.Header.Add("Content-Type", "application/json")
-
-	// Create a Bearer string by appending string access token
-	var bearer = "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InQua3VzYWlub3ZAbWxhZGV4Lmt6IiwidXNlcklkIjoiNWQ2YzlhNGU0MDVjOWU3NmI3NDI4ZTk3IiwiaWF0IjoxNjMwMDM3MzczLCJleHAiOjE2NjE1NzMzNzN9.yXp9zxxOAJeH53vpa_4Ht4MBQDrThgxxYO1pxFK4t4M"
-	//TODO: Надо токен в конфиге или переменой окружения хранить
-	r.Header.Add("Authorization", bearer)
-
-	res, err := client.Do(r)
-	if err != nil {
-		//log.Fatal(err)
-		return nil, err
-	}
-	log.Println(res.Status)
-	defer res.Body.Close()
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		log.Fatal(err)
-	}
-	log.Println(string(body))
-	var contractCounterparty []model.Counterparty
-	// ----------> часть Unmarshall json ->
-	err = json.Unmarshal(body, &contractCounterparty)
-	if err != nil {
-
-		return nil, err
-	}
-
-	return contractCounterparty, nil
-}
-
 func GetContractStatusChangesHistory(contractId int) (history []model.ContractStatusHistory, err error) {
 	return repository.GetContractStatusChangesHistory(contractId)
-}
-
-func SaveContract1C(contract model.Contract) (model.RespContract, error) {
-	var respContract1C model.RespContract
-
-	saveContract := new(bytes.Buffer)
-	err := json.NewEncoder(saveContract).Encode(contract)
-	if err != nil {
-		return respContract1C, err
-	}
-	client := &http.Client{}
-	//endpoint := fmt.Sprintf("http://188.225.10.191:5555/api/v2/counterparty/%s/%s", binClient, binOrganizationAKNIET)
-	r, err := http.NewRequest("POST", "http://89.218.153.38:8081/AQG_ULAN/hs/integration/create_contract", saveContract) // URL-encoded payload
-	if err != nil {
-		log.Fatal(err)
-	}
-	r.Header.Add("Content-Type", "application/json")
-	r.SetBasicAuth("http_client", "123456")
-
-	res, err := client.Do(r)
-	if err != nil {
-		//log.Fatal(err)
-		return respContract1C, err
-	}
-	log.Println(res.Status)
-	defer res.Body.Close()
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		return respContract1C, err
-
-	}
-	log.Println(string(body))
-
-	// ----------> часть Unmarshall json ->
-	err = json.Unmarshal(body, &respContract1C)
-	if err != nil {
-		return respContract1C, err
-	}
-
-	//TODO: необходим статус то что данные успешно сохранились в 1С и
-
-	//TODO: также сделать проверку статус кода
-	return respContract1C, nil
 }

@@ -36,6 +36,24 @@ type Contract struct {
 	UpdatedAt                 string                 `json:"updated_at,omitempty"`
 }
 
+type ContractDTOFor1C struct {
+	ID                        int                        `json:"id"`
+	Type                      string                     `json:"type"`
+	PrevContractId            int                        `json:"-" gorm:"-"`
+	Status                    string                     `json:"status"`
+	Requisites                Requisites                 `json:"requisites"`
+	Manager                   string                     `json:"manager,omitempty"`
+	KAM                       string                     `json:"kam,omitempty"`
+	SupplierCompanyManager    SupplierCompanyManager     `json:"supplier_company_manager"`
+	ContractParameters        ContractParametersDTOFor1C `json:"contract_parameters"`
+	WithTemperatureConditions bool                       `json:"with_temperature_conditions"`
+	Products                  []Product                  `json:"products"`
+	Discounts                 []Discount                 `json:"discounts"`
+	Comment                   string                     `json:"comment"`
+	CreatedAt                 string                     `json:"created_at,omitempty"`
+	UpdatedAt                 string                     `json:"updated_at,omitempty"`
+}
+
 type ContractMiniInfo struct {
 	ID             int     `json:"id"`
 	PrevContractId int     `json:"-" gorm:"-"`
@@ -83,6 +101,21 @@ type ContractParameters struct {
 	DeliveryTimeInterval      int      `json:"delivery_time_interval,omitempty"` //интервал времени поставки после поступления денежых средств
 	ReturnTimeDelivery        int      `json:"return_time_delivery,omitempty"`   //время возврата при условии не поставки
 	ContractDate              string   `json:"contract_date,omitempty"`
+}
+
+type ContractParametersDTOFor1C struct {
+	ContractNumber            string  `json:"contract_number"`
+	ContractAmount            float32 `json:"contract_amount"`
+	Currency                  string  `json:"currency,omitempty"`
+	Prepayment                float32 `json:"prepayment,omitempty"`
+	DateOfDelivery            string  `json:"date_of_delivery,omitempty"`
+	FrequencyDeferredDiscount string  `json:"frequency_deferred_discount,omitempty"` //Кратность расчета отложенной скидки TODO: возможно нужно поменять
+	DeliveryAddress           string  `json:"delivery_address,omitempty"`
+	DeliveryTimeInterval      int     `json:"delivery_time_interval,omitempty"` //интервал времени поставки после поступления денежых средств
+	ReturnTimeDelivery        int     `json:"return_time_delivery,omitempty"`   //время возврата при условии не поставки
+	PriceType                 string  `json:"price_type,omitempty"`
+	StartDate                 string  `json:"start_date,omitempty"`
+	EndDate                   string  `json:"end_date,omitempty"`
 }
 
 type Product struct {
