@@ -311,7 +311,6 @@ func GetUserById(c *gin.Context) {
 func FindUserByTableName(c *gin.Context) {
 	userNumber := c.Param("user_number")
 
-
 	if userNumber == "0000012672" {
 		c.JSON(http.StatusOK, []byte(`{
     "full_name": "Кабдушева Алиса Марсовна",
