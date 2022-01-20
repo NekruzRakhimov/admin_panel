@@ -302,14 +302,15 @@ func GetUserById(c *gin.Context) {
 // @Description Find User by Table Name
 // @Accept  json
 // @Produce  json
-// @Param  user_number path int true "user number"
+// @Param  user_number path string true "user number"
 // @Tags users
 // @Success 200 {object} []byte
 // @Failure 400,404 {object} string
 // @Failure 500 {object} string
-// @Router /users/{id}/details [get]
+// @Router /users/search/{user_number} [get]
 func FindUserByTableName(c *gin.Context) {
 	userNumber := c.Param("user_number")
+
 
 	if userNumber == "0000012672" {
 		c.JSON(http.StatusOK, []byte(`{

@@ -2060,13 +2060,49 @@ paths:
     get:
       consumes:
       - application/json
+      description: Get User by ID
+      parameters:
+      - description: user ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get User by ID
+      tags:
+      - users
+  /users/search/{user_number}:
+    get:
+      consumes:
+      - application/json
       description: Find User by Table Name
       parameters:
       - description: user number
         in: path
         name: user_number
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:

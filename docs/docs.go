@@ -2389,6 +2389,59 @@ var doc = `{
                 }
             }
         },
+        "/users/search/{user_number}": {
+            "get": {
+                "description": "Find User by Table Name",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Get (Find) User by Table Name",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user number",
+                        "name": "user_number",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/users/{id}": {
             "put": {
                 "description": "Update by json user",
@@ -2502,7 +2555,7 @@ var doc = `{
         },
         "/users/{id}/details": {
             "get": {
-                "description": "Find User by Table Name",
+                "description": "Get User by ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -2512,12 +2565,12 @@ var doc = `{
                 "tags": [
                     "users"
                 ],
-                "summary": "Get (Find) User by Table Name",
+                "summary": "Get User by ID",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "user number",
-                        "name": "user_number",
+                        "description": "user ID",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     }
@@ -2526,28 +2579,28 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "integer"
-                            }
+                            "$ref": "#/definitions/model.User"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "type": "string"
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     }
                 }
