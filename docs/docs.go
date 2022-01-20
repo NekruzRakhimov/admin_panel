@@ -2502,7 +2502,7 @@ var doc = `{
         },
         "/users/{id}/details": {
             "get": {
-                "description": "Get User by ID",
+                "description": "Find User by Table Name",
                 "consumes": [
                     "application/json"
                 ],
@@ -2512,12 +2512,12 @@ var doc = `{
                 "tags": [
                     "users"
                 ],
-                "summary": "Get User by ID",
+                "summary": "Get (Find) User by Table Name",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "user ID",
-                        "name": "id",
+                        "description": "user number",
+                        "name": "user_number",
                         "in": "path",
                         "required": true
                     }
@@ -2526,28 +2526,28 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.User"
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "string"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "string"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "string"
                         }
                     }
                 }
@@ -2866,6 +2866,9 @@ var doc = `{
                 },
                 "email": {
                     "type": "string"
+                },
+                "id": {
+                    "type": "integer"
                 },
                 "status": {
                     "type": "boolean"

@@ -205,6 +205,8 @@ definitions:
         type: string
       email:
         type: string
+      id:
+        type: integer
       status:
         type: boolean
       type:
@@ -2058,11 +2060,11 @@ paths:
     get:
       consumes:
       - application/json
-      description: Get User by ID
+      description: Find User by Table Name
       parameters:
-      - description: user ID
+      - description: user number
         in: path
-        name: id
+        name: user_number
         required: true
         type: integer
       produces:
@@ -2071,23 +2073,22 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.User'
+            items:
+              type: integer
+            type: array
         "400":
           description: Bad Request
           schema:
-            additionalProperties: true
-            type: object
+            type: string
         "404":
           description: Not Found
           schema:
-            additionalProperties: true
-            type: object
+            type: string
         "500":
           description: Internal Server Error
           schema:
-            additionalProperties: true
-            type: object
-      summary: Get User by ID
+            type: string
+      summary: Get (Find) User by Table Name
       tags:
       - users
 schemes:
