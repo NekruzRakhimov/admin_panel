@@ -295,3 +295,103 @@ func GetUserById(c *gin.Context) {
 
 	c.JSON(http.StatusOK, user)
 }
+
+
+// FindUserByTableName Find User by Table Name godoc
+// @Summary Get (Find) User by Table Name
+// @Description Find User by Table Name
+// @Accept  json
+// @Produce  json
+// @Param  user_number path int true "user number"
+// @Tags users
+// @Success 200 {object} []byte
+// @Failure 400,404 {object} string
+// @Failure 500 {object} string
+// @Router /users/{id}/details [get]
+func FindUserByTableName(c *gin.Context) {
+	userNumber := c.Param("user_number")
+
+	if userNumber == "0000012672" {
+		c.JSON(http.StatusOK, []byte(`{
+    "full_name": "Кабдушева Алиса Марсовна",
+    "uid": "a99084dc-afa0-4e10-9eef-5a3bf10eb195",
+    "roles": [
+        {
+            "role": "Администрирование дополнительных форм и обработок"
+        },
+        {
+            "role": "Администрирование сохраненных настроек"
+        },
+        {
+            "role": "Использование торгового оборудования"
+        },
+        {
+            "role": "Менеджер по закупкам"
+        },
+        {
+            "role": "Менеджер по продажам"
+        },
+        {
+            "role": "Настройка торгового оборудования"
+        },
+        {
+            "role": "Пользователь"
+        },
+        {
+            "role": "Право запуска внешних обработок"
+        },
+        {
+            "role": "Менеджер по ценообразованию"
+        },
+        {
+            "role": "Бухгалтер без ЗП"
+        },
+        {
+            "role": "Журнал изменений: пользователь"
+        },
+        {
+            "role": "Справочник"
+        },
+        {
+            "role": "Бухгалтер"
+        },
+        {
+            "role": "Оператор по приходу"
+        },
+        {
+            "role": "Создание и редактирование номенклатуры"
+        },
+        {
+            "role": "Оператор по расходу"
+        },
+        {
+            "role": "Планирование"
+        },
+        {
+            "role": "МОП: Мониторинг"
+        },
+        {
+            "role": "Менеджер"
+        },
+        {
+            "role": "Отражение в регламентированном учете"
+        },
+        {
+            "role": "Cебестоимость для отчетов прайсов"
+        },
+        {
+            "role": "Только чтение"
+        },
+        {
+            "role": "Редактирование уценки номенклатуры"
+        },
+        {
+            "role": "Полные права"
+        }
+    ]
+}`))
+		return
+	}
+
+	c.JSON(http.StatusNotFound, "пользователь не найден")
+}

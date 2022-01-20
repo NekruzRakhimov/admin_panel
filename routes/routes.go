@@ -102,6 +102,7 @@ func runAllRoutes(r *gin.Engine) {
 	users.POST("/", controller.CreateNewUser)
 	users.PUT("/:id", controller.EditUser)
 	users.DELETE("/:id", controller.DeleteUser)
+	users.GET("/search/:user_number", controller.FindUserByTableName)
 
 	rights := r.Group("/rights")
 	rights.GET("", controller.GetAllRights)
