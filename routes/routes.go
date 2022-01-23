@@ -8,8 +8,6 @@ import (
 	"github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"net/http"
-	"os"
-
 	//_ "github.com/rizalgowandy/go-swag-sample/docs/ginsimple" // you need to update github.com/rizalgowandy/go-swag-sample with your own project path
 	_ "admin_panel/docs"
 )
@@ -124,16 +122,13 @@ func runAllRoutes(r *gin.Engine) {
 	r.POST("/attach_role/:user_id/:role_id", controller.AttachRoleToUser)
 	r.DELETE("/detach_role/:user_id/:role_id", controller.DetachRoleFromUser)
 
-	//url := ginSwagger.URL("http://localhost:3000/swagger/doc.json") // The url pointing to API definition
-	//r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
-	//	use ginSwagger middleware to serve the API docs
-	//	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	//	Start server
 
-	_ = r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
-	//_ = r.Run(fmt.Sprintf("%s:%s", "localhost", "3000"))
+	//_ = r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
+	_ = r.Run(fmt.Sprintf("%s:%s", "localhost", "3000"))
 	///if err := r.Run(":3000"); err != nil {
 	//log.Fatal(err)
 	//}

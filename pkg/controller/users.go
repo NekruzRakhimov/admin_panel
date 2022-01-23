@@ -52,6 +52,7 @@ func Login(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"access":  accessToken,
 			"refresh": refreshToken,
+			"FIO": "Кабдушева Алиса Марсовна",
 		})
 		return
 	}

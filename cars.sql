@@ -12,8 +12,13 @@ VALUES('{"brand": "Toyota", "color": ["red", "black"], "price": 285000, "sold": 
       ('{"brand": "Mitsubishi", "color": ["black", "gray"], "price": 604520, "sold": true}');
 
 
-SELECT cars_info -> 'brand' AS car_name FROM cars;
+SELECT cars_info ->> 'brand' AS car_name FROM cars;
 
+SELECT cars_info value ->> 'brand' AS brand
+FROM cars, jsonb_array_elements(cars.cars_info);
+
+SELECT DISTINCT value->'Tag' AS tag
+FROM Documents, jsonb_array_elements(Documents.Tags);
 
 
 
@@ -26,6 +31,9 @@ SELECT contract_parameters -> 'prepayment' AS prepayment FROM contracts WHERE id
 SELECT contract_parameters -> 'prepayment' AS prepayment FROM contracts WHERE requisites -> 'bin' = '0909090989889'; -- не работает
 
 SELECT * FROM cars WHERE cars_info -> 'sold' = 'true';
+
+SELECT supplier_company_manager -> 'email' AS email From contracts;
+SELECT *FROM  contracts where  supplier_company_manager ->> 'email' = 'aziz.rahimov0001@gmail.com';
 
 SELECT * FROM contracts WHERE data = '{"a":1}';
 

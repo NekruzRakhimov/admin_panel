@@ -24,13 +24,16 @@ func basicAuth(username, password string) string {
 
 func redirectPolicyFunc(req *http.Request, via []*http.Request) error {
 	req.Header.Add("Authorization", "Basic "+basicAuth("username1", "password123"))
+
+
+
 	return nil
 }
 
 func AddOperationExternalService(login, password string) (response []byte, statusCode int, err error) {
 	client := &http.Client{
 		Timeout:       60 * time.Second,
-		CheckRedirect: redirectPolicyFunc,
+		//CheckRedirect: redirectPolicyFunc,
 	}
 
 	body, err := json.Marshal(struct {
@@ -50,7 +53,9 @@ func AddOperationExternalService(login, password string) (response []byte, statu
 		log.Println("[repository.AddOperationExternalService]|[http.NewRequest] error is ", err.Error())
 		return nil, http.StatusInternalServerError, err
 	}
-	req.Header.Add("Authorization", "Basic "+basicAuth("http_client", "123456"))
+	//req.Header.Add("Authorization", "Basic "+basicAuth("http_client", "123456"))
+	req.SetBasicAuth("http_client", "123456" )
+	req.Header.Add("Content-Type", "application/json")
 
 	resp, err := client.Do(req)
 	if err != nil {
