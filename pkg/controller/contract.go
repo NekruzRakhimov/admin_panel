@@ -484,6 +484,25 @@ func CounterpartyContract(c *gin.Context) {
 
 }
 
+func SearchBinClient(c *gin.Context)  {
+	var clientBin model.ClientBin
+
+
+	err := c.ShouldBindJSON(&clientBin)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, "что-то пошло не так")
+		return
+	}
+	fmt.Println(clientBin.Bin, "BIN")
+	client, err := service.SearchByBinClient(clientBin)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+	c.JSON(http.StatusOK, client)
+
+}
+
 func Notification(c *gin.Context)  {
 	//TODO: ты должен сделать select -> типа выбрать дату договора, где будет время: и сделать сравнение мол если
 	// 100 - изначальный договор

@@ -223,3 +223,12 @@ type ContractStatusHistory struct {
 	StartDate string `json:"start_date" gorm:"created_at"`
 	EndDate   string `json:"end_date"`
 }
+
+type Client struct {
+	Name          string `json:"name"`
+	Bank          string `json:"bank"`
+	AccountNumber string `json:"account_number"`
+	Id1C          string `json:"id_1C"`
+	Bin           string `json:"bin"`
+	Country       string `json:"country"`
+}

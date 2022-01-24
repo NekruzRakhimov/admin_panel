@@ -500,3 +500,4 @@ func RevisionContract(contractId int, comment string) error {
 func GetContractStatusChangesHistory(contractId int) (history []model.ContractStatusHistory, err error) {
 	return repository.GetContractStatusChangesHistory(contractId)
 }
+

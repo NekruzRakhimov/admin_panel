@@ -25,8 +25,6 @@ func basicAuth(username, password string) string {
 func redirectPolicyFunc(req *http.Request, via []*http.Request) error {
 	req.Header.Add("Authorization", "Basic "+basicAuth("username1", "password123"))
 
-
-
 	return nil
 }
 
@@ -161,4 +159,47 @@ func SaveContract1C(contract model.ContractDTOFor1C) (model.RespContract, error)
 
 	//TODO: также сделать проверку статус кода
 	return respContract1C, nil
+}
+
+func SearchByBinClient(bin model.ClientBin) (model.Client, error) {
+	//var binOrganizationAKNIET = "060540001442"
+	var binClient model.Client
+
+	bodyBin := new(bytes.Buffer)
+	err := json.NewEncoder(bodyBin).Encode(bin)
+	if err != nil {
+		return binClient, err
+	}
+	fmt.Println("BODY", bodyBin)
+	client := &http.Client{}
+	endpoint := fmt.Sprintf("http://89.218.153.38:8081/AQG_ULAN/hs/integration/client_search")
+	r, err := http.NewRequest("POST", endpoint, bodyBin) // URL-encoded payload
+	if err != nil {
+		log.Fatal(err)
+	}
+	r.Header.Add("Content-Type", "application/json")
+	r.SetBasicAuth("http_client", "123456")
+
+	res, err := client.Do(r)
+	if err != nil {
+
+		return binClient, err
+	}
+	log.Println(res.Status, "мы дошли до сюда")
+	defer res.Body.Close()
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(string(body), "RESPONSE")
+
+	// ----------> часть Unmarshall json ->
+	body = bytes.TrimPrefix(body, []byte("\xef\xbb\xbf"))
+	err = json.Unmarshal(body, &binClient)
+	if err != nil {
+		return binClient, err
+	}
+
+	return binClient, nil
+
 }

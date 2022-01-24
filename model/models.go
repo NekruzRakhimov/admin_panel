@@ -50,3 +50,7 @@ type RightDTO struct {
 	Description string `json:"description"`
 	IsAttached  bool   `json:"is_attached"`
 }
+
+type ClientBin struct{
+	Bin string `json:"bin"`
+}
