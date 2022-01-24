@@ -131,7 +131,7 @@ func runAllRoutes(r *gin.Engine) {
 	//	Start server
 
 	_ = r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
-//	_ = r.Run(fmt.Sprintf("%s:%s", "localhost", "3000"))
+	//_ = r.Run(fmt.Sprintf("%s:%s", "localhost", "3000"))
 	///if err := r.Run(":3000"); err != nil {
 	//log.Fatal(err)
 	//}

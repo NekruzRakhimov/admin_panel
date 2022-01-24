@@ -16,6 +16,26 @@ definitions:
       id:
         type: integer
     type: object
+  model.Client:
+    properties:
+      account_number:
+        type: string
+      bank:
+        type: string
+      bin:
+        type: string
+      country:
+        type: string
+      id_1C:
+        type: string
+      name:
+        type: string
+    type: object
+  model.ClientBin:
+    properties:
+      bin:
+        type: string
+    type: object
   model.Contract:
     properties:
       comment:
@@ -511,6 +531,43 @@ paths:
       summary: Attach Role To User
       tags:
       - users
+  /client_search:
+    post:
+      consumes:
+      - application/json
+      description: add by json account
+      parameters:
+      - description: bin
+        in: body
+        name: bin
+        required: true
+        schema:
+          $ref: '#/definitions/model.ClientBin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Client'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Search Client
+      tags:
+      - search
   /contract/:
     get:
       consumes:

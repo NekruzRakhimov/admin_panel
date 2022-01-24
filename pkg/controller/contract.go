@@ -484,9 +484,20 @@ func CounterpartyContract(c *gin.Context) {
 
 }
 
-func SearchBinClient(c *gin.Context)  {
+// SearchBinClient godoc
+// @Summary      Search Client
+// @Description  add by json account
+// @Tags         search
+// @Accept       json
+// @Produce      json
+// @Param        bin  body      model.ClientBin  true  "bin"
+// @Success      200      {object}  model.Client
+// @Failure      400      {object}  map[string]interface{}
+// @Failure      404      {object}  map[string]interface{}
+// @Failure      500      {object}  map[string]interface{}
+// @Router       /client_search [post]
+func SearchBinClient(c *gin.Context) {
 	var clientBin model.ClientBin
-
 
 	err := c.ShouldBindJSON(&clientBin)
 	if err != nil {
@@ -496,14 +507,14 @@ func SearchBinClient(c *gin.Context)  {
 	fmt.Println(clientBin.Bin, "BIN")
 	client, err := service.SearchByBinClient(clientBin)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"message": err})
 		return
 	}
 	c.JSON(http.StatusOK, client)
 
 }
 
-func Notification(c *gin.Context)  {
+func Notification(c *gin.Context) {
 	//TODO: ты должен сделать select -> типа выбрать дату договора, где будет время: и сделать сравнение мол если
 	// 100 - изначальный договор
 	// 60 осталось
@@ -515,12 +526,8 @@ func Notification(c *gin.Context)  {
 	// 4. после чего пройдемся по массиву и там же будет проверка даты
 	// 5. и если он нашел какую-то дату то все отправляем уведомляем
 
-
-
 	//TODO: Шаги
 	// 1. вызов логики
 	// 2.
 
 }
-
-
