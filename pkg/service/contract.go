@@ -449,7 +449,8 @@ func CancelContract(contractId int) error {
 	return nil
 }
 
-func GetContractHistory(contractId int) (contracts []model.Contract, err error) {
+func GetContractHistory(contractId int) (contractsMiniInfo []model.ContractMiniInfo, err error) {
+	var contracts []model.Contract
 	contractWithJsonB, err := repository.GetContractDetails(contractId)
 	if err != nil {
 		return nil, err
@@ -486,7 +487,12 @@ func GetContractHistory(contractId int) (contracts []model.Contract, err error) 
 		}
 	}
 
-	return contracts, nil
+	for _, contract := range contracts {
+		contractMiniInfo := ConvertContractToContractMiniInfo(contract)
+		contractsMiniInfo = append(contractsMiniInfo, contractMiniInfo)
+	}
+
+	return contractsMiniInfo, nil
 }
 
 func FinishContract(contractId int) error {
@@ -500,4 +506,3 @@ func RevisionContract(contractId int, comment string) error {
 func GetContractStatusChangesHistory(contractId int) (history []model.ContractStatusHistory, err error) {
 	return repository.GetContractStatusChangesHistory(contractId)
 }
-

@@ -78,7 +78,7 @@ func runAllRoutes(r *gin.Engine) {
 	contract.GET("/history/:id", controller.GetContractHistory)
 	contract.GET("/status_history/:id", controller.GetContractStatusChangesHistory)
 
-	contract.POST("/form/:with_temp_conditions", controller.FormContract)
+	contract.POST("/form/:contract_type/:with_temp_conditions", controller.FormContract)
 
 	dictionary := r.Group("/dictionary")
 	dictionary.GET("", controller.GetAllDictionaries)
@@ -98,6 +98,7 @@ func runAllRoutes(r *gin.Engine) {
 	dictionary.GET("/frequency_deferred_discounts", controller.GetAllFrequencyDeferredDiscounts)
 
 	users := r.Group("/users")
+	users.GET("/search/:user_number", controller.FindUserByTableName)
 	users.GET("/", controller.GetAllUsers)
 	users.GET("/:id/details", controller.GetUserById)
 	users.POST("/", controller.CreateNewUser)
@@ -124,7 +125,6 @@ func runAllRoutes(r *gin.Engine) {
 
 	r.POST("/attach_role/:user_id/:role_id", controller.AttachRoleToUser)
 	r.DELETE("/detach_role/:user_id/:role_id", controller.DetachRoleFromUser)
-
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 

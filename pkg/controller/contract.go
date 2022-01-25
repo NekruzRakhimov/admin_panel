@@ -375,13 +375,13 @@ func ConvertExcelToStruct(c *gin.Context) {
 	//	return
 	//}
 
-	if err := c.SaveUploadedFile(img, "files/applications/products_template.xlsx"); err != nil {
+	if err := c.SaveUploadedFile(img, "files/applications/edited_products_template.xlsx"); err != nil {
 		log.Println("[controller.ConvertExcelToStruct]|[c.SaveUploadedFile]| error is: ", err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
 	}
 
-	f, err := excelize.OpenFile("files/applications/products_template.xlsx")
+	f, err := excelize.OpenFile("files/applications/edited_products_template.xlsx")
 	//c.JSON(http.StatusOK, gin.H{"reason": "ok"})
 	if err != nil {
 		log.Println("[controller.ConvertExcelToStruct]|[excelize.OpenFile]| error is: ", err.Error())
