@@ -2697,6 +2697,9 @@
                 },
                 "name": {
                     "type": "string"
+                },
+                "reason": {
+                    "type": "string"
                 }
             }
         },

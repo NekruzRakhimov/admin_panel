@@ -175,9 +175,11 @@ func SearchByBinClient(bin model.ClientBin) (model.Client, error) {
 	endpoint := fmt.Sprintf("http://89.218.153.38:8081/AQG_ULAN/hs/integration/client_search")
 	r, err := http.NewRequest("POST", endpoint, bodyBin) // URL-encoded payload
 	if err != nil {
+		return binClient, errors.New("пишешь любой текст ошибки")
 		log.Fatal(err)
 	}
 	r.Header.Add("Content-Type", "application/json")
+	// надо логин и пароль добавить в конфиг
 	r.SetBasicAuth("http_client", "123456")
 
 	res, err := client.Do(r)

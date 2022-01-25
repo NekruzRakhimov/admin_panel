@@ -225,10 +225,11 @@ type ContractStatusHistory struct {
 }
 
 type Client struct {
-	Name          string `json:"name"`
-	Bank          string `json:"bank"`
-	AccountNumber string `json:"account_number"`
-	Id1C          string `json:"id_1C"`
-	Bin           string `json:"bin"`
-	Country       string `json:"country"`
+	Name          string `json:"name,omitempty"`
+	Bank          string `json:"bank,omitempty"`
+	AccountNumber string `json:"account_number,omitempty"`
+	Id1C          string `json:"id_1C,omitempty"`
+	Bin           string `json:"bin,omitempty"`
+	Country       string `json:"country,omitempty"`
+	Reason        *string `json:"reason,omitempty"`
 }

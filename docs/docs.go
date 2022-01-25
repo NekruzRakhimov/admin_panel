@@ -2708,6 +2708,9 @@ var doc = `{
                 },
                 "name": {
                     "type": "string"
+                },
+                "reason": {
+                    "type": "string"
                 }
             }
         },

@@ -504,7 +504,9 @@ func SearchBinClient(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, "что-то пошло не так")
 		return
 	}
-	fmt.Println(clientBin.Bin, "BIN")
+
+
+
 	client, err := service.SearchByBinClient(clientBin)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": err})
