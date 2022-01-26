@@ -135,6 +135,8 @@ type Discount struct {
 	GraceDays           string  `json:"grace_days,omitempty"`
 	PaymentMultiplicity string  `json:"payment_multiplicity,omitempty"`
 	Amount              float32 `json:"amount,omitempty"`
+	Site                string  `json:"site,omitempty"`
+	Other               string  `json:"other"`
 	Comments            string  `json:"comments,omitempty"`
 }
 
@@ -225,11 +227,11 @@ type ContractStatusHistory struct {
 }
 
 type Client struct {
-	Name          string `json:"name,omitempty"`
-	Bank          string `json:"bank,omitempty"`
-	AccountNumber string `json:"account_number,omitempty"`
-	Id1C          string `json:"id_1C,omitempty"`
-	Bin           string `json:"bin,omitempty"`
-	Country       string `json:"country,omitempty"`
+	Name          string  `json:"name,omitempty"`
+	Bank          string  `json:"bank,omitempty"`
+	AccountNumber string  `json:"account_number,omitempty"`
+	Id1C          string  `json:"id_1C,omitempty"`
+	Bin           string  `json:"bin,omitempty"`
+	Country       string  `json:"country,omitempty"`
 	Reason        *string `json:"reason,omitempty"`
 }

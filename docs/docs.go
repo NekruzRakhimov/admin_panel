@@ -2975,7 +2975,13 @@ var doc = `{
                     "description": "Type                string ` + "`" + `json:\"type,omitempty\"` + "`" + `",
                     "type": "string"
                 },
+                "other": {
+                    "type": "string"
+                },
                 "payment_multiplicity": {
+                    "type": "string"
+                },
+                "site": {
                     "type": "string"
                 }
             }
