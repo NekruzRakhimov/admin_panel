@@ -69,6 +69,7 @@ func runAllRoutes(r *gin.Engine) {
 	contract.GET("/products_template", controller.GetProductsTemplate)
 	contract.POST("/:type", controller.CreateContract)
 	contract.POST("/additional_agreement/:id", controller.AddAdditionalAgreement)
+	contract.POST("/individual_contract/:id", controller.AddIndividualContract)
 	contract.PUT("/:type/:id", controller.EditContract)
 	contract.GET("/:id/details", controller.GetContractDetails)
 	contract.PUT("/conform/:id", controller.ConformContract)
@@ -105,7 +106,7 @@ func runAllRoutes(r *gin.Engine) {
 	users.POST("/", controller.CreateNewUser)
 	users.PUT("/:id", controller.EditUser)
 	users.DELETE("/:id", controller.DeleteUser)
-//	users.GET("/search/:user_number", controller.FindUserByTableName)
+	//	users.GET("/search/:user_number", controller.FindUserByTableName)
 
 	rights := r.Group("/rights")
 	rights.GET("", controller.GetAllRights)
@@ -131,7 +132,7 @@ func runAllRoutes(r *gin.Engine) {
 
 	//	Start server
 
-	err  := r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
+	err := r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
 	if err != nil {
 		log.Println(err)
 

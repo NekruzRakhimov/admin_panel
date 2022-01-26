@@ -505,8 +505,6 @@ func SearchBinClient(c *gin.Context) {
 		return
 	}
 
-
-
 	client, err := service.SearchByBinClient(clientBin)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": err})
@@ -514,6 +512,30 @@ func SearchBinClient(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, client)
 
+}
+
+func AddIndividualContract(c *gin.Context) {
+	_, err := c.FormFile("file")
+	if err != nil {
+		log.Println("[controller.AddIndividualContract]|[c.FormFile(\"file\")]| error is: ", err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	//file, err := os.Create("files/applications/products_template.xlsx")
+	//if err != nil {
+	//	log.Println("[controller.ConvertExcelToStruct]|[os.Create]| error is: ", err.Error())
+	//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+	//	return
+	//}
+
+	//if err := c.SaveUploadedFile(img, "files/edited_products_template.xlsx"); err != nil {
+	//	log.Println("[controller.ConvertExcelToStruct]|[c.SaveUploadedFile]| error is: ", err.Error())
+	//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+	//	return
+	//}
+
+	c.JSON(http.StatusOK, gin.H{"reason": "файл успешно загружен"})
 }
 
 func Notification(c *gin.Context) {
