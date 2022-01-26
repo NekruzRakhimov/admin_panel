@@ -17,7 +17,7 @@ func Notification() {
 	var notifications []model.Notification
 	var notification model.Notification
 
-	db.GetDBConn().Raw("SELECT requisites ->> 'bin' AS bin, contract_parameters ->> 'contract_date' AS contract_date, contract_parameters ->> 'contract_number'  AS   contract_number, type, supplier_company_manager ->> 'email'  AS email FROM contracts WHERE status = 'в работе'").Scan(&notifications)
+	db.GetDBConn().Raw("SELECT requisites ->>  'bin' AS bin, contract_parameters ->> 'contract_date' AS contract_date, contract_parameters ->> 'contract_number'  AS   contract_number, type, supplier_company_manager ->> 'email'  AS email FROM contracts WHERE status = 'в работе'").Scan(&notifications)
 
 	for _, value := range notifications {
 		var data struct {
@@ -35,7 +35,17 @@ func Notification() {
 		t, err := time.Parse(layoutISO, value.ContractDate)
 		if err != nil {
 			fmt.Println(err)
+
 		}
+		fmt.Println(endDateContract, "END CONTA")
+
+
+		dur :=  endDateContract.Sub(t)
+		fmt.Printf("Разница между end_date и t: %v\n", dur )
+		fmt.Println(value.ContractNumber, value.ContractDate, "Данные догвора")
+
+
+
 		fmt.Println(t, "ПРИМЕР ДАТЫ")
 		res := endDateContract.After(t)
 		log.Println("Проверка времени", res)
@@ -55,6 +65,7 @@ func Notification() {
 				// на доставлено
 				 err := SendNotification(value.Email, message)
 				if err != nil {
+
 					log.Println(err)
 					return
 				}
