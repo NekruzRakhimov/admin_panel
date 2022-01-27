@@ -151,7 +151,7 @@ func RecordContractStatusChange(contractId int, status string) error {
 	return nil
 }
 
-func SaveContractExternalCode(contractId int, contractCode string) error  {
+func SaveContractExternalCode(contractId int, contractCode string) error {
 
 	return db.GetDBConn().Raw("UPDATE  contracts set ext_contract_code = $1  WHERE id = $2", contractCode, contractId).Error
 

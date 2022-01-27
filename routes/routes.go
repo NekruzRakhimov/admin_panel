@@ -69,7 +69,7 @@ func runAllRoutes(r *gin.Engine) {
 	contract.GET("/products_template", controller.GetProductsTemplate)
 	contract.POST("/:type", controller.CreateContract)
 	contract.POST("/additional_agreement/:id", controller.AddAdditionalAgreement)
-	contract.POST("/individual_contract/:id", controller.AddIndividualContract)
+	contract.POST("/individual_contract", controller.AddIndividualContract) //TODO: PutBack Id
 	contract.PUT("/:type/:id", controller.EditContract)
 	contract.GET("/:id/details", controller.GetContractDetails)
 	contract.PUT("/conform/:id", controller.ConformContract)
