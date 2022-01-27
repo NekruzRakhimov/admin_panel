@@ -378,7 +378,7 @@ func ConformContract(contractId int, status string) error {
 		contractFor1C.UpdatedAt = parts[0]
 	}
 
-	//SaveContract1C(contractFor1C)
+	 _, _ = SaveContract1C(contractFor1C)
 	//if err != nil {
 	//	return err
 	//}
