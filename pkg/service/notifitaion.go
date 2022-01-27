@@ -16,15 +16,13 @@ func Notification() {
 	endDateContract := time.Now().Add((24 * 60) * time.Hour)
 	var notifications []model.Notification
 	var notification model.Notification
-	//db.GetDBConn().Raw("SELECT cars_info -> 'brand' AS brand  FROM cars").Scan(&cars)
-	db.GetDBConn().Raw("SELECT requisites ->> 'bin' AS bin, contract_parameters ->> 'contract_date' AS contract_date, contract_parameters ->> 'contract_number'  AS   contract_number, type, supplier_company_manager ->> 'email'  AS email FROM contracts WHERE status = 'в работе'").Scan(&notifications)
-	//log.Println(" Массив Данных которые получили с уведомлений", notifications)
+
+	db.GetDBConn().Raw("SELECT requisites ->>  'bin' AS bin, contract_parameters ->> 'contract_date' AS contract_date, contract_parameters ->> 'contract_number'  AS   contract_number, type, supplier_company_manager ->> 'email'  AS email FROM contracts WHERE status = 'в работе'").Scan(&notifications)
 
 	for _, value := range notifications {
 		var data struct {
 			ID int `json:"id"`
 		}
-
 		log.Println("Contract Numb", value.ContractNumber)
 
 		if value.Type == "supply" {
@@ -32,13 +30,22 @@ func Notification() {
 		} else if value.Type == "marketing_services" {
 			value.Type = "Договор маркетинговых услуг"
 		}
-
 		layoutISO := "02.1.2006"
 
 		t, err := time.Parse(layoutISO, value.ContractDate)
 		if err != nil {
 			fmt.Println(err)
+
 		}
+		fmt.Println(endDateContract, "END CONTA")
+
+
+		dur :=  endDateContract.Sub(t)
+		fmt.Printf("Разница между end_date и t: %v\n", dur )
+		fmt.Println(value.ContractNumber, value.ContractDate, "Данные догвора")
+
+
+
 		fmt.Println(t, "ПРИМЕР ДАТЫ")
 		res := endDateContract.After(t)
 		log.Println("Проверка времени", res)
@@ -56,7 +63,13 @@ func Notification() {
 
 				//TODO: после того отправилось ообщения, и если ошибки не возникли при этом, надо статус поменять
 				// на доставлено
-				SendNotification(value.Email, message)
+				 err := SendNotification(value.Email, message)
+				if err != nil {
+
+					log.Println(err)
+					return
+				}
+				db.GetDBConn().Exec("UPDATE notification set status = true WHERE  contract_number = $1", value.ContractNumber)
 
 				// если данные не записываются, то вызови их
 
@@ -89,8 +102,7 @@ func GetNotifications() []model.Notification {
 
 }
 
-func SendNotification(email string, message string) string {
-
+func SendNotification(email string, message string)  error {
 	fmt.Println(email, " EMAIL На почту которую ты отправил")
 	fmt.Println(message, "MESSAGE На почту которую ты отправил")
 
@@ -119,9 +131,10 @@ func SendNotification(email string, message string) string {
 
 	// Now send E-Mail
 	if err := d.DialAndSend(m); err != nil {
-		fmt.Println(err)
+		return  err
+
 		//panic(err)
 	}
 	fmt.Println("successfully sent email!")
-	return "successfully sent email!"
+	return nil
 }

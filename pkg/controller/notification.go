@@ -31,7 +31,6 @@ func GetIdNotification(c *gin.Context) {
 // @Success      200  {array}   model.Notification
 // @Router       /notifications [get]
 func GetNotifications(c *gin.Context) {
-
 	notifications := service.GetNotifications()
 
 	c.JSON(http.StatusOK, notifications)
