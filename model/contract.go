@@ -89,7 +89,8 @@ type SupplierCompanyManager struct {
 	Phone     string `json:"phone,omitempty"`
 	Position  string `json:"position,omitempty"`
 	// Основание - надо понять как правильно назвать это
-	Base string `json:"base,omitempty"`
+	Base     string `json:"base,omitempty"`
+	FullName string `json:"full_name"`
 }
 
 type ContractParameters struct {
