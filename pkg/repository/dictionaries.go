@@ -24,7 +24,7 @@ func GetAllPositions() (positions []model.Position, err error) {
 }
 
 func GetAllAddresses() (addresses []model.Address, err error) {
-	sqlQuery := "SELECT * FROM addresses"
+	sqlQuery := "SELECT id, value as code FROM dictionary_values WHERE dictionary_id = 1"
 	if err := db.GetDBConn().Raw(sqlQuery).Scan(&addresses).Error; err != nil {
 		return nil, err
 	}

@@ -214,7 +214,7 @@ type FrequencyDeferredDiscount struct {
 type Address struct {
 	ID          int    `json:"id"`
 	Code        string `json:"code"`
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 }
 
 type Position struct {
