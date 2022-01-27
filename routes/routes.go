@@ -133,6 +133,7 @@ func runAllRoutes(r *gin.Engine) {
 	//	Start server
 
 	err := r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
+	//err := r.Run(fmt.Sprintf("%s:%s", "localhost", "3000"))
 	if err != nil {
 		log.Println(err)
 

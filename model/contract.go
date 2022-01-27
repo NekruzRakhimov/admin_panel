@@ -70,13 +70,15 @@ type ContractMiniInfo struct {
 
 // Requisites Ревезиты
 type Requisites struct {
-	ContractorName    string `json:"contractor_name"`
-	Beneficiary       string `json:"beneficiary,omitempty"`
-	BankOfBeneficiary string `json:"bank_of_beneficiary,omitempty"`
-	BIN               string `json:"bin,omitempty"`
-	IIC               string `json:"iic,omitempty"`
-	Phone             string `json:"phone,omitempty"`
-	AccountNumber     string `json:"account_number,omitempty"`
+	ContractorName         string `json:"contractor_name"`
+	Beneficiary            string `json:"beneficiary,omitempty"`
+	BankOfBeneficiary      string `json:"bank_of_beneficiary,omitempty"`
+	BankBeneficiaryAddress string `json:"bank_beneficiary_address"`
+	SwiftCode              string `json:"swift_code"`
+	BIN                    string `json:"bin,omitempty"`
+	IIC                    string `json:"iic,omitempty"`
+	Phone                  string `json:"phone,omitempty"`
+	AccountNumber          string `json:"account_number,omitempty"`
 }
 
 // SupplierCompanyManager Руководитель компании поставщика
@@ -101,6 +103,8 @@ type ContractParameters struct {
 	DeliveryTimeInterval      int      `json:"delivery_time_interval,omitempty"` //интервал времени поставки после поступления денежых средств
 	ReturnTimeDelivery        int      `json:"return_time_delivery,omitempty"`   //время возврата при условии не поставки
 	ContractDate              string   `json:"contract_date,omitempty"`
+	StartDate                 string   `json:"start_date" sql:"-"`
+	EndDate                   string   `json:"end_date" sql:"-"`
 }
 
 type ContractParametersDTOFor1C struct {

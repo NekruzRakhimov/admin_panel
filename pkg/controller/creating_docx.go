@@ -74,7 +74,7 @@ func SupplyContract(c *gin.Context, contract model.Contract, withTempConditions 
 }
 
 func SupplyContractWithTempConditions(c *gin.Context, contract model.Contract) {
-	doc, err := document.Open("files/contracts/supply/with_temp_cond.docx")
+	doc, err := document.Open("files/contracts/supply/without_temp_cond.docx")
 	if err != nil {
 		log.Fatalf("error opening document: %s", err)
 	}
@@ -112,35 +112,59 @@ func SupplyContractWithTempConditions(c *gin.Context, contract model.Contract) {
 			//para.AddRun().AddText("III")
 			//para.SetStyle("Name")
 
-			case "MANAGER":
+			case "NEKRUZ": //CONTRACT_NUMBER
 				r.ClearContent()
-				r.AddText(contract.Manager)
+				r.AddText(contract.ContractParameters.ContractNumber)
+			//case "MANAGER":
+			//	r.ClearContent()
+			//	r.AddText(contract.Manager)
 			case "BENEFICIARY":
 				r.ClearContent()
 				r.AddText(contract.Requisites.Beneficiary)
 			case "ADDRESS":
 				r.ClearContent()
-				r.AddText("CIP- Красногвардейский Тракт (ул. Суюнбая) 258, г. Алматы, Республика Казахстан, Инкотермс 2010")
+				r.AddText(contract.ContractParameters.ContractDate)
+			case "BENEFICIARY_BANK_ADDRESS":
+				r.ClearContent()
+				r.AddText("CUSTOM_BENEFICIARY_BANK_ADDRESS")
+			case "BENEFICIARY_BANK":
+				r.ClearContent()
+				r.AddText(contract.Requisites.BankOfBeneficiary)
+			case "SWIFT_CODE":
+				r.ClearContent()
+				r.AddText(contract.Requisites.SwiftCode)
 			case "ACCOUNT":
 				r.ClearContent()
 				r.AddText(contract.Requisites.AccountNumber)
-			case "CONTRACT_AMOUNT":
+			case "AZIZ": // END-DATE
+				r.ClearContent()
+				r.AddText(contract.ContractParameters.EndDate)
+			case "AMOUNT":
 				r.ClearContent()
 				r.AddText(fmt.Sprintf("%f", contract.ContractParameters.ContractAmount))
-			case "PRE_PAYMENT":
+			case "INTERVAL": // DeliveryTimeInterval
 				r.ClearContent()
-				r.AddText(fmt.Sprintf("%f", contract.ContractParameters.Prepayment))
-			case "BANK_BENEFICIARY":
+				r.AddText(fmt.Sprintf("%d", contract.ContractParameters.DeliveryTimeInterval))
+			case "DELIVERY_DATE": // DeliveryTimeInterval
 				r.ClearContent()
-				r.AddText(contract.Requisites.BankOfBeneficiary)
+				r.AddText(contract.ContractParameters.DateOfDelivery)
+			//case "PRE_PAYMENT":
+			//r.ClearContent()
+			//r.AddText(fmt.Sprintf("%f", contract.ContractParameters.Prepayment))
+			case "RETURNTIME": // ReturnTimeDelivery
+				r.ClearContent()
+				r.AddText(fmt.Sprintf("%d", contract.ContractParameters.ReturnTimeDelivery))
+			case "DELIVERIES": // DATE_OF_DELIVERY
+				r.ClearContent()
+				r.AddText(contract.ContractParameters.DateOfDelivery)
 			case "TABLE_PLACE":
 				// First Table
 				r.ClearContent()
 
-				paragraph := doc.AddParagraph()
-				paragraph.AddRun().AddText("")
+				//paragraph := doc.InsertParagraphAfter(p)
+				//paragraph.AddRun().AddText("")
 
-				table := doc.InsertTableAfter(paragraph)
+				table := doc.InsertTableAfter(p)
 				// width of the page
 				table.Properties().SetWidthPercent(100)
 				// with thick borers
@@ -151,7 +175,7 @@ func SupplyContractWithTempConditions(c *gin.Context, contract model.Contract) {
 				run := row.AddCell().AddParagraph().AddRun()
 				run.AddText("№")
 				row.AddCell().AddParagraph().AddRun().AddText("Торговое название / Trade Name ")
-				row.AddCell().AddParagraph().AddRun().AddText("ТЦена, CIP Алматы, в долларах США / Price, CIP Almaty, USD ")
+				row.AddCell().AddParagraph().AddRun().AddText("ТЦена, / Price, CIP Almaty")
 				row.AddCell().AddParagraph().AddRun().AddText("Состав. Характеристика ")
 				row.AddCell().AddParagraph().AddRun().AddText("Условия хранения ")
 				row.AddCell().AddParagraph().AddRun().AddText("Производитель ")
@@ -166,44 +190,6 @@ func SupplyContractWithTempConditions(c *gin.Context, contract model.Contract) {
 					row.AddCell().AddParagraph().AddRun().AddText(fmt.Sprintf("%s", product.StorageCondition))
 					row.AddCell().AddParagraph().AddRun().AddText(fmt.Sprintf("%s", product.Producer))
 				}
-
-			//case "BENEFICIARY":
-			//	r.ClearContent()
-			//	r.AddText("TOO TEST")
-			//	r.AddBreak()
-			//case "BENEFICIARY_BOTTOM":
-			//	r.ClearContent()
-			//	r.AddText("TOO TEST")
-			//	r.AddBreak()
-			//case "Title":
-			//	// we remove the title content entirely
-			//	p.RemoveRun(r)
-			//case "Company":
-			//	r.ClearContent()
-			//	r.AddText("Smith Enterprises")
-			//	r.AddBreak()
-			//case "Address":
-			//	r.ClearContent()
-			//	r.AddText("112 Rustic Rd")
-			//	r.AddBreak()
-			//case "City, ST ZIP Code":
-			//	r.ClearContent()
-			//	r.AddText("San Francisco, CA 94016")
-			//	r.AddBreak()
-			//case "Dear Recipient:":
-			//	r.ClearContent()
-			//	r.AddText("Dear Mrs. Smith:")
-			//	r.AddBreak()
-			//case "Your Name":
-			//	r.ClearContent()
-			//	r.AddText("John Smith")
-			//	r.AddBreak()
-			//
-			//	run := p.InsertRunBefore(r)
-			//	run.AddText("---Before----")
-			//	run.AddBreak()
-			//	run = p.InsertRunAfter(r)
-			//	run.AddText("---After----")
 
 			default:
 				fmt.Println("not modifying", r.Text())
@@ -256,35 +242,59 @@ func SupplyContractWithoutTempConditions(c *gin.Context, contract model.Contract
 			//para.AddRun().AddText("III")
 			//para.SetStyle("Name")
 
-			case "MANAGER":
+			case "NEKRUZ": //CONTRACT_NUMBER
 				r.ClearContent()
-				r.AddText(contract.Manager)
+				r.AddText(contract.ContractParameters.ContractNumber)
+			//case "MANAGER":
+			//	r.ClearContent()
+			//	r.AddText(contract.Manager)
 			case "BENEFICIARY":
 				r.ClearContent()
 				r.AddText(contract.Requisites.Beneficiary)
 			case "ADDRESS":
 				r.ClearContent()
-				r.AddText("CIP- Красногвардейский Тракт (ул. Суюнбая) 258, г. Алматы, Республика Казахстан, Инкотермс 2010")
+				r.AddText(contract.ContractParameters.ContractDate)
+			case "BENEFICIARY_BANK_ADDRESS":
+				r.ClearContent()
+				r.AddText("CUSTOM_BENEFICIARY_BANK_ADDRESS")
+			case "BENEFICIARY_BANK":
+				r.ClearContent()
+				r.AddText(contract.Requisites.BankOfBeneficiary)
+			case "SWIFT_CODE":
+				r.ClearContent()
+				r.AddText(contract.Requisites.SwiftCode)
 			case "ACCOUNT":
 				r.ClearContent()
 				r.AddText(contract.Requisites.AccountNumber)
-			case "CONTRACT_AMOUNT":
+			case "AZIZ": // END-DATE
+				r.ClearContent()
+				r.AddText(contract.ContractParameters.EndDate)
+			case "AMOUNT":
 				r.ClearContent()
 				r.AddText(fmt.Sprintf("%f", contract.ContractParameters.ContractAmount))
-			case "PRE_PAYMENT":
+			case "INTERVAL": // DeliveryTimeInterval
 				r.ClearContent()
-				r.AddText(fmt.Sprintf("%f", contract.ContractParameters.Prepayment))
-			case "BANK_BENEFICIARY":
+				r.AddText(fmt.Sprintf("%d", contract.ContractParameters.DeliveryTimeInterval))
+			case "DELIVERY_DATE": // DeliveryTimeInterval
 				r.ClearContent()
-				r.AddText(contract.Requisites.BankOfBeneficiary)
+				r.AddText(contract.ContractParameters.DateOfDelivery)
+			//case "PRE_PAYMENT":
+			//r.ClearContent()
+			//r.AddText(fmt.Sprintf("%f", contract.ContractParameters.Prepayment))
+			case "RETURNTIME": // ReturnTimeDelivery
+				r.ClearContent()
+				r.AddText(fmt.Sprintf("%d", contract.ContractParameters.ReturnTimeDelivery))
+			case "DELIVERIES": // DATE_OF_DELIVERY
+				r.ClearContent()
+				r.AddText(contract.ContractParameters.DateOfDelivery)
 			case "TABLE_PLACE":
 				// First Table
 				r.ClearContent()
 
-				paragraph := doc.AddParagraph()
-				paragraph.AddRun().AddText("")
+				//paragraph := doc.InsertParagraphAfter(p)
+				//paragraph.AddRun().AddText("")
 
-				table := doc.InsertTableAfter(paragraph)
+				table := doc.InsertTableAfter(p)
 				// width of the page
 				table.Properties().SetWidthPercent(100)
 				// with thick borers
@@ -295,7 +305,7 @@ func SupplyContractWithoutTempConditions(c *gin.Context, contract model.Contract
 				run := row.AddCell().AddParagraph().AddRun()
 				run.AddText("№")
 				row.AddCell().AddParagraph().AddRun().AddText("Торговое название / Trade Name ")
-				row.AddCell().AddParagraph().AddRun().AddText("ТЦена, CIP Алматы, в долларах США / Price, CIP Almaty, USD ")
+				row.AddCell().AddParagraph().AddRun().AddText("ТЦена / Price, CIP Almaty")
 				run.Properties().SetHighlight(wml.ST_HighlightColorYellow)
 
 				for _, product := range contract.Products {
@@ -304,44 +314,6 @@ func SupplyContractWithoutTempConditions(c *gin.Context, contract model.Contract
 					row.AddCell().AddParagraph().AddRun().AddText(product.ProductName)
 					row.AddCell().AddParagraph().AddRun().AddText(fmt.Sprintf("%f", product.Price))
 				}
-
-			//case "BENEFICIARY":
-			//	r.ClearContent()
-			//	r.AddText("TOO TEST")
-			//	r.AddBreak()
-			//case "BENEFICIARY_BOTTOM":
-			//	r.ClearContent()
-			//	r.AddText("TOO TEST")
-			//	r.AddBreak()
-			//case "Title":
-			//	// we remove the title content entirely
-			//	p.RemoveRun(r)
-			//case "Company":
-			//	r.ClearContent()
-			//	r.AddText("Smith Enterprises")
-			//	r.AddBreak()
-			//case "Address":
-			//	r.ClearContent()
-			//	r.AddText("112 Rustic Rd")
-			//	r.AddBreak()
-			//case "City, ST ZIP Code":
-			//	r.ClearContent()
-			//	r.AddText("San Francisco, CA 94016")
-			//	r.AddBreak()
-			//case "Dear Recipient:":
-			//	r.ClearContent()
-			//	r.AddText("Dear Mrs. Smith:")
-			//	r.AddBreak()
-			//case "Your Name":
-			//	r.ClearContent()
-			//	r.AddText("John Smith")
-			//	r.AddBreak()
-			//
-			//	run := p.InsertRunBefore(r)
-			//	run.AddText("---Before----")
-			//	run.AddBreak()
-			//	run = p.InsertRunAfter(r)
-			//	run.AddText("---After----")
 
 			default:
 				fmt.Println("not modifying", r.Text())
@@ -415,39 +387,6 @@ func MarketingServiceContract(c *gin.Context, contract model.Contract) {
 			case "BANK_BENEFICIARY":
 				r.ClearContent()
 				r.AddText(contract.Requisites.BankOfBeneficiary)
-			//case "TABLE_PLACE":
-			//	// First Table
-			//	r.ClearContent()
-			//
-			//	paragraph := doc.AddParagraph()
-			//	paragraph.AddRun().AddText("")
-			//
-			//	table := doc.InsertTableAfter(paragraph)
-			//	// width of the page
-			//	table.Properties().SetWidthPercent(100)
-			//	// with thick borers
-			//	borders := table.Properties().Borders()
-			//	borders.SetAll(wml.ST_BorderSingle, color.Auto, 2*measurement.Point)
-			//
-			//	row := table.AddRow()
-			//	run := row.AddCell().AddParagraph().AddRun()
-			//	run.AddText("№")
-			//	row.AddCell().AddParagraph().AddRun().AddText("Торговое название / Trade Name ")
-			//	row.AddCell().AddParagraph().AddRun().AddText("ТЦена, CIP Алматы, в долларах США / Price, CIP Almaty, USD ")
-			//	row.AddCell().AddParagraph().AddRun().AddText("Состав. Характеристика ")
-			//	row.AddCell().AddParagraph().AddRun().AddText("Условия хранения ")
-			//	row.AddCell().AddParagraph().AddRun().AddText("Производитель ")
-			//	run.Properties().SetHighlight(wml.ST_HighlightColorYellow)
-			//
-			//	for _, product := range contract.Products {
-			//		row = table.AddRow()
-			//		row.AddCell().AddParagraph().AddRun().AddText(fmt.Sprintf("%s", product.ProductNumber))
-			//		row.AddCell().AddParagraph().AddRun().AddText(product.ProductName)
-			//		row.AddCell().AddParagraph().AddRun().AddText(fmt.Sprintf("%f", product.Price))
-			//		row.AddCell().AddParagraph().AddRun().AddText(fmt.Sprintf("%s", product.Substance))
-			//		row.AddCell().AddParagraph().AddRun().AddText(fmt.Sprintf("%s", product.StorageCondition))
-			//		row.AddCell().AddParagraph().AddRun().AddText(fmt.Sprintf("%s", product.Producer))
-			//	}
 
 			//case "BENEFICIARY":
 			//	r.ClearContent()

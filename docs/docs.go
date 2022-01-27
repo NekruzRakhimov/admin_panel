@@ -2855,6 +2855,9 @@ var doc = `{
                     "description": "интервал времени поставки после поступления денежых средств",
                     "type": "integer"
                 },
+                "end_date": {
+                    "type": "string"
+                },
                 "frequency_deferred_discount": {
                     "description": "Кратность расчета отложенной скидки TODO: возможно нужно поменять",
                     "type": "string"
@@ -2865,6 +2868,9 @@ var doc = `{
                 "return_time_delivery": {
                     "description": "время возврата при условии не поставки",
                     "type": "integer"
+                },
+                "start_date": {
+                    "type": "string"
                 }
             }
         },
@@ -3072,6 +3078,9 @@ var doc = `{
                 "account_number": {
                     "type": "string"
                 },
+                "bank_beneficiary_address": {
+                    "type": "string"
+                },
                 "bank_of_beneficiary": {
                     "type": "string"
                 },
@@ -3088,6 +3097,9 @@ var doc = `{
                     "type": "string"
                 },
                 "phone": {
+                    "type": "string"
+                },
+                "swift_code": {
                     "type": "string"
                 }
             }
