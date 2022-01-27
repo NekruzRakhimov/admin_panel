@@ -120,7 +120,6 @@ func CounterpartyContract(binClient string) ([]model.Counterparty, error) {
 
 func SaveContract1C(contract model.ContractDTOFor1C) (model.RespContract, error) {
 	var respContract1C model.RespContract
-
 	saveContract := new(bytes.Buffer)
 	err := json.NewEncoder(saveContract).Encode(contract)
 	if err != nil {
@@ -130,7 +129,8 @@ func SaveContract1C(contract model.ContractDTOFor1C) (model.RespContract, error)
 	//endpoint := fmt.Sprintf("http://188.225.10.191:5555/api/v2/counterparty/%s/%s", binClient, binOrganizationAKNIET)
 	r, err := http.NewRequest("POST", "http://89.218.153.38:8081/AQG_ULAN/hs/integration/create_contract", saveContract) // URL-encoded payload
 	if err != nil {
-		log.Fatal(err)
+		//log.Fatal(err)
+		log.Println(err)
 	}
 	r.Header.Add("Content-Type", "application/json")
 	r.SetBasicAuth("http_client", "123456")
