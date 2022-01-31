@@ -25,6 +25,10 @@ func GetAllDictionaries() (dictionaries []model.Dictionary, err error) {
 	return repository.GetAllDictionaries()
 }
 
+func GetDictionaryByID(dictionaryID int) (model.Dictionary, error) {
+	return repository.GetDictionaryByID(dictionaryID)
+}
+
 func CreateDictionary(dictionary model.Dictionary) error {
 	return repository.CreateDictionary(dictionary)
 }

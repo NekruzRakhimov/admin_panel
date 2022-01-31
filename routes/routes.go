@@ -9,6 +9,8 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"log"
 	"net/http"
+	"os"
+
 	//_ "github.com/rizalgowandy/go-swag-sample/docs/ginsimple" // you need to update github.com/rizalgowandy/go-swag-sample with your own project path
 	_ "admin_panel/docs"
 )
@@ -82,6 +84,7 @@ func runAllRoutes(r *gin.Engine) {
 
 	dictionary := r.Group("/dictionary")
 	dictionary.GET("", controller.GetAllDictionaries)
+	dictionary.GET("/:id", controller.GetAllDictionaryByID)
 	dictionary.POST("", controller.CreatDictionary)
 	dictionary.PUT("/:id", controller.EditDictionary)
 	dictionary.DELETE("/:id", controller.DeleteDictionary)
@@ -130,8 +133,8 @@ func runAllRoutes(r *gin.Engine) {
 
 	//	Start server
 
-	//err := r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
-	err := r.Run(fmt.Sprintf("%s:%s", "localhost", "3000"))
+	err := r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
+	//err := r.Run(fmt.Sprintf("%s:%s", "localhost", "3000"))
 	if err != nil {
 		log.Println(err)
 
