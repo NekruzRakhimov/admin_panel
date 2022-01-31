@@ -555,3 +555,32 @@ func Notification(c *gin.Context) {
 	// 2.
 
 }
+
+// SearchByNumber godoc
+// @Summary      Search Contract by Number
+// @Description  add by json account
+// @Tags         search
+// @Accept       json
+// @Produce      json
+// @Param        contract_number	   body      model.ContractNumber  true  "contract_number"
+// @Success      200      {object}  model.SearchContract
+// @Failure      400      {object}  map[string]interface{}
+// @Failure      404      {object}  map[string]interface{}
+// @Failure      500      {object}  map[string]interface{}
+// @Router       /search_contract [post]
+func SearchContractByNumber(c *gin.Context) {
+	var contractNumber model.ContractNumber
+
+	err := c.ShouldBindJSON(&contractNumber)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+	result, err := service.SearchContractByNumber(contractNumber.ContractNumber)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, result)
+
+}

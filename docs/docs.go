@@ -2343,6 +2343,61 @@ var doc = `{
                 }
             }
         },
+        "/search_contract": {
+            "post": {
+                "description": "add by json account",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "search"
+                ],
+                "summary": "Search Contract by Number",
+                "parameters": [
+                    {
+                        "description": "contract_number",
+                        "name": "contract_number",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.ContractNumber"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.SearchContract"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/users/": {
             "get": {
                 "description": "Get All Users",
@@ -2827,6 +2882,14 @@ var doc = `{
                 }
             }
         },
+        "model.ContractNumber": {
+            "type": "object",
+            "properties": {
+                "contract_number": {
+                    "type": "string"
+                }
+            }
+        },
         "model.ContractParameters": {
             "type": "object",
             "properties": {
@@ -3196,6 +3259,32 @@ var doc = `{
                 }
             }
         },
+        "model.SearchContract": {
+            "type": "object",
+            "properties": {
+                "beneficiary": {
+                    "type": "string"
+                },
+                "contract_number": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "manager": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
         "model.SupplierCompanyManager": {
             "type": "object",
             "properties": {
@@ -3204,6 +3293,9 @@ var doc = `{
                     "type": "string"
                 },
                 "email": {
+                    "type": "string"
+                },
+                "full_name": {
                     "type": "string"
                 },
                 "phone": {

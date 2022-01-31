@@ -1,5 +1,7 @@
 package model
 
+import "time"
+
 type User struct {
 	ID           int       `json:"id"`
 	Name         string    `json:"name"`
@@ -51,6 +53,20 @@ type RightDTO struct {
 	IsAttached  bool   `json:"is_attached"`
 }
 
-type ClientBin struct{
+type SearchContract struct {
+	Beneficiary    string    `json:"beneficiary"`
+	ContractNumber string    `json:"contract_number"`
+	Type           string    `json:"type"`
+	CreatedAt      time.Time `json:"created_at"`
+	UpdatedAt      time.Time `json:"updated_at"`
+	Manager        string    `json:"manager"`
+	Price          string    `json:"price"`
+}
+
+type ClientBin struct {
 	Bin string `json:"bin"`
+}
+
+type ContractNumber struct {
+	ContractNumber string `json:"contract_number"`
 }

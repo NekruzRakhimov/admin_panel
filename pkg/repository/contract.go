@@ -3,7 +3,9 @@ package repository
 import (
 	"admin_panel/db"
 	"admin_panel/model"
+	"errors"
 	"fmt"
+	"github.com/jinzhu/gorm"
 	"log"
 )
 
@@ -154,5 +156,19 @@ func RecordContractStatusChange(contractId int, status string) error {
 func SaveContractExternalCode(contractId int, contractCode string) error {
 
 	return db.GetDBConn().Raw("UPDATE  contracts set ext_contract_code = $1  WHERE id = $2", contractCode, contractId).Error
+
+}
+
+func SearchContractByNumber(contractNumber string) (model.SearchContract, error) {
+	var search model.SearchContract
+	err := db.GetDBConn().Raw("SELECT requisites ->> 'beneficiary' AS  beneficiary,  contract_parameters ->> 'contract_number' AS contract_number,"+
+		"type,  created_at, updated_at, manager, contract_parameters ->> 'contract_amount' AS price FROM  contracts "+
+		"WHERE contract_parameters ->> 'contract_number' =  $1", contractNumber).Scan(&search).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return search, err
+	}
+
+	return search, nil
 
 }

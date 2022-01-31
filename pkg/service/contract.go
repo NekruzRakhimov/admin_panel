@@ -378,7 +378,7 @@ func ConformContract(contractId int, status string) error {
 		contractFor1C.UpdatedAt = parts[0]
 	}
 
-	 _, _ = SaveContract1C(contractFor1C)
+	_, _ = SaveContract1C(contractFor1C)
 	//if err != nil {
 	//	return err
 	//}
@@ -505,4 +505,9 @@ func RevisionContract(contractId int, comment string) error {
 
 func GetContractStatusChangesHistory(contractId int) (history []model.ContractStatusHistory, err error) {
 	return repository.GetContractStatusChangesHistory(contractId)
+}
+
+func SearchContractByNumber(contractNumber string) (model.SearchContract, error) {
+	return repository.SearchContractByNumber(contractNumber)
+
 }

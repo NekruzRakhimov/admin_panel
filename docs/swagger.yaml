@@ -107,6 +107,11 @@ definitions:
       updated_at:
         type: string
     type: object
+  model.ContractNumber:
+    properties:
+      contract_number:
+        type: string
+    type: object
   model.ContractParameters:
     properties:
       contract_amount:
@@ -349,12 +354,31 @@ definitions:
       status:
         type: string
     type: object
+  model.SearchContract:
+    properties:
+      beneficiary:
+        type: string
+      contract_number:
+        type: string
+      created_at:
+        type: string
+      manager:
+        type: string
+      price:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: string
+    type: object
   model.SupplierCompanyManager:
     properties:
       base:
         description: Основание - надо понять как правильно назвать это
         type: string
       email:
+        type: string
+      full_name:
         type: string
       phone:
         type: string
@@ -1982,6 +2006,43 @@ paths:
       summary: Get Role by ID
       tags:
       - roles
+  /search_contract:
+    post:
+      consumes:
+      - application/json
+      description: add by json account
+      parameters:
+      - description: contract_number
+        in: body
+        name: contract_number
+        required: true
+        schema:
+          $ref: '#/definitions/model.ContractNumber'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.SearchContract'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Search Contract by Number
+      tags:
+      - search
   /users/:
     get:
       consumes:
