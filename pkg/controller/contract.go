@@ -579,37 +579,26 @@ func SearchContractByNumber(c *gin.Context) {
 
 }
 
+// SearchContractDC godoc
+// @Summary      Search Contract by contract_number, author, beneficiary
+// @Description  поиск либо по одним из параметров - contract_number, author, beneficiary:
+// @Description Примеры:
+// @Description 1. target=contract_number&param=00001
+// @Description 2. target=author&param=Иван
+// @Description 3. target=beneficiary&param=ТОО «AK NIET GROUP
+// @Tags         search
+// @Accept       json
+// @Produce      json
+// @Param        target   query     string  true  "target"
+// @Param        param    query     string  true  "target"
+// @Success      200      {object}  model.SearchContract
+// @Failure      400      {object}  map[string]interface{}
+// @Failure      404      {object}  map[string]interface{}
+// @Failure      500      {object}  map[string]interface{}
+// @Router       /search_history/ [get]
 func SearchContractDC(c *gin.Context) {
-	// mainParam - это значение, а не пол
-
-	//var mainParam string
-	// название поля
 	target := c.Query("target")
 	param := c.Query("param")
-
-	fmt.Sprintf("target %s param %s", target, param)
-
-	// это будет уже
-	//contractNumber := c.Query("contract_number")
-	//author := c.Query("author")
-	//beneficiary := c.Query("beneficiary")
-
-	//contractNumber := c.Param("contract_number")
-	//author := c.Param("author")
-	//beneficiary := c.Param("beneficiary")
-
-	//if contractNumber != "" {
-	//	mainParam = contractNumber
-	//} else if author != "" {
-	//	mainParam = author
-	//} else if beneficiary != "" {
-	//	mainParam = beneficiary
-	//}
-	//if mainParam == "" {
-	//	c.JSON(http.StatusNotFound, "object not found")
-	//	return
-	//}
-
 	result, err := service.SearchContractHistory(target, param)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})

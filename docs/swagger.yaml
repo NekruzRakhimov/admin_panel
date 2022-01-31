@@ -357,6 +357,8 @@ definitions:
         type: string
       created_at:
         type: string
+      id:
+        type: integer
       manager:
         type: string
       price:
@@ -2070,6 +2072,52 @@ paths:
             additionalProperties: true
             type: object
       summary: Search Contract by Number
+      tags:
+      - search
+  /search_history/:
+    get:
+      consumes:
+      - application/json
+      description: |-
+        поиск либо по одним из параметров - contract_number, author, beneficiary:
+        Примеры:
+        1. target=contract_number&param=00001
+        2. target=author&param=Иван
+        3. target=beneficiary&param=ТОО «AK NIET GROUP
+      parameters:
+      - description: target
+        in: query
+        name: target
+        required: true
+        type: string
+      - description: target
+        in: query
+        name: param
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.SearchContract'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Search Contract by contract_number, author, beneficiary
       tags:
       - search
   /users/:
