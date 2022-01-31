@@ -569,16 +569,7 @@ func Notification(c *gin.Context) {
 // @Failure      500      {object}  map[string]interface{}
 // @Router       /search_contract/{contract_number} [get]
 func SearchContractByNumber(c *gin.Context) {
-	//var contractNumber model.ContractNumber
 	contractNumber := c.Param("contract_number")
-
-	fmt.Println(contractNumber, "Contract_number")
-
-	//err := c.ShouldBindJSON(&contractNumber)
-	//if err != nil {
-	//	c.JSON(http.StatusBadRequest, err.Error())
-	//	return
-	//}
 	result, err := service.SearchContractByNumber(contractNumber)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
