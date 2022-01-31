@@ -104,8 +104,8 @@ type ContractParameters struct {
 	DeliveryTimeInterval      int      `json:"delivery_time_interval,omitempty"` //интервал времени поставки после поступления денежых средств
 	ReturnTimeDelivery        int      `json:"return_time_delivery,omitempty"`   //время возврата при условии не поставки
 	ContractDate              string   `json:"contract_date,omitempty"`
-	StartDate                 string   `json:"start_date" sql:"-"`
-	EndDate                   string   `json:"end_date" sql:"-"`
+	StartDate                 string   `json:"start_date"`
+	EndDate                   string   `json:"end_date"`
 }
 
 type ContractParametersDTOFor1C struct {

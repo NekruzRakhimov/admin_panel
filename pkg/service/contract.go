@@ -456,6 +456,10 @@ func GetContractHistory(contractId int) (contractsMiniInfo []model.ContractMiniI
 		return nil, err
 	}
 
+	if contractWithJsonB.Status == "черновик" {
+		return []model.ContractMiniInfo{}, nil
+	}
+
 	contract, err := ConvertContractFromJsonB(contractWithJsonB)
 	if err != nil {
 		return nil, err
@@ -479,6 +483,11 @@ func GetContractHistory(contractId int) (contractsMiniInfo []model.ContractMiniI
 			contractLoc, err := ConvertContractFromJsonB(contractWithJsonBLoc)
 			if err != nil {
 				return nil, err
+			}
+
+			if contractLoc.Status == "черновик" {
+				prevContractId = contractLoc.PrevContractId
+				continue
 			}
 
 			contracts = append(contracts, contractLoc)

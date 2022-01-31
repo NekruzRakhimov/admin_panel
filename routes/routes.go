@@ -83,6 +83,7 @@ func runAllRoutes(r *gin.Engine) {
 
 	dictionary := r.Group("/dictionary")
 	dictionary.GET("", controller.GetAllDictionaries)
+	dictionary.GET("/:id", controller.GetAllDictionaryByID)
 	dictionary.POST("", controller.CreatDictionary)
 	dictionary.PUT("/:id", controller.EditDictionary)
 	dictionary.DELETE("/:id", controller.DeleteDictionary)

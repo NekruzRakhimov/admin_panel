@@ -51,6 +51,16 @@ func GetAllDictionaries() (dictionaries []model.Dictionary, err error) {
 	return dictionaries, nil
 }
 
+func GetDictionaryByID(dictionaryID int) (dictionary model.Dictionary, err error) {
+	sqlQuery := "SELECT * FROM dictionaries WHERE id = ? AND is_removed = false ORDER BY id"
+	err = db.GetDBConn().Raw(sqlQuery, dictionaryID).Scan(&dictionary).Error
+	if err != nil {
+		return model.Dictionary{}, err
+	}
+
+	return dictionary, nil
+}
+
 func CreateDictionary(dictionary model.Dictionary) error {
 	if err := db.GetDBConn().Table("dictionaries").Omit("author").Create(&dictionary).Error; err != nil {
 		return err
