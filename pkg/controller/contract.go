@@ -584,3 +584,7 @@ func SearchContractByNumber(c *gin.Context) {
 	c.JSON(http.StatusOK, result)
 
 }
+
+func SearchContractDC(c *gin.Context) {
+	
+}
