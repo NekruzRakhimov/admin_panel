@@ -580,5 +580,30 @@ func SearchContractByNumber(c *gin.Context) {
 }
 
 func SearchContractDC(c *gin.Context) {
-	
+	var mainParam string
+	// название поля
+	//target := c.Query("target")
+	contractNumber := c.Query("contract_number")
+	author := c.Query("author")
+	beneficiary := c.Query("beneficiary")
+
+	if contractNumber != "" {
+		mainParam = contractNumber
+	} else if author != "" {
+		mainParam = author
+	} else if beneficiary != "" {
+		mainParam = beneficiary
+	}
+	if mainParam == "" {
+		c.JSON(http.StatusNotFound, "object not found")
+		return
+	}
+
+	result, err := service.SearchContractByNumber(mainParam)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, result)
+
 }

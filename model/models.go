@@ -54,6 +54,7 @@ type RightDTO struct {
 }
 
 type SearchContract struct {
+	Id             int       `json:"id"`
 	Beneficiary    string    `json:"beneficiary"`
 	ContractNumber string    `json:"contract_number"`
 	Type           string    `json:"type"`

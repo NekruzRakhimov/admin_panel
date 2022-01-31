@@ -5,6 +5,7 @@
 
 
     SELECT requisites ->> 'beneficiary' AS  beneficiary,  contract_parameters ->> 'contract_number' AS contract_number,type,  created_at, updated_at, manager, contract_parameters ->> 'contract_amount' AS price FROM  contracts WHERE  contract_parameters ->> 'contract_number' like  '00000000000004%'
+    SELECT requisites ->> 'beneficiary' AS  beneficiary,  contract_parameters ->> 'contract_number' AS contract_number,type,  created_at, updated_at, manager, contract_parameters ->> 'contract_amount' AS price FROM  contracts WHERE  manager  like  '%Азиз%';
 
                                                                                                                                                                                                                                          INSERT INTO cars(cars_info)
     VALUES('{"brand": "Toyota", "color": ["red", "black"], "price": 285000, "sold": true}'),
@@ -55,3 +56,7 @@
     SELECT *FROM contracts;
 
     SELECT requisites -> 'contractor_name' AS contractor_name FROM contracts;
+
+
+
+

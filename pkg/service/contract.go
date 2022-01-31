@@ -511,8 +511,3 @@ func SearchContractByNumber(contractNumber string) ([]model.SearchContract, erro
 	return repository.SearchContractByNumber(contractNumber)
 
 }
-
-func SearchContractDC(contractNumber string) (model.SearchContract, error) {
-	return repository.SearchContractDC(contractNumber)
-
-}
