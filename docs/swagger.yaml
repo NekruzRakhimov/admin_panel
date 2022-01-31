@@ -107,11 +107,6 @@ definitions:
       updated_at:
         type: string
     type: object
-  model.ContractNumber:
-    properties:
-      contract_number:
-        type: string
-    type: object
   model.ContractParameters:
     properties:
       contract_amount:
@@ -2041,18 +2036,17 @@ paths:
       summary: Get Role by ID
       tags:
       - roles
-  /search_contract:
-    post:
+  /search_contract/{contract_number}:
+    get:
       consumes:
       - application/json
       description: add by json account
       parameters:
       - description: contract_number
-        in: body
+        in: path
         name: contract_number
         required: true
-        schema:
-          $ref: '#/definitions/model.ContractNumber'
+        type: string
       produces:
       - application/json
       responses:

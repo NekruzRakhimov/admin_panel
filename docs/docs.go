@@ -2394,8 +2394,8 @@ var doc = `{
                 }
             }
         },
-        "/search_contract": {
-            "post": {
+        "/search_contract/{contract_number}": {
+            "get": {
                 "description": "add by json account",
                 "consumes": [
                     "application/json"
@@ -2409,13 +2409,11 @@ var doc = `{
                 "summary": "Search Contract by Number",
                 "parameters": [
                     {
+                        "type": "string",
                         "description": "contract_number",
                         "name": "contract_number",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.ContractNumber"
-                        }
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2929,14 +2927,6 @@ var doc = `{
                     "type": "string"
                 },
                 "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
-        "model.ContractNumber": {
-            "type": "object",
-            "properties": {
-                "contract_number": {
                     "type": "string"
                 }
             }
