@@ -511,3 +511,8 @@ func SearchContractByNumber(contractNumber string) ([]model.SearchContract, erro
 	return repository.SearchContractByNumber(contractNumber)
 
 }
+
+func SearchContractHistory(field, param string) ([]model.SearchContract, error) {
+	return repository.SearchContractHistory(field, param)
+
+}

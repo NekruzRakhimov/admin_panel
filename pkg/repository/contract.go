@@ -192,13 +192,19 @@ func SearchContractHistory(field string, param string) ([]model.SearchContract, 
 		return search, nil
 
 	}
-	//var jsonBTable string
+	var jsonBTable string
+	if field == "contract_number" {
+		jsonBTable = "contract_parameters"
+		fmt.Println(jsonBTable)
+	} else if field == "beneficiary" {
+		jsonBTable = "requisites"
+	}
 
 	query := fmt.Sprintf("SELECT requisites ->> 'beneficiary' AS  beneficiary,  contract_parameters ->> 'contract_number' AS contract_number," +
 		"type,  created_at, updated_at, manager, contract_parameters ->> 'contract_amount' AS price FROM  contracts " +
 		"WHERE  $1 ->> $2 like  $3")
 
-	err := db.GetDBConn().Raw(query, "%"+param+"%").Scan(&search).Error
+	err := db.GetDBConn().Raw(query, jsonBTable, field, "%"+param+"%").Scan(&search).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return search, err
 	}

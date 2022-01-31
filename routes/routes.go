@@ -52,6 +52,7 @@ func runAllRoutes(r *gin.Engine) {
 	r.POST("/getcontractnumb", controller.GetIdNotification)
 	r.GET("/notifications", controller.GetNotifications)
 	r.GET("/search_contract/:contract_number", controller.SearchContractByNumber)
+	r.GET("/search_history/", controller.SearchContractDC)
 
 	r.GET("/cars", controller.GetCarsBrand)
 

@@ -580,26 +580,37 @@ func SearchContractByNumber(c *gin.Context) {
 }
 
 func SearchContractDC(c *gin.Context) {
-	var mainParam string
+	// mainParam - это значение, а не пол
+
+	//var mainParam string
 	// название поля
-	//target := c.Query("target")
-	contractNumber := c.Query("contract_number")
-	author := c.Query("author")
-	beneficiary := c.Query("beneficiary")
+	target := c.Query("target")
+	param := c.Query("param")
 
-	if contractNumber != "" {
-		mainParam = contractNumber
-	} else if author != "" {
-		mainParam = author
-	} else if beneficiary != "" {
-		mainParam = beneficiary
-	}
-	if mainParam == "" {
-		c.JSON(http.StatusNotFound, "object not found")
-		return
-	}
+	fmt.Sprintf("target %s param %s", target, param)
 
-	result, err := service.SearchContractByNumber(mainParam)
+	// это будет уже
+	//contractNumber := c.Query("contract_number")
+	//author := c.Query("author")
+	//beneficiary := c.Query("beneficiary")
+
+	//contractNumber := c.Param("contract_number")
+	//author := c.Param("author")
+	//beneficiary := c.Param("beneficiary")
+
+	//if contractNumber != "" {
+	//	mainParam = contractNumber
+	//} else if author != "" {
+	//	mainParam = author
+	//} else if beneficiary != "" {
+	//	mainParam = beneficiary
+	//}
+	//if mainParam == "" {
+	//	c.JSON(http.StatusNotFound, "object not found")
+	//	return
+	//}
+
+	result, err := service.SearchContractHistory(target, param)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 		return
