@@ -1648,22 +1648,6 @@ paths:
       summary: List Notifications
       tags:
       - notifications
-  /ping:
-    get:
-      consumes:
-      - application/json
-      description: Ping.
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Ping pong
-      tags:
-      - root
   /rights/:
     get:
       consumes:

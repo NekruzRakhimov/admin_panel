@@ -1823,30 +1823,6 @@ var doc = `{
                 }
             }
         },
-        "/ping": {
-            "get": {
-                "description": "Ping.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "root"
-                ],
-                "summary": "Ping pong",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
         "/rights/": {
             "get": {
                 "description": "Get All Rights by Admin",
