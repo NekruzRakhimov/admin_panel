@@ -56,9 +56,6 @@ func runAllRoutes(r *gin.Engine) {
 
 	r.GET("/cars", controller.GetCarsBrand)
 
-	//r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	//TODO: интеграция по договорам
-
 	r.POST("/login", controller.Login)
 
 	//TODO:  добавить функцию обработчика
