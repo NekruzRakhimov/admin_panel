@@ -356,6 +356,8 @@ definitions:
         type: string
       email:
         type: string
+      full_name:
+        type: string
       phone:
         type: string
       position:
@@ -1199,6 +1201,41 @@ paths:
             additionalProperties: true
             type: object
       summary: Dictionary user by ID
+      tags:
+      - dictionary
+    get:
+      consumes:
+      - application/json
+      description: Gel All Dictionaries
+      parameters:
+      - description: Dictionary ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Dictionary'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All Dictionaries
       tags:
       - dictionary
     put:
