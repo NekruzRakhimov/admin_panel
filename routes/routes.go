@@ -14,7 +14,8 @@ import (
 	//_ "github.com/rizalgowandy/go-swag-sample/docs/ginsimple" // you need to update github.com/rizalgowandy/go-swag-sample with your own project path
 	_ "admin_panel/docs"
 )
-// 
+
+//
 
 func RunAllRoutes() {
 	r := gin.Default()
