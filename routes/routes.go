@@ -52,11 +52,9 @@ func runAllRoutes(r *gin.Engine) {
 	r.POST("/getcontractnumb", controller.GetIdNotification)
 	r.GET("/notifications", controller.GetNotifications)
 	r.GET("/search_contract/:contract_number", controller.SearchContractByNumber)
+	r.GET("/search_history/", controller.SearchContractDC)
 
 	r.GET("/cars", controller.GetCarsBrand)
-
-	//r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	//TODO: интеграция по договорам
 
 	r.POST("/login", controller.Login)
 
@@ -161,18 +159,4 @@ func HealthCheck(c *gin.Context) {
 	//}
 
 	c.JSON(http.StatusOK, gin.H{"data": "Server is up and running"})
-}
-
-// Ping godoc
-// @Summary Ping pong
-// @Description Ping.
-// @Tags root
-// @Accept json
-// @Produce json
-// @Success 200 {object} map[string]interface{}
-// @Router /ping [get]
-func Ping(c *gin.Context) {
-
-	c.JSON(http.StatusOK, gin.H{"message": "Ping Pong"})
-
 }

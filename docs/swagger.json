@@ -1812,30 +1812,6 @@
                 }
             }
         },
-        "/ping": {
-            "get": {
-                "description": "Ping.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "root"
-                ],
-                "summary": "Ping pong",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
         "/rights/": {
             "get": {
                 "description": "Get All Rights by Admin",
@@ -2402,6 +2378,66 @@
                         "description": "contract_number",
                         "name": "contract_number",
                         "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.SearchContract"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/search_history/": {
+            "get": {
+                "description": "поиск либо по одним из параметров - contract_number, author, beneficiary:\nПримеры:\n1. target=contract_number\u0026param=00001\n2. target=author\u0026param=Иван\n3. target=beneficiary\u0026param=ТОО «AK NIET GROUP",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "search"
+                ],
+                "summary": "Search Contract by contract_number, author, beneficiary",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "target",
+                        "name": "target",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "target",
+                        "name": "param",
+                        "in": "query",
                         "required": true
                     }
                 ],
@@ -3300,6 +3336,9 @@
                 },
                 "created_at": {
                     "type": "string"
+                },
+                "id": {
+                    "type": "integer"
                 },
                 "manager": {
                     "type": "string"

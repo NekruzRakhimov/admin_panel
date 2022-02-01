@@ -578,3 +578,32 @@ func SearchContractByNumber(c *gin.Context) {
 	c.JSON(http.StatusOK, result)
 
 }
+
+// SearchContractDC godoc
+// @Summary      Search Contract by contract_number, author, beneficiary
+// @Description  поиск либо по одним из параметров - contract_number, author, beneficiary:
+// @Description Примеры:
+// @Description 1. target=contract_number&param=00001
+// @Description 2. target=author&param=Иван
+// @Description 3. target=beneficiary&param=ТОО «AK NIET GROUP
+// @Tags         search
+// @Accept       json
+// @Produce      json
+// @Param        target   query     string  true  "target"
+// @Param        param    query     string  true  "target"
+// @Success      200      {object}  model.SearchContract
+// @Failure      400      {object}  map[string]interface{}
+// @Failure      404      {object}  map[string]interface{}
+// @Failure      500      {object}  map[string]interface{}
+// @Router       /search_history/ [get]
+func SearchContractDC(c *gin.Context) {
+	target := c.Query("target")
+	param := c.Query("param")
+	result, err := service.SearchContractHistory(target, param)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, result)
+
+}
