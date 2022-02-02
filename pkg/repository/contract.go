@@ -34,6 +34,10 @@ func EditContract(contractWithJson model.ContractWithJsonB) error {
 func GetAllContracts(contractStatus string) (contracts []model.ContractWithJsonB, err error) {
 	var contractStatusRus = ""
 	sqlQuery := "SELECT * FROM contracts WHERE id not in (select prev_contract_id from contracts) AND is_active = true "
+	if contractStatus == "ACTIVE_AND_EXPIRED" {
+		contractStatus = ""
+	}
+
 	if contractStatus != "" {
 		switch contractStatus {
 		case "DRAFT":
