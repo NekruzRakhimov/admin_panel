@@ -186,8 +186,8 @@ func SearchContractHistory(field string, param string) ([]model.SearchContract, 
 
 	if field == "author" {
 		query := fmt.Sprintf("SELECT id, requisites ->> 'beneficiary' AS  beneficiary,  contract_parameters ->> 'contract_number' AS contract_number," +
-			"type,  created_at, updated_at, manager, contract_parameters ->> 'contract_amount' AS price FROM  contracts " +
-			"WHERE  manager like  $1")
+			"type AS contract_type,  created_at, updated_at, manager AS author, contract_parameters ->> 'contract_amount' AS amount FROM  contracts " +
+			"WHERE  manager  like  $1")
 		err := db.GetDBConn().Raw(query, "%"+param+"%").Scan(&search).Error
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return search, err
@@ -205,7 +205,7 @@ func SearchContractHistory(field string, param string) ([]model.SearchContract, 
 	}
 
 	query := fmt.Sprintf("SELECT id, requisites ->> 'beneficiary' AS  beneficiary,  contract_parameters ->> 'contract_number' AS contract_number,"+
-		"type,  created_at, updated_at, manager, contract_parameters ->> 'contract_amount' AS price FROM  contracts "+
+		"type AS contract_type,  created_at, updated_at, manager AS author, contract_parameters ->> 'contract_amount' AS amount FROM  contracts "+
 		"WHERE  %s ->> $1 like  $2", jsonBTable)
 
 	err := db.GetDBConn().Raw(query, field, "%"+param+"%").Scan(&search).Error

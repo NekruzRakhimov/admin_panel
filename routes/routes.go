@@ -15,6 +15,8 @@ import (
 	_ "admin_panel/docs"
 )
 
+//
+
 func RunAllRoutes() {
 	r := gin.Default()
 
