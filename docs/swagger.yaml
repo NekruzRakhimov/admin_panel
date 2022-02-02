@@ -351,19 +351,21 @@ definitions:
     type: object
   model.SearchContract:
     properties:
+      amount:
+        type: string
+      author:
+        type: string
       beneficiary:
         type: string
       contract_number:
+        type: string
+      contract_type:
         type: string
       created_at:
         type: string
       id:
         type: integer
-      manager:
-        type: string
-      price:
-        type: string
-      type:
+      status:
         type: string
       updated_at:
         type: string
@@ -2022,15 +2024,20 @@ paths:
       summary: Get Role by ID
       tags:
       - roles
-  /search_contract/{contract_number}:
+  /search_contract/:
     get:
       consumes:
       - application/json
       description: add by json account
       parameters:
       - description: contract_number
-        in: path
+        in: query
         name: contract_number
+        required: true
+        type: string
+      - description: status
+        in: query
+        name: status
         required: true
         type: string
       produces:

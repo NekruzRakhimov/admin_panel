@@ -2370,7 +2370,7 @@ var doc = `{
                 }
             }
         },
-        "/search_contract/{contract_number}": {
+        "/search_contract/": {
             "get": {
                 "description": "add by json account",
                 "consumes": [
@@ -2388,7 +2388,14 @@ var doc = `{
                         "type": "string",
                         "description": "contract_number",
                         "name": "contract_number",
-                        "in": "path",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "status",
+                        "name": "status",
+                        "in": "query",
                         "required": true
                     }
                 ],
@@ -3339,10 +3346,19 @@ var doc = `{
         "model.SearchContract": {
             "type": "object",
             "properties": {
+                "amount": {
+                    "type": "string"
+                },
+                "author": {
+                    "type": "string"
+                },
                 "beneficiary": {
                     "type": "string"
                 },
                 "contract_number": {
+                    "type": "string"
+                },
+                "contract_type": {
                     "type": "string"
                 },
                 "created_at": {
@@ -3351,13 +3367,7 @@ var doc = `{
                 "id": {
                     "type": "integer"
                 },
-                "manager": {
-                    "type": "string"
-                },
-                "price": {
-                    "type": "string"
-                },
-                "type": {
+                "status": {
                     "type": "string"
                 },
                 "updated_at": {

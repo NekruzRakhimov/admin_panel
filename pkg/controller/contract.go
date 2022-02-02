@@ -562,15 +562,17 @@ func Notification(c *gin.Context) {
 // @Tags         search
 // @Accept       json
 // @Produce      json
-// @Param        contract_number	 path string  true  "contract_number"
+// @Param        contract_number	 query string  true  "contract_number"
+// @Param        status	 query string  true  "status"
 // @Success      200      {object}  model.SearchContract
 // @Failure      400      {object}  map[string]interface{}
 // @Failure      404      {object}  map[string]interface{}
 // @Failure      500      {object}  map[string]interface{}
-// @Router       /search_contract/{contract_number} [get]
+// @Router       /search_contract/ [get]
 func SearchContractByNumber(c *gin.Context) {
-	contractNumber := c.Param("contract_number")
-	result, err := service.SearchContractByNumber(contractNumber)
+	status := c.Query("status")
+	contractNumber := c.Query("contract_number")
+	result, err := service.SearchContractByNumber(contractNumber, status)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 		return

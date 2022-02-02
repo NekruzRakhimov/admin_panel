@@ -507,8 +507,8 @@ func GetContractStatusChangesHistory(contractId int) (history []model.ContractSt
 	return repository.GetContractStatusChangesHistory(contractId)
 }
 
-func SearchContractByNumber(contractNumber string) ([]model.SearchContract, error) {
-	return repository.SearchContractByNumber(contractNumber)
+func SearchContractByNumber(contractNumber, status string) ([]model.SearchContract, error) {
+	return repository.SearchContractByNumber(contractNumber, status)
 
 }
 
