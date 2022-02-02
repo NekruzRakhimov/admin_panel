@@ -572,6 +572,20 @@ func Notification(c *gin.Context) {
 func SearchContractByNumber(c *gin.Context) {
 	status := c.Query("status")
 	contractNumber := c.Query("contract_number")
+	switch status {
+	case "DRAFT":
+		status = "черновик"
+	case "ON_APPROVAL":
+		status = "на согласовании"
+	case "ACTIVE":
+		status = "в работе"
+	case "EXPIRED":
+		status = "заверщённый"
+	case "CANCELED":
+		status = "отменен"
+
+	}
+
 	result, err := service.SearchContractByNumber(contractNumber, status)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
