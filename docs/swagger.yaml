@@ -568,6 +568,50 @@ paths:
       summary: Attach Role To User
       tags:
       - users
+  /change_date_contract/:
+    get:
+      consumes:
+      - application/json
+      description: |-
+        Продлить дату окончание договора по ID и у которого статус в работе
+        Пример:
+        change_date_contract/?date=11.11.2023&id=163
+      parameters:
+      - description: date
+        in: query
+        name: date
+        required: true
+        type: string
+      - description: id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Продлить дату окончание договора
+      tags:
+      - contracts
   /client_search:
     post:
       consumes:

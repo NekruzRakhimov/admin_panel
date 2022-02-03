@@ -516,3 +516,8 @@ func SearchContractHistory(field, param string) ([]model.SearchContract, error) 
 	return repository.SearchContractHistory(field, param)
 
 }
+
+func ChangeDataContract(date string, id int) error {
+	return repository.ChangeDataContract(date, id)
+
+}

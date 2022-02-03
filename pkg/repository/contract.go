@@ -214,3 +214,24 @@ func SearchContractHistory(field string, param string) ([]model.SearchContract, 
 	return search, nil
 
 }
+
+func ChangeDataContract(date string, id int) error {
+	var contract model.ContractWithJsonB
+	onWork := "в работе"
+	chekingExist := fmt.Sprint("SELECT *FROM contracts WHERE  id = $1 AND status = $2")
+	err := db.GetDBConn().Raw(chekingExist, id, onWork).Scan(&contract).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return err
+	}
+
+	sqlUpdate := fmt.Sprint(`UPDATE contracts  SET contract_parameters = jsonb_set("contract_parameters", '{"end_date"}', to_jsonb($1::text), true) WHERE id = $2 AND status = $3`)
+
+	err = db.GetDBConn().Exec(sqlUpdate, date, id, onWork).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
+
+}

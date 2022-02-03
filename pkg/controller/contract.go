@@ -631,3 +631,36 @@ func SearchContractDC(c *gin.Context) {
 	c.JSON(http.StatusOK, result)
 
 }
+
+// ChangeDataContract godoc
+// @Summary     Продлить дату окончание договора
+// @Description  Продлить дату окончание договора по ID и у которого статус в работе
+// @Description Пример:
+// @Description  change_date_contract/?date=11.11.2023&id=163
+// @Tags         contracts
+// @Accept       json
+// @Produce      json
+// @Param        date   query     string  true  "date"
+// @Param        id    query     string  true  "id"
+// @Success      200      {object}  interface{}
+// @Failure      400      {object}  map[string]interface{}
+// @Failure      404      {object}  map[string]interface{}
+// @Failure      500      {object}  map[string]interface{}
+// @Router       /change_date_contract/ [get]
+func ChangeDataContract(c *gin.Context) {
+	id := c.Query("id")
+	date := c.Query("date")
+	convertID, err := strconv.Atoi(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	err = service.ChangeDataContract(date, convertID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+	c.JSON(200, "договор успешно продлён!")
+
+}
