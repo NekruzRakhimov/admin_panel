@@ -8,6 +8,7 @@ import (
 	"github.com/xuri/excelize/v2"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 )
 
@@ -515,27 +516,32 @@ func SearchBinClient(c *gin.Context) {
 }
 
 func AddIndividualContract(c *gin.Context) {
-	_, err := c.FormFile("file")
+	img, err := c.FormFile("file")
 	if err != nil {
 		log.Println("[controller.AddIndividualContract]|[c.FormFile(\"file\")]| error is: ", err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 		return
 	}
 
-	//file, err := os.Create("files/applications/products_template.xlsx")
-	//if err != nil {
-	//	log.Println("[controller.ConvertExcelToStruct]|[os.Create]| error is: ", err.Error())
-	//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-	//	return
-	//}
+	_, err = os.Create("files/applications/products_template.xlsx")
+	if err != nil {
+		log.Println("[controller.ConvertExcelToStruct]|[os.Create]| error is: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
 
-	//if err := c.SaveUploadedFile(img, "files/edited_products_template.xlsx"); err != nil {
-	//	log.Println("[controller.ConvertExcelToStruct]|[c.SaveUploadedFile]| error is: ", err.Error())
-	//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-	//	return
-	//}
+	if err := c.SaveUploadedFile(img, "files/individ/individ.pdf"); err != nil {
+		log.Println("[controller.ConvertExcelToStruct]|[c.SaveUploadedFile]| error is: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{"reason": "файл успешно загружен"})
+}
+
+func GetIndividContract(c *gin.Context) {
+	c.Writer.Header().Set("Content-Type", "application/pdf")
+	c.File("files/individ/individ.pdf")
 }
 
 func Notification(c *gin.Context) {
@@ -583,6 +589,8 @@ func SearchContractByNumber(c *gin.Context) {
 		status = "заверщённый"
 	case "CANCELED":
 		status = "отменен"
+	case "ACTIVE_AND_EXPIRED":
+		status = ""
 
 	}
 

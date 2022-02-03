@@ -41,7 +41,7 @@
 
     SELECT id, status, requisites ->> 'beneficiary' AS  beneficiary,  contract_parameters ->> 'contract_number' AS contract_number,
 			type AS contract_type,  created_at, updated_at, manager AS author, contract_parameters ->> 'contract_amount' AS price FROM  contracts
-			WHERE  manager like  '%Иван%' AND status = 'в работе';
+			WHERE  manager like  '%Иван%' AND status = '';
 
 
 SELECT id, manager FROM contracts WHERE  manager like  '%Иван%';

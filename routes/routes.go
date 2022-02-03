@@ -9,8 +9,6 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"log"
 	"net/http"
-	"os"
-
 	//_ "github.com/rizalgowandy/go-swag-sample/docs/ginsimple" // you need to update github.com/rizalgowandy/go-swag-sample with your own project path
 	_ "admin_panel/docs"
 )
@@ -71,6 +69,7 @@ func runAllRoutes(r *gin.Engine) {
 	contract.POST("/:type", controller.CreateContract)
 	contract.POST("/additional_agreement/:id", controller.AddAdditionalAgreement)
 	contract.POST("/individual_contract", controller.AddIndividualContract) //TODO: PutBack Id
+	contract.GET("/individual_contract", controller.GetIndividContract)     //TODO: PutBack Id
 	contract.PUT("/:type/:id", controller.EditContract)
 	contract.GET("/:id/details", controller.GetContractDetails)
 	contract.PUT("/conform/:id", controller.ConformContract)
@@ -134,8 +133,8 @@ func runAllRoutes(r *gin.Engine) {
 
 	//	Start server
 
-	err := r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
-	//err := r.Run(fmt.Sprintf("%s:%s", "localhost", "3000"))
+	//err := r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
+	err := r.Run(fmt.Sprintf("%s:%s", "localhost", "3000"))
 	if err != nil {
 		log.Println(err)
 
