@@ -37,7 +37,7 @@ type Contract struct {
 	Comment                   string                 `json:"comment"`
 	CreatedAt                 string                 `json:"created_at,omitempty"`
 	UpdatedAt                 string                 `json:"updated_at,omitempty"`
-	//IsExtendContract          bool                   `json:"is_extend_contract"`
+	IsExtendContract          bool                   `json:"is_extend_contract"`
 
 	IsIndivid bool `json:"is_individ"`
 }

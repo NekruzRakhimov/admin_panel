@@ -317,7 +317,7 @@ func ConvertContractFromJsonB(contractWithJson model.ContractWithJsonB) (contrac
 	contract.UpdatedAt = contractWithJson.UpdatedAt
 	contract.WithTemperatureConditions = contractWithJson.WithTemperatureConditions
 	contract.PrevContractId = contractWithJson.PrevContractId
-
+	contract.IsExtendContract = contractWithJson.IsExtendContract
 	err = json.Unmarshal([]byte(contractWithJson.Requisites), &contract.Requisites)
 	if err != nil {
 		return model.Contract{}, err
