@@ -252,13 +252,6 @@ var doc = `{
                 "summary": "Продлить дату окончание договора",
                 "parameters": [
                     {
-                        "type": "boolean",
-                        "description": "is_extend_contract",
-                        "name": "is_extend_contract",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
                         "type": "string",
                         "description": "id",
                         "name": "id",
@@ -3028,6 +3021,9 @@ var doc = `{
                 },
                 "id": {
                     "type": "integer"
+                },
+                "is_extend_contract": {
+                    "type": "boolean"
                 },
                 "status": {
                     "type": "string"

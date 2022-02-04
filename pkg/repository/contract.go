@@ -217,7 +217,7 @@ func SearchContractHistory(field string, param string) ([]model.SearchContract, 
 
 }
 
-func ChangeDataContract(id int, extendContract bool) error {
+func ChangeDataContract(id int) error {
 	var endDate model.Date
 
 	onWork := "в работе"
@@ -241,18 +241,13 @@ func ChangeDataContract(id int, extendContract bool) error {
 	strYear := strconv.Itoa(year)
 	extendDate := fmt.Sprintf("%s.%s.%s", splitDate[0], splitDate[1], strYear)
 
-	if extendContract == true {
-		sqlUpdate := fmt.Sprint(`UPDATE contracts  SET contract_parameters = jsonb_set("contract_parameters", '{"extend_date"}', to_jsonb($1::text), true) WHERE id = $2 AND status = $3`)
+	sqlUpdate := fmt.Sprint(`UPDATE contracts  SET contract_parameters = jsonb_set("contract_parameters", '{"extend_date"}', to_jsonb($1::text), true) WHERE id = $2 AND status = $3`)
 
-		err = db.GetDBConn().Exec(sqlUpdate, extendDate, id, onWork).Error
-		if err != nil {
-			return err
-		}
-
-		return nil
-
+	err = db.GetDBConn().Exec(sqlUpdate, extendDate, id, onWork).Error
+	if err != nil {
+		return err
 	}
 
-	return errors.New("не удалось продлить дату")
+	return nil
 
 }

@@ -640,7 +640,6 @@ func SearchContractDC(c *gin.Context) {
 // @Tags         contracts
 // @Accept       json
 // @Produce      json
-// @Param        is_extend_contract   query     bool  true  "is_extend_contract"
 // @Param        id    query     string  true  "id"
 // @Success      200      {object}  interface{}
 // @Failure      400      {object}  map[string]interface{}
@@ -649,13 +648,13 @@ func SearchContractDC(c *gin.Context) {
 // @Router       /change_date_contract/ [get]
 func ChangeDataContract(c *gin.Context) {
 	id := c.Query("id")
-	extendContract := c.Query("is_extend_contract")
-	extendContractBool, err := strconv.ParseBool(extendContract)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, err.Error())
-		return
-	}
-	fmt.Println(extendContractBool, "extendContractBool")
+	//extendContract := c.Query("is_extend_contract")
+	//extendContractBool, err := strconv.ParseBool(extendContract)
+	//if err != nil {
+	//	c.JSON(http.StatusBadRequest, err.Error())
+	//	return
+	//}
+	//fmt.Println(extendContractBool, "extendContractBool")
 
 	convertID, err := strconv.Atoi(id)
 	if err != nil {
@@ -663,7 +662,7 @@ func ChangeDataContract(c *gin.Context) {
 		return
 	}
 
-	err = service.ChangeDataContract(convertID, extendContractBool)
+	err = service.ChangeDataContract(convertID)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 		return

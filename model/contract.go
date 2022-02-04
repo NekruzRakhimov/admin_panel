@@ -61,18 +61,18 @@ type ContractDTOFor1C struct {
 }
 
 type ContractMiniInfo struct {
-	ID             int     `json:"id"`
-	PrevContractId int     `json:"-" gorm:"-"`
-	ContractorName string  `json:"contractor_name"`
-	Beneficiary    string  `json:"beneficiary,omitempty"`
-	ContractNumber string  `json:"contract_number"`
-	ContractType   string  `json:"contract_type"`
-	Status         string  `json:"status"`
-	Author         string  `json:"author"`
-	Amount         float32 `json:"amount"`
-	CreatedAt      string  `json:"created_at,omitempty"`
-	UpdatedAt      string  `json:"updated_at,omitempty"`
-	IsIndivid      bool    `json:"is_individ"`
+	ID               int     `json:"id"`
+	PrevContractId   int     `json:"-" gorm:"-"`
+	ContractorName   string  `json:"contractor_name"`
+	Beneficiary      string  `json:"beneficiary,omitempty"`
+	ContractNumber   string  `json:"contract_number"`
+	ContractType     string  `json:"contract_type"`
+	Status           string  `json:"status"`
+	Author           string  `json:"author"`
+	Amount           float32 `json:"amount"`
+	CreatedAt        string  `json:"created_at,omitempty"`
+	UpdatedAt        string  `json:"updated_at,omitempty"`
+	IsExtendContract bool    `json:"is_extend_contract"`
 }
 
 // Requisites Ревезиты
