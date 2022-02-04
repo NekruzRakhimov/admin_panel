@@ -17,7 +17,7 @@ type ContractWithJsonB struct {
 	CreatedAt                 string `json:"created_at,omitempty"`
 	UpdatedAt                 string `json:"updated_at,omitempty"`
 	IsExtendContract          bool   `json:"is_extend_contract"`
-	ExtendDate                string `json:"extend_date,omitempty"`
+	ExtendDate                string `json:"extend_date"`
 }
 
 type Contract struct {
@@ -36,9 +36,9 @@ type Contract struct {
 	Comment                   string                 `json:"comment"`
 	CreatedAt                 string                 `json:"created_at,omitempty"`
 	UpdatedAt                 string                 `json:"updated_at,omitempty"`
-	IsExtendContract          bool                   `json:"is_extend_contract"`
-	ExtendDate                string                 `json:"extend_date,omitempty"`
-	IsIndivid                 bool                   `json:"is_individ"`
+	//IsExtendContract          bool                   `json:"is_extend_contract"`
+
+	IsIndivid bool `json:"is_individ"`
 }
 
 type ContractDTOFor1C struct {
@@ -111,6 +111,7 @@ type ContractParameters struct {
 	ContractDate              string   `json:"contract_date,omitempty"`
 	StartDate                 string   `json:"start_date"`
 	EndDate                   string   `json:"end_date"`
+	ExtendDate                string   `json:"is_extend_date,omitempty"`
 }
 
 type ContractParametersDTOFor1C struct {

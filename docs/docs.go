@@ -239,7 +239,7 @@ var doc = `{
         },
         "/change_date_contract/": {
             "get": {
-                "description": "Продлить дату окончание договора по ID и у которого статус в работе\nПример:\nchange_date_contract/?date=11.11.2023\u0026id=163",
+                "description": "Продлить дату окончание договора по ID и у которого статус в работе\nПример:\nchange_date_contract/?extend_contract=true\u0026id=163",
                 "consumes": [
                     "application/json"
                 ],
@@ -253,8 +253,8 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "boolean",
-                        "description": "extend_contract",
-                        "name": "extend_contract",
+                        "description": "is_extend_contract",
+                        "name": "is_extend_contract",
                         "in": "query",
                         "required": true
                     },
@@ -2947,14 +2947,8 @@ var doc = `{
                         "$ref": "#/definitions/model.Discount"
                     }
                 },
-                "extend_date": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "integer"
-                },
-                "is_extend_contract": {
-                    "type": "boolean"
                 },
                 "is_individ": {
                     "type": "boolean"
@@ -3076,6 +3070,9 @@ var doc = `{
                 },
                 "frequency_deferred_discount": {
                     "description": "Кратность расчета отложенной скидки TODO: возможно нужно поменять",
+                    "type": "string"
+                },
+                "is_extend_date": {
                     "type": "string"
                 },
                 "prepayment": {

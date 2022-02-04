@@ -50,12 +50,8 @@ definitions:
         items:
           $ref: '#/definitions/model.Discount'
         type: array
-      extend_date:
-        type: string
       id:
         type: integer
-      is_extend_contract:
-        type: boolean
       is_individ:
         type: boolean
       kam:
@@ -136,6 +132,8 @@ definitions:
         type: string
       frequency_deferred_discount:
         description: 'Кратность расчета отложенной скидки TODO: возможно нужно поменять'
+        type: string
+      is_extend_date:
         type: string
       prepayment:
         type: number
@@ -581,11 +579,11 @@ paths:
       description: |-
         Продлить дату окончание договора по ID и у которого статус в работе
         Пример:
-        change_date_contract/?date=11.11.2023&id=163
+        change_date_contract/?extend_contract=true&id=163
       parameters:
-      - description: extend_contract
+      - description: is_extend_contract
         in: query
-        name: extend_contract
+        name: is_extend_contract
         required: true
         type: boolean
       - description: id

@@ -640,7 +640,7 @@ func SearchContractDC(c *gin.Context) {
 // @Tags         contracts
 // @Accept       json
 // @Produce      json
-// @Param        extend_contract   query     bool  true  "extend_contract"
+// @Param        is_extend_contract   query     bool  true  "is_extend_contract"
 // @Param        id    query     string  true  "id"
 // @Success      200      {object}  interface{}
 // @Failure      400      {object}  map[string]interface{}
@@ -649,7 +649,7 @@ func SearchContractDC(c *gin.Context) {
 // @Router       /change_date_contract/ [get]
 func ChangeDataContract(c *gin.Context) {
 	id := c.Query("id")
-	extendContract := c.Query("extend_contract")
+	extendContract := c.Query("is_extend_contract")
 	extendContractBool, err := strconv.ParseBool(extendContract)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
