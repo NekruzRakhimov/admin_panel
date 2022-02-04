@@ -557,8 +557,8 @@ func Notification(c *gin.Context) {
 	// 5. и если он нашел какую-то дату то все отправляем уведомляем
 
 	//TODO: Шаги
-	// 1. вызов логики
 	// 2.
+	// 1. вызов логики
 
 }
 
@@ -649,14 +649,21 @@ func SearchContractDC(c *gin.Context) {
 // @Router       /change_date_contract/ [get]
 func ChangeDataContract(c *gin.Context) {
 	id := c.Query("id")
-	date := c.Query("date")
+	//	date := c.Query("date")
+	extendContract := c.Query("extend_contract")
+	extendContractBool, err := strconv.ParseBool(extendContract)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
 	convertID, err := strconv.Atoi(id)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	err = service.ChangeDataContract(date, convertID)
+	err = service.ChangeDataContract(date, convertID, extendContractBool)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 		return

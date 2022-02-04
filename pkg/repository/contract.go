@@ -215,7 +215,7 @@ func SearchContractHistory(field string, param string) ([]model.SearchContract, 
 
 }
 
-func ChangeDataContract(date string, id int) error {
+func ChangeDataContract(date string, id int, extendContract bool) error {
 	var contract model.ContractWithJsonB
 	onWork := "в работе"
 	chekingExist := fmt.Sprint("SELECT *FROM contracts WHERE  id = $1 AND status = $2")
