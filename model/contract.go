@@ -17,7 +17,7 @@ type ContractWithJsonB struct {
 	CreatedAt                 string `json:"created_at,omitempty"`
 	UpdatedAt                 string `json:"updated_at,omitempty"`
 	IsIndivid                 bool   `json:"is_individ"`
-	//IsExtendContract          bool   `json:"is_extend_contract"`
+	IsExtendContract          bool   `json:"is_extend_contract"`
 	//ExtendDate                string `json:"extend_date"`
 }
 
