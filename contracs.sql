@@ -15,6 +15,12 @@ create table marketing_services_contract
 );
 
 
+
+
+ALTER TABLE contracts ADD  COLUMN is_individ boolean default  false;
+
+
+
 drop table marketing_services_contract;
 
 create table marketing_services_contract

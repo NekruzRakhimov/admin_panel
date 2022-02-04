@@ -636,11 +636,11 @@ func SearchContractDC(c *gin.Context) {
 // @Summary     Продлить дату окончание договора
 // @Description  Продлить дату окончание договора по ID и у которого статус в работе
 // @Description Пример:
-// @Description  change_date_contract/?date=11.11.2023&id=163
+// @Description  change_date_contract/?extend_contract=true&id=163
 // @Tags         contracts
 // @Accept       json
 // @Produce      json
-// @Param        date   query     string  true  "date"
+// @Param        extend_contract   query     bool  true  "extend_contract"
 // @Param        id    query     string  true  "id"
 // @Success      200      {object}  interface{}
 // @Failure      400      {object}  map[string]interface{}
@@ -649,13 +649,13 @@ func SearchContractDC(c *gin.Context) {
 // @Router       /change_date_contract/ [get]
 func ChangeDataContract(c *gin.Context) {
 	id := c.Query("id")
-	//	date := c.Query("date")
 	extendContract := c.Query("extend_contract")
 	extendContractBool, err := strconv.ParseBool(extendContract)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
+	fmt.Println(extendContractBool, "extendContractBool")
 
 	convertID, err := strconv.Atoi(id)
 	if err != nil {
@@ -663,7 +663,7 @@ func ChangeDataContract(c *gin.Context) {
 		return
 	}
 
-	err = service.ChangeDataContract(date, convertID, extendContractBool)
+	err = service.ChangeDataContract(convertID, extendContractBool)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 		return

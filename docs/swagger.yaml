@@ -50,8 +50,14 @@ definitions:
         items:
           $ref: '#/definitions/model.Discount'
         type: array
+      extend_date:
+        type: string
       id:
         type: integer
+      is_extend_contract:
+        type: boolean
+      is_individ:
+        type: boolean
       kam:
         type: string
       manager:
@@ -577,11 +583,11 @@ paths:
         Пример:
         change_date_contract/?date=11.11.2023&id=163
       parameters:
-      - description: date
+      - description: extend_contract
         in: query
-        name: date
+        name: extend_contract
         required: true
-        type: string
+        type: boolean
       - description: id
         in: query
         name: id

@@ -252,9 +252,9 @@ var doc = `{
                 "summary": "Продлить дату окончание договора",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "date",
-                        "name": "date",
+                        "type": "boolean",
+                        "description": "extend_contract",
+                        "name": "extend_contract",
                         "in": "query",
                         "required": true
                     },
@@ -2947,8 +2947,17 @@ var doc = `{
                         "$ref": "#/definitions/model.Discount"
                     }
                 },
+                "extend_date": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
+                },
+                "is_extend_contract": {
+                    "type": "boolean"
+                },
+                "is_individ": {
+                    "type": "boolean"
                 },
                 "kam": {
                     "type": "string"

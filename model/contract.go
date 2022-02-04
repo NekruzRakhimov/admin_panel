@@ -245,3 +245,7 @@ type Client struct {
 	Country       string  `json:"country,omitempty"`
 	Reason        *string `json:"reason,omitempty"`
 }
+
+type Date struct {
+	EndDate string `json:"end_date"`
+}

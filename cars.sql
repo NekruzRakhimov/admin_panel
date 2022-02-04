@@ -1,9 +1,9 @@
+    SELECT  contract_parameters ->> 'extend_date' AS extend_date FROM contracts WHERE  id = 163 AND status = 'в работе';
+
+
     CREATE TABLE cars(
                          id SERIAL PRIMARY KEY,
                          cars_info JSONB NOT NULL);
-
-
-
     SELECT requisites ->> 'beneficiary' AS  beneficiary,  contract_parameters ->> 'contract_number' AS contract_number,type,  created_at, updated_at, manager, contract_parameters ->> 'contract_amount' AS price FROM  contracts WHERE  contract_parameters ->> 'contract_number' like  '00000000000004%'
     SELECT requisites ->> 'beneficiary' AS  beneficiary,  contract_parameters ->> 'contract_number' AS contract_number,type,  created_at, updated_at, manager, contract_parameters ->> 'contract_amount' AS price FROM  contracts WHERE  manager  like  '%Азиз%';
 
@@ -13,7 +13,7 @@
 
 
 
-    SELECT *FROM contracts WHERE  id = 166 AND status = 'в работе';
+    SELECT *FROM contracts WHERE  id = 163 AND status = 'в работе';
     SELECT * FROM cars WHERE cars_info -> 'sold' = 'true';
 
 
@@ -33,10 +33,10 @@ WHERE id = 166 AND  status = 'в работе';
 
 
     UPDATE contracts
-    SET contract_parameters = jsonb_set("contract_parameters", '{"end_date"}', to_jsonb('20.10.2020'::text), true)
+    SET contract_parameters = jsonb_set("contract_parameters", '{"end_date"}', to_jsonb('20.10.2022'::text), true)
     WHERE id = 166;
 
-    UPDATE contracts  SET contract_parameters = jsonb_set("contract_parameters", '{"end_date"}', to_jsonb('11.11.2019'::text), true) WHERE id = 166 AND status = 'в работе';
+    UPDATE contracts  SET contract_parameters = jsonb_set("contract_parameters", '{"end_date"}', to_jsonb('11.11.2039'::text), true), is_individ = true WHERE id = 163 AND status = 'в работе';
 
 
 

@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 	"log"
+	"strconv"
+	"strings"
 )
 
 func CreateContract(contractWithJson model.ContractWithJsonB) error {
@@ -215,23 +217,42 @@ func SearchContractHistory(field string, param string) ([]model.SearchContract, 
 
 }
 
-func ChangeDataContract(date string, id int, extendContract bool) error {
-	var contract model.ContractWithJsonB
-	onWork := "в работе"
-	chekingExist := fmt.Sprint("SELECT *FROM contracts WHERE  id = $1 AND status = $2")
-	err := db.GetDBConn().Raw(chekingExist, id, onWork).Scan(&contract).Error
+func ChangeDataContract(id int, extendContract bool) error {
+	var endDate model.Date
 
+	onWork := "в работе"
+
+	chekingExist := fmt.Sprint("SELECT contract_parameters ->> 'end_date' AS end_date FROM contracts WHERE  id = $1")
+	err := db.GetDBConn().Raw(chekingExist, id).Scan(&endDate).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return err
 	}
 
-	sqlUpdate := fmt.Sprint(`UPDATE contracts  SET contract_parameters = jsonb_set("contract_parameters", '{"end_date"}', to_jsonb($1::text), true) WHERE id = $2 AND status = $3`)
+	splitDate := strings.Split(endDate.EndDate, ".")
+	if len(splitDate) != 3 {
+		return errors.New("длина даты должны быть 3")
+	}
 
-	err = db.GetDBConn().Exec(sqlUpdate, date, id, onWork).Error
+	year, err := strconv.Atoi(splitDate[2])
 	if err != nil {
 		return err
 	}
+	year += 1
+	strYear := strconv.Itoa(year)
+	extendDate := fmt.Sprintf("%s.%s.%s", splitDate[0], splitDate[1], strYear)
 
-	return nil
+	if extendContract == true {
+		sqlUpdate := fmt.Sprint(`UPDATE contracts  SET contract_parameters = jsonb_set("contract_parameters", '{"extend_date"}', to_jsonb($1::text), true) WHERE id = $2 AND status = $3`)
+
+		err = db.GetDBConn().Exec(sqlUpdate, extendDate, id, onWork).Error
+		if err != nil {
+			return err
+		}
+
+		return nil
+
+	}
+
+	return errors.New("не удалось продлить дату")
 
 }
