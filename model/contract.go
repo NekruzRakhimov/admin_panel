@@ -72,6 +72,7 @@ type ContractMiniInfo struct {
 	Amount         float32 `json:"amount"`
 	CreatedAt      string  `json:"created_at,omitempty"`
 	UpdatedAt      string  `json:"updated_at,omitempty"`
+	IsIndivid      bool    `json:"is_individ"`
 }
 
 // Requisites Ревезиты
