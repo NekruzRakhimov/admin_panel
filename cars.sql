@@ -13,6 +13,9 @@
 
 
 
+    SELECT  *FROM  contracts;
+
+
     SELECT *FROM contracts WHERE  id = 163 AND status = 'в работе';
     SELECT * FROM cars WHERE cars_info -> 'sold' = 'true';
 
