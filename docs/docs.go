@@ -3072,6 +3072,9 @@ var doc = `{
                     "description": "Кратность расчета отложенной скидки TODO: возможно нужно поменять",
                     "type": "string"
                 },
+                "is_extend_contract": {
+                    "type": "boolean"
+                },
                 "is_extend_date": {
                     "type": "string"
                 },
