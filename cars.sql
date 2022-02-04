@@ -15,8 +15,11 @@
 
     SELECT  *FROM  contracts;
 
+    SELECT contract_parameters ->> 'is_extend_contract' AS  is_extend_contract FROM contracts WHERE id  = 159;
+
 
     SELECT *FROM contracts WHERE  id = 163 AND status = 'в работе';
+    SELECT *FROM contracts WHERE  id = 172 AND status = 'в работе';
     SELECT * FROM cars WHERE cars_info -> 'sold' = 'true';
 
 
@@ -40,6 +43,7 @@ WHERE id = 166 AND  status = 'в работе';
     WHERE id = 166;
 
     UPDATE contracts  SET contract_parameters = jsonb_set("contract_parameters", '{"end_date"}', to_jsonb('11.11.2039'::text), true), is_individ = true WHERE id = 163 AND status = 'в работе';
+    UPDATE contracts  SET contract_parameters = jsonb_set("contract_parameters", '{"is_extend_contract"}', to_jsonb(true::bool), true), is_individ = true WHERE id = 172 AND status = 'в работе';
 
 
 
@@ -115,3 +119,5 @@ SELECT id, manager FROM contracts WHERE  manager like  '%Иван%';
 
 
 
+
+    SELECT * FROM contracts WHERE id not in (select prev_contract_id from contracts) AND is_active = true AND status = 'в работе';

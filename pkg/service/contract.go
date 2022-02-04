@@ -237,20 +237,30 @@ func EditContract(contract model.Contract) error {
 }
 
 func GetAllContracts(contractType string) (contractsMiniInfo []model.ContractMiniInfo, err error) {
+	// здесь ты получаешь все поля
 	contractsWithJson, err := repository.GetAllContracts(contractType)
 	if err != nil {
 		return nil, err
 	}
 	//fmt.Printf(">>>>>>>>>>>>>>>>>contractsWithJson%+v\n", contractsWithJson)
 
+	log.Println(contractsWithJson, "ПОСМОТРИ РЕЗУЛЬТАТ")
+	// до этого момента я получаю нужный результат
+
+	// TODO: проблема либо тут
 	contracts, err := ConvertContractsFromJsonB(contractsWithJson)
 	if err != nil {
 		return nil, err
 	}
 
-	//fmt.Printf(">>>>>>>>>>>>>>>>>contracts%+v\n", contracts)
+	fmt.Printf(">>>>>>>>>>>>>>>>>contracts%+v\n", contracts)
 
 	for _, contract := range contracts {
+		fmt.Printf(">>>>>>>>>>>>>>>>>loop contract>>>>>>>%+v\n", contract)
+		//fmt.Printf("отдельные данные:  %t", contract.IsExtendContract)
+		fmt.Printf("BOOOL %t\n", contract.IsExtendContract)
+		fmt.Printf("%v\n", contract.IsExtendContract)
+		// проблема тут
 		contractMiniInfo := ConvertContractToContractMiniInfo(contract)
 		contractsMiniInfo = append(contractsMiniInfo, contractMiniInfo)
 	}
@@ -260,6 +270,8 @@ func GetAllContracts(contractType string) (contractsMiniInfo []model.ContractMin
 }
 
 func ConvertContractToContractMiniInfo(contract model.Contract) (contractMiniInfo model.ContractMiniInfo) {
+	log.Println(contract.IsExtendContract, "contract.IsExtendContract")
+	log.Println(contract.ID, "ID:")
 	if contract.Type == "marketing_services" {
 		contractMiniInfo.ContractType = "Договор маркетинговых услуг"
 	} else if contract.Type == "supply" {
@@ -280,6 +292,7 @@ func ConvertContractToContractMiniInfo(contract model.Contract) (contractMiniInf
 	default:
 		contractMiniInfo.Status = "UNKNOWN"
 	}
+	// здесь не получаю true
 
 	contractMiniInfo.ID = contract.ID
 	contractMiniInfo.ContractorName = contract.Requisites.ContractorName
@@ -290,6 +303,7 @@ func ConvertContractToContractMiniInfo(contract model.Contract) (contractMiniInf
 	contractMiniInfo.UpdatedAt = contract.UpdatedAt
 	//contractMiniInfo.Status = contract.Status
 	contractMiniInfo.Beneficiary = contract.Requisites.Beneficiary
+	contractMiniInfo.IsExtendContract = contract.IsExtendContract
 
 	return contractMiniInfo
 }
@@ -297,6 +311,9 @@ func ConvertContractToContractMiniInfo(contract model.Contract) (contractMiniInf
 func ConvertContractsFromJsonB(contractsWithJsonB []model.ContractWithJsonB) (contracts []model.Contract, err error) {
 	for _, contractWithJsonB := range contractsWithJsonB {
 		contract, err := ConvertContractFromJsonB(contractWithJsonB)
+
+		fmt.Printf("цикл============================== %+v\n", contract)
+		//TODO: done -> поле extendt - is_extent получаю
 		if err != nil {
 			return nil, err
 		}
@@ -307,6 +324,9 @@ func ConvertContractsFromJsonB(contractsWithJsonB []model.ContractWithJsonB) (co
 }
 
 func ConvertContractFromJsonB(contractWithJson model.ContractWithJsonB) (contract model.Contract, err error) {
+
+	log.Println("ConvertContractFromJsonB=======================", contractWithJson)
+
 	contract.ID = contractWithJson.ID
 	contract.Type = contractWithJson.Type
 	contract.Comment = contractWithJson.Comment
@@ -318,6 +338,7 @@ func ConvertContractFromJsonB(contractWithJson model.ContractWithJsonB) (contrac
 	contract.WithTemperatureConditions = contractWithJson.WithTemperatureConditions
 	contract.PrevContractId = contractWithJson.PrevContractId
 	contract.IsExtendContract = contractWithJson.IsExtendContract
+	contract.ExtendDate = contractWithJson.ExtendDate
 	err = json.Unmarshal([]byte(contractWithJson.Requisites), &contract.Requisites)
 	if err != nil {
 		return model.Contract{}, err

@@ -18,7 +18,7 @@ type ContractWithJsonB struct {
 	UpdatedAt                 string `json:"updated_at,omitempty"`
 	IsIndivid                 bool   `json:"is_individ"`
 	IsExtendContract          bool   `json:"is_extend_contract"`
-	//ExtendDate                string `json:"extend_date"`
+	ExtendDate                string `json:"extend_date"`
 }
 
 type Contract struct {
@@ -38,8 +38,8 @@ type Contract struct {
 	CreatedAt                 string                 `json:"created_at,omitempty"`
 	UpdatedAt                 string                 `json:"updated_at,omitempty"`
 	IsExtendContract          bool                   `json:"is_extend_contract"`
-
-	IsIndivid bool `json:"is_individ"`
+	ExtendDate                string                 `json:"extend_date"`
+	IsIndivid                 bool                   `json:"is_individ"`
 }
 
 type ContractDTOFor1C struct {
@@ -73,6 +73,7 @@ type ContractMiniInfo struct {
 	CreatedAt        string  `json:"created_at,omitempty"`
 	UpdatedAt        string  `json:"updated_at,omitempty"`
 	IsExtendContract bool    `json:"is_extend_contract"`
+	ExtendDate       string  `json:"extend_date"`
 }
 
 // Requisites Ревезиты
@@ -114,7 +115,7 @@ type ContractParameters struct {
 	StartDate                 string   `json:"start_date"`
 	EndDate                   string   `json:"end_date"`
 	IsExtendContract          bool     `json:"is_extend_contract"`
-	ExtendDate                string   `json:"is_extend_date"`
+	ExtendDate                string   `json:"extend_date"`
 }
 
 type ContractParametersDTOFor1C struct {
