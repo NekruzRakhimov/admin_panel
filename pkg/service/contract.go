@@ -273,6 +273,7 @@ func GetAllContracts(contractType string) (contractsMiniInfo []model.ContractMin
 func ConvertContractToContractMiniInfo(contract model.Contract) (contractMiniInfo model.ContractMiniInfo) {
 	log.Println(contract.IsExtendContract, "contract.IsExtendContract")
 	log.Println(contract.ID, "ID:")
+	log.Println(contract.ExtendDate, "extend_date:")
 	if contract.Type == "marketing_services" {
 		contractMiniInfo.ContractType = "Договор маркетинговых услуг"
 	} else if contract.Type == "supply" {
@@ -305,6 +306,7 @@ func ConvertContractToContractMiniInfo(contract model.Contract) (contractMiniInf
 	//contractMiniInfo.Status = contract.Status
 	contractMiniInfo.Beneficiary = contract.Requisites.Beneficiary
 	contractMiniInfo.IsExtendContract = contract.IsExtendContract
+	contractMiniInfo.ExtendDate = contract.ExtendDate
 
 	return contractMiniInfo
 }
@@ -326,7 +328,7 @@ func ConvertContractsFromJsonB(contractsWithJsonB []model.ContractWithJsonB) (co
 
 func ConvertContractFromJsonB(contractWithJson model.ContractWithJsonB) (contract model.Contract, err error) {
 
-	log.Println("ConvertContractFromJsonB=======================", contractWithJson)
+	log.Println("ConvertContractFromJsonB=======================", contractWithJson.ID, contractWithJson.IsExtendContract, contractWithJson.ExtendDate)
 
 	contract.ID = contractWithJson.ID
 	contract.Type = contractWithJson.Type
@@ -366,7 +368,9 @@ func ConvertContractFromJsonB(contractWithJson model.ContractWithJsonB) (contrac
 	}
 
 	contract.IsExtendContract = contract.ContractParameters.IsExtendContract
+
 	contract.ExtendDate = contract.ContractParameters.ExtendDate
+	log.Println("ДАННЫЕ ПО КОНТРАКТУ", contract)
 	return contract, nil
 }
 
