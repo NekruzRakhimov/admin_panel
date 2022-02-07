@@ -667,6 +667,6 @@ func ChangeDataContract(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 		return
 	}
-	c.JSON(200, "договор успешно продлён!")
+	c.JSON(200, gin.H{"reason": "договор успешно продлён!"})
 
 }
