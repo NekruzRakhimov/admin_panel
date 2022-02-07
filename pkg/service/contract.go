@@ -244,8 +244,9 @@ func GetAllContracts(contractType string) (contractsMiniInfo []model.ContractMin
 	}
 	//fmt.Printf(">>>>>>>>>>>>>>>>>contractsWithJson%+v\n", contractsWithJson)
 
-	log.Println(contractsWithJson, "ПОСМОТРИ РЕЗУЛЬТАТ")
+	//log.Println(contractsWithJson, "ПОСМОТРИ РЕЗУЛЬТАТ")
 	// до этого момента я получаю нужный результат
+	fmt.Printf("my_logs[ %+v\n]", contractsWithJson)
 
 	// TODO: проблема либо тут
 	contracts, err := ConvertContractsFromJsonB(contractsWithJson)
