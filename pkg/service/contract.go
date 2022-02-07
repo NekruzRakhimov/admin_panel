@@ -365,6 +365,8 @@ func ConvertContractFromJsonB(contractWithJson model.ContractWithJsonB) (contrac
 		return model.Contract{}, err
 	}
 
+	contract.IsExtendContract = contract.ContractParameters.IsExtendContract
+	contract.ExtendDate = contract.ContractParameters.ExtendDate
 	return contract, nil
 }
 
