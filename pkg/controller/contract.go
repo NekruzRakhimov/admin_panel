@@ -576,6 +576,11 @@ func Notification(c *gin.Context) {
 // @Failure      500      {object}  map[string]interface{}
 // @Router       /search_contract/ [get]
 func SearchContractByNumber(c *gin.Context) {
+	//TODO: цель взять не только договора по статусам
+	// но и все договора:
+	// можно сделать так, если мы получили  ACTIVE_AND_EXPIRED -  можем пустой статус отправить
+	//
+
 	status := c.Query("status")
 	contractNumber := c.Query("contract_number")
 	switch status {
@@ -591,8 +596,8 @@ func SearchContractByNumber(c *gin.Context) {
 		status = "отменен"
 	case "ACTIVE_AND_EXPIRED":
 		status = ""
-
 	}
+	log.Println(status, "checking status")
 
 	result, err := service.SearchContractByNumber(contractNumber, status)
 	if err != nil {

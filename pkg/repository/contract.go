@@ -167,14 +167,23 @@ func SaveContractExternalCode(contractId int, contractCode string) error {
 
 func SearchContractByNumber(param string, status string) ([]model.SearchContract, error) {
 	var search []model.SearchContract
-
-	query := fmt.Sprintf("SELECT id, status, requisites ->> 'beneficiary' AS  beneficiary,  contract_parameters ->> 'contract_number' AS contract_number," +
+	query := fmt.Sprint("SELECT id, status, requisites ->> 'beneficiary' AS  beneficiary,  contract_parameters ->> 'contract_number' AS contract_number," +
 		"type AS contract_type,  created_at, updated_at, manager AS author, contract_parameters ->> 'contract_amount' AS amount FROM  contracts " +
-		"WHERE  contract_parameters ->> 'contract_number' like  $1 AND status =  $2")
+		"WHERE  contract_parameters ->> 'contract_number' like  $1 ")
+	if status == "" {
+		err := db.GetDBConn().Raw(query, "%"+param+"%").Scan(&search).Error
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return search, err
+		}
 
-	err := db.GetDBConn().Raw(query, "%"+param+"%", status).Scan(&search).Error
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return search, err
+	}
+	if status != "" {
+		query += fmt.Sprintf("AND status =  $2")
+		err := db.GetDBConn().Raw(query, "%"+param+"%", status).Scan(&search).Error
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return search, err
+		}
+
 	}
 
 	return search, nil
