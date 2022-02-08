@@ -675,3 +675,14 @@ func ChangeDataContract(c *gin.Context) {
 	c.JSON(200, gin.H{"reason": "договор успешно продлён!"})
 
 }
+
+func GetCountries(c *gin.Context) {
+
+	countries, err := service.GetCountries()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
+	}
+
+	c.JSON(http.StatusOK, countries)
+
+}

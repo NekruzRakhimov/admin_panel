@@ -72,3 +72,10 @@ type ClientBin struct {
 type ContractNumber struct {
 	ContractNumber string `json:"contract_number"`
 }
+
+type Country struct {
+	CountryArr []struct {
+		CountryName string `json:"country_name"`
+		CountryCode string `json:"country_code"`
+	} `json:"country_arr"`
+}

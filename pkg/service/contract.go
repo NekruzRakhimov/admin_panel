@@ -3,10 +3,13 @@ package service
 import (
 	"admin_panel/model"
 	"admin_panel/pkg/repository"
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"net/http"
 	"strings"
 )
 
@@ -547,5 +550,46 @@ func SearchContractHistory(field, param string) ([]model.SearchContract, error) 
 
 func ChangeDataContract(id int) error {
 	return repository.ChangeDataContract(id)
+
+}
+
+func GetCountries() (model.Country, error) {
+	countries := model.Country{}
+	client := &http.Client{}
+	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/countrylist"
+	req, err := http.NewRequest("GET", uri, nil)
+	req.Header.Set("Content-Type", "application/json") // This makes it work
+	req.SetBasicAuth("http_client", "123456")
+
+	if err != nil {
+		log.Println(err)
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println(err)
+		return countries, err
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Println(err)
+		return countries, err
+	}
+
+	defer resp.Body.Close()
+	if err != nil {
+		log.Println(err)
+		return countries, err
+	}
+	body = bytes.TrimPrefix(body, []byte("\xef\xbb\xbf")) // Or []byte{239, 187, 191}
+
+	err = json.Unmarshal(body, &countries)
+	if err != nil {
+		log.Println(err)
+		return model.Country{}, err
+	}
+
+	fmt.Println(string(body))
+	return countries, nil
 
 }
