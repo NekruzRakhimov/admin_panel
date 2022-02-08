@@ -1040,6 +1040,50 @@ var doc = `{
                 }
             }
         },
+        "/country/": {
+            "get": {
+                "description": "Получаем список стран",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "country"
+                ],
+                "summary": "Получаем список стран",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Country"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/detach_role/{user_id}/{role_id}": {
             "delete": {
                 "description": "Detach by json Role To User",
@@ -2940,8 +2984,14 @@ var doc = `{
                         "$ref": "#/definitions/model.Discount"
                     }
                 },
+                "extend_date": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
+                },
+                "is_extend_contract": {
+                    "type": "boolean"
                 },
                 "is_individ": {
                     "type": "boolean"
@@ -3019,6 +3069,9 @@ var doc = `{
                 "created_at": {
                     "type": "string"
                 },
+                "extend_date": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -3064,15 +3117,15 @@ var doc = `{
                 "end_date": {
                     "type": "string"
                 },
+                "extend_date": {
+                    "type": "string"
+                },
                 "frequency_deferred_discount": {
                     "description": "Кратность расчета отложенной скидки TODO: возможно нужно поменять",
                     "type": "string"
                 },
                 "is_extend_contract": {
                     "type": "boolean"
-                },
-                "is_extend_date": {
-                    "type": "string"
                 },
                 "prepayment": {
                     "type": "number"
@@ -3126,6 +3179,25 @@ var doc = `{
                 },
                 "organization": {
                     "type": "string"
+                }
+            }
+        },
+        "model.Country": {
+            "type": "object",
+            "properties": {
+                "country_arr": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "country_code": {
+                                "type": "string"
+                            },
+                            "country_name": {
+                                "type": "string"
+                            }
+                        }
+                    }
                 }
             }
         },

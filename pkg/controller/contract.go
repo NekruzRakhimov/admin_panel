@@ -676,6 +676,17 @@ func ChangeDataContract(c *gin.Context) {
 
 }
 
+// GetCountries godoc
+// @Summary     Получаем список стран
+// @Description  Получаем список стран
+// @Tags         country
+// @Accept       json
+// @Produce      json
+// @Success      200      {object}  model.Country
+// @Failure      400      {object}  map[string]interface{}
+// @Failure      404      {object}  map[string]interface{}
+// @Failure      500      {object}  map[string]interface{}
+// @Router       /country/ [get]
 func GetCountries(c *gin.Context) {
 
 	countries, err := service.GetCountries()
