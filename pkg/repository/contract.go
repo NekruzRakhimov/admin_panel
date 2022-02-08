@@ -185,14 +185,14 @@ func SearchContractByNumber(param string, status string) ([]model.SearchContract
 		}
 
 	}
-	//supply
-	// marketing_services
-	for _, value := range search {
-		if value.ContractType == "supply" {
-			value.ContractType = "Договор поставок"
-		} else if value.ContractType == "marketing_services" {
-			value.ContractType = "Договор маркетинговых услуг"
+
+	for i := range search {
+		if search[i].ContractType == "supply" {
+			search[i].ContractType = "Договор поставок"
+		} else if search[i].ContractType == "marketing_services" {
+			search[i].ContractType = "Договор маркетинговых услуг"
 		}
+
 	}
 
 	return search, nil
