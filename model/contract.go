@@ -39,7 +39,8 @@ type Contract struct {
 	UpdatedAt                 string                 `json:"updated_at,omitempty"`
 	IsExtendContract          bool                   `json:"is_extend_contract"`
 	ExtendDate                string                 `json:"extend_date"`
-	IsIndivid                 bool                   `json:"is_individ"`
+
+	IsIndivid bool `json:"is_individ"`
 }
 
 type ContractDTOFor1C struct {
@@ -49,6 +50,7 @@ type ContractDTOFor1C struct {
 	Status                    string                     `json:"status"`
 	Requisites                Requisites                 `json:"requisites"`
 	Manager                   string                     `json:"manager,omitempty"`
+	Country                   string                     `json:"country"`
 	KAM                       string                     `json:"kam,omitempty"`
 	SupplierCompanyManager    SupplierCompanyManager     `json:"supplier_company_manager"`
 	ContractParameters        ContractParametersDTOFor1C `json:"contract_parameters"`
@@ -91,6 +93,7 @@ type Requisites struct {
 
 // SupplierCompanyManager Руководитель компании поставщика
 type SupplierCompanyManager struct {
+	Country   string `json:"country"`
 	WorkPhone string `json:"work_phone,omitempty"`
 	Email     string `json:"email,omitempty"`
 	Skype     string `json:"skype,omitempty"`
