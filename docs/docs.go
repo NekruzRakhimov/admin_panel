@@ -3519,6 +3519,9 @@ var doc = `{
                     "description": "Основание - надо понять как правильно назвать это",
                     "type": "string"
                 },
+                "country": {
+                    "type": "string"
+                },
                 "email": {
                     "type": "string"
                 },
