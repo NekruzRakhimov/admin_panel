@@ -3356,29 +3356,22 @@ var doc = `{
         "model.Discount": {
             "type": "object",
             "properties": {
-                "amount": {
-                    "type": "number"
-                },
-                "comments": {
-                    "type": "string"
-                },
-                "discount_amount": {
-                    "type": "number"
-                },
-                "grace_days": {
+                "code": {
                     "type": "string"
                 },
                 "name": {
-                    "description": "Type                string ` + "`" + `json:\"type,omitempty\"` + "`" + `",
                     "type": "string"
                 },
-                "other": {
+                "period_from": {
                     "type": "string"
                 },
-                "payment_multiplicity": {
+                "period_to": {
                     "type": "string"
                 },
-                "site": {
+                "reward_amount": {
+                    "type": "string"
+                },
+                "total_amount": {
                     "type": "string"
                 }
             }

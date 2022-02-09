@@ -147,16 +147,36 @@ type Product struct {
 }
 
 type Discount struct {
-	//Type                string `json:"type,omitempty"`
-	Name                string  `json:"name,omitempty"`
-	DiscountAmount      float32 `json:"discount_amount,omitempty"`
-	GraceDays           string  `json:"grace_days,omitempty"`
-	PaymentMultiplicity string  `json:"payment_multiplicity,omitempty"`
-	Amount              float32 `json:"amount,omitempty"`
-	Site                string  `json:"site,omitempty"`
-	Other               string  `json:"other"`
-	Comments            string  `json:"comments,omitempty"`
+	Name    string           `json:"name,omitempty"`
+	Code    string           `json:"code"`
+	Periods []DiscountPeriod `json:"periods"`
 }
+
+type DiscountPeriod struct {
+	PeriodFrom   string `json:"period_from"`
+	PeriodTo     string `json:"period_to"`
+	TotalAmount  string `json:"total_amount"`
+	RewardAmount string `json:"reward_amount"`
+	//DiscountAmount      float32 `json:"discount_amount,omitempty"`
+	//GraceDays           string  `json:"grace_days,omitempty"`
+	//PaymentMultiplicity string  `json:"payment_multiplicity,omitempty"`
+	//Amount              float32 `json:"amount,omitempty"`
+	//Site                string  `json:"site,omitempty"`
+	//Other               string  `json:"other"`
+	//Comments            string  `json:"comments,omitempty"`
+}
+
+//Discount struct {
+//	//Type                string `json:"type,omitempty"`
+//	Name                string  `json:"name,omitempty"`
+//	DiscountAmount      float32 `json:"discount_amount,omitempty"`
+//	GraceDays           string  `json:"grace_days,omitempty"`
+//	PaymentMultiplicity string  `json:"payment_multiplicity,omitempty"`
+//	Amount              float32 `json:"amount,omitempty"`
+//	Site                string  `json:"site,omitempty"`
+//	Other               string  `json:"other"`
+//	Comments            string  `json:"comments,omitempty"`
+//}
 
 //type ContractParameters struct {
 //		NumberOfContract          string    `json:"number_of_contract"`
