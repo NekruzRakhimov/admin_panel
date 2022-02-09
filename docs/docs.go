@@ -237,6 +237,50 @@ var doc = `{
                 }
             }
         },
+        "/brands/": {
+            "get": {
+                "description": "Получаем список брендов",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "brand"
+                ],
+                "summary": "Получаем список брендов",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Brand"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/change_date_contract/": {
             "get": {
                 "description": "Продлить дату окончание договора по ID и у которого статус в работе\nПример:\nchange_date_contract/?extend_contract=true\u0026id=163",
@@ -2467,6 +2511,50 @@ var doc = `{
                 }
             }
         },
+        "/sales/": {
+            "get": {
+                "description": "Получаем список продаж и кол-во",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales"
+                ],
+                "summary": "Получаем список продаж и кол-во",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Sales"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/search_contract/": {
             "get": {
                 "description": "add by json account",
@@ -2929,6 +3017,25 @@ var doc = `{
                 },
                 "id": {
                     "type": "integer"
+                }
+            }
+        },
+        "model.Brand": {
+            "type": "object",
+            "properties": {
+                "brand_arr": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "brand_code": {
+                                "type": "string"
+                            },
+                            "brand_name": {
+                                "type": "string"
+                            }
+                        }
+                    }
                 }
             }
         },
@@ -3477,6 +3584,31 @@ var doc = `{
                 },
                 "status": {
                     "type": "string"
+                }
+            }
+        },
+        "model.Sales": {
+            "type": "object",
+            "properties": {
+                "sales_arr": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "product_code": {
+                                "type": "string"
+                            },
+                            "product_name": {
+                                "type": "string"
+                            },
+                            "qnt_total": {
+                                "type": "number"
+                            },
+                            "total": {
+                                "type": "integer"
+                            }
+                        }
+                    }
                 }
             }
         },

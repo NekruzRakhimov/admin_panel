@@ -16,6 +16,18 @@ definitions:
       id:
         type: integer
     type: object
+  model.Brand:
+    properties:
+      brand_arr:
+        items:
+          properties:
+            brand_code:
+              type: string
+            brand_name:
+              type: string
+          type: object
+        type: array
+    type: object
   model.Client:
     properties:
       account_number:
@@ -375,6 +387,22 @@ definitions:
       status:
         type: string
     type: object
+  model.Sales:
+    properties:
+      sales_arr:
+        items:
+          properties:
+            product_code:
+              type: string
+            product_name:
+              type: string
+            qnt_total:
+              type: number
+            total:
+              type: integer
+          type: object
+        type: array
+    type: object
   model.SearchContract:
     properties:
       amount:
@@ -596,6 +624,36 @@ paths:
       summary: Attach Role To User
       tags:
       - users
+  /brands/:
+    get:
+      consumes:
+      - application/json
+      description: Получаем список брендов
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Brand'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Получаем список брендов
+      tags:
+      - brand
   /change_date_contract/:
     get:
       consumes:
@@ -2121,6 +2179,36 @@ paths:
       summary: Get Role by ID
       tags:
       - roles
+  /sales/:
+    get:
+      consumes:
+      - application/json
+      description: Получаем список продаж и кол-во
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Sales'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Получаем список продаж и кол-во
+      tags:
+      - sales
   /search_contract/:
     get:
       consumes:
