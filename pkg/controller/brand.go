@@ -18,7 +18,7 @@ import (
 // @Failure      500      {object}  map[string]interface{}
 // @Router       /brands/ [get]
 func GetBrands(c *gin.Context) {
-
+	// тут получаем список всех наименований (товаров, таблеток и т.д)
 	brands, err := service.GetBrands()
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
@@ -39,6 +39,19 @@ func GetBrands(c *gin.Context) {
 // @Failure      500      {object}  map[string]interface{}
 // @Router       /sales/ [get]
 func GetSales(c *gin.Context) {
+	//по факту должны отправить период С по какое число получить продажи
+	//TODO: на данный момент даты С и ПО вшиты в код (потом надо убрать их)
+	//{
+	//	"datestart":"01.01.2022 0:02:09",
+	//	"dateend":"01.01.2022 0:02:09"
+	//}
+	//TODO:
+	// и в ответ получаем 4 поля
+	// "product_name":
+	//  "product_code":
+	//  "total": - сумма продаж
+	//   "qnt_total": - кол-во
+
 	sales, err := service.GetSales()
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
