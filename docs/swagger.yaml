@@ -252,9 +252,9 @@ definitions:
       period_to:
         type: string
       reward_amount:
-        type: number
+        type: integer
       total_amount:
-        type: number
+        type: integer
     type: object
   model.FrequencyDeferredDiscount:
     properties:
@@ -306,6 +306,28 @@ definitions:
       storage_condition:
         type: string
       substance:
+        type: string
+    type: object
+  model.RBRequest:
+    properties:
+      bin:
+        type: string
+      contractor_name:
+        type: string
+      period_from:
+        type: string
+      period_to:
+        type: string
+    type: object
+  model.RbDTO:
+    properties:
+      contract_number:
+        type: string
+      discount_amount:
+        type: integer
+      end_date:
+        type: string
+      start_date:
         type: string
     type: object
   model.Requisites:
@@ -1807,6 +1829,45 @@ paths:
       summary: List Notifications
       tags:
       - notifications
+  /reports/rb:
+    get:
+      consumes:
+      - application/json
+      description: получение отчета по РБ
+      parameters:
+      - description: forming report
+        in: body
+        name: contract
+        required: true
+        schema:
+          $ref: '#/definitions/model.RBRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.RbDTO'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Report RB
+      tags:
+      - reports
   /rights/:
     get:
       consumes:

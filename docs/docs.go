@@ -1964,6 +1964,64 @@ var doc = `{
                 }
             }
         },
+        "/reports/rb": {
+            "get": {
+                "description": "получение отчета по РБ",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "reports"
+                ],
+                "summary": "Get Report RB",
+                "parameters": [
+                    {
+                        "description": "forming report",
+                        "name": "contract",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.RBRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.RbDTO"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/rights/": {
             "get": {
                 "description": "Get All Rights by Admin",
@@ -3380,10 +3438,10 @@ var doc = `{
                     "type": "string"
                 },
                 "reward_amount": {
-                    "type": "number"
+                    "type": "integer"
                 },
                 "total_amount": {
-                    "type": "number"
+                    "type": "integer"
                 }
             }
         },
@@ -3463,6 +3521,40 @@ var doc = `{
                     "type": "string"
                 },
                 "substance": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.RBRequest": {
+            "type": "object",
+            "properties": {
+                "bin": {
+                    "type": "string"
+                },
+                "contractor_name": {
+                    "type": "string"
+                },
+                "period_from": {
+                    "type": "string"
+                },
+                "period_to": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.RbDTO": {
+            "type": "object",
+            "properties": {
+                "contract_number": {
+                    "type": "string"
+                },
+                "discount_amount": {
+                    "type": "integer"
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "start_date": {
                     "type": "string"
                 }
             }
