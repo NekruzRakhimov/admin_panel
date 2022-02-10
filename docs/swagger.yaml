@@ -240,14 +240,21 @@ definitions:
         type: string
       name:
         type: string
+      periods:
+        items:
+          $ref: '#/definitions/model.DiscountPeriod'
+        type: array
+    type: object
+  model.DiscountPeriod:
+    properties:
       period_from:
         type: string
       period_to:
         type: string
       reward_amount:
-        type: string
+        type: number
       total_amount:
-        type: string
+        type: number
     type: object
   model.FrequencyDeferredDiscount:
     properties:

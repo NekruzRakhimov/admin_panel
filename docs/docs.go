@@ -3362,6 +3362,17 @@ var doc = `{
                 "name": {
                     "type": "string"
                 },
+                "periods": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.DiscountPeriod"
+                    }
+                }
+            }
+        },
+        "model.DiscountPeriod": {
+            "type": "object",
+            "properties": {
                 "period_from": {
                     "type": "string"
                 },
@@ -3369,10 +3380,10 @@ var doc = `{
                     "type": "string"
                 },
                 "reward_amount": {
-                    "type": "string"
+                    "type": "number"
                 },
                 "total_amount": {
-                    "type": "string"
+                    "type": "number"
                 }
             }
         },
