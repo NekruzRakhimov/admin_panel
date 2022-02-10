@@ -129,6 +129,9 @@ func runAllRoutes(r *gin.Engine) {
 	roles.PUT("/:id", controller.EditRole)
 	roles.DELETE("/:id", controller.DeleteRole)
 
+	reports := r.Group("/reports")
+	reports.POST("/rb", controller.GetAllRBByContractorBIN)
+
 	r.POST("/attach_right/:role_id/:right_id", controller.AttachRightToRole)
 	r.DELETE("/detach_right/:role_id/:right_id", controller.DetachRightFromRole)
 

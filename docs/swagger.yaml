@@ -1830,7 +1830,7 @@ paths:
       tags:
       - notifications
   /reports/rb:
-    get:
+    post:
       consumes:
       - application/json
       description: получение отчета по РБ

@@ -1965,7 +1965,7 @@ var doc = `{
             }
         },
         "/reports/rb": {
-            "get": {
+            "post": {
                 "description": "получение отчета по РБ",
                 "consumes": [
                     "application/json"

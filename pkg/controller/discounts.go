@@ -17,7 +17,7 @@ import (
 // @Success 200 {array}  model.RbDTO
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /reports/rb [get]
+// @Router /reports/rb [post]
 func GetAllRBByContractorBIN(c *gin.Context) {
 	var request model.RBRequest
 	if err := c.BindJSON(&request); err != nil {
