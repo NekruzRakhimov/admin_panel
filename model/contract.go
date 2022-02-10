@@ -153,10 +153,10 @@ type Discount struct {
 }
 
 type DiscountPeriod struct {
-	PeriodFrom   string  `json:"period_from"`
-	PeriodTo     string  `json:"period_to"`
-	TotalAmount  float32 `json:"total_amount"`
-	RewardAmount float32 `json:"reward_amount"`
+	PeriodFrom   string `json:"period_from"`
+	PeriodTo     string `json:"period_to"`
+	TotalAmount  int    `json:"total_amount"`
+	RewardAmount int    `json:"reward_amount"`
 	//DiscountAmount      float32 `json:"discount_amount,omitempty"`
 	//GraceDays           string  `json:"grace_days,omitempty"`
 	//PaymentMultiplicity string  `json:"payment_multiplicity,omitempty"`

@@ -9,6 +9,10 @@ import (
 	"net/http"
 )
 
+const (
+	TempDateCompleter = " 0:02:09"
+)
+
 func GetBrands() (model.Brand, error) {
 	brand := model.Brand{}
 	client := &http.Client{}
@@ -49,10 +53,12 @@ func GetBrands() (model.Brand, error) {
 
 }
 
-func GetSales() (model.Sales, error) {
+func GetSales(dateStart, DateEnd string) (model.Sales, error) {
 	date := model.DateSales{
-		Datestart: "01.01.2022 0:02:09",
-		Dateend:   "01.01.2022 0:02:09",
+		//Datestart: "01.01.2022",
+		//Dateend:   "01.01.2022",
+		Datestart: dateStart,
+		Dateend:   DateEnd,
 	}
 	sales := model.Sales{}
 	//parm := url.Values{}

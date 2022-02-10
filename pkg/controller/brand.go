@@ -52,7 +52,7 @@ func GetSales(c *gin.Context) {
 	//  "total": - сумма продаж
 	//   "qnt_total": - кол-во
 
-	sales, err := service.GetSales()
+	sales, err := service.GetSales("01.01.2022"+service.TempDateCompleter, "01.01.2022"+service.TempDateCompleter)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
 		return
