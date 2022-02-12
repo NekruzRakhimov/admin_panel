@@ -55,6 +55,8 @@ func runAllRoutes(r *gin.Engine) {
 	r.GET("/notifications", controller.GetNotifications)
 	r.GET("/search_contract/", controller.SearchContractByNumber)
 	r.GET("/search_history/", controller.SearchContractDC)
+	//TODO: НЕКРУЗ ВОТ ЭТО НАДО ПОСМОТРЕТЬ + search_history, чтобы привязка по ID была
+	r.GET("/search_history_ex/:id/", controller.SearchHistoryExecution)
 	r.GET("/change_date_contract/", controller.ChangeDataContract)
 	r.GET("/country/", controller.GetCountries)
 	r.GET("/brands/", controller.GetBrands)

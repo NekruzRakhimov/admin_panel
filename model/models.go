@@ -63,6 +63,8 @@ type SearchContract struct {
 	UpdatedAt      time.Time `json:"updated_at"`
 	Author         string    `json:"author"`
 	Amount         string    `json:"amount"`
+	EndDate        string    `json:"end_date,omitempty"`
+	Comment        string    `json:"comment,omitempty"`
 }
 
 type ClientBin struct {

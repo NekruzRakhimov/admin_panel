@@ -121,3 +121,10 @@ SELECT id, manager FROM contracts WHERE  manager like  '%Иван%';
 
 
     SELECT * FROM contracts WHERE id not in (select prev_contract_id from contracts) AND is_active = true AND status = 'в работе';
+
+    SELECT id, requisites ->> 'beneficiary' AS  beneficiary,  contract_parameters ->> 'contract_number' AS contract_number,
+           type AS contract_type,  created_at, updated_at, manager AS author, contract_parameters ->> 'contract_amount' AS amount FROM  contracts
+		WHERE  manager  like  '%Алиса%';
+
+
+SELECT contract_parameters ->> 'end_date' AS end_date FROM contracts;

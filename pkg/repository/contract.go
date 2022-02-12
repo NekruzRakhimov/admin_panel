@@ -269,3 +269,37 @@ func ChangeDataContract(id int) error {
 	return nil
 
 }
+
+func SearchHistoryExecution(field string, param string) ([]model.SearchContract, error) {
+	var search []model.SearchContract
+	if field == "author" {
+		query := fmt.Sprintf("SELECT id, manager AS author, status," +
+			"created_at, contract_parameters ->> 'end_date' AS end_date, comment FROM  contracts " +
+			"WHERE  manager  like  $1")
+		err := db.GetDBConn().Raw(query, "%"+param+"%").Scan(&search).Error
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return search, err
+		}
+		return search, nil
+
+	}
+	//это чтобы понять из какого объекта будем доставать поля из JSONB
+	var jsonBTable string
+	if field == "contract_number" {
+		jsonBTable = "contract_parameters"
+	} else if field == "beneficiary" {
+		jsonBTable = "requisites"
+
+	}
+	query := fmt.Sprintf("SELECT id, manager AS author, status,"+
+		"created_at, contract_parameters ->> 'end_date' AS end_date, comment FROM  contracts"+
+		"WHERE  %s ->> $1 like  $2", jsonBTable)
+
+	err := db.GetDBConn().Raw(query, field, "%"+param+"%").Scan(&search).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return search, err
+	}
+
+	return search, nil
+
+}
