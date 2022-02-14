@@ -4,6 +4,7 @@ import (
 	"admin_panel/model"
 	"admin_panel/pkg/repository"
 	"fmt"
+	"github.com/xuri/excelize/v2"
 	"log"
 	"strings"
 )
@@ -52,6 +53,26 @@ func FormExcelForRBReport(request model.RBRequest) error {
 
 	fmt.Println(contracts)
 	fmt.Println(totalAmount)
+	var conTotalAmount int
+	var rewardAmount int
+	if len(contracts) > 0 {
+		if len(contracts[0].Discounts) > 0 {
+			if len(contracts[0].Discounts[0].Periods) > 0 {
+				conTotalAmount = contracts[0].Discounts[0].Periods[0].TotalAmount
+				rewardAmount = contracts[0].Discounts[0].Periods[0].RewardAmount
+			}
+		}
+	}
+
+	f, err := excelize.OpenFile("files/reports/rb/rb_report_template.xlsx")
+	if err != nil {
+		return err
+	}
+	if conTotalAmount <= totalAmount {
+		f.SetCellValue("Sheet1", "D102", rewardAmount)
+	}
+	f.SetCellValue("Sheet1", "D102", 100000)
+
 	return nil
 }
 
@@ -72,6 +93,7 @@ func DiscountToReportRB(discount model.Discount, contract model.Contract, totalA
 	for _, period := range discount.Periods {
 		if period.TotalAmount >= totalAmount {
 			contractRB := model.RbDTO{
+				ID:             contract.ID,
 				ContractNumber: contract.ContractParameters.ContractNumber,
 				StartDate:      period.PeriodFrom,
 				EndDate:        period.PeriodTo,
