@@ -43,11 +43,11 @@ func GetNotifications(c *gin.Context) {
 // @Accept       json
 // @Produce      json
 // @Param        contract_number	 query string  true  "contract_number"
-// @Param        status	 query string  true  "status"
 // @Success      200      {object}  model.Notification
 // @Failure      400      {object}  map[string]interface{}
 // @Failure      404      {object}  map[string]interface{}
 // @Failure      500      {object}  map[string]interface{}
+// @Router       /search_notification [get]
 func SearchNotification(c *gin.Context) {
 	contractNumber := c.Query("contract_number")
 
