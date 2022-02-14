@@ -8,6 +8,7 @@ type RBRequest struct {
 }
 
 type RbDTO struct {
+	ID             int    `json:"id"`
 	ContractNumber string `json:"contract_number"`
 	StartDate      string `json:"start_date"`
 	EndDate        string `json:"end_date"`
