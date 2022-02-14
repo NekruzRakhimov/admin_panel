@@ -34,3 +34,14 @@ func GetAllRBByContractorBIN(c *gin.Context) {
 	c.JSON(http.StatusOK, contracts)
 
 }
+
+func FormExcelForRB(c *gin.Context) {
+	var request model.RBRequest
+	if err := c.BindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	c.File("files/reports/rb/rb_report.xlsx")
+}

@@ -281,7 +281,6 @@ func SearchHistoryExecution(field string, param string) ([]model.SearchContract,
 			return search, err
 		}
 		return search, nil
-
 	}
 	//это чтобы понять из какого объекта будем доставать поля из JSONB
 	var jsonBTable string
@@ -289,7 +288,6 @@ func SearchHistoryExecution(field string, param string) ([]model.SearchContract,
 		jsonBTable = "contract_parameters"
 	} else if field == "beneficiary" {
 		jsonBTable = "requisites"
-
 	}
 	query := fmt.Sprintf("SELECT id, manager AS author, status,"+
 		"created_at, contract_parameters ->> 'end_date' AS end_date, comment FROM  contracts"+

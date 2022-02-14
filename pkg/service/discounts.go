@@ -32,6 +32,29 @@ func GetAllRBByContractorBIN(request model.RBRequest) ([]model.RbDTO, error) {
 	return contractRB, nil
 }
 
+func FormExcelForRBReport(request model.RBRequest) error {
+	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.BIN)
+	if err != nil {
+		return err
+	}
+
+	contracts, err := BulkConvertContractFromJsonB(contractsWithJson)
+	if err != nil {
+		return err
+	}
+
+	sales, err := GetSales("01.01.2022"+TempDateCompleter, "01.01.2022"+TempDateCompleter)
+	if err != nil {
+		return err
+	}
+
+	totalAmount := GetTotalAmount(sales)
+
+	fmt.Println(contracts)
+	fmt.Println(totalAmount)
+	return nil
+}
+
 func DefiningRBReport(contracts []model.Contract, totalAmount int) (contractsRB []model.RbDTO) {
 	for _, contract := range contracts {
 		var contractRB []model.RbDTO
