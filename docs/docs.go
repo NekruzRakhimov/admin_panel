@@ -2673,7 +2673,7 @@ var doc = `{
                 }
             }
         },
-        "/search_history/": {
+        "/search_history/{id}": {
             "get": {
                 "description": "поиск либо по одним из параметров - contract_number, author, beneficiary:\nПримеры:\n1. target=contract_number\u0026param=00001\n2. target=author\u0026param=Иван\n3. target=beneficiary\u0026param=ТОО «AK NIET GROUP",
                 "consumes": [
@@ -2687,6 +2687,80 @@ var doc = `{
                 ],
                 "summary": "Search Contract by contract_number, author, beneficiary",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "target",
+                        "name": "target",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "target",
+                        "name": "param",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.SearchContract"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/search_history_ex/{id}": {
+            "get": {
+                "description": "поиск либо по одним из параметров - contract_number, author, beneficiary:\nПримеры:\n1. target=contract_number\u0026param=00001\n2. target=author\u0026param=Иван\n3. target=beneficiary\u0026param=ТОО «AK NIET GROUP",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "search"
+                ],
+                "summary": "Search History Execution by contract_number, author, beneficiary",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
                     {
                         "type": "string",
                         "description": "target",
@@ -3720,6 +3794,9 @@ var doc = `{
                 "beneficiary": {
                     "type": "string"
                 },
+                "comment": {
+                    "type": "string"
+                },
                 "contract_number": {
                     "type": "string"
                 },
@@ -3727,6 +3804,9 @@ var doc = `{
                     "type": "string"
                 },
                 "created_at": {
+                    "type": "string"
+                },
+                "end_date": {
                     "type": "string"
                 },
                 "id": {

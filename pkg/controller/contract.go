@@ -618,16 +618,21 @@ func SearchContractByNumber(c *gin.Context) {
 // @Tags         search
 // @Accept       json
 // @Produce      json
+// @Param        id   path     string  true  "id"
 // @Param        target   query     string  true  "target"
 // @Param        param    query     string  true  "target"
 // @Success      200      {object}  model.SearchContract
 // @Failure      400      {object}  map[string]interface{}
 // @Failure      404      {object}  map[string]interface{}
 // @Failure      500      {object}  map[string]interface{}
-// @Router       /search_history/ [get]
+// @Router       /search_history/{id} [get]
 func SearchContractDC(c *gin.Context) {
 	target := c.Query("target")
 	param := c.Query("param")
+	id := c.Param("id")
+
+	log.Println(id, "добавить потом ID  в аргументах")
+
 	result, err := service.SearchContractHistory(target, param)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
@@ -708,6 +713,7 @@ func GetCountries(c *gin.Context) {
 // @Tags         search
 // @Accept       json
 // @Produce      json
+// @Param        id   path     string  true  "id"
 // @Param        target   query     string  true  "target"
 // @Param        param    query     string  true  "target"
 // @Success      200      {object}  model.SearchContract

@@ -39,12 +39,9 @@ func Notification() {
 		}
 		fmt.Println(endDateContract, "END CONTA")
 
-
-		dur :=  endDateContract.Sub(t)
-		fmt.Printf("Разница между end_date и t: %v\n", dur )
+		dur := endDateContract.Sub(t)
+		fmt.Printf("Разница между end_date и t: %v\n", dur)
 		fmt.Println(value.ContractNumber, value.ContractDate, "Данные догвора")
-
-
 
 		fmt.Println(t, "ПРИМЕР ДАТЫ")
 		res := endDateContract.After(t)
@@ -63,7 +60,7 @@ func Notification() {
 
 				//TODO: после того отправилось ообщения, и если ошибки не возникли при этом, надо статус поменять
 				// на доставлено
-				 err := SendNotification(value.Email, message)
+				err := SendNotification(value.Email, message)
 				if err != nil {
 
 					log.Println(err)
@@ -102,7 +99,7 @@ func GetNotifications() []model.Notification {
 
 }
 
-func SendNotification(email string, message string)  error {
+func SendNotification(email string, message string) error {
 	fmt.Println(email, " EMAIL На почту которую ты отправил")
 	fmt.Println(message, "MESSAGE На почту которую ты отправил")
 
@@ -131,10 +128,15 @@ func SendNotification(email string, message string)  error {
 
 	// Now send E-Mail
 	if err := d.DialAndSend(m); err != nil {
-		return  err
+		return err
 
 		//panic(err)
 	}
 	fmt.Println("successfully sent email!")
 	return nil
+}
+
+func SearchNotification(number string) ([]model.Notification, error) {
+	return repository.SearchNotification(number)
+
 }

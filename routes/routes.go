@@ -51,10 +51,11 @@ func RunAllRoutes() {
 func runAllRoutes(r *gin.Engine) {
 
 	r.GET("/", HealthCheck)
-	r.POST("/getcontractnumb", controller.GetIdNotification)
+	//r.POST("/getcontractnumb", controller.SearchNotifications)
 	r.GET("/notifications", controller.GetNotifications)
 	r.GET("/search_contract/", controller.SearchContractByNumber)
-	r.GET("/search_history/", controller.SearchContractDC) // TODO: тут нам нужен ID договора (я тебе об этом говорил)
+	r.GET("/search_notification/", controller.SearchNotification)
+	r.GET("/search_history/:id", controller.SearchContractDC) // TODO: тут нам нужен ID договора (я тебе об этом говорил)
 	//TODO: НЕКРУЗ ВОТ ЭТО НАДО ПОСМОТРЕТЬ + search_history, чтобы привязка по ID была
 	r.GET("/search_history_ex/:id/", controller.SearchHistoryExecution)
 	r.GET("/change_date_contract/", controller.ChangeDataContract)
