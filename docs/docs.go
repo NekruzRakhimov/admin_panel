@@ -3859,16 +3859,13 @@ var doc = `{
                 "email": {
                     "type": "string"
                 },
+                "full_name": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
-                "last_name": {
-                    "type": "string"
-                },
                 "login": {
-                    "type": "string"
-                },
-                "name": {
                     "type": "string"
                 },
                 "organization": {
@@ -3884,9 +3881,6 @@ var doc = `{
                     }
                 },
                 "status": {
-                    "type": "string"
-                },
-                "surname": {
                     "type": "string"
                 }
             }

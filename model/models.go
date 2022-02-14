@@ -4,9 +4,10 @@ import "time"
 
 type User struct {
 	ID           int       `json:"id"`
-	Name         string    `json:"name"`
-	Surname      string    `json:"surname"`
-	LastName     string    `json:"last_name"`
+	FullName     string    `json:"full_name" gorm:"column:name"`
+	Name         string    `json:"-"`
+	Surname      string    `json:"-"`
+	LastName     string    `json:"-"`
 	Login        string    `json:"login"`
 	Email        string    `json:"email"`
 	Password     string    `json:"password,omitempty"`
