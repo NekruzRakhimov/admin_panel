@@ -3628,6 +3628,9 @@ var doc = `{
                 "end_date": {
                     "type": "string"
                 },
+                "id": {
+                    "type": "integer"
+                },
                 "start_date": {
                     "type": "string"
                 }
