@@ -2417,6 +2417,42 @@ paths:
       summary: Search History Execution by contract_number, author, beneficiary
       tags:
       - search
+  /search_notification:
+    get:
+      consumes:
+      - application/json
+      description: add by json account
+      parameters:
+      - description: contract_number
+        in: query
+        name: contract_number
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Notification'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Search Notification by Number
+      tags:
+      - search
   /users/:
     get:
       consumes:
