@@ -36,11 +36,8 @@ func EditContract(contractWithJson model.ContractWithJsonB) error {
 func GetAllContracts(contractStatus string) (contracts []model.ContractWithJsonB, err error) {
 	var contractStatusRus = ""
 	sqlQuery := "SELECT * FROM contracts WHERE id not in (select prev_contract_id from contracts) AND is_active = true "
-	if contractStatus == "ACTIVE_AND_EXPIRED" {
-		contractStatus = ""
-	}
 
-	if contractStatus != "" {
+	if contractStatus != "" && contractStatus != "ACTIVE_AND_EXPIRED" {
 		switch contractStatus {
 		case "DRAFT":
 			contractStatusRus = "черновик"
@@ -54,6 +51,10 @@ func GetAllContracts(contractStatus string) (contracts []model.ContractWithJsonB
 			contractStatusRus = "отменен"
 		}
 		sqlQuery += fmt.Sprintf(" AND status = '%s'", contractStatusRus)
+	}
+
+	if contractStatus == "ACTIVE_AND_EXPIRED" {
+		sqlQuery += fmt.Sprintf(" AND status in ('%s', '%s')", "в работе", "заверщённый")
 	}
 
 	sqlQuery += " ORDER BY created_at DESC"

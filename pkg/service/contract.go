@@ -523,7 +523,15 @@ func GetContractHistory(contractId int) (contractsMiniInfo []model.ContractMiniI
 		contractsMiniInfo = append(contractsMiniInfo, contractMiniInfo)
 	}
 
-	return contractsMiniInfo, nil
+	var contractsMiniInfoWithoutDrafts []model.ContractMiniInfo
+
+	for _, info := range contractsMiniInfo {
+		if info.Status != "DRAFT" {
+			contractsMiniInfoWithoutDrafts = append(contractsMiniInfoWithoutDrafts, info)
+		}
+	}
+
+	return contractsMiniInfoWithoutDrafts, nil
 }
 
 func FinishContract(contractId int) error {
