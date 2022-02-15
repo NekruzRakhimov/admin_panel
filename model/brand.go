@@ -20,3 +20,10 @@ type DateSales struct {
 	Datestart string `json:"datestart"`
 	Dateend   string `json:"dateend"`
 }
+
+
+type AddBrand struct {
+	BrandName string `json:"brand_name"`
+	BrandCode string `json:"brand_code,omitempty"`
+
+}

@@ -525,6 +525,42 @@ paths:
       summary: Show the status of server.
       tags:
       - root
+  /add_brand/:
+    get:
+      consumes:
+      - application/json
+      description: создает новый бренд
+      parameters:
+      - description: brand_name
+        in: query
+        name: brand_name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Sales'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: создает новый бренд
+      tags:
+      - brands
   /attach_right/{role_id}/{right_id}:
     delete:
       consumes:

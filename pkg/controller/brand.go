@@ -9,7 +9,7 @@ import (
 // GetBrands godoc
 // @Summary     Получаем список брендов
 // @Description  Получаем список брендов
-// @Tags         brand
+// @Tags         brands
 // @Accept       json
 // @Produce      json
 // @Success      200      {object}  model.Brand
@@ -58,5 +58,31 @@ func GetSales(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, sales)
+
+}
+
+
+
+// AddBrand godoc
+// @Summary     создает новый бренд
+// @Description  создает новый бренд
+// @Tags         brands
+// @Accept       json
+// @Produce      json
+// @Param        brand_name   query     string  true  "brand_name"
+// @Success      200      {object}  model.Sales
+// @Failure      400      {object}  map[string]interface{}
+// @Failure      404      {object}  map[string]interface{}
+// @Failure      500      {object}  map[string]interface{}
+// @Router       /add_brand/ [get]
+func AddBrand(c *gin.Context) {
+	brandName := c.Query("brand_name")
+	brand, err := service.AddBrand(brandName)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason":err})
+		return
+	}
+
+	c.JSON(http.StatusOK, brand)
 
 }
