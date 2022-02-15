@@ -22,9 +22,14 @@ type DateSales struct {
 	ClientBin string `json:"client_bin"`
 }
 
-
 type AddBrand struct {
 	BrandName string `json:"brand_name"`
 	BrandCode string `json:"brand_code,omitempty"`
+}
 
+type DiscountBrand struct {
+	Id              int    `json:"id"`
+	Brand           string `json:"brand"`
+	DiscountPercent int    `json:"discount_percent"`
+	ContractId      int    `json:"contract_id"`
 }
