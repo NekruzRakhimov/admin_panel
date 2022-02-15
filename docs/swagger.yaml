@@ -715,7 +715,7 @@ paths:
             type: object
       summary: Получаем список брендов
       tags:
-      - brand
+      - brands
   /change_date_contract/:
     get:
       consumes:

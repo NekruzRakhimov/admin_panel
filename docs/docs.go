@@ -300,7 +300,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "brand"
+                    "brands"
                 ],
                 "summary": "Получаем список брендов",
                 "responses": {
