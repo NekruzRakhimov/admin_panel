@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"admin_panel/model"
 	"admin_panel/pkg/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -37,7 +38,7 @@ func GetBrands(c *gin.Context) {
 // @Failure      400      {object}  map[string]interface{}
 // @Failure      404      {object}  map[string]interface{}
 // @Failure      500      {object}  map[string]interface{}
-// @Router       /sales/ [get]
+// @Router       /sales/ [post]
 func GetSales(c *gin.Context) {
 	//по факту должны отправить период С по какое число получить продажи
 	//TODO: на данный момент даты С и ПО вшиты в код (потом надо убрать их)
@@ -51,8 +52,15 @@ func GetSales(c *gin.Context) {
 	//  "product_code":
 	//  "total": - сумма продаж
 	//   "qnt_total": - кол-во
+	payload := model.DateSales{}
+	err := c.ShouldBindJSON(&payload)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason":err})
+		return
+	}
 
-	sales, err := service.GetSales("01.01.2022"+service.TempDateCompleter, "01.01.2022"+service.TempDateCompleter)
+	//sales, err := service.GetSales("01.01.2022"+service.TempDateCompleter, "01.01.2022"+service.TempDateCompleter)
+	sales, err := service.GetSales(payload.Datestart+service.TempDateCompleter, payload.Dateend+service.TempDateCompleter, payload.ClientBin)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
 		return

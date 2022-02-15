@@ -53,12 +53,13 @@ func GetBrands() (model.Brand, error) {
 
 }
 
-func GetSales(dateStart, DateEnd string) (model.Sales, error) {
+func GetSales(dateStart, DateEnd string, clientBin string) (model.Sales, error) {
 	date := model.DateSales{
 		//Datestart: "01.01.2022",
 		//Dateend:   "01.01.2022",
 		Datestart: dateStart,
 		Dateend:   DateEnd,
+		ClientBin: clientBin,
 	}
 	sales := model.Sales{}
 	//parm := url.Values{}

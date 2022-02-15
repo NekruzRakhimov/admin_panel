@@ -19,6 +19,7 @@ type Sales struct {
 type DateSales struct {
 	Datestart string `json:"datestart"`
 	Dateend   string `json:"dateend"`
+	ClientBin string `json:"client_bin"`
 }
 
 

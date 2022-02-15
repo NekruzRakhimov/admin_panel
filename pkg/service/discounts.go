@@ -20,7 +20,10 @@ func GetAllRBByContractorBIN(request model.RBRequest) ([]model.RbDTO, error) {
 		return nil, err
 	}
 
-	sales, err := GetSales("01.01.2022"+TempDateCompleter, "01.01.2022"+TempDateCompleter)
+
+	//TODO: посмотри потом
+	testBin := "060840003599"
+	sales, err := GetSales("01.01.2022"+TempDateCompleter, "01.01.2022"+TempDateCompleter, testBin)
 	if err != nil {
 		return nil, err
 	}
@@ -44,7 +47,9 @@ func FormExcelForRBReport(request model.RBRequest) error {
 		return err
 	}
 
-	sales, err := GetSales("01.01.2022"+TempDateCompleter, "01.01.2022"+TempDateCompleter)
+	//TODO: посмотри потом
+	testBin := "060840003599"
+	sales, err := GetSales("01.01.2022"+TempDateCompleter, "01.01.2022"+TempDateCompleter, testBin)
 	if err != nil {
 		return err
 	}
