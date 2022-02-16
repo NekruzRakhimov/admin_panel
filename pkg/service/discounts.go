@@ -4,7 +4,6 @@ import (
 	"admin_panel/model"
 	"admin_panel/pkg/repository"
 	"fmt"
-	"github.com/xuri/excelize/v2"
 	"log"
 	"strings"
 )
@@ -57,27 +56,30 @@ func FormExcelForRBReport(request model.RBRequest) error {
 
 	fmt.Println(contracts)
 	fmt.Println(totalAmount)
-	var conTotalAmount int
-	var rewardAmount int
-	if len(contracts) > 0 {
-		if len(contracts[0].Discounts) > 0 {
-			if len(contracts[0].Discounts[0].Periods) > 0 {
-				conTotalAmount = contracts[0].Discounts[0].Periods[0].TotalAmount
-				rewardAmount = contracts[0].Discounts[0].Periods[0].RewardAmount
-			}
-		}
-	}
+	//var conTotalAmount int
+	//var rewardAmount int
+	//if len(contracts) > 0 {
+	//	if len(contracts[0].Discounts) > 0 {
+	//		if len(contracts[0].Discounts[0].Periods) > 0 {
+	//			conTotalAmount = contracts[0].Discounts[0].Periods[0].TotalAmount
+	//			rewardAmount = contracts[0].Discounts[0].Periods[0].RewardAmount
+	//		}
+	//	}
+	//}
 
-	f, err := excelize.OpenFile("files/reports/rb/rb_report_template.xlsx")
-	if err != nil {
-		return err
-	}
-	if conTotalAmount <= totalAmount {
-		f.SetCellValue("Sheet1", "D102", rewardAmount)
-	}
-	f.SetCellValue("Sheet1", "D102", 0)
-
-	f.Save()
+	//f, err := excelize.OpenFile("files/reports/rb/rb_report_template.xlsx")
+	//if err != nil {
+	//	return err
+	//}
+	////var discount int
+	////if conTotalAmount <= totalAmount {
+	////	discount = rewardAmount
+	//	//f.SetCellValue("Sheet1", "D102", rewardAmount)
+	////}
+	//
+	////f.SetCellValue("Sheet1", "D102", discount)
+	//
+	//f.Save()
 	return nil
 }
 
