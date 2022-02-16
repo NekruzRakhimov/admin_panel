@@ -31,6 +31,10 @@ func GetAllRBByContractorBIN(c *gin.Context) {
 		return
 	}
 
+	if contracts == nil {
+		contracts = []model.RbDTO{}
+	}
+
 	c.JSON(http.StatusOK, contracts)
 
 }
