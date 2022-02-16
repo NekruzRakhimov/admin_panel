@@ -61,7 +61,7 @@ func runAllRoutes(r *gin.Engine) {
 	r.GET("/change_date_contract/", controller.ChangeDataContract)
 	r.GET("/country/", controller.GetCountries)
 	r.GET("/brands/", controller.GetBrands)
-	r.GET("/sales/", controller.GetSales)
+	r.POST("/sales/", controller.GetSales)
 	r.GET("/add_brand/", controller.AddBrand)
 
 	r.GET("/cars", controller.GetCarsBrand)

@@ -214,6 +214,15 @@ definitions:
       id:
         type: integer
     type: object
+  model.DateSales:
+    properties:
+      client_bin:
+        type: string
+      dateend:
+        type: string
+      datestart:
+        type: string
+    type: object
   model.Dictionary:
     properties:
       author:
@@ -418,12 +427,16 @@ definitions:
       sales_arr:
         items:
           properties:
+            brand_code:
+              type: string
+            date:
+              type: string
             product_code:
               type: string
             product_name:
               type: string
             qnt_total:
-              type: number
+              type: integer
             total:
               type: integer
           type: object
@@ -2281,10 +2294,17 @@ paths:
       tags:
       - roles
   /sales/:
-    get:
+    post:
       consumes:
       - application/json
       description: Получаем список продаж и кол-во
+      parameters:
+      - description: Add Brand
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/model.DateSales'
       produces:
       - application/json
       responses:

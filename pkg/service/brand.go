@@ -11,6 +11,7 @@ import (
 
 const (
 	TempDateCompleter = " 0:02:09"
+	TempDateEnd       = " 23:59:59"
 )
 
 func GetBrands() (model.Brand, error) {

@@ -34,6 +34,7 @@ func GetBrands(c *gin.Context) {
 // @Tags         sales
 // @Accept       json
 // @Produce      json
+// @Param        payload  body      model.DateSales  true  "Add Brand"
 // @Success      200      {object}  model.Sales
 // @Failure      400      {object}  map[string]interface{}
 // @Failure      404      {object}  map[string]interface{}
@@ -60,7 +61,7 @@ func GetSales(c *gin.Context) {
 	}
 
 	//sales, err := service.GetSales("01.01.2022"+service.TempDateCompleter, "01.01.2022"+service.TempDateCompleter)
-	sales, err := service.GetSales(payload.Datestart+service.TempDateCompleter, payload.Dateend+service.TempDateCompleter, payload.ClientBin)
+	sales, err := service.GetSales(payload.Datestart+service.TempDateCompleter, payload.Dateend+service.TempDateEnd, payload.ClientBin)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
 		return

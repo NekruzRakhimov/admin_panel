@@ -2623,7 +2623,7 @@ var doc = `{
             }
         },
         "/sales/": {
-            "get": {
+            "post": {
                 "description": "Получаем список продаж и кол-во",
                 "consumes": [
                     "application/json"
@@ -2635,6 +2635,17 @@ var doc = `{
                     "sales"
                 ],
                 "summary": "Получаем список продаж и кол-во",
+                "parameters": [
+                    {
+                        "description": "Add Brand",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.DateSales"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -3560,6 +3571,20 @@ var doc = `{
                 }
             }
         },
+        "model.DateSales": {
+            "type": "object",
+            "properties": {
+                "client_bin": {
+                    "type": "string"
+                },
+                "dateend": {
+                    "type": "string"
+                },
+                "datestart": {
+                    "type": "string"
+                }
+            }
+        },
         "model.Dictionary": {
             "type": "object",
             "properties": {
@@ -3874,6 +3899,12 @@ var doc = `{
                     "items": {
                         "type": "object",
                         "properties": {
+                            "brand_code": {
+                                "type": "string"
+                            },
+                            "date": {
+                                "type": "string"
+                            },
                             "product_code": {
                                 "type": "string"
                             },
@@ -3881,7 +3912,7 @@ var doc = `{
                                 "type": "string"
                             },
                             "qnt_total": {
-                                "type": "number"
+                                "type": "integer"
                             },
                             "total": {
                                 "type": "integer"
