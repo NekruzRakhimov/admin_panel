@@ -20,7 +20,6 @@ func GetAllRBByContractorBIN(request model.RBRequest) ([]model.RbDTO, error) {
 		return nil, err
 	}
 
-
 	//TODO: посмотри потом
 	testBin := "060840003599"
 	sales, err := GetSales("01.01.2022"+TempDateCompleter, "01.01.2022"+TempDateCompleter, testBin)
@@ -76,8 +75,9 @@ func FormExcelForRBReport(request model.RBRequest) error {
 	if conTotalAmount <= totalAmount {
 		f.SetCellValue("Sheet1", "D102", rewardAmount)
 	}
-	f.SetCellValue("Sheet1", "D102", 100000)
+	f.SetCellValue("Sheet1", "D102", 0)
 
+	f.Save()
 	return nil
 }
 
