@@ -54,3 +54,19 @@ func FormExcelForRB(c *gin.Context) {
 	c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 	c.File("files/reports/rb/rb_report_template.xlsx")
 }
+
+func FormExcelForRBBrand(c *gin.Context) {
+	//var request model.RBRequest
+	//if err := c.BindJSON(&request); err != nil {
+	//	c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+	//	return
+	//}
+	//
+	//if err := service.FormExcelForRBReport(request); err != nil {
+	//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+	//	return
+	//}
+
+	c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	c.File("files/reports/rb/rb_report_template_brand.xlsx")
+}

@@ -136,6 +136,7 @@ func runAllRoutes(r *gin.Engine) {
 	reports := r.Group("/reports")
 	reports.POST("/rb", controller.GetAllRBByContractorBIN)
 	reports.POST("/rb/excel", controller.FormExcelForRB)
+	reports.GET("/rb_brand/excel", controller.FormExcelForRBBrand)
 
 	r.POST("/attach_right/:role_id/:right_id", controller.AttachRightToRole)
 	r.DELETE("/detach_right/:role_id/:right_id", controller.DetachRightFromRole)
@@ -147,9 +148,9 @@ func runAllRoutes(r *gin.Engine) {
 
 	//	Start servevvvvvvvvvvvr
 
-
 	err := r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
 	//err := r.Run(fmt.Sprintf("%s:%s", "localhost", "3000"))
+
 	if err != nil {
 		log.Println(err)
 
