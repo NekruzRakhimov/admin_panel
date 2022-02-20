@@ -1,24 +1,25 @@
 package model
 
 type ContractWithJsonB struct {
-	ID                        int    `json:"id"`
-	Type                      string `json:"type"`
-	PrevContractId            int    `json:"-"`
-	Status                    string `json:"status"` //вынести статус в отдельную таблицу
-	Requisites                string `json:"requisites"`
-	Manager                   string `json:"manager"`
-	KAM                       string `json:"kam"`
-	SupplierCompanyManager    string `json:"supplier_company_manager"`
-	ContractParameters        string `json:"contract_parameters"`
-	WithTemperatureConditions bool   `json:"with_temperature_conditions"`
-	Products                  string `json:"products"`
-	Discounts                 string `json:"discounts"`
-	Comment                   string `json:"comment"`
-	CreatedAt                 string `json:"created_at,omitempty"`
-	UpdatedAt                 string `json:"updated_at,omitempty"`
-	IsIndivid                 bool   `json:"is_individ"`
-	IsExtendContract          bool   `json:"is_extend_contract"`
-	ExtendDate                string `json:"extend_date"`
+	ID                        int             `json:"id"`
+	Type                      string          `json:"type"`
+	PrevContractId            int             `json:"-"`
+	Status                    string          `json:"status"` //вынести статус в отдельную таблицу
+	Requisites                string          `json:"requisites"`
+	Manager                   string          `json:"manager"`
+	KAM                       string          `json:"kam"`
+	SupplierCompanyManager    string          `json:"supplier_company_manager"`
+	ContractParameters        string          `json:"contract_parameters"`
+	WithTemperatureConditions bool            `json:"with_temperature_conditions"`
+	Products                  string          `json:"products"`
+	Discounts                 string          `json:"discounts"`
+	Comment                   string          `json:"comment"`
+	CreatedAt                 string          `json:"created_at,omitempty"`
+	UpdatedAt                 string          `json:"updated_at,omitempty"`
+	IsIndivid                 bool            `json:"is_individ"`
+	IsExtendContract          bool            `json:"is_extend_contract"`
+	ExtendDate                string          `json:"extend_date"`
+	DiscountBrand             []DiscountBrand `json:"discount_brand"`
 }
 
 type Contract struct {
@@ -41,6 +42,9 @@ type Contract struct {
 	ExtendDate                string                 `json:"extend_date"`
 
 	IsIndivid bool `json:"is_individ"`
+	//	Brand           string `json:"brand"`
+	//	DiscountPercent string `json:"discount_percent"`
+	DiscountBrand []DiscountBrand `json:"discount_brand"`
 }
 
 type ContractDTOFor1C struct {
