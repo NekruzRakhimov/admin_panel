@@ -17,6 +17,15 @@ func CreateContract(contractWithJson model.ContractWithJsonB) error {
 		log.Println("[repository.CreateContract]|[db.GetDBConn().Table(\"contracts\").Create(&contractWithJson).Error]| error is: ", err.Error())
 		return err
 	}
+
+	for _, value := range contractWithJson.DiscountBrand {
+		err := db.GetDBConn().Exec("INSERT INTO brands(brand, discount_percent, contract_id) VALUES ($1, $2, $3)", value.Brand, value.DiscountPercent, contractWithJson.ID).Error
+		if err != nil {
+			return err
+		}
+
+	}
+
 	return nil
 }
 
