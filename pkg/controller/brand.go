@@ -56,7 +56,7 @@ func GetSales(c *gin.Context) {
 	payload := model.DateSales{}
 	err := c.ShouldBindJSON(&payload)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"reason":err})
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
 		return
 	}
 
@@ -69,8 +69,6 @@ func GetSales(c *gin.Context) {
 	c.JSON(http.StatusOK, sales)
 
 }
-
-
 
 // AddBrand godoc
 // @Summary     создает новый бренд
@@ -88,9 +86,40 @@ func AddBrand(c *gin.Context) {
 	brandName := c.Query("brand_name")
 	brand, err := service.AddBrand(brandName)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"reason":err})
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
 		return
 	}
+
+	c.JSON(http.StatusOK, brand)
+
+}
+
+func GetBrandInfo(c *gin.Context) {
+
+	var req model.ReqBrand
+
+	err := c.ShouldBind(&req)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": req})
+		return
+	}
+	brandInfo, _ := service.GetBrandInfo(req.ClientBin)
+
+	c.JSON(http.StatusOK, brandInfo)
+
+}
+
+func GenerateReportBrand(c *gin.Context) {
+	var req model.ReqBrand
+
+	err := c.ShouldBind(&req)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": req})
+		return
+	}
+	brandInfo, _ := service.GetBrandInfo(req.ClientBin)
+
+	brand, _ := service.GetSalesBrand(req, brandInfo)
 
 	c.JSON(http.StatusOK, brand)
 

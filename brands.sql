@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 create table brands (
                         id bigserial primary key,
                         brand text not null,
@@ -11,6 +11,14 @@ SELECT c.id, b.contract_id, c.contract_parameters ->> 'contract_number' AS contr
 FROM brands b
 JOIN contracts  c ON b.contract_id = c.id
 WHERE requisites ->> 'bin' = '0909090989889';
+
+
+
+SELECT c.id, b.contract_id, c.contract_parameters ->> 'contract_number' AS contract_number, b.discount_percent, b.brand FROM contracts c
+		JOIN brands  b ON b.contract_id = c.id WHERE c.requisites ->> 'bin' = '0909090989889';
+
+
+
 
 --WHERE cars_info -> 'sold' = 'true';
 
