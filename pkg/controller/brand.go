@@ -121,6 +121,13 @@ func GenerateReportBrand(c *gin.Context) {
 
 	brand, _ := service.GetSalesBrand(req, brandInfo)
 
+	//TODO: след момент:
+	// надо взять кол-во
+	// кол-во умножаешь на сумму
+	// находим
+	// сумму скидки
+	// и все данные запихать в эксель
+
 	c.JSON(http.StatusOK, brand)
 
 }

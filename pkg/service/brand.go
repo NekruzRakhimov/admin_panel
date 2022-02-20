@@ -163,8 +163,8 @@ func GetSalesBrand(reqBrand model.ReqBrand, brandInfo []model.BrandInfo) (model.
 
 	date := model.ReqBrand{
 		ClientBin:      reqBrand.ClientBin,
-		DateStart:      reqBrand.DateStart,
-		DateEnd:        reqBrand.DateEnd,
+		DateStart:      reqBrand.DateStart + TempDateCompleter,
+		DateEnd:        reqBrand.DateEnd + TempDateEnd,
 		Type:           "sales",
 		TypeValue:      "brand",
 		TypeParameters: nil,
@@ -172,6 +172,7 @@ func GetSalesBrand(reqBrand model.ReqBrand, brandInfo []model.BrandInfo) (model.
 	for _, value := range brandInfo {
 		date.TypeParameters = append(date.TypeParameters, value.Brand)
 	}
+
 	reqBodyBytes := new(bytes.Buffer)
 	json.NewEncoder(reqBodyBytes).Encode(&date)
 	//parm.Add("datestart", "01.01.2022 0:02:09")
@@ -197,7 +198,7 @@ func GetSalesBrand(reqBrand model.ReqBrand, brandInfo []model.BrandInfo) (model.
 		log.Println(err)
 		return sales, err
 	}
-	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")
+	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", body)
 
 	defer resp.Body.Close()
 	if err != nil {

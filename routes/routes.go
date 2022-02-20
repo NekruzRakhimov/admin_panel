@@ -63,6 +63,7 @@ func runAllRoutes(r *gin.Engine) {
 	r.GET("/brands/", controller.GetBrands)
 	r.POST("/sales/", controller.GetSales)
 	r.GET("/add_brand/", controller.AddBrand)
+
 	r.POST("/brand_info/", controller.GetBrandInfo)
 	r.POST("/brand_report/", controller.GenerateReportBrand)
 
