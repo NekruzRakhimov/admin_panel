@@ -64,8 +64,8 @@ func runAllRoutes(r *gin.Engine) {
 	r.POST("/sales/", controller.GetSales)
 	r.GET("/add_brand/", controller.AddBrand)
 
-	r.POST("/brand_info/", controller.GetBrandInfo)
-	r.POST("/brand_report/", controller.GenerateReportBrand)
+	r.POST("/rb_brand/", controller.GetBrandInfo)
+	r.POST("/rb_brand/excel/", controller.GenerateReportBrand)
 
 	r.GET("/cars", controller.GetCarsBrand)
 
@@ -139,7 +139,7 @@ func runAllRoutes(r *gin.Engine) {
 	reports := r.Group("/reports")
 	reports.POST("/rb", controller.GetAllRBByContractorBIN)
 	reports.POST("/rb/excel", controller.FormExcelForRB)
-	reports.GET("/rb_brand/excel", controller.FormExcelForRBBrand)
+	//reports.GET("/rb_brand/excel", controller.FormExcelForRBBrand)
 
 	r.POST("/attach_right/:role_id/:right_id", controller.AttachRightToRole)
 	r.DELETE("/detach_right/:role_id/:right_id", controller.DetachRightFromRole)

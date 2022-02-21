@@ -94,6 +94,19 @@ func AddBrand(c *gin.Context) {
 
 }
 
+
+// GetBrandInfo godoc
+// @Summary     получаем данные о брендах
+// @Description  получаем данные о брендах
+// @Tags         report
+// @Accept       json
+// @Produce      json
+// @Param        brand_name   query     string  true  "brand_name"
+// @Success      200      {object}  model.Sales
+// @Failure      400      {object}  map[string]interface{}
+// @Failure      404      {object}  map[string]interface{}
+// @Failure      500      {object}  map[string]interface{}
+// @Router       /add_brand/ [get]
 func GetBrandInfo(c *gin.Context) {
 
 	var req model.ReqBrand

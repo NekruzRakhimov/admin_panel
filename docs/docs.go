@@ -58,7 +58,7 @@ var doc = `{
         },
         "/add_brand/": {
             "get": {
-                "description": "создает новый бренд",
+                "description": "получаем данные о брендах",
                 "consumes": [
                     "application/json"
                 ],
@@ -66,9 +66,9 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "brands"
+                    "report"
                 ],
-                "summary": "создает новый бренд",
+                "summary": "получаем данные о брендах",
                 "parameters": [
                     {
                         "type": "string",
@@ -3325,6 +3325,9 @@ var doc = `{
         "model.Contract": {
             "type": "object",
             "properties": {
+                "brand_code": {
+                    "type": "string"
+                },
                 "comment": {
                     "type": "string"
                 },

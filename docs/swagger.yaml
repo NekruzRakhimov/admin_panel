@@ -52,6 +52,8 @@ definitions:
     type: object
   model.Contract:
     properties:
+      brand_code:
+        type: string
       comment:
         type: string
       contract_parameters:
@@ -559,7 +561,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: создает новый бренд
+      description: получаем данные о брендах
       parameters:
       - description: brand_name
         in: query
@@ -588,9 +590,9 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: создает новый бренд
+      summary: получаем данные о брендах
       tags:
-      - brands
+      - report
   /attach_right/{role_id}/{right_id}:
     delete:
       consumes:
