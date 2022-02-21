@@ -3334,6 +3334,13 @@ var doc = `{
                 "created_at": {
                     "type": "string"
                 },
+                "discount_brand": {
+                    "description": "Brand           string ` + "`" + `json:\"brand\"` + "`" + `\n\tDiscountPercent string ` + "`" + `json:\"discount_percent\"` + "`" + `",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.DiscountBrand"
+                    }
+                },
                 "discounts": {
                     "type": "array",
                     "items": {
@@ -3630,6 +3637,23 @@ var doc = `{
                     "items": {
                         "$ref": "#/definitions/model.DiscountPeriod"
                     }
+                }
+            }
+        },
+        "model.DiscountBrand": {
+            "type": "object",
+            "properties": {
+                "brand": {
+                    "type": "string"
+                },
+                "contract_id": {
+                    "type": "integer"
+                },
+                "discount_percent": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
                 }
             }
         },

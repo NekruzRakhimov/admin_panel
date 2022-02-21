@@ -58,6 +58,12 @@ definitions:
         $ref: '#/definitions/model.ContractParameters'
       created_at:
         type: string
+      discount_brand:
+        description: "Brand           string `json:\"brand\"`\n\tDiscountPercent string
+          `json:\"discount_percent\"`"
+        items:
+          $ref: '#/definitions/model.DiscountBrand'
+        type: array
       discounts:
         items:
           $ref: '#/definitions/model.Discount'
@@ -253,6 +259,17 @@ definitions:
         items:
           $ref: '#/definitions/model.DiscountPeriod'
         type: array
+    type: object
+  model.DiscountBrand:
+    properties:
+      brand:
+        type: string
+      contract_id:
+        type: integer
+      discount_percent:
+        type: number
+      id:
+        type: integer
     type: object
   model.DiscountPeriod:
     properties:
