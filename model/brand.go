@@ -30,10 +30,12 @@ type AddBrand struct {
 }
 
 type DiscountBrand struct {
-	Id              int    `json:"id"`
-	Brand           string `json:"brand"`
-	DiscountPercent float64   `json:"discount_percent"`
-	ContractId      int    `json:"contract_id"`
+	Id              int     `json:"id"`
+	BrandName       string `json:"brand_name"`
+	BrandCode       string  `json:"brand_code"`
+	DiscountPercent float64 `json:"discount_percent"`
+	ContractId      int     `json:"contract_id"`
+
 }
 
 type BrandInfo struct {

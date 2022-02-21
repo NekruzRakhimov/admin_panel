@@ -34,7 +34,7 @@ func GetBrands(c *gin.Context) {
 // @Tags         sales
 // @Accept       json
 // @Produce      json
-// @Param        payload  body      model.DateSales  true  "Add Brand"
+// @Param        payload  body      model.DateSales  true  "Add BrandName"
 // @Success      200      {object}  model.Sales
 // @Failure      400      {object}  map[string]interface{}
 // @Failure      404      {object}  map[string]interface{}

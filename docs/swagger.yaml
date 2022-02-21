@@ -52,8 +52,6 @@ definitions:
     type: object
   model.Contract:
     properties:
-      brand_code:
-        type: string
       comment:
         type: string
       contract_parameters:
@@ -264,7 +262,9 @@ definitions:
     type: object
   model.DiscountBrand:
     properties:
-      brand:
+      brand_code:
+        type: string
+      brand_name:
         type: string
       contract_id:
         type: integer
@@ -2318,7 +2318,7 @@ paths:
       - application/json
       description: Получаем список продаж и кол-во
       parameters:
-      - description: Add Brand
+      - description: Add BrandName
         in: body
         name: payload
         required: true

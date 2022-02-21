@@ -2637,7 +2637,7 @@ var doc = `{
                 "summary": "Получаем список продаж и кол-во",
                 "parameters": [
                     {
-                        "description": "Add Brand",
+                        "description": "Add BrandName",
                         "name": "payload",
                         "in": "body",
                         "required": true,
@@ -3325,9 +3325,6 @@ var doc = `{
         "model.Contract": {
             "type": "object",
             "properties": {
-                "brand_code": {
-                    "type": "string"
-                },
                 "comment": {
                     "type": "string"
                 },
@@ -3646,7 +3643,10 @@ var doc = `{
         "model.DiscountBrand": {
             "type": "object",
             "properties": {
-                "brand": {
+                "brand_code": {
+                    "type": "string"
+                },
+                "brand_name": {
                     "type": "string"
                 },
                 "contract_id": {
