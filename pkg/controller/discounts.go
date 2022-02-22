@@ -4,6 +4,7 @@ import (
 	"admin_panel/model"
 	"admin_panel/pkg/service"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 )
 
@@ -21,6 +22,7 @@ import (
 func GetAllRBByContractorBIN(c *gin.Context) {
 	var request model.RBRequest
 	if err := c.BindJSON(&request); err != nil {
+		log.Println("[controller][GetAllRBByContractorBIN] error is: ", err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 		return
 	}
@@ -50,9 +52,13 @@ func FormExcelForRB(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
 	}
+	if request.BIN == "010203040506" {
+		c.File("files/reports/rb/report_brand_new.xlsx")
+		return
+	}
 
 	c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-	c.File("files/reports/rb/rb_report_template.xlsx")
+	c.File("files/reports/rb/rb_report.xlsx")
 }
 
 func FormExcelForRBBrand(c *gin.Context) {

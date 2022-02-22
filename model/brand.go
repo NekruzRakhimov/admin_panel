@@ -19,9 +19,12 @@ type Sales struct {
 }
 
 type DateSales struct {
-	Datestart string `json:"datestart"`
-	Dateend   string `json:"dateend"`
-	ClientBin string `json:"client_bin"`
+	Datestart      string   `json:"datestart"`
+	Dateend        string   `json:"dateend"`
+	ClientBin      string   `json:"client_bin"`
+	Type           string   `json:"type"`
+	TypeValue      string   `json:"typeValue"`
+	TypeParameters []string `json:"type_parameters"`
 }
 
 type AddBrand struct {
@@ -31,11 +34,10 @@ type AddBrand struct {
 
 type DiscountBrand struct {
 	Id              int     `json:"id"`
-	BrandName       string `json:"brand_name"`
+	BrandName       string  `json:"brand_name"`
 	BrandCode       string  `json:"brand_code"`
 	DiscountPercent float64 `json:"discount_percent"`
 	ContractId      int     `json:"contract_id"`
-
 }
 
 type BrandInfo struct {

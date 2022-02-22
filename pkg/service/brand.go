@@ -5,6 +5,7 @@ import (
 	"admin_panel/pkg/repository"
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -55,16 +56,20 @@ func GetBrands() (model.Brand, error) {
 
 }
 
-func GetSales(dateStart, DateEnd string, clientBin string) (model.Sales, error) {
-	date := model.DateSales{
-		//Datestart: "01.01.2022",
-		//Dateend:   "01.01.2022",
-		Datestart: dateStart,
-		Dateend:   DateEnd,
-		ClientBin: clientBin,
+func GetSales(reqBrand model.ReqBrand) (model.Sales, error) {
+	var sales model.Sales
+
+	date := model.ReqBrand{
+		ClientBin:      reqBrand.ClientBin,
+		DateStart:      reqBrand.DateStart + TempDateCompleter,
+		DateEnd:        reqBrand.DateEnd + TempDateEnd,
+		Type:           reqBrand.Type,
+		TypeValue:      "",
+		TypeParameters: nil,
 	}
-	sales := model.Sales{}
-	//parm := url.Values{}
+	//for _, value := range brandInfo {
+	//	date.TypeParameters = append(date.TypeParameters, value.Brand)
+	//}
 
 	reqBodyBytes := new(bytes.Buffer)
 	json.NewEncoder(reqBodyBytes).Encode(&date)
@@ -72,7 +77,7 @@ func GetSales(dateStart, DateEnd string, clientBin string) (model.Sales, error) 
 	//parm.Add("dateend", "01.01.2022 0:02:09")
 	client := &http.Client{}
 	log.Println(reqBodyBytes)
-	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/getsales"
+	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/getdata"
 	req, err := http.NewRequest("POST", uri, reqBodyBytes)
 	req.Header.Set("Content-Type", "application/json") // This makes it work
 	req.SetBasicAuth("http_client", "123456")
@@ -91,6 +96,7 @@ func GetSales(dateStart, DateEnd string, clientBin string) (model.Sales, error) 
 		log.Println(err)
 		return sales, err
 	}
+	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", body)
 
 	defer resp.Body.Close()
 	if err != nil {
@@ -166,15 +172,17 @@ func GetSalesBrand(reqBrand model.ReqBrand, brandInfo []model.BrandInfo) (model.
 		DateStart:      reqBrand.DateStart + TempDateCompleter,
 		DateEnd:        reqBrand.DateEnd + TempDateEnd,
 		Type:           "sales",
-		TypeValue:      "brand",
+		TypeValue:      "",
 		TypeParameters: nil,
 	}
-	for _, value := range brandInfo {
-		date.TypeParameters = append(date.TypeParameters, value.Brand)
-	}
+	//for _, value := range brandInfo {
+	//	date.TypeParameters = append(date.TypeParameters, value.Brand)
+	//}
 
 	reqBodyBytes := new(bytes.Buffer)
 	json.NewEncoder(reqBodyBytes).Encode(&date)
+	fmt.Println(">>> ", reqBodyBytes)
+
 	//parm.Add("datestart", "01.01.2022 0:02:09")
 	//parm.Add("dateend", "01.01.2022 0:02:09")
 	client := &http.Client{}

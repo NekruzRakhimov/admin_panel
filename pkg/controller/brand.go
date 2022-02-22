@@ -53,15 +53,27 @@ func GetSales(c *gin.Context) {
 	//  "product_code":
 	//  "total": - сумма продаж
 	//   "qnt_total": - кол-во
-	payload := model.DateSales{}
+	payload := model.RBRequest{}
 	err := c.ShouldBindJSON(&payload)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
 		return
 	}
 
-	//sales, err := service.GetSales("01.01.2022"+service.TempDateCompleter, "01.01.2022"+service.TempDateCompleter)
-	sales, err := service.GetSales(payload.Datestart+service.TempDateCompleter, payload.Dateend+service.TempDateEnd, payload.ClientBin)
+	//payload.PeriodFrom += service.TempDateCompleter
+	//payload.PeriodTo += service.TempDateEnd
+
+	//var brandInfo []model.BrandInfo
+	req := model.ReqBrand{
+		ClientBin:   payload.BIN,
+		Beneficiary: payload.ContractorName,
+		DateStart:   payload.PeriodFrom,
+		DateEnd:     payload.PeriodTo,
+		Type:        "sales",
+	}
+
+	brandInfo := []model.BrandInfo{}
+	sales, err := service.GetSalesBrand(req, brandInfo)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
 		return
@@ -93,7 +105,6 @@ func AddBrand(c *gin.Context) {
 	c.JSON(http.StatusOK, brand)
 
 }
-
 
 // GetBrandInfo godoc
 // @Summary     получаем данные о брендах

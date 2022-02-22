@@ -349,26 +349,31 @@ func ConvertContractFromJsonB(contractWithJson model.ContractWithJsonB) (contrac
 	contract.ExtendDate = contractWithJson.ExtendDate
 	err = json.Unmarshal([]byte(contractWithJson.Requisites), &contract.Requisites)
 	if err != nil {
+		log.Println("[service][json.Unmarshal([]byte(contractWithJson.Requisites), &contract.Requisites)] error is: ", err.Error())
 		return model.Contract{}, err
 	}
 
 	err = json.Unmarshal([]byte(contractWithJson.SupplierCompanyManager), &contract.SupplierCompanyManager)
 	if err != nil {
+		log.Println("[service][json.Unmarshal([]byte(contractWithJson.SupplierCompanyManager), &contract.SupplierCompanyManager)] error is: ", err.Error())
 		return model.Contract{}, err
 	}
 
 	err = json.Unmarshal([]byte(contractWithJson.ContractParameters), &contract.ContractParameters)
 	if err != nil {
+		log.Println("[service][.Unmarshal([]byte(contractWithJson.ContractParameters), &contract.ContractParameters)] error is: ", err.Error())
 		return model.Contract{}, err
 	}
 
 	err = json.Unmarshal([]byte(contractWithJson.Products), &contract.Products)
 	if err != nil {
+		log.Println("[service][json.Unmarshal([]byte(contractWithJson.Products), &contract.Products)] error is: ", err.Error())
 		return model.Contract{}, err
 	}
 
 	err = json.Unmarshal([]byte(contractWithJson.Discounts), &contract.Discounts)
 	if err != nil {
+		log.Println("[service][json.Unmarshal([]byte(contractWithJson.Discounts), &contract.Discounts)] error is: ", err.Error())
 		return model.Contract{}, err
 	}
 
