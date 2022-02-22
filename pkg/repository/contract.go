@@ -78,7 +78,8 @@ func GetAllContracts(contractStatus string) (contracts []model.ContractWithJsonB
 
 func GetContractDetails(contractId int) (contract model.ContractWithJsonB, err error) {
 	contract.ID = contractId
-	if err := db.GetDBConn().Table("contracts").Find(&contract).Error; err != nil {
+	//if err := db.GetDBConn().Table("contracts").Find(&contract).Joins("JOIN  brands  b ON b.contract_id = c.id WHERE c.id  = $1", contract.ID).Error; err != nil {
+	if err := db.GetDBConn().Table("contracts c").Joins("JOIN  brands  b ON b.contract_id = c.id WHERE c.id  = $1", contract.ID).Find(&contract).Error; err != nil {
 		return model.ContractWithJsonB{}, err
 	}
 
