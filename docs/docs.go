@@ -3589,6 +3589,18 @@ var doc = `{
                 },
                 "datestart": {
                     "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "typeValue": {
+                    "type": "string"
+                },
+                "type_parameters": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         },

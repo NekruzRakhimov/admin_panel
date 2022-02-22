@@ -228,6 +228,14 @@ definitions:
         type: string
       datestart:
         type: string
+      type:
+        type: string
+      type_parameters:
+        items:
+          type: string
+        type: array
+      typeValue:
+        type: string
     type: object
   model.Dictionary:
     properties:
