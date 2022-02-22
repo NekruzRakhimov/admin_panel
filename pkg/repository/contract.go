@@ -19,7 +19,7 @@ func CreateContract(contractWithJson model.ContractWithJsonB) error {
 	}
 
 	for _, value := range contractWithJson.DiscountBrand {
-		err := db.GetDBConn().Exec("INSERT INTO brands(brand, brand_code, discount_percent, contract_id) VALUES ($1, $2, $3, $4)", value.BrandName, value.BrandCode, value.DiscountPercent, contractWithJson.ID).Error
+		err := db.GetDBConn().Exec("INSERT INTO brands(brand as brand_name, brand_code, discount_percent, contract_id) VALUES ($1, $2, $3, $4)", value.BrandName, value.BrandCode, value.DiscountPercent, contractWithJson.ID).Error
 		if err != nil {
 			return err
 		}
