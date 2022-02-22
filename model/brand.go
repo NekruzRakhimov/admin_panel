@@ -37,7 +37,7 @@ type DiscountBrand struct {
 	BrandName       string  `json:"brand_name"`
 	BrandCode       string  `json:"brand_code"`
 	DiscountPercent float64 `json:"discount_percent"`
-	ContractId      int     `json:"contract_id"`
+	ContractId      int     `json:"contract_id,omitempty"`
 }
 
 type BrandInfo struct {
