@@ -82,10 +82,11 @@ func GetContractDetails(contractId int) (contract model.ContractWithJsonB, err e
 	if err := db.GetDBConn().Table("contracts").Find(&contract).Error; err != nil {
 		return model.ContractWithJsonB{}, err
 	}
-	db.GetDBConn().Raw("SELECT id, brand, discount_percent FROM  brands  WHERE  contract_id = ?", contract.ID).Scan(&brands)
-	if brands != nil{
-		contract.DiscountBrand = brands
+	if err = db.GetDBConn().Raw("SELECT id, brand as brand_name, brand_code, discount_percent FROM  brands  WHERE  contract_id = ?", contract.ID).Scan(&brands).Error; err != nil {
+		return model.ContractWithJsonB{}, err
 	}
+	log.Println("BRANDS", brands)
+	contract.DiscountBrand = brands
 
 	return contract, nil
 }
