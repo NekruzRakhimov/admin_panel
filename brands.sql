@@ -17,6 +17,7 @@ WHERE requisites ->> 'bin' = '0909090989889';
 SELECT c.id, b.contract_id, c.contract_parameters ->> 'contract_number' AS contract_number, b.discount_percent, b.brand FROM contracts c
 		JOIN brands  b ON b.contract_id = c.id WHERE c.requisites ->> 'bin' = '0909090989889';
 
+SELECT id, brand, discount_percent FROM  brands =  where   contract_id = ""
 
 
 
