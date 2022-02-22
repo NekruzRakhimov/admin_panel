@@ -20,15 +20,10 @@ type ContractWithJsonB struct {
 	IsExtendContract          bool            `json:"is_extend_contract"`
 	ExtendDate                string          `json:"extend_date"`
 	DiscountBrand             []DiscountBrand `json:"discount_brand"`
-
-	Id              int     `json:"id"`
-	BrandName       string  `json:"brand_name"`
-	BrandCode       string  `json:"brand_code"`
-	DiscountPercent float64 `json:"discount_percent"`
-	ContractId      int     `json:"contract_id"`
-
-
-
+	BrandName                 string          `json:"brand_name"`
+	BrandCode                 string          `json:"brand_code"`
+	DiscountPercent           float64         `json:"discount_percent"`
+	ContractId                int             `json:"contract_id"`
 }
 
 type Contract struct {
@@ -54,9 +49,6 @@ type Contract struct {
 	//	Brand           string `json:"brand"`
 	//	DiscountPercent string `json:"discount_percent"`
 	DiscountBrand []DiscountBrand `json:"discount_brand"`
-
-
-
 }
 
 type ContractDTOFor1C struct {

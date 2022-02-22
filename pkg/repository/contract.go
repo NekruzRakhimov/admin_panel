@@ -13,7 +13,10 @@ import (
 
 func CreateContract(contractWithJson model.ContractWithJsonB) error {
 	fmt.Printf(">>>> %+v", contractWithJson)
-	if err := db.GetDBConn().Table("contracts").Omit("created_at", "updated_at", "is_extend_contract", "extend_date", "brand_name", "brand_code", "discount_percent", "contract_id").Create(&contractWithJson).Error; err != nil {
+	err := db.GetDBConn().Table("contracts").Omit("created_at", "updated_at", "is_extend_contract", "extend_date", "brand_name", "brand_code", "discount_percent", "contract_id").Create(&contractWithJson).Error
+	fmt.Println(contractWithJson.ID, "ContractID")
+
+	if err != nil {
 		log.Println("[repository.CreateContract]|[db.GetDBConn().Table(\"contracts\").Create(&contractWithJson).Error]| error is: ", err.Error())
 		return err
 	}
