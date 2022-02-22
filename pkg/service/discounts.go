@@ -27,21 +27,16 @@ func GetAllRBByContractorBIN(request model.RBRequest) ([]model.RbDTO, error) {
 
 	//TODO: посмотри потом
 	//testBin := "060840003599"
-	request.PeriodFrom = request.PeriodFrom + TempDateCompleter
-	request.PeriodTo = request.PeriodTo + TempDateCompleter
 	req := model.ReqBrand{
-		ClientBin:      request.BIN,
-		Beneficiary:    "",
-		DateStart:      request.PeriodFrom,
-		DateEnd:        request.PeriodTo,
-		Type:           "sales",
-		TypeValue:      "",
-		TypeParameters: nil,
+		ClientBin:   request.BIN,
+		Beneficiary: request.ContractorName,
+		DateStart:   request.PeriodFrom,
+		DateEnd:     request.PeriodTo,
+		Type:        "sales",
 	}
-	sales, err := GetSales(req)
-	if err != nil {
-		return nil, err
-	}
+
+	brandInfo := []model.BrandInfo{}
+	sales, err := GetSalesBrand(req, brandInfo)
 
 	fmt.Printf("###%+v\n", contracts)
 	totalAmount := GetTotalAmount(sales)
