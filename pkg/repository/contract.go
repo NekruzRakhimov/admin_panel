@@ -37,6 +37,12 @@ func EditContract(contractWithJson model.ContractWithJsonB) error {
 		return err
 	}
 
+	if len(contractWithJson.Discounts) > 0 {
+		if err := db.GetDBConn().Exec("DELETE FROM brands WHERE contract_id = ?", contractWithJson.ID).Error; err != nil {
+			return err
+		}
+	}
+
 	for _, value := range contractWithJson.DiscountBrand {
 		err := db.GetDBConn().Exec("INSERT INTO brands(brand, brand_code, discount_percent, contract_id) VALUES ($1, $2, $3, $4)", value.BrandName, value.BrandCode, value.DiscountPercent, contractWithJson.ID).Error
 		if err != nil {
