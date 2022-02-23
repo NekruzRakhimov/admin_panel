@@ -148,12 +148,16 @@ type Product struct {
 	Substance        string  `json:"substance"`
 	StorageCondition string  `json:"storage_condition"`
 	Producer         string  `json:"producer"`
+	Sku              string  `json:"sku"`
+	LeasePlan        float32 `json:"lease_plan"`
+	DiscountPercent  float32 `json:"discount_percent"`
 }
 
 type Discount struct {
-	Name    string           `json:"name,omitempty"`
-	Code    string           `json:"code"`
-	Periods []DiscountPeriod `json:"periods"`
+	Name       string           `json:"name,omitempty"`
+	Code       string           `json:"code"`
+	IsSelected bool             `json:"is_selected"`
+	Periods    []DiscountPeriod `json:"periods"`
 }
 
 type DiscountPeriod struct {
