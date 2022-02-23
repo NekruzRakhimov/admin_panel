@@ -15,6 +15,7 @@ type Sales struct {
 		QntTotal    int    `json:"qnt_total"`
 		Date        string `json:"date"`
 		BrandCode   string `json:"brand_code"`
+		BrandName   string `json:"brand_name"`
 	} `json:"sales_arr"`
 }
 
@@ -67,4 +68,18 @@ type T struct {
 	Type           string   `json:"type"`
 	TypeValue      string   `json:"typeValue"`
 	TypeParameters []string `json:"typeParameters"`
+}
+
+type TotalBrandDiscount struct {
+	BrandName string `json:"brand_name"`
+	Amount    int    `json:"amount"`
+}
+
+type ContractID struct {
+	Id int `json:"id"`
+}
+
+type BrandAndPercent struct {
+	BrandName       string `json:"brand_name"`
+	DiscountPercent string `json:"discount_percent"`
 }

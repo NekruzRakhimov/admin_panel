@@ -4,6 +4,7 @@ import (
 	"admin_panel/model"
 	"admin_panel/pkg/service"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 )
 
@@ -153,5 +154,16 @@ func GenerateReportBrand(c *gin.Context) {
 	// и все данные запихать в эксель
 
 	c.JSON(http.StatusOK, brand)
+
+}
+
+func GetExcellBrand(c *gin.Context) {
+	var req model.ReqBrand
+
+	//c.ShouldBind(&req)
+	c.BindJSON(&req)
+
+	log.Println("запрос->>>: ", req)
+	service.FoundBrandDiscount(req)
 
 }

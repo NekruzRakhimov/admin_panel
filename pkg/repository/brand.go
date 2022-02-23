@@ -35,3 +35,15 @@ func GetBrandInfo(bin string) ([]model.BrandInfo, error) {
 
 	return brandsInfo, nil
 }
+
+func GetIDBYBIN(bin string) []model.BrandAndPercent {
+	var BrandsAndDiscount []model.BrandAndPercent
+	var ContractsID model.ContractID
+	db.GetDBConn().Raw("SELECT id FROM contracts WHERE requisites ->> 'bin' = $1", bin).Scan(&ContractsID)
+
+	log.Println("ID CONTRACT", ContractsID)
+
+	db.GetDBConn().Raw("SELECT brand AS brand_name, discount_percent FROM  brands WHERE contract_id = $1", ContractsID.Id).Scan(&BrandsAndDiscount)
+
+	return BrandsAndDiscount
+}
