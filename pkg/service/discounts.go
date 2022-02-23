@@ -115,6 +115,8 @@ func FormExcelForRBReport(request model.RBRequest) error {
 	f.SetCellValue(sheet, "A1", "Номенклатура")
 	f.SetCellValue(sheet, "B1", "Номер продукта")
 	f.SetCellValue(sheet, "C1", "Стоимость")
+	f.SetCellValue(sheet, "D1", "Количество")
+	f.SetCellValue(sheet, "E1", "Итог:")
 
 	fmt.Printf(">>arr>>%+v", sales.SalesArr)
 
@@ -123,19 +125,22 @@ func FormExcelForRBReport(request model.RBRequest) error {
 		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", i+2), s.ProductName)
 		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", i+2), s.ProductCode)
 		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "C", i+2), s.Total)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "D", i+2), s.QntTotal)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "E", i+2), s.QntTotal*s.Total)
 		lastRow = i
 	}
 
 	lastRow += 3
 
-	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", lastRow), "Итог:")
-	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "D", lastRow-1), "Сумма / Процент РБ")
-	err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "D", lastRow-1), fmt.Sprintf("%s%d", "D", lastRow-1), style)
-	err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
-	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "D", lastRow), discount)
-	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "C", lastRow), totalAmount)
-	_ = f.MergeCell(sheet, fmt.Sprintf("%s%d", "A", lastRow), fmt.Sprintf("%s%d", "B", lastRow))
-	err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
+	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
+	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "F", lastRow-1), "Сумма / Процент РБ")
+	err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "F", lastRow-1), fmt.Sprintf("%s%d", "F", lastRow-1), style)
+	err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "F", lastRow), fmt.Sprintf("%s%d", "F", lastRow), style)
+	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "F", lastRow), discount)
+	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "E", lastRow), totalAmount)
+	//_ = f.MergeCell(sheet, fmt.Sprintf("%s%d", "A", lastRow), fmt.Sprintf("%s%d", "B", lastRow))
+	err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", lastRow), fmt.Sprintf("%s%d", "F", lastRow), style)
+	err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", 1), fmt.Sprintf("%s%d", "E", 1), style)
 	err = f.SetCellStyle(sheet, "A1", "D1", style)
 	//f.SetCellValue("Sheet1", "D102", discount)
 
@@ -215,7 +220,7 @@ func DiscountToReportRB(discount model.Discount, contract model.Contract, totalA
 func GetTotalAmount(sales model.Sales) int {
 	var amount int
 	for _, s := range sales.SalesArr {
-		amount += s.Total
+		amount += s.Total * s.QntTotal
 	}
 
 	return amount
