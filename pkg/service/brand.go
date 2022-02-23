@@ -63,7 +63,7 @@ func GetSales(reqBrand model.ReqBrand) (model.Sales, error) {
 		ClientBin:      reqBrand.ClientBin,
 		DateStart:      reqBrand.DateStart + TempDateCompleter,
 		DateEnd:        reqBrand.DateEnd + TempDateEnd,
-		Type:           reqBrand.Type,
+		Type:           "sales",
 		TypeValue:      "",
 		TypeParameters: nil,
 	}
@@ -73,6 +73,8 @@ func GetSales(reqBrand model.ReqBrand) (model.Sales, error) {
 
 	reqBodyBytes := new(bytes.Buffer)
 	json.NewEncoder(reqBodyBytes).Encode(&date)
+	fmt.Println(">>> ", reqBodyBytes)
+
 	//parm.Add("datestart", "01.01.2022 0:02:09")
 	//parm.Add("dateend", "01.01.2022 0:02:09")
 	client := &http.Client{}
@@ -112,7 +114,6 @@ func GetSales(reqBrand model.ReqBrand) (model.Sales, error) {
 	}
 
 	return sales, nil
-
 }
 
 //service

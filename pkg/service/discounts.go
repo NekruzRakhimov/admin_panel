@@ -35,8 +35,7 @@ func GetAllRBByContractorBIN(request model.RBRequest) ([]model.RbDTO, error) {
 		Type:        "sales",
 	}
 
-	brandInfo := []model.BrandInfo{}
-	sales, err := GetSalesBrand(req, brandInfo)
+	sales, err := GetSales(req)
 
 	fmt.Printf("###%+v\n", contracts)
 	totalAmount := GetTotalAmount(sales)
@@ -131,6 +130,8 @@ func FormExcelForRBReport(request model.RBRequest) error {
 
 	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", lastRow), "Итог:")
 	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "D", lastRow-1), "Сумма / Процент РБ")
+	err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "D", lastRow-1), fmt.Sprintf("%s%d", "D", lastRow-1), style)
+	err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
 	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "D", lastRow), discount)
 	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "C", lastRow), totalAmount)
 	_ = f.MergeCell(sheet, fmt.Sprintf("%s%d", "A", lastRow), fmt.Sprintf("%s%d", "B", lastRow))
@@ -171,6 +172,8 @@ func FormExcelForRBReport(request model.RBRequest) error {
 	lastRow += 1
 	f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
 	f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "E", lastRow), totalDiscountsSum)
+	err = f.SetCellStyle(sheet2, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
+	err = f.SetCellStyle(sheet2, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
 
 	f.SaveAs("files/reports/rb/rb_report.xlsx")
 	return nil
@@ -190,19 +193,21 @@ func DefiningRBReport(contracts []model.Contract, totalAmount int) (contractsRB 
 }
 
 func DiscountToReportRB(discount model.Discount, contract model.Contract, totalAmount int) (contractsRB []model.RbDTO) {
-	for _, period := range discount.Periods {
-		if period.TotalAmount >= totalAmount {
-			contractRB := model.RbDTO{
-				ID:             contract.ID,
-				ContractNumber: contract.ContractParameters.ContractNumber,
-				StartDate:      period.PeriodFrom,
-				EndDate:        period.PeriodTo,
-				DiscountAmount: period.RewardAmount,
-			}
+	var contractRB model.RbDTO
 
-			contractsRB = append(contractsRB, contractRB)
+	if len(discount.Periods) > 0 {
+		contractRB = model.RbDTO{
+			ID:             contract.ID,
+			ContractNumber: contract.ContractParameters.ContractNumber,
+			StartDate:      discount.Periods[0].PeriodFrom,
+			EndDate:        discount.Periods[0].PeriodTo,
+		}
+		if totalAmount >= discount.Periods[0].TotalAmount {
+			fmt.Printf("worked [totalAmount = %d AND discount.Periods[0].TotalAmount = %d]\n", totalAmount, discount.Periods[0].TotalAmount)
+			contractRB.DiscountAmount = discount.Periods[0].RewardAmount
 		}
 	}
+	contractsRB = append(contractsRB, contractRB)
 
 	return contractsRB
 }
