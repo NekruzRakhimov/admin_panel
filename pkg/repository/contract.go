@@ -26,7 +26,6 @@ func CreateContract(contractWithJson model.ContractWithJsonB) error {
 		if err != nil {
 			return err
 		}
-
 	}
 
 	return nil
@@ -36,6 +35,13 @@ func EditContract(contractWithJson model.ContractWithJsonB) error {
 	if err := db.GetDBConn().Table("contracts").Omit("created_at", "updated_at", "is_extend_contract", "extend_date", "contract_id").Save(&contractWithJson).Error; err != nil {
 		log.Println("[repository.EditContract]|[db.GetDBConn().Table(\"contracts\").Save(&contractWithJson).Error]| error is: ", err.Error())
 		return err
+	}
+
+	for _, value := range contractWithJson.DiscountBrand {
+		err := db.GetDBConn().Exec("INSERT INTO brands(brand, brand_code, discount_percent, contract_id) VALUES ($1, $2, $3, $4)", value.BrandName, value.BrandCode, value.DiscountPercent, contractWithJson.ID).Error
+		if err != nil {
+			return err
+		}
 	}
 
 	if err := RecordContractStatusChange(contractWithJson.ID, contractWithJson.Status); err != nil {

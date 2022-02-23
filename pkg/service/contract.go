@@ -132,7 +132,7 @@ func CreateContract(contract model.Contract) (err error) {
 	contractWithJson.WithTemperatureConditions = contract.WithTemperatureConditions
 	//contractWithJson.DiscountBrand = contract.BrandName
 	contractWithJson.DiscountBrand = contract.DiscountBrand
-//	contractWithJson.DiscountBrand = contract.DiscountBrand
+	//	contractWithJson.DiscountBrand = contract.DiscountBrand
 	//contractWithJson.Status = contract.Status
 	switch contract.Status {
 	case "DRAFT":
@@ -192,6 +192,7 @@ func EditContract(contract model.Contract) error {
 	contractWithJson.Manager = contract.Manager
 	contractWithJson.KAM = contract.KAM
 	contractWithJson.WithTemperatureConditions = contract.WithTemperatureConditions
+	contractWithJson.DiscountBrand = contract.DiscountBrand
 	//contractWithJson.Status = contract.Status
 	switch contract.Status {
 	case "DRAFT":
