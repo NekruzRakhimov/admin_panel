@@ -3641,6 +3641,9 @@ var doc = `{
                 "code": {
                     "type": "string"
                 },
+                "is_selected": {
+                    "type": "boolean"
+                },
                 "name": {
                     "type": "string"
                 },
@@ -3749,6 +3752,12 @@ var doc = `{
                 "currency": {
                     "type": "string"
                 },
+                "discount_percent": {
+                    "type": "number"
+                },
+                "lease_plan": {
+                    "type": "number"
+                },
                 "price": {
                     "type": "number"
                 },
@@ -3759,6 +3768,9 @@ var doc = `{
                     "type": "string"
                 },
                 "product_number": {
+                    "type": "string"
+                },
+                "sku": {
                     "type": "string"
                 },
                 "storage_condition": {
@@ -3939,6 +3951,9 @@ var doc = `{
                         "type": "object",
                         "properties": {
                             "brand_code": {
+                                "type": "string"
+                            },
+                            "brand_name": {
                                 "type": "string"
                             },
                             "date": {

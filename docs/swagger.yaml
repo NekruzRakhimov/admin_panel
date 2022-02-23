@@ -261,6 +261,8 @@ definitions:
     properties:
       code:
         type: string
+      is_selected:
+        type: boolean
       name:
         type: string
       periods:
@@ -331,6 +333,10 @@ definitions:
     properties:
       currency:
         type: string
+      discount_percent:
+        type: number
+      lease_plan:
+        type: number
       price:
         type: number
       producer:
@@ -338,6 +344,8 @@ definitions:
       product_name:
         type: string
       product_number:
+        type: string
+      sku:
         type: string
       storage_condition:
         type: string
@@ -455,6 +463,8 @@ definitions:
         items:
           properties:
             brand_code:
+              type: string
+            brand_name:
               type: string
             date:
               type: string

@@ -3630,6 +3630,9 @@
                 "code": {
                     "type": "string"
                 },
+                "is_selected": {
+                    "type": "boolean"
+                },
                 "name": {
                     "type": "string"
                 },
@@ -3738,6 +3741,12 @@
                 "currency": {
                     "type": "string"
                 },
+                "discount_percent": {
+                    "type": "number"
+                },
+                "lease_plan": {
+                    "type": "number"
+                },
                 "price": {
                     "type": "number"
                 },
@@ -3748,6 +3757,9 @@
                     "type": "string"
                 },
                 "product_number": {
+                    "type": "string"
+                },
+                "sku": {
                     "type": "string"
                 },
                 "storage_condition": {
@@ -3928,6 +3940,9 @@
                         "type": "object",
                         "properties": {
                             "brand_code": {
+                                "type": "string"
+                            },
+                            "brand_name": {
                                 "type": "string"
                             },
                             "date": {
