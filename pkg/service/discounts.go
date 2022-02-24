@@ -220,7 +220,7 @@ func FormExcelForRBReport(request model.RBRequest) error {
 		for _, discount := range contracts[0].Discounts {
 			if discount.Code == "TOTAL_AMOUNT_OF_SELLING" && discount.IsSelected == true {
 				if len(contracts[0].Discounts[0].Periods) > 0 {
-					conTotalAmount = float32(contracts[0].Discounts[0].Periods[0].TotalAmount)
+					conTotalAmount = contracts[0].Discounts[0].Periods[0].TotalAmount
 					rewardAmount = contracts[0].Discounts[0].Periods[0].RewardAmount
 				}
 			}
@@ -272,13 +272,13 @@ func FormExcelForRBReport(request model.RBRequest) error {
 	lastRow += 3
 
 	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
-	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "F", lastRow-1), "Сумма / Процент РБ")
-	err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "F", lastRow-1), fmt.Sprintf("%s%d", "F", lastRow-1), style)
-	err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "F", lastRow), fmt.Sprintf("%s%d", "F", lastRow), style)
-	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "F", lastRow), discount)
+	//f.SetCellValue(sheet, fmt.Sprintf("%s%d", "F", lastRow-1), "Сумма / Процент РБ")
+	//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "F", lastRow-1), fmt.Sprintf("%s%d", "F", lastRow-1), style)
+	//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "F", lastRow), fmt.Sprintf("%s%d", "F", lastRow), style)
+	//f.SetCellValue(sheet, fmt.Sprintf("%s%d", "F", lastRow), discount)
 	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "E", lastRow), totalAmount)
 	//_ = f.MergeCell(sheet, fmt.Sprintf("%s%d", "A", lastRow), fmt.Sprintf("%s%d", "B", lastRow))
-	err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", lastRow), fmt.Sprintf("%s%d", "F", lastRow), style)
+	err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", lastRow), fmt.Sprintf("%s%d", "E", lastRow), style)
 	err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", 1), fmt.Sprintf("%s%d", "E", 1), style)
 	err = f.SetCellStyle(sheet, "A1", "D1", style)
 	//f.SetCellValue("Sheet1", "D102", discount)
@@ -293,26 +293,34 @@ func FormExcelForRBReport(request model.RBRequest) error {
 		err = f.SetCellStyle(sheet2, "A1", "E1", style)
 
 		var totalDiscountsSum int
-		for i, contract := range contracts {
-			f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "A", i+2), fmt.Sprintf("%s-%s", contract.ContractParameters.StartDate, contract.ContractParameters.EndDate))
-			f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "B", i+2), contract.ContractParameters.ContractNumber)
-			f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "C", i+2), "Скидка за объем закупа")
-			var rewardASum int
-			var totalSum float32
-			if len(contract.Discounts) > 0 {
-				if len(contract.Discounts[0].Periods) > 0 {
-					rewardASum = contract.Discounts[0].Periods[0].RewardAmount
-					totalSum = float32(contract.Discounts[0].Periods[0].TotalAmount)
+		fmt.Printf("CHECK \n%+v\n CHECK", contracts)
+		var i int
+		for _, contract := range contracts {
+			for _, discountStruct := range contract.Discounts {
+				if discountStruct.Code != "TOTAL_AMOUNT_OF_SELLING" {
+					continue
 				}
-			}
-			if totalSum <= totalAmount {
-				discount = rewardASum
-			}
 
-			f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "D", i+2), rewardASum)
-			f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "E", i+2), discount)
-			totalDiscountsSum += discount
-			lastRow = i + 2
+				var rewardASum int
+				var totalSum float32
+				if len(contract.Discounts) > 0 {
+					if len(contract.Discounts[0].Periods) > 0 {
+						rewardASum = contract.Discounts[0].Periods[0].RewardAmount
+						totalSum = contract.Discounts[0].Periods[0].TotalAmount
+					}
+				}
+				if totalSum <= totalAmount {
+					discount = rewardASum
+				}
+				f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "A", i+2), fmt.Sprintf("%s-%s", contract.ContractParameters.StartDate, contract.ContractParameters.EndDate))
+				f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "B", i+2), contract.ContractParameters.ContractNumber)
+				f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "C", i+2), "Скидка за объем закупа")
+				f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "D", i+2), rewardASum)
+				f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "E", i+2), discount)
+				totalDiscountsSum += discount
+				lastRow = i + 2
+				i++
+			}
 		}
 		lastRow += 1
 		f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")

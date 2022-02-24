@@ -9,7 +9,7 @@ import (
 func GetAllContractDetailByBIN(bin, PeriodFrom, PeriodTo string) (contracts []model.ContractWithJsonB, err error) {
 	if err = db.GetDBConn().Table("contracts").
 		Where(`requisites ->> 'bin' = ? 	
-					AND contract_parameters ->> 'start_date' >= ?`, bin, PeriodFrom).
+					AND contract_parameters ->> 'start_date' >= ? AND contract_parameters ->> 'end_date' <= ?`, bin, PeriodFrom, PeriodTo).
 		Find(&contracts).Error; err != nil {
 		log.Println("[repository][GetAllContractDetailByBIN] error is: ", err.Error())
 		return nil, err
