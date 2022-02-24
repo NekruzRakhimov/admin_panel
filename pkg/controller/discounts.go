@@ -27,8 +27,6 @@ func GetAllRBByContractorBIN(c *gin.Context) {
 		return
 	}
 
-
-
 	//TODO:  вернуть ему данные получается
 	contracts, err := service.GetAllRBByContractorBIN(request)
 	if err != nil {
@@ -43,6 +41,13 @@ func GetAllRBByContractorBIN(c *gin.Context) {
 	}
 
 	contracts = append(contracts, rbSecondType...)
+
+	_, _ = service.GetRBThirdType(request)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+	//contracts = append(contracts, rbThirdType...)
 
 	SortedContracts := []model.RbDTO{}
 	for _, contract := range contracts {

@@ -13,6 +13,8 @@ type RbDTO struct {
 	StartDate       string  `json:"start_date"`
 	EndDate         string  `json:"end_date"`
 	BrandName       string  `json:"brand_name,omitempty"`
+	ProductCode     string  `json:"product_code,omitempty"`
 	DiscountPercent float32 `json:"discount_percent"`
 	DiscountAmount  float32 `json:"discount_amount"`
+	LeasePlan       float32 `json:"lease_plan"`
 }
