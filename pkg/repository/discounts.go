@@ -15,5 +15,14 @@ func GetAllContractDetailByBIN(bin, PeriodFrom, PeriodTo string) (contracts []mo
 		return nil, err
 	}
 
+	//var brands []model.DiscountBrand
+	for i, contract := range contracts {
+		if err = db.GetDBConn().Raw("SELECT id, brand as brand_name, brand_code, discount_percent FROM  brands  WHERE  contract_id = ?", contract.ID).Scan(&contracts[i].DiscountBrand).Error; err != nil {
+			return nil, err
+		}
+
+		log.Println("BRANDS", contracts[i].DiscountBrand)
+	}
+
 	return contracts, nil
 }

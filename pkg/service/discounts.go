@@ -3,6 +3,7 @@ package service
 import (
 	"admin_panel/model"
 	"admin_panel/pkg/repository"
+	"encoding/json"
 	"fmt"
 	"github.com/xuri/excelize/v2"
 	"log"
@@ -11,7 +12,9 @@ import (
 
 const (
 	sheet  = "Sheet1"
-	sheet2 = "РБ №1"
+	sheet2 = "Скидка за объем закупа"
+	sheet3 = "Скидка  на группы товаров"
+	sheet4 = "Скидка за выполнение плана закупа по препаратам"
 )
 
 func GetAllRBByContractorBIN(request model.RBRequest) ([]model.RbDTO, error) {
@@ -45,6 +48,119 @@ func GetAllRBByContractorBIN(request model.RBRequest) ([]model.RbDTO, error) {
 	return contractRB, nil
 }
 
+func GetAllRBSecondType(request model.RBRequest) ([]model.RbDTO, error) {
+	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.BIN, request.PeriodFrom, request.PeriodTo)
+	if err != nil {
+		return nil, err
+	}
+
+	contracts, err := BulkConvertContractFromJsonB(contractsWithJson)
+	if err != nil {
+		return nil, err
+	}
+
+	var RBs []model.RbDTO
+
+	for _, contract := range contracts {
+		for _, discount := range contract.Discounts {
+			if discount.Code == "DISCOUNT_BRAND" && discount.IsSelected {
+				//req := model.ReqBrand{
+				//	ClientBin:   request.BIN,
+				//	Beneficiary: request.ContractorName,
+				//	DateStart:   request.PeriodFrom,
+				//	DateEnd:     request.PeriodTo,
+				//	Type:        "sales",
+				//	TypeValue:   "brand",
+				//}
+				var sales model.Sales
+				if contract.Requisites.BIN == "190241035031" {
+					err = json.Unmarshal([]byte(rb2Mock), &sales)
+				}
+				for _, brand := range contract.DiscountBrand {
+					totalAmount := GetTotalFromSalesByBrand(sales, brand.BrandName)
+					RBs = append(RBs, model.RbDTO{
+						ID:              contract.ID,
+						ContractNumber:  contract.ContractParameters.ContractNumber,
+						StartDate:       contract.ContractParameters.StartDate,
+						EndDate:         contract.ContractParameters.EndDate,
+						DiscountPercent: float32(brand.DiscountPercent),
+						DiscountAmount:  float32(float64(totalAmount) * brand.DiscountPercent / 100),
+					})
+				}
+			}
+		}
+	}
+
+	return RBs, nil
+}
+
+func GetAllRBSecondTypeMock(request model.RBRequest) ([]model.RbDTO, error) {
+	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.BIN, request.PeriodFrom, request.PeriodTo)
+	if err != nil {
+		return nil, err
+	}
+
+	contracts, err := BulkConvertContractFromJsonB(contractsWithJson)
+	if err != nil {
+		return nil, err
+	}
+
+	var RBs []model.RbDTO
+
+	for _, contract := range contracts {
+		for _, discount := range contract.Discounts {
+			if discount.Code == "DISCOUNT_BRAND" && discount.IsSelected {
+				//req := model.ReqBrand{
+				//	ClientBin:   request.BIN,
+				//	Beneficiary: request.ContractorName,
+				//	DateStart:   request.PeriodFrom,
+				//	DateEnd:     request.PeriodTo,
+				//	Type:        "sales",
+				//	TypeValue:   "brand",
+				//}
+				if contract.Requisites.BIN == "190241035031" {
+					for _, brand := range contract.DiscountBrand {
+						var DiscountAmount float32
+						switch brand.BrandName {
+						case "7Stick":
+							DiscountAmount = 20973100
+						case "911":
+							DiscountAmount = 41553600
+						case "Always":
+							DiscountAmount = 34978340
+						case "Aura":
+							DiscountAmount = 159693
+						}
+
+						RBs = append(RBs, model.RbDTO{
+							ID:              contract.ID,
+							ContractNumber:  contract.ContractParameters.ContractNumber,
+							StartDate:       contract.ContractParameters.StartDate,
+							EndDate:         contract.ContractParameters.EndDate,
+							BrandName:       brand.BrandName,
+							DiscountPercent: float32(brand.DiscountPercent),
+							DiscountAmount:  DiscountAmount * float32(brand.DiscountPercent) / 100,
+						})
+					}
+					fmt.Printf(">>BRANDS %+v\n", contract.DiscountBrand)
+				}
+			}
+		}
+	}
+
+	return RBs, nil
+}
+
+func GetTotalFromSalesByBrand(sales model.Sales, brand string) (totalAmount float32) {
+	for _, s := range sales.SalesArr {
+		if s.BrandName == brand {
+			totalAmount += s.QntTotal * s.Total
+		}
+	}
+
+	return totalAmount
+}
+
 func FormExcelForRBReport(request model.RBRequest) error {
 	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.BIN, request.PeriodFrom, request.PeriodTo)
 	if err != nil {
@@ -76,18 +192,41 @@ func FormExcelForRBReport(request model.RBRequest) error {
 		return err
 	}
 
+	var isRB1 bool
+	var isRB2 bool
+	//var isRB3 bool
+
+	for _, contract := range contracts {
+		for _, discount := range contract.Discounts {
+			if discount.Code == "TOTAL_AMOUNT_OF_SELLING" && discount.IsSelected {
+				isRB1 = true
+			}
+			if discount.Code == "DISCOUNT_BRAND" && discount.IsSelected {
+				isRB2 = true
+			}
+			//if discount.Code == "DISCOUNT_PLAN_LEASE" && discount.IsSelected {
+			//	isRB3 = true
+			//}
+		}
+	}
+
 	totalAmount := GetTotalAmount(sales)
 
 	fmt.Println(contracts)
 	fmt.Println(totalAmount)
-	var conTotalAmount int
+	var conTotalAmount float32
 	var rewardAmount int
 	if len(contracts) > 0 {
-		if len(contracts[0].Discounts) > 0 {
-			if len(contracts[0].Discounts[0].Periods) > 0 {
-				conTotalAmount = contracts[0].Discounts[0].Periods[0].TotalAmount
-				rewardAmount = contracts[0].Discounts[0].Periods[0].RewardAmount
+		for _, discount := range contracts[0].Discounts {
+			if discount.Code == "TOTAL_AMOUNT_OF_SELLING" && discount.IsSelected == true {
+				if len(contracts[0].Discounts[0].Periods) > 0 {
+					conTotalAmount = float32(contracts[0].Discounts[0].Periods[0].TotalAmount)
+					rewardAmount = contracts[0].Discounts[0].Periods[0].RewardAmount
+				}
 			}
+		}
+		if len(contracts[0].Discounts) > 0 {
+
 		}
 	}
 
@@ -143,61 +282,96 @@ func FormExcelForRBReport(request model.RBRequest) error {
 	err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", 1), fmt.Sprintf("%s%d", "E", 1), style)
 	err = f.SetCellStyle(sheet, "A1", "D1", style)
 	//f.SetCellValue("Sheet1", "D102", discount)
+	//RB1
+	if isRB1 {
+		f.NewSheet(sheet2)
+		f.SetCellValue(sheet2, "A1", "Период")
+		f.SetCellValue(sheet2, "B1", "Номер договора/ДС")
+		f.SetCellValue(sheet2, "C1", "Тип скидки")
+		f.SetCellValue(sheet2, "D1", "Сумма вознаграждения")
+		f.SetCellValue(sheet2, "E1", "Сумма скидки")
+		err = f.SetCellStyle(sheet2, "A1", "E1", style)
 
-	f.NewSheet(sheet2)
-	f.SetCellValue(sheet2, "A1", "Период")
-	f.SetCellValue(sheet2, "B1", "Номер договора/ДС")
-	f.SetCellValue(sheet2, "C1", "Тип скидки")
-	f.SetCellValue(sheet2, "D1", "Сумма вознаграждения")
-	f.SetCellValue(sheet2, "E1", "Сумма скидки")
-	err = f.SetCellStyle(sheet2, "A1", "E1", style)
-
-	var totalDiscountsSum int
-	for i, contract := range contracts {
-		f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "A", i+2), fmt.Sprintf("%s-%s", contract.ContractParameters.StartDate, contract.ContractParameters.EndDate))
-		f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "B", i+2), contract.ContractParameters.ContractNumber)
-		f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "C", i+2), "Скидка за объем закупа")
-		var rewardASum int
-		var totalSum int
-		if len(contract.Discounts) > 0 {
-			if len(contract.Discounts[0].Periods) > 0 {
-				rewardASum = contract.Discounts[0].Periods[0].RewardAmount
-				totalSum = contract.Discounts[0].Periods[0].TotalAmount
+		var totalDiscountsSum int
+		for i, contract := range contracts {
+			f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "A", i+2), fmt.Sprintf("%s-%s", contract.ContractParameters.StartDate, contract.ContractParameters.EndDate))
+			f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "B", i+2), contract.ContractParameters.ContractNumber)
+			f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "C", i+2), "Скидка за объем закупа")
+			var rewardASum int
+			var totalSum float32
+			if len(contract.Discounts) > 0 {
+				if len(contract.Discounts[0].Periods) > 0 {
+					rewardASum = contract.Discounts[0].Periods[0].RewardAmount
+					totalSum = float32(contract.Discounts[0].Periods[0].TotalAmount)
+				}
 			}
-		}
-		if totalSum <= totalAmount {
-			discount = rewardASum
-		}
+			if totalSum <= totalAmount {
+				discount = rewardASum
+			}
 
-		f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "D", i+2), rewardASum)
-		f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "E", i+2), discount)
-		totalDiscountsSum += discount
-		lastRow = i + 2
+			f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "D", i+2), rewardASum)
+			f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "E", i+2), discount)
+			totalDiscountsSum += discount
+			lastRow = i + 2
+		}
+		lastRow += 1
+		f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
+		f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "E", lastRow), totalDiscountsSum)
+		err = f.SetCellStyle(sheet2, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
+		err = f.SetCellStyle(sheet2, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
 	}
-	lastRow += 1
-	f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
-	f.SetCellValue(sheet2, fmt.Sprintf("%s%d", "E", lastRow), totalDiscountsSum)
-	err = f.SetCellStyle(sheet2, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
-	err = f.SetCellStyle(sheet2, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
+
+	if isRB2 {
+		rbSecondType, err := GetAllRBSecondTypeMock(request)
+		if err != nil {
+			return err
+		}
+		f.NewSheet(sheet3)
+		f.SetCellValue(sheet3, "A1", "Период")
+		f.SetCellValue(sheet3, "B1", "Номер договора/ДС")
+		f.SetCellValue(sheet3, "C1", "Тип скидки")
+		f.SetCellValue(sheet3, "D1", "Бренд")
+		f.SetCellValue(sheet3, "E1", "Скидка %")
+		f.SetCellValue(sheet3, "F1", "Сумма скидки")
+		err = f.SetCellStyle(sheet3, "A1", "F1", style)
+
+		var totalDiscountsSum int
+		for i, contract := range rbSecondType {
+			f.SetCellValue(sheet3, fmt.Sprintf("%s%d", "A", i+2), fmt.Sprintf("%s-%s", contract.StartDate, contract.EndDate))
+			f.SetCellValue(sheet3, fmt.Sprintf("%s%d", "B", i+2), contract.ContractNumber)
+			f.SetCellValue(sheet3, fmt.Sprintf("%s%d", "C", i+2), sheet3)
+			f.SetCellValue(sheet3, fmt.Sprintf("%s%d", "D", i+2), contract.BrandName)
+			f.SetCellValue(sheet3, fmt.Sprintf("%s%d", "E", i+2), contract.DiscountPercent)
+			f.SetCellValue(sheet3, fmt.Sprintf("%s%d", "F", i+2), contract.DiscountAmount)
+			totalDiscountsSum += int(contract.DiscountAmount)
+			lastRow = i + 2
+		}
+		lastRow += 1
+		f.SetCellValue(sheet3, fmt.Sprintf("%s%d", "E", lastRow), "Итог:")
+		f.SetCellValue(sheet3, fmt.Sprintf("%s%d", "F", lastRow), totalDiscountsSum)
+		err = f.SetCellStyle(sheet3, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
+		err = f.SetCellStyle(sheet3, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
+	}
 
 	f.SaveAs("files/reports/rb/rb_report.xlsx")
 	return nil
 }
 
-func DefiningRBReport(contracts []model.Contract, totalAmount int) (contractsRB []model.RbDTO) {
+func DefiningRBReport(contracts []model.Contract, totalAmount float32) (contractsRB []model.RbDTO) {
 	for _, contract := range contracts {
 		var contractRB []model.RbDTO
-		if len(contract.Discounts) > 0 {
-			contractRB = DiscountToReportRB(contract.Discounts[0], contract, totalAmount)
+		for _, discount := range contract.Discounts {
+			if discount.Code == "TOTAL_AMOUNT_OF_SELLING" && discount.IsSelected {
+				contractRB = DiscountToReportRB(contract.Discounts[0], contract, totalAmount)
+			}
 		}
-
 		contractsRB = append(contractsRB, contractRB...)
 	}
 
 	return contractsRB
 }
 
-func DiscountToReportRB(discount model.Discount, contract model.Contract, totalAmount int) (contractsRB []model.RbDTO) {
+func DiscountToReportRB(discount model.Discount, contract model.Contract, totalAmount float32) (contractsRB []model.RbDTO) {
 	var contractRB model.RbDTO
 
 	if len(discount.Periods) > 0 {
@@ -209,7 +383,7 @@ func DiscountToReportRB(discount model.Discount, contract model.Contract, totalA
 		}
 		if totalAmount >= discount.Periods[0].TotalAmount {
 			fmt.Printf("worked [totalAmount = %d AND discount.Periods[0].TotalAmount = %d]\n", totalAmount, discount.Periods[0].TotalAmount)
-			contractRB.DiscountAmount = discount.Periods[0].RewardAmount
+			contractRB.DiscountAmount = float32(discount.Periods[0].RewardAmount)
 		}
 	}
 	contractsRB = append(contractsRB, contractRB)
@@ -217,8 +391,8 @@ func DiscountToReportRB(discount model.Discount, contract model.Contract, totalA
 	return contractsRB
 }
 
-func GetTotalAmount(sales model.Sales) int {
-	var amount int
+func GetTotalAmount(sales model.Sales) float32 {
+	var amount float32
 	for _, s := range sales.SalesArr {
 		amount += s.Total * s.QntTotal
 	}

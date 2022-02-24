@@ -33,12 +33,22 @@ func GetAllRBByContractorBIN(c *gin.Context) {
 		return
 	}
 
-	if contracts == nil {
-		contracts = []model.RbDTO{}
+	rbSecondType, err := service.GetAllRBSecondTypeMock(request)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
 	}
 
-	c.JSON(http.StatusOK, contracts)
+	contracts = append(contracts, rbSecondType...)
 
+	SortedContracts := []model.RbDTO{}
+	for _, contract := range contracts {
+		if contract.ID != 0 {
+			SortedContracts = append(SortedContracts, contract)
+		}
+	}
+
+	c.JSON(http.StatusOK, SortedContracts)
 }
 
 func FormExcelForRB(c *gin.Context) {

@@ -8,9 +8,11 @@ type RBRequest struct {
 }
 
 type RbDTO struct {
-	ID             int    `json:"id"`
-	ContractNumber string `json:"contract_number"`
-	StartDate      string `json:"start_date"`
-	EndDate        string `json:"end_date"`
-	DiscountAmount int    `json:"discount_amount"`
+	ID              int     `json:"id"`
+	ContractNumber  string  `json:"contract_number"`
+	StartDate       string  `json:"start_date"`
+	EndDate         string  `json:"end_date"`
+	BrandName       string  `json:"brand_name,omitempty"`
+	DiscountPercent float32 `json:"discount_percent"`
+	DiscountAmount  float32 `json:"discount_amount"`
 }
