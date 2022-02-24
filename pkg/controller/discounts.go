@@ -3,6 +3,7 @@ package controller
 import (
 	"admin_panel/model"
 	"admin_panel/pkg/service"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
@@ -42,12 +43,24 @@ func GetAllRBByContractorBIN(c *gin.Context) {
 
 	contracts = append(contracts, rbSecondType...)
 
-	_, _ = service.GetRBThirdType(request)
+	rbThirdType, err := service.GetRBThirdType(request)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
 	}
+
+	var rewardAmount float32
+	for _, contract := range rbThirdType {
+		rewardAmount += contract.DiscountAmount
+	}
+	fmt.Printf("@@@%+v###", rewardAmount)
+
 	//contracts = append(contracts, rbThirdType...)
+	if rbThirdType != nil {
+		if len(contracts) > 0 {
+			contracts[0].RewardAmount = rewardAmount
+		}
+	}
 
 	SortedContracts := []model.RbDTO{}
 	for _, contract := range contracts {

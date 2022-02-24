@@ -17,4 +17,5 @@ type RbDTO struct {
 	DiscountPercent float32 `json:"discount_percent"`
 	DiscountAmount  float32 `json:"discount_amount"`
 	LeasePlan       float32 `json:"lease_plan"`
+	RewardAmount    float32 `json:"reward_amount"`
 }

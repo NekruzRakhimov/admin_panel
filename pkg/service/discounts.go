@@ -443,35 +443,35 @@ func FormExcelForRBReport(request model.RBRequest) error {
 			return err
 		}
 
-		f.NewSheet(sheet3)
-		f.SetCellValue(sheet3, "A1", "Период")
-		f.SetCellValue(sheet3, "B1", "Номер договора/ДС")
-		f.SetCellValue(sheet3, "C1", "Тип скидки")
-		f.SetCellValue(sheet3, "D1", "Код товара")
-		f.SetCellValue(sheet3, "E1", "План закупа")
-		f.SetCellValue(sheet3, "F1", "Скидка %")
-		f.SetCellValue(sheet3, "G1", "Сумма скидки")
-		err = f.SetCellStyle(sheet3, "A1", "G1", style)
+		f.NewSheet(sheet4)
+		f.SetCellValue(sheet4, "A1", "Период")
+		f.SetCellValue(sheet4, "B1", "Номер договора/ДС")
+		f.SetCellValue(sheet4, "C1", "Тип скидки")
+		f.SetCellValue(sheet4, "D1", "Код товара")
+		f.SetCellValue(sheet4, "E1", "План закупа")
+		f.SetCellValue(sheet4, "F1", "Скидка %")
+		f.SetCellValue(sheet4, "G1", "Сумма скидки")
+		err = f.SetCellStyle(sheet4, "A1", "G1", style)
 
 		var totalDiscountsSum float32
 		fmt.Printf("CHECK \n%+v\n CHECK", contracts)
 		var i int
 		for _, contract := range rbThirdType {
-			f.SetCellValue(sheet3, fmt.Sprintf("%s%d", "A", i+2), fmt.Sprintf("%s-%s", contract.StartDate, contract.EndDate))
-			f.SetCellValue(sheet3, fmt.Sprintf("%s%d", "B", i+2), contract.ContractNumber)
-			f.SetCellValue(sheet3, fmt.Sprintf("%s%d", "C", i+2), sheet3)
-			f.SetCellValue(sheet3, fmt.Sprintf("%s%d", "D", i+2), contract.ProductCode)
-			f.SetCellValue(sheet3, fmt.Sprintf("%s%d", "E", i+2), contract.LeasePlan)
-			f.SetCellValue(sheet3, fmt.Sprintf("%s%d", "F", i+2), contract.DiscountPercent)
-			f.SetCellValue(sheet3, fmt.Sprintf("%s%d", "G", i+2), contract.DiscountAmount)
+			f.SetCellValue(sheet4, fmt.Sprintf("%s%d", "A", i+2), fmt.Sprintf("%s-%s", contract.StartDate, contract.EndDate))
+			f.SetCellValue(sheet4, fmt.Sprintf("%s%d", "B", i+2), contract.ContractNumber)
+			f.SetCellValue(sheet4, fmt.Sprintf("%s%d", "C", i+2), sheet4)
+			f.SetCellValue(sheet4, fmt.Sprintf("%s%d", "D", i+2), contract.ProductCode)
+			f.SetCellValue(sheet4, fmt.Sprintf("%s%d", "E", i+2), contract.LeasePlan)
+			f.SetCellValue(sheet4, fmt.Sprintf("%s%d", "F", i+2), contract.DiscountPercent)
+			f.SetCellValue(sheet4, fmt.Sprintf("%s%d", "G", i+2), contract.DiscountAmount)
 			totalDiscountsSum += contract.DiscountAmount
 			lastRow = i + 2
 			i++
 		}
 		lastRow += 1
-		f.SetCellValue(sheet3, fmt.Sprintf("%s%d", "F", lastRow), "Итог:")
-		f.SetCellValue(sheet3, fmt.Sprintf("%s%d", "G", lastRow), totalDiscountsSum)
-		err = f.SetCellStyle(sheet3, fmt.Sprintf("%s%d", "F", lastRow), fmt.Sprintf("%s%d", "G", lastRow), style)
+		f.SetCellValue(sheet4, fmt.Sprintf("%s%d", "F", lastRow), "Итог:")
+		f.SetCellValue(sheet4, fmt.Sprintf("%s%d", "G", lastRow), totalDiscountsSum)
+		err = f.SetCellStyle(sheet4, fmt.Sprintf("%s%d", "F", lastRow), fmt.Sprintf("%s%d", "G", lastRow), style)
 		//err = f.SetCellStyle(sheet3, fmt.Sprintf("%s%d", "G", lastRow), fmt.Sprintf("%s%d", "G", lastRow), style)
 	}
 
