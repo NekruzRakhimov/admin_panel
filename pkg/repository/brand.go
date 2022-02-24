@@ -36,14 +36,19 @@ func GetBrandInfo(bin string) ([]model.BrandInfo, error) {
 	return brandsInfo, nil
 }
 
-func GetIDBYBIN(bin string) []model.BrandAndPercent {
+func GetIDBYBIN(bin string) ([]model.BrandAndPercent, string) {
 	var BrandsAndDiscount []model.BrandAndPercent
 	var ContractsID model.ContractID
-	db.GetDBConn().Raw("SELECT id FROM contracts WHERE requisites ->> 'bin' = $1", bin).Scan(&ContractsID)
+
+
+	// ID Договора я ему возвращаю тут получается
+	db.GetDBConn().Raw("SELECT id, contract_parameters ->> 'contract_number' AS contract_number FROM contracts WHERE requisites ->> 'bin' = $1", bin).Scan(&ContractsID)
 
 	log.Println("ID CONTRACT", ContractsID)
 
-	db.GetDBConn().Raw("SELECT brand AS brand_name, discount_percent FROM  brands WHERE contract_id = $1", ContractsID.Id).Scan(&BrandsAndDiscount)
+	db.GetDBConn().Raw("SELECT brand AS brand_name, discount_percent, contract_id FROM  brands WHERE contract_id = $1", ContractsID.Id).Scan(&BrandsAndDiscount)
 
-	return BrandsAndDiscount
+
+	//TODO: я тут не возвращаю ID договора
+	return BrandsAndDiscount, ContractsID.ContractNumber
 }

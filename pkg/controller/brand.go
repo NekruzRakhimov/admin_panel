@@ -164,6 +164,8 @@ func GetExcellBrand(c *gin.Context) {
 	c.BindJSON(&req)
 
 	log.Println("запрос->>>: ", req)
-	service.FoundBrandDiscount(req)
+	discount := service.FoundBrandDiscount(req)
+
+	c.JSON(200, gin.H{"discount": discount})
 
 }
