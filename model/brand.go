@@ -19,6 +19,18 @@ type Sales struct {
 	} `json:"sales_arr"`
 }
 
+type Purchase struct {
+	PurchaseArr []struct {
+		ProductName string `json:"product_name"`
+		ProductCode string `json:"product_code"`
+		Total       int    `json:"total"`
+		QntTotal    int    `json:"qnt_total"`
+		Date        string `json:"date"`
+		BrandCode   string `json:"brand_code"`
+		BrandName   string `json:"brand_name"`
+	} `json:"purchase_arr"`
+}
+
 type DateSales struct {
 	Datestart      string   `json:"datestart"`
 	Dateend        string   `json:"dateend"`
@@ -71,20 +83,21 @@ type T struct {
 }
 
 type TotalBrandDiscount struct {
-	BrandName string  `json:"brand_name"`
-	Amount    float32 `json:"amount"`
+	BrandName       string  `json:"brand_name"`
+	Amount          float32 `json:"amount"`
 	DiscountPercent float32 `json:"discount_percent"`
-	Id int `json:"id"`
-	ContractNumber string `json:"contract_number"`
+	Id              int     `json:"id"`
+	ContractNumber  string  `json:"contract_number"`
 }
 
 type ContractID struct {
-	Id int `json:"id"`
+	Id             int    `json:"id"`
 	ContractNumber string `json:"contract_number"`
 }
 
 type BrandAndPercent struct {
-	ContractID string `json:"contract_id"`
+	ContractID      string `json:"contract_id"`
 	BrandName       string `json:"brand_name"`
+	BrandCode       string `json:"brand_code"`
 	DiscountPercent string `json:"discount_percent"`
 }

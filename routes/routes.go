@@ -51,6 +51,7 @@ func RunAllRoutes() {
 func runAllRoutes(r *gin.Engine) {
 
 	r.GET("/", HealthCheck)
+	r.POST("/presentationdiscount", controller.PresentationDiscount)
 	r.POST("/get_excell_brand", controller.GetExcellBrand)
 
 	//r.POST("/getcontractnumb", controller.SearchNotifications)
