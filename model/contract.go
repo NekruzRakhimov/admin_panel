@@ -154,10 +154,11 @@ type Product struct {
 }
 
 type Discount struct {
-	Name       string           `json:"name,omitempty"`
-	Code       string           `json:"code"`
-	IsSelected bool             `json:"is_selected"`
-	Periods    []DiscountPeriod `json:"periods"`
+	Name           string           `json:"name,omitempty"`
+	Code           string           `json:"code"`
+	DiscountAmount int              `json:"discount_amount,omitempty"`
+	IsSelected     bool             `json:"is_selected"`
+	Periods        []DiscountPeriod `json:"periods"`
 }
 
 type DiscountPeriod struct {
@@ -284,4 +285,12 @@ type Client struct {
 
 type Date struct {
 	EndDate string `json:"end_date"`
+}
+
+type DataPurchase struct {
+	Bin            string `json:"bin"`
+	ContractNumber string `json:"contract_number"`
+	DiscountAmount string `json:"discount_amount"`
+	StartDate      string `json:"start_date"`
+	EndDate        string `json:"end_date"`
 }

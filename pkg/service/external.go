@@ -150,7 +150,7 @@ func SaveContract1C(contract model.ContractDTOFor1C) (model.RespContract, error)
 		return respContract1C, err
 
 	}
-	log.Println("Ответ от 1С ", string(body))
+	log.Println(string(body))
 
 	// ----------> часть Unmarshall json ->
 	err = json.Unmarshal(body, &respContract1C)

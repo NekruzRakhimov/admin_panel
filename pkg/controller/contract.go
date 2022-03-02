@@ -732,3 +732,19 @@ func SearchHistoryExecution(c *gin.Context) {
 	c.JSON(http.StatusOK, result)
 
 }
+
+func GetPriceType(c *gin.Context) {
+	var payload model.ReqBrand
+
+	err := c.ShouldBindJSON(&payload)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
+		return
+	}
+	priceType, err := service.GetPriceType(payload.ClientBin)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
+		return
+	}
+	c.JSON(http.StatusOK, priceType)
+}
