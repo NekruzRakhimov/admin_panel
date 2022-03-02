@@ -119,6 +119,9 @@ func CounterpartyContract(binClient string) ([]model.Counterparty, error) {
 }
 
 func SaveContract1C(contract model.ContractDTOFor1C) (model.RespContract, error) {
+	fmt.Println("calling service 1C")
+	log.Println("calling service 1C")
+
 	var respContract1C model.RespContract
 	saveContract := new(bytes.Buffer)
 	err := json.NewEncoder(saveContract).Encode(contract)
@@ -147,7 +150,7 @@ func SaveContract1C(contract model.ContractDTOFor1C) (model.RespContract, error)
 		return respContract1C, err
 
 	}
-	log.Println(string(body))
+	log.Println("Ответ от 1С ", string(body))
 
 	// ----------> часть Unmarshall json ->
 	err = json.Unmarshal(body, &respContract1C)

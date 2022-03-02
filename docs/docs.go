@@ -2017,6 +2017,64 @@ var doc = `{
                 }
             }
         },
+        "/reports/doubted_discounts": {
+            "post": {
+                "description": "получение списка скидок для утверждения условия",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "reports"
+                ],
+                "summary": "doubted_discounts",
+                "parameters": [
+                    {
+                        "description": "getting doubted discounts",
+                        "name": "contract",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.RBRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Discount"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/reports/rb": {
             "post": {
                 "description": "получение отчета по РБ",
@@ -3688,7 +3746,7 @@ var doc = `{
                     "type": "integer"
                 },
                 "total_amount": {
-                    "type": "integer"
+                    "type": "number"
                 }
             }
         },
@@ -3801,17 +3859,32 @@ var doc = `{
         "model.RbDTO": {
             "type": "object",
             "properties": {
+                "brand_name": {
+                    "type": "string"
+                },
                 "contract_number": {
                     "type": "string"
                 },
                 "discount_amount": {
-                    "type": "integer"
+                    "type": "number"
+                },
+                "discount_percent": {
+                    "type": "number"
                 },
                 "end_date": {
                     "type": "string"
                 },
                 "id": {
                     "type": "integer"
+                },
+                "lease_plan": {
+                    "type": "number"
+                },
+                "product_code": {
+                    "type": "string"
+                },
+                "reward_amount": {
+                    "type": "number"
                 },
                 "start_date": {
                     "type": "string"
@@ -3966,10 +4039,10 @@ var doc = `{
                                 "type": "string"
                             },
                             "qnt_total": {
-                                "type": "integer"
+                                "type": "number"
                             },
                             "total": {
-                                "type": "integer"
+                                "type": "number"
                             }
                         }
                     }

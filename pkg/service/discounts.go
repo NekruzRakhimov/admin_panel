@@ -542,3 +542,31 @@ func BulkConvertContractFromJsonB(contractsWithJson []model.ContractWithJsonB) (
 
 	return
 }
+
+func GetDoubtedDiscounts(request model.RBRequest) (discounts []model.Discount, err error) {
+	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.BIN, request.PeriodFrom, request.PeriodTo)
+	if err != nil {
+		return nil, err
+	}
+
+	contracts, err := BulkConvertContractFromJsonB(contractsWithJson)
+	if err != nil {
+		return nil, err
+	}
+
+	var (
+		hasPresentation bool
+		//hasMTZ bool
+	)
+
+	for _, contract := range contracts {
+		for _, discount := range contract.Discounts {
+			if discount.Code == "" && hasPresentation == false {
+				discounts = append(discounts, discount)
+				hasPresentation = true
+			}
+		}
+	}
+
+	return discounts, nil
+}

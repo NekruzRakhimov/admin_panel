@@ -292,7 +292,7 @@ definitions:
       reward_amount:
         type: integer
       total_amount:
-        type: integer
+        type: number
     type: object
   model.FrequencyDeferredDiscount:
     properties:
@@ -365,14 +365,24 @@ definitions:
     type: object
   model.RbDTO:
     properties:
+      brand_name:
+        type: string
       contract_number:
         type: string
       discount_amount:
-        type: integer
+        type: number
+      discount_percent:
+        type: number
       end_date:
         type: string
       id:
         type: integer
+      lease_plan:
+        type: number
+      product_code:
+        type: string
+      reward_amount:
+        type: number
       start_date:
         type: string
     type: object
@@ -473,9 +483,9 @@ definitions:
             product_name:
               type: string
             qnt_total:
-              type: integer
+              type: number
             total:
-              type: integer
+              type: number
           type: object
         type: array
     type: object
@@ -1917,6 +1927,45 @@ paths:
       summary: List Notifications
       tags:
       - notifications
+  /reports/doubted_discounts:
+    post:
+      consumes:
+      - application/json
+      description: получение списка скидок для утверждения условия
+      parameters:
+      - description: getting doubted discounts
+        in: body
+        name: contract
+        required: true
+        schema:
+          $ref: '#/definitions/model.RBRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Discount'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: doubted_discounts
+      tags:
+      - reports
   /reports/rb:
     post:
       consumes:

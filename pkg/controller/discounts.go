@@ -107,3 +107,32 @@ func FormExcelForRBBrand(c *gin.Context) {
 	c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 	c.File("files/reports/rb/rb_report_template_brand.xlsx")
 }
+
+// GetDoubtedDiscounts  doubted_discounts godoc
+// @Summary doubted_discounts
+// @Description получение списка скидок для утверждения условия
+// @Accept  json
+// @Produce  json
+// @Tags reports
+// @Param  contract  body model.RBRequest true "getting doubted discounts"
+// @Success 200 {array}  model.Discount
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /reports/doubted_discounts [post]
+func GetDoubtedDiscounts(c *gin.Context) {
+	var request model.RBRequest
+	if err := c.BindJSON(&request); err != nil {
+		log.Println("[controller][c.BindJSON] error is: ", err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	discounts, err := service.GetDoubtedDiscounts(request)
+	if err != nil {
+		log.Println("[controller][service.GetDoubtedDiscounts] error is: ", err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, discounts)
+}
