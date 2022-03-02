@@ -2017,6 +2017,61 @@ var doc = `{
                 }
             }
         },
+        "/price_type/": {
+            "post": {
+                "description": "get price type by BIN",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "price_type"
+                ],
+                "summary": "get price type by BIN",
+                "parameters": [
+                    {
+                        "description": "client_bin",
+                        "name": "client_bin",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.BinPriceType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.PriceType"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/reports/doubted_discounts": {
             "post": {
                 "description": "получение списка скидок для утверждения условия",
@@ -3327,6 +3382,14 @@ var doc = `{
                 }
             }
         },
+        "model.BinPriceType": {
+            "type": "object",
+            "properties": {
+                "client_bin": {
+                    "type": "string"
+                }
+            }
+        },
         "model.Brand": {
             "type": "object",
             "properties": {
@@ -3699,6 +3762,9 @@ var doc = `{
                 "code": {
                     "type": "string"
                 },
+                "discount_amount": {
+                    "type": "integer"
+                },
                 "is_selected": {
                     "type": "boolean"
                 },
@@ -3804,6 +3870,31 @@ var doc = `{
                 }
             }
         },
+        "model.PriceType": {
+            "type": "object",
+            "properties": {
+                "pricetype_arr": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "client_bin": {
+                                "type": "string"
+                            },
+                            "pricetype_code": {
+                                "type": "string"
+                            },
+                            "pricetype_currency": {
+                                "type": "string"
+                            },
+                            "pricetype_name": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "model.Product": {
             "type": "object",
             "properties": {
@@ -3859,6 +3950,9 @@ var doc = `{
         "model.RbDTO": {
             "type": "object",
             "properties": {
+                "TotalWithoutDiscount": {
+                    "type": "number"
+                },
                 "brand_name": {
                     "type": "string"
                 },

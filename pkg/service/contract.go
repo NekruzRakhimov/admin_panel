@@ -629,7 +629,7 @@ func GetPriceType(bin string) (model.PriceType, error) {
 
 	reqBodyBytes := new(bytes.Buffer)
 	json.NewEncoder(reqBodyBytes).Encode(&date)
-	fmt.Println(">>> ", reqBodyBytes)
+//	fmt.Println(">>> ", reqBodyBytes)
 
 	//parm.Add("datestart", "01.01.2022 0:02:09")
 	//parm.Add("dateend", "01.01.2022 0:02:09")
@@ -654,7 +654,7 @@ func GetPriceType(bin string) (model.PriceType, error) {
 		log.Println(err)
 		return priceType, err
 	}
-	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
+	//log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
 
 	defer resp.Body.Close()
 	if err != nil {
