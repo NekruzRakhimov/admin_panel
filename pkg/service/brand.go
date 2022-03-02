@@ -616,7 +616,7 @@ func InfoPresentationDiscount(rbReq model.RBRequest) []model.RbDTO {
 	//TotalWithoutDicsount float32 `json:"TotalWithoutDiscount"`
 	//LeasePlan            float32 `json:"lease_plan"`
 	//RewardAmount         float32 `json:"reward_amount"`
-	rbBrands := []model.RbDTO{
+	rbDTO := []model.RbDTO{
 		{
 			ContractNumber:       "9898989211",
 			StartDate:            "01.01.2022",
@@ -648,7 +648,7 @@ func InfoPresentationDiscount(rbReq model.RBRequest) []model.RbDTO {
 			TotalWithoutDicsount: 1_000_000,
 		},
 	}
-	return rbBrands
+	return rbDTO
 
 	//TOOD: Доработать от сюда
 
