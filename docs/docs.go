@@ -3699,6 +3699,9 @@ var doc = `{
                 "code": {
                     "type": "string"
                 },
+                "discount_amount": {
+                    "type": "integer"
+                },
                 "is_selected": {
                     "type": "boolean"
                 },
@@ -3859,6 +3862,9 @@ var doc = `{
         "model.RbDTO": {
             "type": "object",
             "properties": {
+                "TotalWithoutDiscount": {
+                    "type": "number"
+                },
                 "brand_name": {
                     "type": "string"
                 },

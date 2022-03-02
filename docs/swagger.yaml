@@ -261,6 +261,8 @@ definitions:
     properties:
       code:
         type: string
+      discount_amount:
+        type: integer
       is_selected:
         type: boolean
       name:
@@ -365,6 +367,8 @@ definitions:
     type: object
   model.RbDTO:
     properties:
+      TotalWithoutDiscount:
+        type: number
       brand_name:
         type: string
       contract_number:
