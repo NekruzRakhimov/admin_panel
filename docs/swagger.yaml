@@ -16,6 +16,11 @@ definitions:
       id:
         type: integer
     type: object
+  model.BinPriceType:
+    properties:
+      client_bin:
+        type: string
+    type: object
   model.Brand:
     properties:
       brand_arr:
@@ -330,6 +335,40 @@ definitions:
         type: string
       id:
         type: integer
+    type: object
+  model.PriceType:
+    properties:
+      pricetype_arr:
+        items:
+          properties:
+            client_bin:
+              type: string
+            pricetype_code:
+              type: string
+            pricetype_currency:
+              type: string
+            pricetype_name:
+              type: string
+          type: object
+        type: array
+    type: object
+  model.PriceTypeCreate:
+    properties:
+      client_bin:
+        type: string
+      pricetype_currency:
+        type: string
+      pricetype_name:
+        type: string
+    type: object
+  model.PriceTypeResponse:
+    properties:
+      client_bin:
+        type: string
+      pricetype_code:
+        type: string
+      pricetype_name:
+        type: string
     type: object
   model.Product:
     properties:
@@ -1360,6 +1399,43 @@ paths:
       summary: Получаем список стран
       tags:
       - country
+  /create_price_type/:
+    post:
+      consumes:
+      - application/json
+      description: get price type by BIN
+      parameters:
+      - description: payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/model.PriceTypeCreate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.PriceTypeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: get price type by BIN
+      tags:
+      - price_type
   /detach_role/{user_id}/{role_id}:
     delete:
       consumes:
@@ -1931,6 +2007,43 @@ paths:
       summary: List Notifications
       tags:
       - notifications
+  /price_type/:
+    post:
+      consumes:
+      - application/json
+      description: get price type by BIN
+      parameters:
+      - description: client_bin
+        in: body
+        name: client_bin
+        required: true
+        schema:
+          $ref: '#/definitions/model.BinPriceType'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.PriceType'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: get price type by BIN
+      tags:
+      - price_type
   /reports/doubted_discounts:
     post:
       consumes:
