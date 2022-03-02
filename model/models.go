@@ -88,3 +88,8 @@ type PriceTypeCreate struct {
 	PricetypeCurrency string `json:"pricetype_currency"`
 	ClientBin         string `json:"client_bin"`
 }
+
+
+type BinPriceType struct {
+	ClientBin string `json:"client_bin"`
+}

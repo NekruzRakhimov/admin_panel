@@ -733,8 +733,20 @@ func SearchHistoryExecution(c *gin.Context) {
 
 }
 
+// GetPriceType godoc
+// @Summary     get price type by BIN
+// @Description  get price type by BIN
+// @Tags         price_type
+// @Accept       json
+// @Produce      json
+// @Param        client_bin  body     model.BinPriceType  true  "client_bin"
+// @Success      200      {object}  model.PriceType
+// @Failure      400      {object}  map[string]interface{}
+// @Failure      404      {object}  map[string]interface{}
+// @Failure      500      {object}  map[string]interface{}
+// @Router       /price_type/ [post]
 func GetPriceType(c *gin.Context) {
-	var payload model.ReqBrand
+	var payload model.BinPriceType
 
 	err := c.ShouldBindJSON(&payload)
 	if err != nil {
@@ -749,8 +761,19 @@ func GetPriceType(c *gin.Context) {
 	c.JSON(http.StatusOK, priceType)
 }
 
+// CreatePriceType godoc
+// @Summary     get price type by BIN
+// @Description  get price type by BIN
+// @Tags         price_type
+// @Accept       json
+// @Produce      json
+// @Param        payload  body     model.PriceTypeCreate  true  "payload"
+// @Success      200      {object}  model.PriceTypeResponse
+// @Failure      400      {object}  map[string]interface{}
+// @Failure      404      {object}  map[string]interface{}
+// @Failure      500      {object}  map[string]interface{}
+// @Router       /create_price_type/ [post]
 func CreatePriceType(c *gin.Context) {
-
 	var payload model.PriceTypeCreate
 
 	err := c.ShouldBindJSON(&payload)

@@ -654,7 +654,7 @@ func GetPriceType(bin string) (model.PriceType, error) {
 		log.Println(err)
 		return priceType, err
 	}
-	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
+	//log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
 
 	defer resp.Body.Close()
 	if err != nil {

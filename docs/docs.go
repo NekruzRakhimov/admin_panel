@@ -1181,6 +1181,61 @@ var doc = `{
                 }
             }
         },
+        "/create_price_type/": {
+            "post": {
+                "description": "get price type by BIN",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "price_type"
+                ],
+                "summary": "get price type by BIN",
+                "parameters": [
+                    {
+                        "description": "payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.PriceTypeCreate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.PriceTypeResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/detach_role/{user_id}/{role_id}": {
             "delete": {
                 "description": "Detach by json Role To User",
@@ -2012,6 +2067,61 @@ var doc = `{
                             "items": {
                                 "$ref": "#/definitions/model.Notification"
                             }
+                        }
+                    }
+                }
+            }
+        },
+        "/price_type/": {
+            "post": {
+                "description": "get price type by BIN",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "price_type"
+                ],
+                "summary": "get price type by BIN",
+                "parameters": [
+                    {
+                        "description": "client_bin",
+                        "name": "client_bin",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.BinPriceType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.PriceType"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     }
                 }
@@ -3327,6 +3437,14 @@ var doc = `{
                 }
             }
         },
+        "model.BinPriceType": {
+            "type": "object",
+            "properties": {
+                "client_bin": {
+                    "type": "string"
+                }
+            }
+        },
         "model.Brand": {
             "type": "object",
             "properties": {
@@ -3804,6 +3922,59 @@ var doc = `{
                 },
                 "id": {
                     "type": "integer"
+                }
+            }
+        },
+        "model.PriceType": {
+            "type": "object",
+            "properties": {
+                "pricetype_arr": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "client_bin": {
+                                "type": "string"
+                            },
+                            "pricetype_code": {
+                                "type": "string"
+                            },
+                            "pricetype_currency": {
+                                "type": "string"
+                            },
+                            "pricetype_name": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "model.PriceTypeCreate": {
+            "type": "object",
+            "properties": {
+                "client_bin": {
+                    "type": "string"
+                },
+                "pricetype_currency": {
+                    "type": "string"
+                },
+                "pricetype_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.PriceTypeResponse": {
+            "type": "object",
+            "properties": {
+                "client_bin": {
+                    "type": "string"
+                },
+                "pricetype_code": {
+                    "type": "string"
+                },
+                "pricetype_name": {
+                    "type": "string"
                 }
             }
         },
