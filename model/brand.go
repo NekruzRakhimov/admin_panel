@@ -110,3 +110,9 @@ type PriceType struct {
 		ClientBin         string `json:"client_bin"`
 	} `json:"pricetype_arr"`
 }
+
+type PriceTypeResponse struct {
+	PricetypeCode string `json:"pricetype_code"`
+	PricetypeName string `json:"pricetype_name"`
+	ClientBin     string `json:"client_bin"`
+}

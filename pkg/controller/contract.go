@@ -748,3 +748,21 @@ func GetPriceType(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, priceType)
 }
+
+func CreatePriceType(c *gin.Context) {
+
+	var payload model.PriceTypeCreate
+
+	err := c.ShouldBindJSON(&payload)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
+		return
+	}
+	priceTypeResponse, err := service.CreatePriceType(payload)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
+		return
+	}
+	c.JSON(http.StatusOK, priceTypeResponse)
+
+}
