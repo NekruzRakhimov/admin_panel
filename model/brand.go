@@ -101,3 +101,12 @@ type BrandAndPercent struct {
 	BrandCode       string `json:"brand_code"`
 	DiscountPercent string `json:"discount_percent"`
 }
+
+type PriceType struct {
+	PricetypeArr []struct {
+		PricetypeName     string `json:"pricetype_name"`
+		PricetypeCode     string `json:"pricetype_code"`
+		PricetypeCurrency string `json:"pricetype_currency"`
+		ClientBin         string `json:"client_bin"`
+	} `json:"pricetype_arr"`
+}

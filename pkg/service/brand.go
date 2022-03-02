@@ -11,6 +11,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 const (
@@ -606,7 +607,30 @@ func InfoPresentationDiscount(rbReq model.RBRequest) model.RbDTO {
 	//..var rbBrands []model.RbDTO
 	var rbBrand model.RbDTO
 	//ID, contract_number, discount, bin
-	infoPresentationDiscount := repository.GetPurchase(rbReq.BIN)
+	infoPresentationDiscounts := repository.GetPurchase(rbReq.BIN)
+
+	layoutISO := "02.1.2006"
+
+	for _, value := range infoPresentationDiscounts {
+		if len(infoPresentationDiscounts) > 2 {
+			//  value.StartDate - эта дата, которую мы взяли из бд
+			// 01
+			// 21
+			// 10
+			timeDB, err := time.Parse(layoutISO, value.StartDate)
+			if err != nil {
+				fmt.Println(err)
+			}
+			timeReq, err := time.Parse(layoutISO, value.StartDate)
+			if err != nil {
+				fmt.Println(err)
+			}
+			if timeDB.Before(timeReq) {
+
+			}
+
+		}
+	}
 
 	//внутри него массив
 	presentationDiscount, err := PresentationDiscount(rbReq)
@@ -617,18 +641,8 @@ func InfoPresentationDiscount(rbReq model.RBRequest) model.RbDTO {
 	totalAmount := 0
 	totalWithDiscount := 0
 
-	//	ID              int     `json:"id"`
-	//	ContractNumber  string  `json:"contract_number"`
-	//	StartDate       string  `json:"start_date"`
-	//	EndDate         string  `json:"end_date"`
-	//	BrandName       string  `json:"brand_name,omitempty"`
-	//	ProductCode     string  `json:"product_code,omitempty"`
-	//	DiscountPercent float32 `json:"discount_percent"`
-	//	DiscountAmount  float32 `json:"discount_amount"`
-	//	LeasePlan       float32 `json:"lease_plan"`
-	//	RewardAmount    float32 `json:"reward_amount"`
 	for _, value := range presentationDiscount.PurchaseArr {
-		//rbBrand.ContractNumber = infoPresentationDiscount.ContractNumber
+		//rbBrand.ContractNumber = infoPresentationDiscounts.ContractNumber
 		//rbBrand.StartDate = rbReq.PeriodFrom
 		//rbBrand.EndDate = rbReq.PeriodTo
 		//rbBrand.BrandName = value.BrandName
@@ -641,7 +655,7 @@ func InfoPresentationDiscount(rbReq model.RBRequest) model.RbDTO {
 	}
 	totalWithDiscount = (totalAmount * 10) / 100
 
-	rbBrand.ContractNumber = infoPresentationDiscount.ContractNumber
+	//rbBrand.ContractNumber = infoPresentationDiscounts.ContractNumber
 	rbBrand.StartDate = rbReq.PeriodFrom
 	rbBrand.EndDate = rbReq.PeriodTo
 	//rbBrand.BrandName = value.BrandName

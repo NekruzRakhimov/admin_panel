@@ -9,8 +9,6 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"log"
 	"net/http"
-	"os"
-
 	//_ "github.com/rizalgowandy/go-swag-sample/docs/ginsimple" // you need to update github.com/rizalgowandy/go-swag-sample with your own project path
 	_ "admin_panel/docs"
 )
@@ -53,6 +51,7 @@ func runAllRoutes(r *gin.Engine) {
 	r.GET("/", HealthCheck)
 	r.POST("/presentationdiscount", controller.PresentationDiscount)
 	r.POST("/get_excell_brand", controller.GetExcellBrand)
+	r.POST("/price_type", controller.GetPriceType)
 
 	//r.POST("/getcontractnumb", controller.SearchNotifications)
 	r.GET("/notifications", controller.GetNotifications)
@@ -154,8 +153,8 @@ func runAllRoutes(r *gin.Engine) {
 
 	//	Start servevvvvvvvvvvvr
 
-	err := r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
-	//err := r.Run(fmt.Sprintf("%s:%s", "localhost", "3000"))
+	//err := r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
+	err := r.Run(fmt.Sprintf("%s:%s", "localhost", "3000"))
 
 	if err != nil {
 		log.Println(err)

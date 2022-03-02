@@ -291,4 +291,6 @@ type DataPurchase struct {
 	Bin            string `json:"bin"`
 	ContractNumber string `json:"contract_number"`
 	DiscountAmount string `json:"discount_amount"`
+	StartDate      string `json:"start_date"`
+	EndDate        string `json:"end_date"`
 }
