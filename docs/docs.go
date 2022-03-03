@@ -2100,7 +2100,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.PriceType"
+                            "$ref": "#/definitions/model.RespPriceType"
                         }
                     },
                     "400": {
@@ -4033,31 +4033,6 @@ var doc = `{
                 }
             }
         },
-        "model.PriceType": {
-            "type": "object",
-            "properties": {
-                "pricetype_arr": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "client_bin": {
-                                "type": "string"
-                            },
-                            "pricetype_code": {
-                                "type": "string"
-                            },
-                            "pricetype_currency": {
-                                "type": "string"
-                            },
-                            "pricetype_name": {
-                                "type": "string"
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "model.PriceTypeCreate": {
             "type": "object",
             "properties": {
@@ -4086,6 +4061,23 @@ var doc = `{
                 }
             }
         },
+        "model.ProdPriceType": {
+            "type": "object",
+            "properties": {
+                "client_bin": {
+                    "type": "string"
+                },
+                "pricetype_code": {
+                    "type": "string"
+                },
+                "pricetype_currency": {
+                    "type": "string"
+                },
+                "pricetype_name": {
+                    "type": "string"
+                }
+            }
+        },
         "model.Product": {
             "type": "object",
             "properties": {
@@ -4100,6 +4092,9 @@ var doc = `{
                 },
                 "price": {
                     "type": "number"
+                },
+                "prod_price_type": {
+                    "$ref": "#/definitions/model.ProdPriceType"
                 },
                 "producer": {
                     "type": "string"
@@ -4205,6 +4200,31 @@ var doc = `{
                 },
                 "swift_code": {
                     "type": "string"
+                }
+            }
+        },
+        "model.RespPriceType": {
+            "type": "object",
+            "properties": {
+                "pricetype_arr": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "client_bin": {
+                                "type": "string"
+                            },
+                            "pricetype_code": {
+                                "type": "string"
+                            },
+                            "pricetype_currency": {
+                                "type": "string"
+                            },
+                            "pricetype_name": {
+                                "type": "string"
+                            }
+                        }
+                    }
                 }
             }
         },

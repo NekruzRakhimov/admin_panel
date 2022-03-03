@@ -47,6 +47,13 @@ type Contract struct {
 	DiscountBrand []DiscountBrand `json:"discount_brand"`
 }
 
+type PriceType struct {
+	PriceTypeName     string `json:"pricetype_name"`
+	PriceTypeCode     string `json:"pricetype_code"`
+	PriceTypeCurrency string `json:"pricetype_currency"`
+	ClientBin         string `json:"client_bin"`
+}
+
 type ContractDTOFor1C struct {
 	ID                        int                        `json:"id"`
 	Type                      string                     `json:"type"`
@@ -151,6 +158,7 @@ type Product struct {
 	Sku              string  `json:"sku"`
 	LeasePlan        float32 `json:"lease_plan"`
 	DiscountPercent  float32 `json:"discount_percent"`
+	PriceType PriceType `json:"price_type"`
 }
 
 type DoubtedDiscountResponse struct {

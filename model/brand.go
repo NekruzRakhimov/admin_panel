@@ -102,7 +102,7 @@ type BrandAndPercent struct {
 	DiscountPercent string `json:"discount_percent"`
 }
 
-type PriceType struct {
+type RespPriceType struct {
 	PricetypeArr []struct {
 		PricetypeName     string `json:"pricetype_name"`
 		PricetypeCode     string `json:"pricetype_code"`
