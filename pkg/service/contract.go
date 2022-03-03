@@ -617,8 +617,8 @@ func GetCountries() (model.Country, error) {
 
 }
 
-func GetPriceType(bin string) (model.PriceType, error) {
-	var priceType model.PriceType
+func GetPriceType(bin string) (model.RespPriceType, error) {
+	var priceType model.RespPriceType
 
 	date := model.ReqBrand{
 		ClientBin: bin,

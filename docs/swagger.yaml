@@ -371,22 +371,6 @@ definitions:
       id:
         type: integer
     type: object
-  model.PriceType:
-    properties:
-      pricetype_arr:
-        items:
-          properties:
-            client_bin:
-              type: string
-            pricetype_code:
-              type: string
-            pricetype_currency:
-              type: string
-            pricetype_name:
-              type: string
-          type: object
-        type: array
-    type: object
   model.PriceTypeCreate:
     properties:
       client_bin:
@@ -405,6 +389,17 @@ definitions:
       pricetype_name:
         type: string
     type: object
+  model.ProdPriceType:
+    properties:
+      client_bin:
+        type: string
+      pricetype_code:
+        type: string
+      pricetype_currency:
+        type: string
+      pricetype_name:
+        type: string
+    type: object
   model.Product:
     properties:
       currency:
@@ -415,6 +410,8 @@ definitions:
         type: number
       price:
         type: number
+      prod_price_type:
+        $ref: '#/definitions/model.ProdPriceType'
       producer:
         type: string
       product_name:
@@ -484,6 +481,22 @@ definitions:
         type: string
       swift_code:
         type: string
+    type: object
+  model.RespPriceType:
+    properties:
+      pricetype_arr:
+        items:
+          properties:
+            client_bin:
+              type: string
+            pricetype_code:
+              type: string
+            pricetype_currency:
+              type: string
+            pricetype_name:
+              type: string
+          type: object
+        type: array
     type: object
   model.Right:
     properties:
@@ -2060,7 +2073,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.PriceType'
+            $ref: '#/definitions/model.RespPriceType'
         "400":
           description: Bad Request
           schema:

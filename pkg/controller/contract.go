@@ -740,7 +740,7 @@ func SearchHistoryExecution(c *gin.Context) {
 // @Accept       json
 // @Produce      json
 // @Param        client_bin  body     model.BinPriceType  true  "client_bin"
-// @Success      200      {object}  model.PriceType
+// @Success      200      {object}  model.RespPriceType
 // @Failure      400      {object}  map[string]interface{}
 // @Failure      404      {object}  map[string]interface{}
 // @Failure      500      {object}  map[string]interface{}
