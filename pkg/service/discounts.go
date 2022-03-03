@@ -586,7 +586,7 @@ func BulkConvertContractFromJsonB(contractsWithJson []model.ContractWithJsonB) (
 	return
 }
 
-func GetDoubtedDiscounts(request model.RBRequest) (discounts []model.Discount, err error) {
+func GetDoubtedDiscounts(request model.RBRequest) (doubtedDiscounts []model.DoubtedDiscount, err error) {
 	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.BIN, request.PeriodFrom, request.PeriodTo)
 	if err != nil {
 		return nil, err
@@ -603,13 +603,30 @@ func GetDoubtedDiscounts(request model.RBRequest) (discounts []model.Discount, e
 	)
 
 	for _, contract := range contracts {
+		var DoubtedDiscountDetails []model.DoubtedDiscountDetails
 		for _, discount := range contract.Discounts {
-			if discount.Code == "" && hasPresentation == false {
-				discounts = append(discounts, discount)
+			var DoubtedDiscountDetail model.DoubtedDiscountDetails
+			if discount.Code == "DISCOUNT_FOR_REPRESENTATION" && discount.IsSelected == true && hasPresentation == false {
+				DoubtedDiscountDetail.Name = discount.Name
+				DoubtedDiscountDetail.Code = discount.Code
+				DoubtedDiscountDetail.IsCompleted = true
+
+				DoubtedDiscountDetails = append(DoubtedDiscountDetails, DoubtedDiscountDetail)
 				hasPresentation = true
 			}
 		}
+		if len(DoubtedDiscountDetails) > 0 {
+			doubtedDiscounts = append(doubtedDiscounts, model.DoubtedDiscount{
+				ContractNumber: contract.ContractParameters.ContractNumber,
+				Discounts:      DoubtedDiscountDetails,
+			})
+		}
 	}
 
-	return discounts, nil
+	return doubtedDiscounts, nil
+}
+
+func SaveDoubtedDiscountsResults(request model.DoubtedDiscountResponse) error {
+
+	return nil
 }

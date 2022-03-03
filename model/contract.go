@@ -153,6 +153,22 @@ type Product struct {
 	DiscountPercent  float32 `json:"discount_percent"`
 }
 
+type DoubtedDiscountResponse struct {
+	RBRequest       RBRequest   `json:"rb_request"`
+	DoubtedDiscount []RBRequest `json:"doubted_discount"`
+}
+
+type DoubtedDiscount struct {
+	ContractNumber string `json:"contract_number"`
+	Discounts      []DoubtedDiscountDetails
+}
+
+type DoubtedDiscountDetails struct {
+	Code        string `json:"code"`
+	Name        string `json:"name"`
+	IsCompleted bool   `json:"is_completed"`
+}
+
 type Discount struct {
 	Name           string           `json:"name,omitempty"`
 	Code           string           `json:"code"`

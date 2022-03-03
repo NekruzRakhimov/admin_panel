@@ -142,7 +142,8 @@ func runAllRoutes(r *gin.Engine) {
 	roles.DELETE("/:id", controller.DeleteRole)
 
 	reports := r.Group("/reports")
-	reports.GET("/doubted_discounts", controller.GetDoubtedDiscounts)
+	reports.POST("/doubted_discounts", controller.GetDoubtedDiscounts)
+	reports.PUT("/doubted_discounts", controller.SaveDoubtedDiscountsResults)
 	reports.POST("/rb", controller.GetAllRBByContractorBIN)
 	reports.POST("/rb/excel", controller.FormExcelForRB)
 	//reports.GET("/rb_brand/excel", controller.FormExcelForRBBrand)

@@ -2128,6 +2128,60 @@ var doc = `{
             }
         },
         "/reports/doubted_discounts": {
+            "put": {
+                "description": "сохранение списка скидок для утверждения условия",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "reports"
+                ],
+                "summary": "doubted_discounts",
+                "parameters": [
+                    {
+                        "description": "saving doubted discounts",
+                        "name": "contract",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.DoubtedDiscountResponse"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "получение списка скидок для утверждения условия",
                 "consumes": [
@@ -3464,6 +3518,23 @@ var doc = `{
                 }
             }
         },
+        "model.BrandDTO": {
+            "type": "object",
+            "properties": {
+                "brand_code": {
+                    "type": "string"
+                },
+                "brand_name": {
+                    "type": "string"
+                },
+                "discount_percent": {
+                    "type": "number"
+                },
+                "purchase_amount": {
+                    "type": "number"
+                }
+            }
+        },
         "model.Client": {
             "type": "object",
             "properties": {
@@ -3820,6 +3891,12 @@ var doc = `{
                 "discount_amount": {
                     "type": "integer"
                 },
+                "discount_brands": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.DiscountBrands"
+                    }
+                },
                 "is_selected": {
                     "type": "boolean"
                 },
@@ -3854,6 +3931,23 @@ var doc = `{
                 }
             }
         },
+        "model.DiscountBrands": {
+            "type": "object",
+            "properties": {
+                "brands": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.BrandDTO"
+                    }
+                },
+                "period_from": {
+                    "type": "string"
+                },
+                "period_to": {
+                    "type": "string"
+                }
+            }
+        },
         "model.DiscountPeriod": {
             "type": "object",
             "properties": {
@@ -3868,6 +3962,20 @@ var doc = `{
                 },
                 "total_amount": {
                     "type": "number"
+                }
+            }
+        },
+        "model.DoubtedDiscountResponse": {
+            "type": "object",
+            "properties": {
+                "doubted_discount": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.RBRequest"
+                    }
+                },
+                "rb_request": {
+                    "$ref": "#/definitions/model.RBRequest"
                 }
             }
         },

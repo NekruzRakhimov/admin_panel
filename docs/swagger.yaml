@@ -33,6 +33,17 @@ definitions:
           type: object
         type: array
     type: object
+  model.BrandDTO:
+    properties:
+      brand_code:
+        type: string
+      brand_name:
+        type: string
+      discount_percent:
+        type: number
+      purchase_amount:
+        type: number
+    type: object
   model.Client:
     properties:
       account_number:
@@ -268,6 +279,10 @@ definitions:
         type: string
       discount_amount:
         type: integer
+      discount_brands:
+        items:
+          $ref: '#/definitions/model.DiscountBrands'
+        type: array
       is_selected:
         type: boolean
       name:
@@ -290,6 +305,17 @@ definitions:
       id:
         type: integer
     type: object
+  model.DiscountBrands:
+    properties:
+      brands:
+        items:
+          $ref: '#/definitions/model.BrandDTO'
+        type: array
+      period_from:
+        type: string
+      period_to:
+        type: string
+    type: object
   model.DiscountPeriod:
     properties:
       period_from:
@@ -300,6 +326,15 @@ definitions:
         type: integer
       total_amount:
         type: number
+    type: object
+  model.DoubtedDiscountResponse:
+    properties:
+      doubted_discount:
+        items:
+          $ref: '#/definitions/model.RBRequest'
+        type: array
+      rb_request:
+        $ref: '#/definitions/model.RBRequest'
     type: object
   model.FrequencyDeferredDiscount:
     properties:
@@ -2065,6 +2100,43 @@ paths:
             items:
               $ref: '#/definitions/model.Discount'
             type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: doubted_discounts
+      tags:
+      - reports
+    put:
+      consumes:
+      - application/json
+      description: сохранение списка скидок для утверждения условия
+      parameters:
+      - description: saving doubted discounts
+        in: body
+        name: contract
+        required: true
+        schema:
+          $ref: '#/definitions/model.DoubtedDiscountResponse'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
         "400":
           description: Bad Request
           schema:

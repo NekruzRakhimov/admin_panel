@@ -139,3 +139,32 @@ func GetDoubtedDiscounts(c *gin.Context) {
 
 	c.JSON(http.StatusOK, discounts)
 }
+
+// SaveDoubtedDiscountsResults  doubted_discounts godoc
+// @Summary doubted_discounts
+// @Description сохранение списка скидок для утверждения условия
+// @Accept  json
+// @Produce  json
+// @Tags reports
+// @Param  contract  body model.DoubtedDiscountResponse true "saving doubted discounts"
+// @Success 200 {object}  map[string]interface{}
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /reports/doubted_discounts [put]
+func SaveDoubtedDiscountsResults(c *gin.Context) {
+	var request model.DoubtedDiscountResponse
+	if err := c.BindJSON(&request); err != nil {
+		log.Println("[controller][c.BindJSON] error is: ", err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	err := service.SaveDoubtedDiscountsResults(request)
+	if err != nil {
+		log.Println("[controller][service.GetDoubtedDiscounts] error is: ", err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"reason": "данные успешно сохранены"})
+}
