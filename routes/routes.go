@@ -20,11 +20,8 @@ import (
 func RunAllRoutes() {
 	r := gin.Default()
 
-	// Исползование CORS
-
+	// Использование CORS
 	r.Use(controller.CORSMiddleware())
-
-	//r.Use(controller.CORSMiddleware())
 
 	// Установка Logger-а
 	utils.SetLogger()
@@ -35,51 +32,84 @@ func RunAllRoutes() {
 	// Статус код 500, при любых panic()
 	r.Use(gin.Recovery())
 
-	// Исползование CORS
-	r.Use(controller.CORSMiddleware())
-
-	// Запуск роутов
+	// Запуск end-point'ов
 	runAllRoutes(r)
 
 	// Запуск сервера
-	//_ = r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
-
-	//_ = r.Run(":3000")
+	runServer(r)
 
 }
 
 func runAllRoutes(r *gin.Engine) {
 
 	r.GET("/", HealthCheck)
-	r.POST("/presentationdiscount", controller.PresentationDiscount)
-	r.POST("/get_excell_brand", controller.GetExcellBrand)
-	r.POST("/price_type", controller.GetPriceType)
-	r.POST("/create_price_type", controller.CreatePriceType)
+	r.POST("/login", controller.Login)
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	//r.POST("/getcontractnumb", controller.SearchNotifications)
-	r.GET("/notifications", controller.GetNotifications)
-	r.GET("/search_contract/", controller.SearchContractByNumber)
-	r.GET("/search_notification/", controller.SearchNotification)
-	r.GET("/search_history/:id", controller.SearchContractDC) // TODO: тут нам нужен ID договора (я тебе об этом говорил)
-	//TODO: НЕКРУЗ ВОТ ЭТО НАДО ПОСМОТРЕТЬ + search_history, чтобы привязка по ID была
-	r.GET("/search_history_ex/:id/", controller.SearchHistoryExecution)
-	r.GET("/change_date_contract/", controller.ChangeDataContract)
-	r.GET("/country/", controller.GetCountries)
-	r.GET("/brands/", controller.GetBrands)
-	r.POST("/sales/", controller.GetSales)
-	r.GET("/add_brand/", controller.AddBrand)
+	tempRoutes(r)
+	Check1CRoutes(r)
+	ContractRoutes(r)
+	DictionariesRoutes(r)
+	AdminRoutes(r)
+	ReportsRoutes(r)
+	NotificationsRoutes(r)
+}
 
+func runServer(r *gin.Engine) {
+	var (
+		port string
+		host string
+	)
+	port, exists := os.LookupEnv("PORT")
+	if !exists {
+		port = "3000"
+		host = "localhost"
+	} else {
+		host = "0.0.0.0"
+	}
+	err := r.Run(fmt.Sprintf("%s:%s", host, port))
+	if err != nil {
+		log.Println(err)
+	}
+}
+
+func tempRoutes(r *gin.Engine) {
 	r.POST("/rb_brand/", controller.GetBrandInfo)
 	r.POST("/rb_brand/excel/", controller.GenerateReportBrand)
 
 	r.GET("/cars", controller.GetCarsBrand)
+}
 
-	r.POST("/login", controller.Login)
-
-	//TODO:  добавить функцию обработчика
+func Check1CRoutes(r *gin.Engine) {
 	r.GET("/counterparty/:client", controller.CounterpartyContract)
-	r.POST("/client_search", controller.SearchBinClient)
-	r.GET("/notification", controller.Notification)
+
+	r.POST("/price_type", controller.GetPriceType)
+	r.POST("/create_price_type", controller.CreatePriceType)
+
+	r.GET("/brands/", controller.GetBrands)
+	r.GET("/add_brand/", controller.AddBrand)
+
+	r.GET("/country/", controller.GetCountries)
+	r.POST("/sales/", controller.GetSales)
+
+	r.POST("/presentationdiscount", controller.PresentationDiscount)
+	r.POST("/get_excell_brand", controller.GetExcellBrand)
+}
+
+func ReportsRoutes(r *gin.Engine) {
+	reports := r.Group("/reports")
+	reports.POST("/doubted_discounts", controller.GetDoubtedDiscounts)
+	reports.PUT("/doubted_discounts", controller.SaveDoubtedDiscountsResults)
+	reports.POST("/rb", controller.GetAllRBByContractorBIN)
+	reports.POST("/rb/excel", controller.FormExcelForRB)
+	//reports.GET("/rb_brand/excel", controller.FormExcelForRBBrand)
+}
+
+func ContractRoutes(r *gin.Engine) {
+	r.GET("/search_history_ex/:id/", controller.SearchHistoryExecution)
+	r.GET("/change_date_contract/", controller.ChangeDataContract)
+	r.GET("/search_contract/", controller.SearchContractByNumber)
+	r.GET("/search_history/:id", controller.SearchContractDC) // TODO: тут нам нужен ID договора (я тебе об этом говорил)
 
 	contract := r.Group("/contract")
 	contract.GET("", controller.GetAllContracts)
@@ -99,7 +129,9 @@ func runAllRoutes(r *gin.Engine) {
 	contract.GET("/status_history/:id", controller.GetContractStatusChangesHistory)
 
 	contract.POST("/form/:contract_type/:with_temp_conditions", controller.FormContract)
+}
 
+func DictionariesRoutes(r *gin.Engine) {
 	dictionary := r.Group("/dictionary")
 	dictionary.GET("", controller.GetAllDictionaries)
 	dictionary.GET("/:id", controller.GetAllDictionaryByID)
@@ -117,6 +149,11 @@ func runAllRoutes(r *gin.Engine) {
 	dictionary.GET("/positions", controller.GetAllPositions)
 	dictionary.GET("/addresses", controller.GetAllAddresses)
 	dictionary.GET("/frequency_deferred_discounts", controller.GetAllFrequencyDeferredDiscounts)
+
+}
+
+func AdminRoutes(r *gin.Engine) {
+	r.POST("/client_search", controller.SearchBinClient)
 
 	users := r.Group("/users")
 	users.GET("/search/:user_number", controller.FindUserByTableName)
@@ -141,35 +178,18 @@ func runAllRoutes(r *gin.Engine) {
 	roles.PUT("/:id", controller.EditRole)
 	roles.DELETE("/:id", controller.DeleteRole)
 
-	reports := r.Group("/reports")
-	reports.POST("/doubted_discounts", controller.GetDoubtedDiscounts)
-	reports.PUT("/doubted_discounts", controller.SaveDoubtedDiscountsResults)
-	reports.POST("/rb", controller.GetAllRBByContractorBIN)
-	reports.POST("/rb/excel", controller.FormExcelForRB)
-	//reports.GET("/rb_brand/excel", controller.FormExcelForRBBrand)
-
 	r.POST("/attach_right/:role_id/:right_id", controller.AttachRightToRole)
 	r.DELETE("/detach_right/:role_id/:right_id", controller.DetachRightFromRole)
 
 	r.POST("/attach_role/:user_id/:role_id", controller.AttachRoleToUser)
 	r.DELETE("/detach_role/:user_id/:role_id", controller.DetachRoleFromUser)
+}
 
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
-	//	Start servevvvvvvvvvvvr
-
-	err := r.Run(fmt.Sprintf("%s:%s", "0.0.0.0", os.Getenv("PORT")))
-	//err := r.Run(fmt.Sprintf("%s:%s", "localhost", "3000"))
-
-	if err != nil {
-		log.Println(err)
-
-	}
-	//_ = r.Run(fmt.Sprintf("%s:%s", "localhost", "3000"))
-	///if err := r.Run(":3000"); err != nil {
-	//log.Fatal(err)
-	//}
-
+func NotificationsRoutes(r *gin.Engine) {
+	//r.POST("/getcontractnumb", controller.SearchNotifications)
+	r.GET("/notifications", controller.GetNotifications)
+	r.GET("/search_notification/", controller.SearchNotification)
+	r.GET("/notification", controller.Notification)
 }
 
 // HealthCheck godoc
