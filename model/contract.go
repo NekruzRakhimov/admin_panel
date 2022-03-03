@@ -159,7 +159,7 @@ type Discount struct {
 	DiscountAmount int              `json:"discount_amount,omitempty"`
 	IsSelected     bool             `json:"is_selected"`
 	Periods        []DiscountPeriod `json:"periods,omitempty"`
-	DiscountBrands *DiscountBrands  `json:"discount_brands"`
+	DiscountBrands []DiscountBrands `json:"discount_brands"`
 }
 
 type DiscountBrands struct {
