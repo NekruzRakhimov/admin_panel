@@ -158,7 +158,21 @@ type Discount struct {
 	Code           string           `json:"code"`
 	DiscountAmount int              `json:"discount_amount,omitempty"`
 	IsSelected     bool             `json:"is_selected"`
-	Periods        []DiscountPeriod `json:"periods"`
+	Periods        []DiscountPeriod `json:"periods,omitempty"`
+	DiscountBrands *DiscountBrands  `json:"discount_brands"`
+}
+
+type DiscountBrands struct {
+	PeriodFrom string     `json:"period_from"`
+	PeriodTo   string     `json:"period_to"`
+	Brands     []BrandDTO `json:"brands"`
+}
+
+type BrandDTO struct {
+	DiscountPercent float32 `json:"discount_percent"`
+	PurchaseAmount  float32 `json:"purchase_amount"`
+	BrandName       string  `json:"brand_name"`
+	BrandCode       string  `json:"brand_code"`
 }
 
 type DiscountPeriod struct {
