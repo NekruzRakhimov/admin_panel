@@ -49,6 +49,9 @@ func GetAllRBByContractorBIN(c *gin.Context) {
 		return
 	}
 
+	rbFourthType := service.InfoPresentationDiscount(request)
+	contracts = append(contracts, rbFourthType...)
+
 	var rewardAmount float32
 	for _, contract := range rbThirdType {
 		rewardAmount += contract.DiscountAmount
@@ -83,10 +86,10 @@ func FormExcelForRB(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
 	}
-	if request.BIN == "010203040506" {
-		c.File("files/reports/rb/report_brand_new.xlsx")
-		return
-	}
+	//if request.BIN == "010203040506" {
+	//	c.File("files/reports/rb/report_brand_new.xlsx")
+	//	return
+	//}
 
 	c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 	c.File("files/reports/rb/rb_report.xlsx")

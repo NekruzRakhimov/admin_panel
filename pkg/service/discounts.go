@@ -14,6 +14,7 @@ const (
 	sheet2 = "Скидка за объем закупа"
 	sheet3 = "Скидка  на группы товаров"
 	sheet4 = "Скидка за выполнение плана закупа по препаратам"
+	sheet5 = "Скидка за представленность"
 )
 
 func GetAllRBByContractorBIN(request model.RBRequest) ([]model.RbDTO, error) {
@@ -271,6 +272,7 @@ func FormExcelForRBReport(request model.RBRequest) error {
 	var isRB1 bool
 	var isRB2 bool
 	var isRB3 bool
+	var isRB4 bool
 
 	for _, contract := range contracts {
 		for _, discount := range contract.Discounts {
@@ -282,6 +284,9 @@ func FormExcelForRBReport(request model.RBRequest) error {
 			}
 			if discount.Code == "DISCOUNT_PLAN_LEASE" && discount.IsSelected {
 				isRB3 = true
+			}
+			if discount.Code == "DISCOUNT_FOR_REPRESENTATION" && discount.IsSelected {
+				isRB4 = true
 			}
 		}
 	}
@@ -472,6 +477,44 @@ func FormExcelForRBReport(request model.RBRequest) error {
 		f.SetCellValue(sheet4, fmt.Sprintf("%s%d", "F", lastRow), "Итог:")
 		f.SetCellValue(sheet4, fmt.Sprintf("%s%d", "G", lastRow), totalDiscountsSum)
 		err = f.SetCellStyle(sheet4, fmt.Sprintf("%s%d", "F", lastRow), fmt.Sprintf("%s%d", "G", lastRow), style)
+		//err = f.SetCellStyle(sheet3, fmt.Sprintf("%s%d", "G", lastRow), fmt.Sprintf("%s%d", "G", lastRow), style)
+	}
+
+	if isRB4 {
+		rbFourthType := InfoPresentationDiscount(request)
+		if err != nil {
+			return err
+		}
+
+		f.NewSheet(sheet5)
+		f.SetCellValue(sheet5, "A1", "Период")
+		f.SetCellValue(sheet5, "B1", "Номер договора/ДС")
+		f.SetCellValue(sheet5, "C1", "Тип скидки")
+		f.SetCellValue(sheet5, "D1", "Скидка %")
+		f.SetCellValue(sheet5, "E1", "Сумма скидки")
+		//f.SetCellValue(sheet5, "D1", "Код товара")
+		//f.SetCellValue(sheet5, "E1", "План закупа")
+		err = f.SetCellStyle(sheet5, "A1", "E1", style)
+
+		var totalDiscountsSum float32
+		fmt.Printf("CHECK \n%+v\n CHECK", contracts)
+		var i int
+		for _, contract := range rbFourthType {
+			f.SetCellValue(sheet5, fmt.Sprintf("%s%d", "A", i+2), fmt.Sprintf("%s-%s", contract.StartDate, contract.EndDate))
+			f.SetCellValue(sheet5, fmt.Sprintf("%s%d", "B", i+2), contract.ContractNumber)
+			f.SetCellValue(sheet5, fmt.Sprintf("%s%d", "C", i+2), sheet5)
+			f.SetCellValue(sheet5, fmt.Sprintf("%s%d", "D", i+2), contract.DiscountPercent)
+			f.SetCellValue(sheet5, fmt.Sprintf("%s%d", "E", i+2), contract.DiscountAmount)
+			//f.SetCellValue(sheet5, fmt.Sprintf("%s%d", "D", i+2), contract.ProductCode)
+			//f.SetCellValue(sheet5, fmt.Sprintf("%s%d", "E", i+2), contract.LeasePlan)
+			totalDiscountsSum += contract.DiscountAmount
+			lastRow = i + 2
+			i++
+		}
+		lastRow += 1
+		f.SetCellValue(sheet5, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
+		f.SetCellValue(sheet5, fmt.Sprintf("%s%d", "E", lastRow), totalDiscountsSum)
+		err = f.SetCellStyle(sheet5, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "E", lastRow), style)
 		//err = f.SetCellStyle(sheet3, fmt.Sprintf("%s%d", "G", lastRow), fmt.Sprintf("%s%d", "G", lastRow), style)
 	}
 
