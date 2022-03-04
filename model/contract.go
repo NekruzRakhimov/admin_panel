@@ -148,17 +148,17 @@ type ContractParametersDTOFor1C struct {
 }
 
 type Product struct {
-	ProductNumber    string  `json:"product_number,omitempty"`
-	ProductName      string  `json:"product_name"`
-	Price            float64 `json:"price,omitempty"`
-	Currency         string  `json:"currency,omitempty"`
-	Substance        string  `json:"substance"`
-	StorageCondition string  `json:"storage_condition"`
-	Producer         string  `json:"producer"`
-	Sku              string  `json:"sku"`
-	LeasePlan        float32 `json:"lease_plan"`
-	DiscountPercent  float32 `json:"discount_percent"`
-	PriceType PriceType `json:"price_type"`
+	ProductNumber    string    `json:"product_number,omitempty"`
+	ProductName      string    `json:"product_name"`
+	Price            float64   `json:"price,omitempty"`
+	Currency         string    `json:"currency,omitempty"`
+	Substance        string    `json:"substance"`
+	StorageCondition string    `json:"storage_condition"`
+	Producer         string    `json:"producer"`
+	Sku              string    `json:"sku"`
+	LeasePlan        float32   `json:"lease_plan"`
+	DiscountPercent  float32   `json:"discount_percent"`
+	PriceType        PriceType `json:"price_type"`
 }
 
 type DoubtedDiscountResponse struct {
@@ -195,6 +195,7 @@ type DiscountBrands struct {
 type BrandDTO struct {
 	DiscountPercent float32 `json:"discount_percent"`
 	PurchaseAmount  float32 `json:"purchase_amount"`
+	SalesAmount     float32 `json:"sales_amount"`
 	BrandName       string  `json:"brand_name"`
 	BrandCode       string  `json:"brand_code"`
 }
