@@ -178,12 +178,16 @@ type DoubtedDiscountDetails struct {
 }
 
 type Discount struct {
-	Name           string           `json:"name,omitempty"`
-	Code           string           `json:"code"`
-	DiscountAmount int              `json:"discount_amount,omitempty"`
-	IsSelected     bool             `json:"is_selected"`
-	Periods        []DiscountPeriod `json:"periods,omitempty"`
-	DiscountBrands []DiscountBrands `json:"discount_brands"`
+	Name            string           `json:"name,omitempty"`
+	Code            string           `json:"code"`
+	DiscountAmount  int              `json:"discount_amount,omitempty"`
+	IsSelected      bool             `json:"is_selected"`
+	PeriodFrom      string           `json:"period_from"`
+	PeriodTo        string           `json:"period_to"`
+	DiscountPercent float32          `json:"discount_percent"`
+	GrowthPercent   float32          `json:"growth_percent"`
+	Periods         []DiscountPeriod `json:"periods,omitempty"`
+	DiscountBrands  []DiscountBrands `json:"discount_brands"`
 }
 
 type DiscountBrands struct {
