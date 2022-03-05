@@ -169,3 +169,15 @@ func GetExcellBrand(c *gin.Context) {
 	c.JSON(200, gin.H{"discount": discount})
 
 }
+
+func RbDiscountForSalesGrowth(c *gin.Context) {
+	var rbReqst model.RBRequest
+
+	c.ShouldBind(&rbReqst)
+
+	growth, f := service.RbDiscountForSalesGrowth(rbReqst)
+
+	c.JSON(200, gin.H{"past": growth,
+		"present": f})
+
+}

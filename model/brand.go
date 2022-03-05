@@ -8,15 +8,17 @@ type Brand struct {
 }
 
 type Sales struct {
-	SalesArr []struct {
-		ProductName string  `json:"product_name"`
-		ProductCode string  `json:"product_code"`
-		Total       float32 `json:"total"`
-		QntTotal    float32 `json:"qnt_total"`
-		Date        string  `json:"date"`
-		BrandCode   string  `json:"brand_code"`
-		BrandName   string  `json:"brand_name"`
-	} `json:"sales_arr"`
+	SalesArr []SalesArr `json:"sales_arr"`
+}
+
+type SalesArr struct {
+	ProductName string  `json:"product_name"`
+	ProductCode string  `json:"product_code"`
+	Total       float32 `json:"total"`
+	QntTotal    float32 `json:"qnt_total"`
+	Date        string  `json:"date"`
+	BrandCode   string  `json:"brand_code"`
+	BrandName   string  `json:"brand_name"`
 }
 
 type Purchase struct {
@@ -73,14 +75,6 @@ type ReqBrand struct {
 	TypeParameters []string `json:"typeParameters"`
 }
 
-type T struct {
-	Datestart      string   `json:"datestart"`
-	Dateend        string   `json:"dateend"`
-	ClientBin      string   `json:"client_bin"`
-	Type           string   `json:"type"`
-	TypeValue      string   `json:"typeValue"`
-	TypeParameters []string `json:"typeParameters"`
-}
 
 type TotalBrandDiscount struct {
 	BrandName       string  `json:"brand_name"`

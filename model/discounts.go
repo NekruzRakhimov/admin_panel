@@ -2,6 +2,7 @@ package model
 
 type RBRequest struct {
 	BIN            string `json:"bin"`
+	Type           string `json:"type"`
 	ContractorName string `json:"contractor_name"`
 	PeriodFrom     string `json:"period_from"`
 	PeriodTo       string `json:"period_to"`
