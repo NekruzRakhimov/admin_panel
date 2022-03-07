@@ -10,11 +10,13 @@ import (
 )
 
 const (
+	//TODO: sheet_name = discount.Code
 	sheet  = "Sheet1"
 	sheet2 = "Скидка за объем закупа"
 	sheet3 = "Скидка  на группы товаров"
 	sheet4 = "Скидка за выполнение плана закупа по препаратам"
 	sheet5 = "Скидка за представленность"
+	sheet8 = "Скидка на РБ от закупа продукции %"
 )
 
 func GetAllRBByContractorBIN(request model.RBRequest) ([]model.RbDTO, error) {
@@ -218,6 +220,60 @@ func GetTotalSalesForSku(sales model.Sales, sku string) (totalSum float32) {
 	return totalSum
 }
 
+func GetRBEighthType(request model.RBRequest) ([]model.RbDTO, error) {
+	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.BIN, request.PeriodFrom, request.PeriodTo)
+	if err != nil {
+		return nil, err
+	}
+
+	contracts, err := BulkConvertContractFromJsonB(contractsWithJson)
+	if err != nil {
+		return nil, err
+	}
+
+	req := model.ReqBrand{
+		ClientBin:      request.BIN,
+		Beneficiary:    request.ContractorName,
+		DateStart:      request.PeriodFrom,
+		DateEnd:        request.PeriodTo,
+		Type:           "sales",
+		TypeValue:      "",
+		TypeParameters: nil,
+	}
+
+	sales, err := GetBrandSales(req)
+	if err != nil {
+		return nil, err
+	}
+
+	totalAmount := GetTotalAmount(sales)
+
+	fmt.Printf("req \n\n%+v\n\n", req)
+	fmt.Printf("SALES \n\n%+v\n\n", sales)
+
+	var RBs []model.RbDTO
+	fmt.Println("*********************************************")
+	for _, contract := range contracts {
+		for _, discount := range contract.Discounts {
+			if discount.Code == "DISCOUNT_FOR_LEASE_GENERAL" && discount.IsSelected == true {
+				rb := model.RbDTO{
+					ID:              contract.ID,
+					ContractNumber:  contract.ContractParameters.ContractNumber,
+					StartDate:       contract.ContractParameters.StartDate,
+					EndDate:         contract.ContractParameters.EndDate,
+					DiscountPercent: discount.DiscountPercent,
+					DiscountAmount:  totalAmount * float32(discount.DiscountAmount) / 100,
+				}
+
+				RBs = append(RBs, rb)
+			}
+		}
+
+	}
+	fmt.Println("*********************************************")
+	return RBs, nil
+}
+
 func GetAllProductsSku(contracts []model.Contract) (SkuArr []string) {
 	for _, contract := range contracts {
 		for _, product := range contract.Products {
@@ -273,6 +329,7 @@ func FormExcelForRBReport(request model.RBRequest) error {
 	var isRB2 bool
 	var isRB3 bool
 	var isRB4 bool
+	var isRB8 bool
 
 	for _, contract := range contracts {
 		for _, discount := range contract.Discounts {
@@ -287,6 +344,9 @@ func FormExcelForRBReport(request model.RBRequest) error {
 			}
 			if discount.Code == "DISCOUNT_FOR_REPRESENTATION" && discount.IsSelected {
 				isRB4 = true
+			}
+			if discount.Code == "DISCOUNT_FOR_LEASE_GENERAL" && discount.IsSelected {
+				isRB8 = true
 			}
 		}
 	}
@@ -515,6 +575,44 @@ func FormExcelForRBReport(request model.RBRequest) error {
 		f.SetCellValue(sheet5, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
 		f.SetCellValue(sheet5, fmt.Sprintf("%s%d", "E", lastRow), totalDiscountsSum)
 		err = f.SetCellStyle(sheet5, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "E", lastRow), style)
+		//err = f.SetCellStyle(sheet3, fmt.Sprintf("%s%d", "G", lastRow), fmt.Sprintf("%s%d", "G", lastRow), style)
+	}
+
+	if isRB8 {
+		rbEighthType, err := GetRBEighthType(request)
+		if err != nil {
+			return err
+		}
+
+		f.NewSheet(sheet8)
+		f.SetCellValue(sheet8, "A1", "Период")
+		f.SetCellValue(sheet8, "B1", "Номер договора/ДС")
+		f.SetCellValue(sheet8, "C1", "Тип скидки")
+		f.SetCellValue(sheet8, "D1", "Скидка %")
+		f.SetCellValue(sheet8, "E1", "Сумма скидки")
+		//f.SetCellValue(sheet5, "D1", "Код товара")
+		//f.SetCellValue(sheet5, "E1", "План закупа")
+		err = f.SetCellStyle(sheet8, "A1", "E1", style)
+
+		var totalDiscountsSum float32
+		fmt.Printf("CHECK \n%+v\n CHECK", contracts)
+		var i int
+		for _, contract := range rbEighthType {
+			f.SetCellValue(sheet8, fmt.Sprintf("%s%d", "A", i+2), fmt.Sprintf("%s-%s", contract.StartDate, contract.EndDate))
+			f.SetCellValue(sheet8, fmt.Sprintf("%s%d", "B", i+2), contract.ContractNumber)
+			f.SetCellValue(sheet8, fmt.Sprintf("%s%d", "C", i+2), sheet8)
+			f.SetCellValue(sheet8, fmt.Sprintf("%s%d", "D", i+2), contract.DiscountPercent)
+			f.SetCellValue(sheet8, fmt.Sprintf("%s%d", "E", i+2), contract.DiscountAmount)
+			//f.SetCellValue(sheet5, fmt.Sprintf("%s%d", "D", i+2), contract.ProductCode)
+			//f.SetCellValue(sheet5, fmt.Sprintf("%s%d", "E", i+2), contract.LeasePlan)
+			totalDiscountsSum += contract.DiscountAmount
+			lastRow = i + 2
+			i++
+		}
+		lastRow += 1
+		f.SetCellValue(sheet8, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
+		f.SetCellValue(sheet8, fmt.Sprintf("%s%d", "E", lastRow), totalDiscountsSum)
+		err = f.SetCellStyle(sheet8, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "E", lastRow), style)
 		//err = f.SetCellStyle(sheet3, fmt.Sprintf("%s%d", "G", lastRow), fmt.Sprintf("%s%d", "G", lastRow), style)
 	}
 

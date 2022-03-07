@@ -3,7 +3,6 @@ package controller
 import (
 	"admin_panel/model"
 	"admin_panel/pkg/service"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
@@ -48,22 +47,30 @@ func GetAllRBByContractorBIN(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
 	}
+	contracts = append(contracts, rbThirdType...)
 
 	rbFourthType := service.InfoPresentationDiscount(request)
 	contracts = append(contracts, rbFourthType...)
 
-	var rewardAmount float32
-	for _, contract := range rbThirdType {
-		rewardAmount += contract.DiscountAmount
-	}
-	fmt.Printf("@@@%+v###", rewardAmount)
+	//var rewardAmount float32
+	//for _, contract := range rbThirdType {
+	//	rewardAmount += contract.DiscountAmount
+	//}
+	//fmt.Printf("@@@%+v###", rewardAmount)
 
-	//contracts = append(contracts, rbThirdType...)
-	if rbThirdType != nil {
-		if len(contracts) > 0 {
-			contracts[0].RewardAmount = rewardAmount
-		}
+	//if rbThirdType != nil {
+	//	if len(contracts) > 0 {
+	//		contracts[0].RewardAmount = rewardAmount
+	//	}
+	//}
+
+	rbEighthType, err := service.GetRBEighthType(request)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
 	}
+
+	contracts = append(contracts, rbEighthType...)
 
 	SortedContracts := []model.RbDTO{}
 	for _, contract := range contracts {
