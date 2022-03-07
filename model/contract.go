@@ -119,6 +119,7 @@ type ContractParameters struct {
 	ContractNumber            string   `json:"contract_number"`
 	ContractAmount            float32  `json:"contract_amount"`
 	Currency                  string   `json:"currency,omitempty"`
+	PriceType                 string   `json:"price_type,omitempty"` // добавленнл
 	Prepayment                float32  `json:"prepayment,omitempty"`
 	DateOfDelivery            string   `json:"date_of_delivery,omitempty"`
 	FrequencyDeferredDiscount string   `json:"frequency_deferred_discount,omitempty"` //Кратность расчета отложенной скидки TODO: возможно нужно поменять

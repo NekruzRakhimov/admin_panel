@@ -722,7 +722,7 @@ func GetSales1C(rb model.RBRequest, typeData string) (model.Sales, error) {
 
 	date := model.ReqBrand{
 		ClientBin:      rb.BIN,
-		DateStart:      rb.PeriodTo + TempDateCompleter,
+		DateStart:      rb.PeriodFrom + TempDateCompleter,
 		DateEnd:        rb.PeriodTo + TempDateEnd,
 		Type:           typeData,
 		TypeValue:      "",
@@ -734,14 +734,14 @@ func GetSales1C(rb model.RBRequest, typeData string) (model.Sales, error) {
 
 	reqBodyBytes := new(bytes.Buffer)
 	json.NewEncoder(reqBodyBytes).Encode(&date)
-	fmt.Println(">>> ", reqBodyBytes)
+	//fmt.Println(">>> ", reqBodyBytes)
 
 	//parm.Add("datestart", "01.01.2022 0:02:09")
 	//parm.Add("dateend", "01.01.2022 0:02:09")
 	client := &http.Client{
 
 	}
-	log.Println(reqBodyBytes)
+	log.Println("request--->", reqBodyBytes)
 	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/getdata"
 	req, err := http.NewRequest("POST", uri, reqBodyBytes)
 	req.Header.Set("Content-Type", "application/json") // This makes it work
@@ -761,7 +761,7 @@ func GetSales1C(rb model.RBRequest, typeData string) (model.Sales, error) {
 		log.Println(err)
 		return sales, err
 	}
-	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", body)
+//	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", body)
 
 	defer resp.Body.Close()
 	if err != nil {
