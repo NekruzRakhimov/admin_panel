@@ -183,6 +183,7 @@ type Discount struct {
 	DiscountAmount  int              `json:"discount_amount,omitempty"`
 	IsSelected      bool             `json:"is_selected"`
 	PeriodFrom      string           `json:"period_from"`
+	IsSale          bool             `json:"is_sale"`
 	PeriodTo        string           `json:"period_to"`
 	DiscountPercent float32          `json:"discount_percent"`
 	GrowthPercent   float32          `json:"growth_percent"`
