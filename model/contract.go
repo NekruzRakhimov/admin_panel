@@ -206,10 +206,15 @@ type BrandDTO struct {
 }
 
 type DiscountPeriod struct {
-	PeriodFrom   string  `json:"period_from"`
-	PeriodTo     string  `json:"period_to"`
-	TotalAmount  float32 `json:"total_amount"`
-	RewardAmount int     `json:"reward_amount"`
+	PeriodFrom      string  `json:"period_from"`
+	PeriodTo        string  `json:"period_to"`
+	TotalAmount     float32 `json:"total_amount"`
+	RewardAmount    int     `json:"reward_amount"`
+	DiscountPercent float32 `json:"discount_percent"`
+	Type            string  `json:"type,omitempty"`
+	Name            string  `json:"name,omitempty"`
+	PurchaseAmount  float32 `json:"purchase_amount,omitempty"`
+	GrowthPercent   float32 `json:"growth_percent,omitempty"`
 	//DiscountAmount      float32 `json:"discount_amount,omitempty"`
 	//GraceDays           string  `json:"grace_days,omitempty"`
 	//PaymentMultiplicity string  `json:"payment_multiplicity,omitempty"`
