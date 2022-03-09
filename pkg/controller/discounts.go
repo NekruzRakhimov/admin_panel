@@ -20,8 +20,6 @@ import (
 // @Failure 500 {object} map[string]interface{}
 // @Router /reports/rb [post]
 func GetAllRBByContractorBIN(c *gin.Context) {
-	c.JSON(http.StatusServiceUnavailable, "strict-origin-when-cross-origin")
-	return
 
 	var request model.RBRequest
 	if err := c.BindJSON(&request); err != nil {
@@ -37,7 +35,7 @@ func GetAllRBByContractorBIN(c *gin.Context) {
 		return
 	}
 
-	rbSecondType, err := service.GetAllRBSecondTypeMock(request)
+	rbSecondType, err := service.GetAllRBSecondType(request)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
@@ -86,8 +84,6 @@ func GetAllRBByContractorBIN(c *gin.Context) {
 }
 
 func FormExcelForRB(c *gin.Context) {
-	c.JSON(http.StatusServiceUnavailable, "strict-origin-when-cross-origin")
-	return
 
 	var request model.RBRequest
 	if err := c.BindJSON(&request); err != nil {
@@ -136,8 +132,6 @@ func FormExcelForRBBrand(c *gin.Context) {
 // @Failure 500 {object} map[string]interface{}
 // @Router /reports/doubted_discounts [post]
 func GetDoubtedDiscounts(c *gin.Context) {
-	c.JSON(http.StatusServiceUnavailable, "strict-origin-when-cross-origin")
-	return
 
 	var request model.RBRequest
 	if err := c.BindJSON(&request); err != nil {
@@ -168,8 +162,6 @@ func GetDoubtedDiscounts(c *gin.Context) {
 // @Failure 500 {object} map[string]interface{}
 // @Router /reports/doubted_discounts [put]
 func SaveDoubtedDiscountsResults(c *gin.Context) {
-	c.JSON(http.StatusServiceUnavailable, "strict-origin-when-cross-origin")
-	return
 
 	var request model.DoubtedDiscountResponse
 	if err := c.BindJSON(&request); err != nil {
@@ -178,12 +170,12 @@ func SaveDoubtedDiscountsResults(c *gin.Context) {
 		return
 	}
 
-	err := service.SaveDoubtedDiscountsResults(request)
-	if err != nil {
-		log.Println("[controller][service.GetDoubtedDiscounts] error is: ", err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
-		return
-	}
+	//err := service.SaveDoubtedDiscountsResults(request)
+	//if err != nil {
+	//	log.Println("[controller][service.GetDoubtedDiscounts] error is: ", err.Error())
+	//	c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+	//	return
+	//}
 
 	c.JSON(http.StatusOK, gin.H{"reason": "данные успешно сохранены"})
 }
