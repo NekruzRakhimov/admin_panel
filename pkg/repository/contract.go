@@ -191,9 +191,11 @@ func RecordContractStatusChange(contractId int, status string) error {
 }
 
 func SaveContractExternalCode(contractId int, contractCode string) error {
+	if err := db.GetDBConn().Raw("UPDATE  contracts set ext_contract_code = $1  WHERE id = $2", contractCode, contractId).Error; err != nil {
+		return err
+	}
 
-	return db.GetDBConn().Raw("UPDATE  contracts set ext_contract_code = $1  WHERE id = $2", contractCode, contractId).Error
-
+	return nil
 }
 
 func SearchContractByNumber(param string, status string) ([]model.SearchContract, error) {

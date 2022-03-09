@@ -423,21 +423,14 @@ func ConformContract(contractId int, status string) error {
 	if err != nil {
 		return err
 	}
-	if respFrom1C.Status != "success"{
+
+	if respFrom1C.Status != "success" {
 		return errors.New("не удалось сохранить договор в 1С")
 	}
-	//TODO: необходимо тут сохранить договор у нас в бд
 
-
-
-	//if err != nil {
-	//	return err
-	//}
-
-	//err = repository.SaveContractExternalCode(contractId, respContract.ContractCode)
-	//if err != nil {
-	//	return err
-	//}
+	if err = repository.SaveContractExternalCode(contractId, respFrom1C.ContractCode); err != nil {
+		return err
+	}
 
 	return nil
 
