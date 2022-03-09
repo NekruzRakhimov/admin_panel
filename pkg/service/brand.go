@@ -779,13 +779,13 @@ func InfoPresentationDiscount(rbReq model.RBRequest) []model.RbDTO {
 
 }
 
-func GetSales1C(rb model.RBRequest, typeData string) (model.Sales, error) {
+func GetSales1C(rb model.ReqBrand, typeData string) (model.Sales, error) {
 	var sales model.Sales
 
 	date := model.ReqBrand{
-		ClientBin:      rb.BIN,
-		DateStart:      rb.PeriodFrom + TempDateCompleter,
-		DateEnd:        rb.PeriodTo + TempDateEnd,
+		ClientBin:      rb.ClientBin,
+		DateStart:      rb.DateStart + TempDateCompleter,
+		DateEnd:        rb.DateEnd + TempDateEnd,
 		Type:           typeData,
 		TypeValue:      "",
 		TypeParameters: nil,
