@@ -119,6 +119,7 @@ type ContractParameters struct {
 	ContractNumber            string   `json:"contract_number"`
 	ContractAmount            float32  `json:"contract_amount"`
 	Currency                  string   `json:"currency,omitempty"`
+	PriceType                 string   `json:"price_type,omitempty"` // добавленнл
 	Prepayment                float32  `json:"prepayment,omitempty"`
 	DateOfDelivery            string   `json:"date_of_delivery,omitempty"`
 	FrequencyDeferredDiscount string   `json:"frequency_deferred_discount,omitempty"` //Кратность расчета отложенной скидки TODO: возможно нужно поменять
@@ -189,6 +190,26 @@ type Discount struct {
 	GrowthPercent   float32          `json:"growth_percent"`
 	Periods         []DiscountPeriod `json:"periods,omitempty"`
 	DiscountBrands  []DiscountBrands `json:"discount_brands"`
+}
+
+type ResponseDiscount struct {
+	Code    string `json:"code"`
+	Name    string `json:"name"`
+	IsSale  bool   `json:"is_sale"`
+	Periods []struct {
+		PeriodTo        string `json:"period_to"`
+		PeriodFrom      string `json:"period_from"`
+		TotalAmount     int    `json:"total_amount"`
+		RewardAmount    int    `json:"reward_amount"`
+		GrowthPercent   int    `json:"growth_percent"`
+		DiscountPercent int    `json:"discount_percent"`
+	} `json:"periods"`
+	PeriodTo        string      `json:"period_to"`
+	IsSelected      bool        `json:"is_selected"`
+	PeriodFrom      string      `json:"period_from"`
+	GrowthPercent   int         `json:"growth_percent"`
+	DiscountBrands  interface{} `json:"discount_brands"`
+	DiscountPercent int         `json:"discount_percent"`
 }
 
 type DiscountBrands struct {

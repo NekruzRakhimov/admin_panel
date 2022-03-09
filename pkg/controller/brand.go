@@ -175,9 +175,10 @@ func RbDiscountForSalesGrowth(c *gin.Context) {
 
 	c.ShouldBind(&rbReqst)
 
-	growth, f := service.RbDiscountForSalesGrowth(rbReqst)
+	growth, f, total := service.RbDiscountForSalesGrowth(rbReqst)
 
 	c.JSON(200, gin.H{"past": growth,
-		"present": f})
+		"present": f,
+	"total": total})
 
 }

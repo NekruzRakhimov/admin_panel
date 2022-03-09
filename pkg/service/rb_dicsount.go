@@ -9,11 +9,15 @@ import (
 	"strings"
 )
 
-func RbDiscountForSalesGrowth(rb model.RBRequest)  (float32, float32) {
-	pastTimeFrom, err := ConvertTime(rb.PeriodTo)
+func RbDiscountForSalesGrowth(rb model.RBRequest)  (float32, float32, float32) {
+
+		
+
+
+	pastTimeFrom, err := ConvertTime(rb.PeriodFrom)
 	if err != nil {
 	}
-	pastTimeTo, err := ConvertTime(rb.PeriodFrom)
+	pastTimeTo, err := ConvertTime(rb.PeriodTo)
 
 	pastPeriod := model.RBRequest{
 		BIN:            rb.BIN,
@@ -22,7 +26,8 @@ func RbDiscountForSalesGrowth(rb model.RBRequest)  (float32, float32) {
 		PeriodFrom:    	pastTimeFrom,
 		PeriodTo:       pastTimeTo,
 	}
-
+	fmt.Println("pastPeriod", pastPeriod)
+	fmt.Println("rbM", rb)
 
 
 
@@ -35,6 +40,8 @@ func RbDiscountForSalesGrowth(rb model.RBRequest)  (float32, float32) {
 	var preCoutnt float32
 	var pastCount float32
 
+	fmt.Println("presentPeriod", presentPeriod)
+
 	for _, present := range presentPeriod.SalesArr{
 		preCoutnt += present.Total
 	}
@@ -43,14 +50,23 @@ func RbDiscountForSalesGrowth(rb model.RBRequest)  (float32, float32) {
 
 	}
 
+	total := ( pastCount * 100 / preCoutnt )  - 100
+	// var total float32
+	// total =   1_500_000* 100 / 1_000_000  - 100
 
+
+	// ты должен взять сумму прироста - то есть ты будешь с ним сравнивать
+	// и также ты из бд должен взять сумму скидки и дать ему скидку
+	if total > 10{
+
+	}
 
 	// call 1C
 	// call again 1C
 	// считаем сумму с обеиъ
 	// после чего находим
 
-	return pastCount, preCoutnt
+	return pastCount, preCoutnt, total
 }
 
 func ConvertTime(date string)  (string, error) {
@@ -58,7 +74,7 @@ func ConvertTime(date string)  (string, error) {
 	if len(timeSplit) != 3{
 		return "", errors.New("len of time must be 3")
 	}
-	fmt.Println(timeSplit)
+		fmt.Println(timeSplit)
 	convertYear, err := strconv.Atoi(timeSplit[2])
 	if err != nil {
 		log.Println(err)

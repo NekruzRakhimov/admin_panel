@@ -60,5 +60,27 @@ SELECT id, contract_parameters ->> 'contract_number' AS contract_number, discoun
 WHERE requisites ->> 'bin' = '860418401075';
 
 
-SELECT discounts ->> 'discount_amount' AS discount_amount FROM contracts where  id = 249;
+SELECT discounts ->> 'discount_amount' AS discount_amount FROM contracts where  id = 260;
+
+
+SELECT discounts FROM contracts WHERE id = 260;
+
+SELECT id, discounts FROM contracts
+WHERE requisites ->> 'bin' = '070340005201';
+
+SELECT arr.position,arr.item_object
+FROM purchases,
+     jsonb_array_elements(items_purchased) with ordinality arr(item_object, position)
+WHERE id=2;
+
+
+SELECT discounts::text  FROM contracts WHERE requisites ->> 'bin' = '090909098988';
+SELECT id, discounts::json as discount  FROM contracts WHERE requisites ->> 'bin' = '070340005201';
+SELECT json_array_elements(discounts ->'periods') FROM  contracts;
+
+WHERE requisites ->> 'bin' = '070340005201';
+
+
+SELECT discounts ->> 'periods'  an  FROM contracts WHERE requisites ->> 'bin' = '070340005201';
+
 
