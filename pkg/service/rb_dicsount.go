@@ -1,6 +1,7 @@
 package service
 
 import (
+	"admin_panel/db"
 	"admin_panel/model"
 	"admin_panel/pkg/repository"
 	"errors"
@@ -81,18 +82,23 @@ func ConvertTime(date string) (string, error) {
 	return updateTime, nil
 }
 
-func DiscountRBPeriodTime(request model.RBRequest) ([]model.RbDTO, error) {
-	//TODO: из базы мы должны взять массив скидок (типы периодов)
-	// тут будем вызов массива по периодам (цикл)
-	// внутри цикла возьмем данные по закупам из 1С
+func DiscountRBPeriodTime(req model.RBRequest) ([]model.RbDTO, error) {
+	var rbDTOsl []model.RbDTO
 
-	fmt.Println("ЗАПРОС", request)
-
+	// parsing string by TIME
 	layoutISO := "02.1.2006"
-	reqPeriodFrom, _ := time.Parse(layoutISO, request.PeriodFrom)
-	reqPeriodTo, _ := time.Parse(layoutISO, request.PeriodTo)
+	var count int
+	// parsing string to Time
+	reqPeriodFrom, _ := time.Parse(layoutISO, req.PeriodFrom)
+	reqPeriodTo, _ := time.Parse(layoutISO, req.PeriodTo)
 
-	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.BIN, request.PeriodFrom, request.PeriodTo)
+	// get all contracts_code by BIN
+	externalCodes := GetExternalCode(req.BIN)
+	var contractsCode []string
+	for _, value := range externalCodes {
+		contractsCode = append(contractsCode, value.ExtContractCode)
+	}
+	contractsWithJson, err := repository.GetAllContractDetailByBIN(req.BIN, req.PeriodFrom, req.PeriodTo)
 	if err != nil {
 		return nil, err
 	}
@@ -106,91 +112,52 @@ func DiscountRBPeriodTime(request model.RBRequest) ([]model.RbDTO, error) {
 		fmt.Println("contract MESSAGE", contract.Discounts)
 		for _, discount := range contract.Discounts {
 			if discount.Code == "RB_DISCOUNT_FOR_PURCHASE_PERIOD" { // здесь сравниваешь тип скидки и берешь тот тип который тебе нужен
-				for _, value := range discount.Periods {
-					PeriodFrom, _ := time.Parse(layoutISO, value.PeriodFrom)
-					PeriodTo, _ := time.Parse(layoutISO, value.PeriodTo)
+				for _, period := range discount.Periods {
+					PeriodFrom, _ := time.Parse(layoutISO, period.PeriodFrom)
+					PeriodTo, _ := time.Parse(layoutISO, period.PeriodTo)
 					if PeriodFrom.After(reqPeriodFrom) || PeriodTo.Before(reqPeriodTo) {
-						//reqBrand := model.ReqBrand{
-						//	ClientBin:      "",
-						//	Beneficiary:    "",
-						//	DateStart:      "",
-						//	DateEnd:        "",
-						//	Type:           "",
-						//	TypeValue:      "",
-						//	TypeParameters: nil,
-						//	Contracts:      nil,
-						//}
-						//
-						//GetSalesBrand()
+						reqBrand := model.ReqBrand{
+							ClientBin:      req.BIN,
+							DateStart:      req.PeriodFrom,
+							DateEnd:        req.PeriodFrom,
+							TypeValue:      "",
+							TypeParameters: nil,
+							Contracts:      contractsCode, // необходимо получить коды контрактов
+						}
+						purchase, _ := GetPurchase(reqBrand)
+						for _, amount := range purchase.PurchaseArr {
+							count += amount.Total
+						}
+						if period.PurchaseAmount < float32(count) {
+							total := float32(count) * period.DiscountPercent / 100
+
+							RbDTO := model.RbDTO{
+								ContractNumber:       contract.ContractParameters.ContractNumber,
+								StartDate:            period.PeriodFrom,
+								EndDate:              period.PeriodTo,
+								TypePeriod:           period.Type,
+								DiscountPercent:      period.DiscountPercent,
+								DiscountAmount:       total,
+								TotalWithoutDicsount: float32(count),
+							}
+							rbDTOsl = append(rbDTOsl, RbDTO)
+
+						}
 
 					}
-					//		if err != nil {
-					//			fmt.Println(err)
-					//		}
 
-					//		if timeDB.Before(timeReq) {
-
-					//TODO: сделать сравнение
 				}
 
 			}
 		}
 	}
 
-	//var counts  []float32
-	//var count float32
-	////periods, _ := repository.GetDiscountPeriod(rb.BIN)
-	//
-	//
-	//contractsWithJson, err := repository.GetAllContractDetailByBIN(rb.BIN, rb.PeriodFrom, rb.PeriodTo)
-	//if err != nil {
-	//	return nil, err
-	//}
-	//
-	//contracts, err := BulkConvertContractFromJsonB(contractsWithJson)
-	//if err != nil {
-	//	return nil, err
-	//}
-	//var contractCode []string
-	//
-	//
-	//for _, contract := range contracts{
-	//	for _, discount := range contract.Discounts{
-	//		for _, period := range discount.Periods{
-	//			contractCode = append(contractCode, period.)
-	//		}
-	//	}
-	//
-	//	contractCode = append(contractCode, contract. )
-	//
-	//	model.ReqBrand{
-	//		ClientBin:      "",
-	//		Beneficiary:    "",
-	//		DateStart:      "",
-	//		DateEnd:        "",
-	//		Type:           "",
-	//		TypeValue:      "",
-	//		TypeParameters: nil,
-	//		Contracts: nil,
-	//	}
-	//
-	//
-	//	r := model.RBRequest{
-	//		BIN:              rb.BIN,
-	//		Type:             "",
-	//		ContractorName:   "",
-	//		PeriodFrom:       period.PeriodFrom,
-	//		PeriodTo:         period.PeriodTo,
-	//		DoubtedDiscounts: nil,
-	//	}
-	//
-	//	purchase, _ := GetSales1C(r, "purchase")
-	//
-	//	for _, value := range  purchase.SalesArr{
-	//		count += value.Total
-	//	}
-	//	counts = append(counts, count)
-	//}
+	return rbDTOsl, nil
+}
 
-	return nil, nil
+func GetExternalCode(bin string) []model.ContractCode {
+	var ExtContractCode []model.ContractCode
+	db.GetDBConn().Raw("SELECT ext_contract_code FROM contracts WHERE requisites ->> 'bin' =  $1", bin).Scan(&ExtContractCode)
+
+	return ExtContractCode
 }

@@ -44,3 +44,11 @@ func DiscountRBPeriodTime(c *gin.Context) {
 	c.JSON(200, timeP)
 
 }
+
+func GetContractCode(c *gin.Context) {
+	var request model.RBRequest
+	c.ShouldBind(&request)
+	code := service.GetExternalCode(request.BIN)
+	c.JSON(200, code)
+
+}

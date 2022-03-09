@@ -14,6 +14,7 @@ type RbDTO struct {
 	ContractNumber       string  `json:"contract_number"`
 	StartDate            string  `json:"start_date"`
 	EndDate              string  `json:"end_date"`
+	TypePeriod           string  `json:"type_period"`
 	BrandName            string  `json:"brand_name,omitempty"`
 	ProductCode          string  `json:"product_code,omitempty"`
 	DiscountPercent      float32 `json:"discount_percent"`

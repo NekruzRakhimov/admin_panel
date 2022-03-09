@@ -84,3 +84,5 @@ WHERE requisites ->> 'bin' = '070340005201';
 SELECT discounts ->> 'periods'  an  FROM contracts WHERE requisites ->> 'bin' = '070340005201';
 
 
+
+SELECT id, manager, ext_contract_code FROM contracts WHERE requisites ->> 'bin' =  '100840008133';
