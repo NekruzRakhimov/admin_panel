@@ -135,8 +135,6 @@ func EditContract(c *gin.Context) {
 // @Failure 500 {object} map[string]interface{}
 // @Router /contract/ [get]
 func GetAllContracts(c *gin.Context) {
-	c.JSON(http.StatusServiceUnavailable, "strict-origin-when-cross-origin")
-	return
 
 	contractType := c.Query("status")
 	contractsMiniInfo, err := service.GetAllContracts(contractType)
