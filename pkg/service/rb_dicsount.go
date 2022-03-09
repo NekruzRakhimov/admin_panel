@@ -11,10 +11,6 @@ import (
 )
 
 func RbDiscountForSalesGrowth(rb model.RBRequest)  (float32, float32, float32) {
-
-		
-
-
 	pastTimeFrom, err := ConvertTime(rb.PeriodFrom)
 	if err != nil {
 	}
@@ -30,9 +26,7 @@ func RbDiscountForSalesGrowth(rb model.RBRequest)  (float32, float32, float32) {
 	fmt.Println("pastPeriod", pastPeriod)
 	fmt.Println("rbM", rb)
 
-
-
-		// берем growth and percent ->
+	// берем growth and percent ->
 		//repository.GetRbSalesGrowth(rb.BIN)
 
 
@@ -88,33 +82,66 @@ func ConvertTime(date string)  (string, error) {
 	return updateTime, nil
 }
 
-func DiscountRBPeriodTime(rb model.RBRequest)  {
+func DiscountRBPeriodTime(rb model.RBRequest) ([]model.RbDTO, error)  {
 	//TODO: из базы мы должны взять массив скидок (типы периодов)
 	// тут будем вызов массива по периодам (цикл)
 	// внутри цикла возьмем данные по закупам из 1С
 	//
 	//
-	var counts  []float32
-	var count float32
-	periods, _ := repository.GetDicsountPeriod(rb.BIN)
-
-	for _, period := range periods{
-		r := model.RBRequest{
-			BIN:              rb.BIN,
-			Type:             "",
-			ContractorName:   "",
-			PeriodFrom:       period.PeriodFrom,
-			PeriodTo:         period.PeriodTo,
-			DoubtedDiscounts: nil,
-		}
-
-		purchase, _ := GetSales1C(r, "purchase")
-
-		for _, value := range  purchase.SalesArr{
-			count += value.Total
-		}
-		counts = append(counts, count)
-	}
+	//var counts  []float32
+	//var count float32
+	////periods, _ := repository.GetDicsountPeriod(rb.BIN)
+	//
+	//
+	//contractsWithJson, err := repository.GetAllContractDetailByBIN(rb.BIN, rb.PeriodFrom, rb.PeriodTo)
+	//if err != nil {
+	//	return nil, err
+	//}
+	//
+	//contracts, err := BulkConvertContractFromJsonB(contractsWithJson)
+	//if err != nil {
+	//	return nil, err
+	//}
+	//var contractCode []string
+	//
+	//
+	//for _, contract := range contracts{
+	//	for _, discount := range contract.Discounts{
+	//		for _, period := range discount.Periods{
+	//			contractCode = append(contractCode, period.)
+	//		}
+	//	}
+	//
+	//	contractCode = append(contractCode, contract. )
+	//
+	//	model.ReqBrand{
+	//		ClientBin:      "",
+	//		Beneficiary:    "",
+	//		DateStart:      "",
+	//		DateEnd:        "",
+	//		Type:           "",
+	//		TypeValue:      "",
+	//		TypeParameters: nil,
+	//		Contracts: nil,
+	//	}
+	//
+	//
+	//	r := model.RBRequest{
+	//		BIN:              rb.BIN,
+	//		Type:             "",
+	//		ContractorName:   "",
+	//		PeriodFrom:       period.PeriodFrom,
+	//		PeriodTo:         period.PeriodTo,
+	//		DoubtedDiscounts: nil,
+	//	}
+	//
+	//	purchase, _ := GetSales1C(r, "purchase")
+	//
+	//	for _, value := range  purchase.SalesArr{
+	//		count += value.Total
+	//	}
+	//	counts = append(counts, count)
+	//}
 
 
 

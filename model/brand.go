@@ -73,6 +73,7 @@ type ReqBrand struct {
 	Type           string   `json:"type"`
 	TypeValue      string   `json:"typeValue"`
 	TypeParameters []string `json:"typeParameters"`
+	Contracts      []string `json:"contracts"`
 }
 
 

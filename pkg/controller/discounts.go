@@ -20,7 +20,6 @@ import (
 // @Failure 500 {object} map[string]interface{}
 // @Router /reports/rb [post]
 func GetAllRBByContractorBIN(c *gin.Context) {
-
 	var request model.RBRequest
 	if err := c.BindJSON(&request); err != nil {
 		log.Println("[controller][GetAllRBByContractorBIN] error is: ", err.Error())
