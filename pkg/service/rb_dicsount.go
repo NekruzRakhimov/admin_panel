@@ -8,6 +8,7 @@ import (
 	"log"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func RbDiscountForSalesGrowth(rb model.RBRequest) (float32, float32, float32) {
@@ -84,19 +85,53 @@ func DiscountRBPeriodTime(request model.RBRequest) ([]model.RbDTO, error) {
 	//TODO: из базы мы должны взять массив скидок (типы периодов)
 	// тут будем вызов массива по периодам (цикл)
 	// внутри цикла возьмем данные по закупам из 1С
+
+	fmt.Println("ЗАПРОС", request)
+
+	layoutISO := "02.1.2006"
+	reqPeriodFrom, _ := time.Parse(layoutISO, request.PeriodFrom)
+	reqPeriodTo, _ := time.Parse(layoutISO, request.PeriodTo)
+
 	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.BIN, request.PeriodFrom, request.PeriodTo)
 	if err != nil {
 		return nil, err
 	}
-
+	fmt.Println("contractsWithJson", contractsWithJson)
 	contracts, err := BulkConvertContractFromJsonB(contractsWithJson)
 	if err != nil {
 		return nil, err
 	}
 
 	for _, contract := range contracts {
+		fmt.Println("contract MESSAGE", contract.Discounts)
 		for _, discount := range contract.Discounts {
-			if discount.Code == "" { // здесь сравниваешь тип скидки и берешь тот тип который тебе нужен
+			if discount.Code == "RB_DISCOUNT_FOR_PURCHASE_PERIOD" { // здесь сравниваешь тип скидки и берешь тот тип который тебе нужен
+				for _, value := range discount.Periods {
+					PeriodFrom, _ := time.Parse(layoutISO, value.PeriodFrom)
+					PeriodTo, _ := time.Parse(layoutISO, value.PeriodTo)
+					if PeriodFrom.After(reqPeriodFrom) || PeriodTo.Before(reqPeriodTo) {
+						//reqBrand := model.ReqBrand{
+						//	ClientBin:      "",
+						//	Beneficiary:    "",
+						//	DateStart:      "",
+						//	DateEnd:        "",
+						//	Type:           "",
+						//	TypeValue:      "",
+						//	TypeParameters: nil,
+						//	Contracts:      nil,
+						//}
+						//
+						//GetSalesBrand()
+
+					}
+					//		if err != nil {
+					//			fmt.Println(err)
+					//		}
+
+					//		if timeDB.Before(timeReq) {
+
+					//TODO: сделать сравнение
+				}
 
 			}
 		}

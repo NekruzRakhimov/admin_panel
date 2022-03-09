@@ -150,9 +150,10 @@ func SaveContract1C(contract model.ContractDTOFor1C) (model.RespContract, error)
 		return respContract1C, err
 
 	}
-	log.Println("ответ от 1С",string(body))
+	log.Println("ответ от 1С", string(body))
 
 	// ----------> часть Unmarshall json ->
+	body = bytes.TrimPrefix(body, []byte("\xef\xbb\xbf"))
 	err = json.Unmarshal(body, &respContract1C)
 	if err != nil {
 		return respContract1C, err
@@ -179,7 +180,7 @@ func SearchByBinClient(bin model.ClientBin) (model.Client, error) {
 	r, err := http.NewRequest("POST", endpoint, bodyBin) // URL-encoded payload
 	if err != nil {
 		return binClient, errors.New("пишешь любой текст ошибки")
-		
+
 	}
 	r.Header.Add("Content-Type", "application/json")
 	// надо логин и пароль добавить в конфиг

@@ -45,6 +45,7 @@ func runAllRoutes(r *gin.Engine) {
 	r.POST("/rbdiscountforsalesgrowth", controller.RbDiscountForSalesGrowth)
 	r.POST("/login", controller.Login)
 	r.POST("/getdisper", controller.GetDisPer)
+	r.POST("/getdisp", controller.DiscountRBPeriodTime)
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	tempRoutes(r)

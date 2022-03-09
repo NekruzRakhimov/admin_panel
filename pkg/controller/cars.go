@@ -4,6 +4,7 @@ import (
 	"admin_panel/db"
 	"admin_panel/model"
 	"admin_panel/pkg/repository"
+	"admin_panel/pkg/service"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -29,5 +30,17 @@ func GetDisPer(c *gin.Context) {
 		c.JSON(400, err)
 	}
 	c.JSON(200, period)
+
+}
+
+func DiscountRBPeriodTime(c *gin.Context) {
+	var request model.RBRequest
+	c.ShouldBind(&request)
+	timeP, err := service.DiscountRBPeriodTime(request)
+	if err != nil {
+		c.JSON(400, err)
+		return
+	}
+	c.JSON(200, timeP)
 
 }

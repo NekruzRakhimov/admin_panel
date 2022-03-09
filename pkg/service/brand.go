@@ -228,6 +228,68 @@ func GetSalesBrand(reqBrand model.ReqBrand, brandInfo []model.BrandInfo) (model.
 
 }
 
+func GetPurchase(reqBrand model.ReqBrand) (model.Purchase, error) {
+	var purchase model.Purchase
+
+	date := model.ReqBrand{
+		ClientBin:      reqBrand.ClientBin,
+		DateStart:      reqBrand.DateStart + TempDateCompleter,
+		DateEnd:        reqBrand.DateEnd + TempDateEnd,
+		Type:           "purchase",
+		TypeValue:      "",
+		TypeParameters: nil,
+		Contracts:      reqBrand.Contracts,
+	}
+	//for _, value := range brandInfo {
+	//	date.TypeParameters = append(date.TypeParameters, value.Brand)
+	//}
+
+	reqBodyBytes := new(bytes.Buffer)
+	json.NewEncoder(reqBodyBytes).Encode(&date)
+	fmt.Println(">>> ", reqBodyBytes)
+
+	//parm.Add("datestart", "01.01.2022 0:02:09")
+	//parm.Add("dateend", "01.01.2022 0:02:09")
+	client := &http.Client{}
+	log.Println(reqBodyBytes)
+	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/getdata"
+	req, err := http.NewRequest("POST", uri, reqBodyBytes)
+	req.Header.Set("Content-Type", "application/json") // This makes it work
+	req.SetBasicAuth("http_client", "123456")
+
+	if err != nil {
+		log.Println(err)
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println(err)
+		return purchase, err
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Println(err)
+		return purchase, err
+	}
+	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", body)
+
+	defer resp.Body.Close()
+	if err != nil {
+		log.Println(err)
+		return purchase, err
+	}
+	body = bytes.TrimPrefix(body, []byte("\xef\xbb\xbf")) // Or []byte{239, 187, 191}
+
+	err = json.Unmarshal(body, &purchase)
+	if err != nil {
+		log.Println(err)
+		return purchase, err
+	}
+
+	return purchase, nil
+
+}
+
 func GetBrandSales(reqBrand model.ReqBrand) (model.Sales, error) {
 	var sales model.Sales
 
@@ -738,9 +800,7 @@ func GetSales1C(rb model.RBRequest, typeData string) (model.Sales, error) {
 
 	//parm.Add("datestart", "01.01.2022 0:02:09")
 	//parm.Add("dateend", "01.01.2022 0:02:09")
-	client := &http.Client{
-
-	}
+	client := &http.Client{}
 	log.Println("request--->", reqBodyBytes)
 	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/getdata"
 	req, err := http.NewRequest("POST", uri, reqBodyBytes)
@@ -761,7 +821,7 @@ func GetSales1C(rb model.RBRequest, typeData string) (model.Sales, error) {
 		log.Println(err)
 		return sales, err
 	}
-//	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", body)
+	//	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", body)
 
 	defer resp.Body.Close()
 	if err != nil {
