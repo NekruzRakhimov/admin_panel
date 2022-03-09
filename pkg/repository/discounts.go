@@ -26,3 +26,17 @@ func GetAllContractDetailByBIN(bin, PeriodFrom, PeriodTo string) (contracts []mo
 
 	return contracts, nil
 }
+
+func GetDicsountPeriod(bin string) ([]model.Discount, error) {
+	//var discounts []model.Discount
+	var discount []model.Discount
+
+	//db.GetDBConn().Raw("SELECT jsonb_array_elements(discounts) FROM contracts WHERE  requisites ->> bin = $1", bin).Scan(&discounts)
+	err := db.GetDBConn().Raw("SELECT discounts::text as discount FROM contracts WHERE requisites ->> 'bin' = $1", bin).Scan(&discount).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return discount, nil
+
+}

@@ -10,6 +10,10 @@ import (
 )
 
 func RbDiscountForSalesGrowth(rb model.RBRequest)  (float32, float32, float32) {
+
+		
+
+
 	pastTimeFrom, err := ConvertTime(rb.PeriodFrom)
 	if err != nil {
 	}

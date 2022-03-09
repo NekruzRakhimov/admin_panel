@@ -192,6 +192,26 @@ type Discount struct {
 	DiscountBrands  []DiscountBrands `json:"discount_brands"`
 }
 
+type ResponseDiscount struct {
+	Code    string `json:"code"`
+	Name    string `json:"name"`
+	IsSale  bool   `json:"is_sale"`
+	Periods []struct {
+		PeriodTo        string `json:"period_to"`
+		PeriodFrom      string `json:"period_from"`
+		TotalAmount     int    `json:"total_amount"`
+		RewardAmount    int    `json:"reward_amount"`
+		GrowthPercent   int    `json:"growth_percent"`
+		DiscountPercent int    `json:"discount_percent"`
+	} `json:"periods"`
+	PeriodTo        string      `json:"period_to"`
+	IsSelected      bool        `json:"is_selected"`
+	PeriodFrom      string      `json:"period_from"`
+	GrowthPercent   int         `json:"growth_percent"`
+	DiscountBrands  interface{} `json:"discount_brands"`
+	DiscountPercent int         `json:"discount_percent"`
+}
+
 type DiscountBrands struct {
 	PeriodFrom string     `json:"period_from"`
 	PeriodTo   string     `json:"period_to"`
