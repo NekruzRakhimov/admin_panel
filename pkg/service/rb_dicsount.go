@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-func RbDiscountForSalesGrowth(rb model.RBRequest)  (float32, float32, float32) {
+func RbDiscountForSalesGrowth(rb model.RBRequest) (float32, float32, float32) {
 	pastTimeFrom, err := ConvertTime(rb.PeriodFrom)
 	if err != nil {
 	}
@@ -20,15 +20,14 @@ func RbDiscountForSalesGrowth(rb model.RBRequest)  (float32, float32, float32) {
 		BIN:            rb.BIN,
 		Type:           rb.Type,
 		ContractorName: rb.ContractorName,
-		PeriodFrom:    	pastTimeFrom,
+		PeriodFrom:     pastTimeFrom,
 		PeriodTo:       pastTimeTo,
 	}
 	fmt.Println("pastPeriod", pastPeriod)
 	fmt.Println("rbM", rb)
 
 	// берем growth and percent ->
-		//repository.GetRbSalesGrowth(rb.BIN)
-
+	//repository.GetRbSalesGrowth(rb.BIN)
 
 	presentPeriod, err := GetSales1C(rb, "sales")
 	oldPeriod, err := GetSales1C(pastPeriod, "sales")
@@ -37,22 +36,21 @@ func RbDiscountForSalesGrowth(rb model.RBRequest)  (float32, float32, float32) {
 
 	fmt.Println("presentPeriod", presentPeriod)
 
-	for _, present := range presentPeriod.SalesArr{
+	for _, present := range presentPeriod.SalesArr {
 		preCoutnt += present.Total
 	}
-	for _, past := range oldPeriod.SalesArr{
+	for _, past := range oldPeriod.SalesArr {
 		pastCount += past.Total
 
 	}
 
-	total := ( pastCount * 100 / preCoutnt )  - 100
+	total := (pastCount * 100 / preCoutnt) - 100
 	// var total float32
 	// total =   1_500_000* 100 / 1_000_000  - 100
 
-
 	// ты должен взять сумму прироста - то есть ты будешь с ним сравнивать
 	// и также ты из бд должен взять сумму скидки и дать ему скидку
-	if total > 10{
+	if total > 10 {
 
 	}
 
@@ -64,12 +62,12 @@ func RbDiscountForSalesGrowth(rb model.RBRequest)  (float32, float32, float32) {
 	return pastCount, preCoutnt, total
 }
 
-func ConvertTime(date string)  (string, error) {
+func ConvertTime(date string) (string, error) {
 	timeSplit := strings.Split(date, ".")
-	if len(timeSplit) != 3{
+	if len(timeSplit) != 3 {
 		return "", errors.New("len of time must be 3")
 	}
-		fmt.Println(timeSplit)
+	fmt.Println(timeSplit)
 	convertYear, err := strconv.Atoi(timeSplit[2])
 	if err != nil {
 		log.Println(err)
@@ -82,12 +80,28 @@ func ConvertTime(date string)  (string, error) {
 	return updateTime, nil
 }
 
-func DiscountRBPeriodTime(rb model.RBRequest) ([]model.RbDTO, error)  {
+func DiscountRBPeriodTime(request model.RBRequest) ([]model.RbDTO, error) {
 	//TODO: из базы мы должны взять массив скидок (типы периодов)
 	// тут будем вызов массива по периодам (цикл)
 	// внутри цикла возьмем данные по закупам из 1С
-	//
-	//
+	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.BIN, request.PeriodFrom, request.PeriodTo)
+	if err != nil {
+		return nil, err
+	}
+
+	contracts, err := BulkConvertContractFromJsonB(contractsWithJson)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, contract := range contracts {
+		for _, discount := range contract.Discounts {
+			if discount.Code == "" { // здесь сравниваешь тип скидки и берешь тот тип который тебе нужен
+
+			}
+		}
+	}
+
 	//var counts  []float32
 	//var count float32
 	////periods, _ := repository.GetDicsountPeriod(rb.BIN)
@@ -143,8 +157,4 @@ func DiscountRBPeriodTime(rb model.RBRequest) ([]model.RbDTO, error)  {
 	//	counts = append(counts, count)
 	//}
 
-
-
-
-	
 }
