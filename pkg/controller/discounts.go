@@ -20,6 +20,9 @@ import (
 // @Failure 500 {object} map[string]interface{}
 // @Router /reports/rb [post]
 func GetAllRBByContractorBIN(c *gin.Context) {
+	c.JSON(http.StatusServiceUnavailable, "strict-origin-when-cross-origin")
+	return
+
 	var request model.RBRequest
 	if err := c.BindJSON(&request); err != nil {
 		log.Println("[controller][GetAllRBByContractorBIN] error is: ", err.Error())
@@ -83,6 +86,9 @@ func GetAllRBByContractorBIN(c *gin.Context) {
 }
 
 func FormExcelForRB(c *gin.Context) {
+	c.JSON(http.StatusServiceUnavailable, "strict-origin-when-cross-origin")
+	return
+
 	var request model.RBRequest
 	if err := c.BindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
@@ -130,6 +136,9 @@ func FormExcelForRBBrand(c *gin.Context) {
 // @Failure 500 {object} map[string]interface{}
 // @Router /reports/doubted_discounts [post]
 func GetDoubtedDiscounts(c *gin.Context) {
+	c.JSON(http.StatusServiceUnavailable, "strict-origin-when-cross-origin")
+	return
+
 	var request model.RBRequest
 	if err := c.BindJSON(&request); err != nil {
 		log.Println("[controller][c.BindJSON] error is: ", err.Error())
@@ -159,6 +168,9 @@ func GetDoubtedDiscounts(c *gin.Context) {
 // @Failure 500 {object} map[string]interface{}
 // @Router /reports/doubted_discounts [put]
 func SaveDoubtedDiscountsResults(c *gin.Context) {
+	c.JSON(http.StatusServiceUnavailable, "strict-origin-when-cross-origin")
+	return
+
 	var request model.DoubtedDiscountResponse
 	if err := c.BindJSON(&request); err != nil {
 		log.Println("[controller][c.BindJSON] error is: ", err.Error())

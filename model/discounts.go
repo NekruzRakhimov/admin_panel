@@ -1,11 +1,12 @@
 package model
 
 type RBRequest struct {
-	BIN            string `json:"bin"`
-	Type           string `json:"type"`
-	ContractorName string `json:"contractor_name"`
-	PeriodFrom     string `json:"period_from"`
-	PeriodTo       string `json:"period_to"`
+	BIN              string            `json:"bin"`
+	Type             string            `json:"type"`
+	ContractorName   string            `json:"contractor_name"`
+	PeriodFrom       string            `json:"period_from"`
+	PeriodTo         string            `json:"period_to"`
+	DoubtedDiscounts []DoubtedDiscount `json:"doubted_discounts"`
 }
 
 type RbDTO struct {
