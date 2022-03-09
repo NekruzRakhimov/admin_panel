@@ -106,7 +106,7 @@ func RbDiscountForSalesGrowth(rb model.RBRequest) ([]model.RbDTO, error) {
 								ProductCode:          "",
 								DiscountPercent:      period.DiscountPercent,
 								DiscountAmount:       discountAmount,
-								TotalWithoutDicsount: preCoutnt,
+								TotalWithoutDiscount: preCoutnt,
 							}
 							rbDTOsl = append(rbDTOsl, rbDTO)
 
@@ -197,7 +197,7 @@ func DiscountRBPeriodTime(req model.RBRequest) ([]model.RbDTO, error) {
 								TypePeriod:           period.Type,
 								DiscountPercent:      period.DiscountPercent,
 								DiscountAmount:       total,
-								TotalWithoutDicsount: float32(count),
+								TotalWithoutDiscount: float32(count),
 							}
 							rbDTOsl = append(rbDTOsl, RbDTO)
 

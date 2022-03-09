@@ -76,6 +76,45 @@ type ReqBrand struct {
 	Contracts      []string `json:"contracts"`
 }
 
+type GetData1CRequest struct {
+	ClientBin      string   `json:"client_bin"`
+	Beneficiary    string   `json:"beneficiary"`
+	DateStart      string   `json:"datestart"`
+	DateEnd        string   `json:"dateend"`
+	Type           string   `json:"type"`
+	TypeValue      string   `json:"typeValue"`
+	TypeParameters []string `json:"typeParameters"`
+	Contracts      []string `json:"contracts"`
+}
+
+type GetData1CResponse struct {
+	SalesArr    []GetData1CProducts `json:"sales_arr"`
+	PurchaseArr []GetData1CProducts `json:"purchase_arr"`
+	PaymentsArr []GetData1CPayments `json:"payments_arr"`
+}
+
+type GetData1CPayments struct {
+	Organization string                     `json:"organization"`
+	DataArr      []GetData1CPaymentsDataArr `json:"data_arr"`
+}
+
+type GetData1CPaymentsDataArr struct {
+	Expanse             string `json:"expanse"`
+	Income              string `json:"income"`
+	PaymentOrderExpanse string `json:"paymentOrderExpanse"`
+	PaymentOrderIncome  string `json:"paymentOrderIncome"`
+	Date                string `json:"date"`
+}
+
+type GetData1CProducts struct {
+	ProductName string  `json:"product_name"`
+	ProductCode string  `json:"product_code"`
+	Total       float32 `json:"total"`
+	QntTotal    float32 `json:"qnt_total"`
+	Date        string  `json:"date"`
+	BrandCode   string  `json:"brand_code"`
+	BrandName   string  `json:"brand_name"`
+}
 
 type TotalBrandDiscount struct {
 	BrandName       string  `json:"brand_name"`

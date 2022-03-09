@@ -19,7 +19,8 @@ type RbDTO struct {
 	ProductCode          string  `json:"product_code,omitempty"`
 	DiscountPercent      float32 `json:"discount_percent"`
 	DiscountAmount       float32 `json:"discount_amount"`
-	TotalWithoutDicsount float32 `json:"TotalWithoutDiscount"`
+	TotalWithoutDiscount float32 `json:"TotalWithoutDiscount"`
 	LeasePlan            float32 `json:"lease_plan"`
 	RewardAmount         float32 `json:"reward_amount"`
+	DiscountType         string  `json:"discount_type"`
 }

@@ -80,6 +80,8 @@ func tempRoutes(r *gin.Engine) {
 	r.POST("/rb_brand/", controller.GetBrandInfo)
 	r.POST("/rb_brand/excel/", controller.GenerateReportBrand)
 
+	r.POST("/check_1c_get_data", controller.Check1CGetData)
+
 	r.GET("/cars", controller.GetCarsBrand)
 }
 
