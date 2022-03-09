@@ -6,6 +6,30 @@ import (
 	"log"
 )
 
+func SaveDoubtedDiscounts(bin, periodFrom, periodTo, contractNumber string, discounts []model.DoubtedDiscountDetails) error {
+	for _, discount := range discounts {
+		if err := AddOrUpdateDoubtedDiscount(bin, periodFrom, periodTo, contractNumber, discount.Code, discount.Name, discount.IsCompleted); err != nil {
+			log.Println("[repository.SaveDoubtedDiscounts]|[repository.AddOrUpdateDoubtedDiscount] error is: ", err.Error())
+			return err
+		}
+	}
+
+	return nil
+}
+
+func AddOrUpdateDoubtedDiscount(bin, periodFrom, periodTo, contractNumber, discountCode, DiscountName string, isCompleted bool) error {
+	sqlQuery := "UPDATE doubted_discounts SET is_completed = ? WHERE bin = ? AND contract_number = ? AND code = ? AND period_from = ? AND period_to = ?"
+	result := db.GetDBConn().Exec(sqlQuery, isCompleted, bin, contractNumber, discountCode, periodFrom, periodTo)
+	if result.RowsAffected == 0 {
+		sqlQuery = "INSERT INTO doubted_discounts (code, name, bin, contract_number, period_from, period_to) VALUES (?, ?, ?, ?, ?, ?)"
+		if err := db.GetDBConn().Exec(sqlQuery, discountCode, DiscountName, bin, contractNumber, periodFrom, periodTo).Error; err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func GetAllContractDetailByBIN(bin, PeriodFrom, PeriodTo string) (contracts []model.ContractWithJsonB, err error) {
 	if err = db.GetDBConn().Table("contracts").
 		Where(`requisites ->> 'bin' = ? 	

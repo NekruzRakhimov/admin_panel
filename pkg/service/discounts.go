@@ -20,8 +20,18 @@ const (
 )
 
 const (
-	DISCOUNT_FOR_REPRESENTATION = "DISCOUNT_FOR_REPRESENTATION" //RB #4
+	DiscountForRepresentation = "DISCOUNT_FOR_REPRESENTATION" //RB #4
 )
+
+func SaveDoubtedDiscounts(request model.RBRequest) error {
+	for _, discount := range request.DoubtedDiscounts {
+		if err := repository.SaveDoubtedDiscounts(request.BIN, request.PeriodFrom, request.PeriodTo, discount.ContractNumber, discount.Discounts); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
 
 func GetAllRBByContractorBIN(request model.RBRequest) ([]model.RbDTO, error) {
 	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.BIN, request.PeriodFrom, request.PeriodTo)
@@ -763,7 +773,7 @@ func GetDoubtedDiscounts(request model.RBRequest) (doubtedDiscounts []model.Doub
 		var DoubtedDiscountDetails []model.DoubtedDiscountDetails
 		for _, discount := range contract.Discounts {
 			var DoubtedDiscountDetail model.DoubtedDiscountDetails
-			if discount.Code == DISCOUNT_FOR_REPRESENTATION && discount.IsSelected == true {
+			if discount.Code == DiscountForRepresentation && discount.IsSelected == true {
 				DoubtedDiscountDetail.Name = discount.Name
 				DoubtedDiscountDetail.Code = discount.Code
 				DoubtedDiscountDetail.IsCompleted = repository.DoubtedDiscountExecutionCheck(request, contract.ContractParameters.ContractNumber, discount.Code)

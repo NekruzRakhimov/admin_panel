@@ -27,6 +27,11 @@ func GetAllRBByContractorBIN(c *gin.Context) {
 		return
 	}
 
+	if err := service.SaveDoubtedDiscounts(request); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
 	//TODO:  вернуть ему данные получается
 	contracts, err := service.GetAllRBByContractorBIN(request)
 	if err != nil {
@@ -83,10 +88,14 @@ func GetAllRBByContractorBIN(c *gin.Context) {
 }
 
 func FormExcelForRB(c *gin.Context) {
-
 	var request model.RBRequest
 	if err := c.BindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	if err := service.SaveDoubtedDiscounts(request); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
 	}
 
