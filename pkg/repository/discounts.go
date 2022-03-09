@@ -66,9 +66,13 @@ func GetDiscountPeriod(bin string) ([]model.Discount, error) {
 }
 
 func DoubtedDiscountExecutionCheck(request model.RBRequest, contractNumber, discountCode string) (isCompleted bool) {
-	sqlQuery := "SELECT * FROM doubted_discounts WHERE bin = ? AND contract_number = ? AND code = ? AND period_from = ? AND period_to = ?"
-	_ = db.GetDBConn().Raw(sqlQuery, request.BIN, contractNumber, discountCode, request.PeriodFrom, request.PeriodTo).Pluck("is_completed", &isCompleted)
+	var isCompletedArr []bool
+	sqlQuery := "SELECT is_completed FROM doubted_discounts WHERE bin = ? AND contract_number = ? AND code = ? AND period_from = ? AND period_to = ?"
+	_ = db.GetDBConn().Raw(sqlQuery, request.BIN, contractNumber, discountCode, request.PeriodFrom, request.PeriodTo).Pluck("is_completed", &isCompletedArr)
+
+	if len(isCompletedArr) > 0 {
+		isCompleted = isCompletedArr[0]
+	}
+
 	return isCompleted
 }
-
-//TODO:
