@@ -19,6 +19,10 @@ const (
 	sheet8 = "Скидка на РБ от закупа продукции %"
 )
 
+const (
+	DISCOUNT_FOR_REPRESENTATION = "DISCOUNT_FOR_REPRESENTATION" //RB #4
+)
+
 func GetAllRBByContractorBIN(request model.RBRequest) ([]model.RbDTO, error) {
 	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.BIN, request.PeriodFrom, request.PeriodTo)
 	if err != nil {
@@ -751,21 +755,19 @@ func GetDoubtedDiscounts(request model.RBRequest) (doubtedDiscounts []model.Doub
 	}
 
 	var (
-		hasPresentation bool
-		//hasMTZ bool
+	//hasPresentation bool
+	//hasMTZ bool
 	)
 
 	for _, contract := range contracts {
 		var DoubtedDiscountDetails []model.DoubtedDiscountDetails
 		for _, discount := range contract.Discounts {
 			var DoubtedDiscountDetail model.DoubtedDiscountDetails
-			if discount.Code == "DISCOUNT_FOR_REPRESENTATION" && discount.IsSelected == true && hasPresentation == false {
+			if discount.Code == DISCOUNT_FOR_REPRESENTATION && discount.IsSelected == true {
 				DoubtedDiscountDetail.Name = discount.Name
 				DoubtedDiscountDetail.Code = discount.Code
-				DoubtedDiscountDetail.IsCompleted = true
-
+				DoubtedDiscountDetail.IsCompleted = repository.DoubtedDiscountExecutionCheck(request, contract.ContractParameters.ContractNumber, discount.Code)
 				DoubtedDiscountDetails = append(DoubtedDiscountDetails, DoubtedDiscountDetail)
-				hasPresentation = true
 			}
 		}
 		if len(DoubtedDiscountDetails) > 0 {

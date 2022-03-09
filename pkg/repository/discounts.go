@@ -27,8 +27,7 @@ func GetAllContractDetailByBIN(bin, PeriodFrom, PeriodTo string) (contracts []mo
 	return contracts, nil
 }
 
-
-func GetDicsountPeriod(bin string) ([]model.Discount, error) {
+func GetDiscountPeriod(bin string) ([]model.Discount, error) {
 	//var discounts []model.Discount
 	var discount []model.Discount
 
@@ -42,7 +41,10 @@ func GetDicsountPeriod(bin string) ([]model.Discount, error) {
 
 }
 
+func DoubtedDiscountExecutionCheck(request model.RBRequest, contractNumber, discountCode string) (isCompleted bool) {
+	sqlQuery := "SELECT * FROM doubted_discounts WHERE bin = ? AND contract_number = ? AND code = ? AND period_from = ? AND period_to = ?"
+	_ = db.GetDBConn().Raw(sqlQuery, request.BIN, contractNumber, discountCode, request.PeriodFrom, request.PeriodTo).Pluck("is_completed", &isCompleted)
+	return isCompleted
+}
 
 //TODO:
-
-

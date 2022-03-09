@@ -24,7 +24,7 @@ func GetDisPer(c *gin.Context) {
 	var bin model.ClientBin
 	c.ShouldBind(&bin)
 
-	period, err := repository.GetDicsountPeriod(bin.Bin)
+	period, err := repository.GetDiscountPeriod(bin.Bin)
 	if err != nil {
 		c.JSON(400, err)
 	}

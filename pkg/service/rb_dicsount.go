@@ -104,7 +104,7 @@ func DiscountRBPeriodTime(request model.RBRequest) ([]model.RbDTO, error) {
 
 	//var counts  []float32
 	//var count float32
-	////periods, _ := repository.GetDicsountPeriod(rb.BIN)
+	////periods, _ := repository.GetDiscountPeriod(rb.BIN)
 	//
 	//
 	//contractsWithJson, err := repository.GetAllContractDetailByBIN(rb.BIN, rb.PeriodFrom, rb.PeriodTo)
