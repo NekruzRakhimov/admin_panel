@@ -27,6 +27,7 @@ func GetAllContractDetailByBIN(bin, PeriodFrom, PeriodTo string) (contracts []mo
 	return contracts, nil
 }
 
+
 func GetDicsountPeriod(bin string) ([]model.Discount, error) {
 	//var discounts []model.Discount
 	var discount []model.Discount
@@ -40,3 +41,8 @@ func GetDicsountPeriod(bin string) ([]model.Discount, error) {
 	return discount, nil
 
 }
+
+
+//TODO:
+
+

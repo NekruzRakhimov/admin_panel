@@ -74,7 +74,7 @@ FROM purchases,
 WHERE id=2;
 
 
-SELECT discounts::text  FROM contracts WHERE requisites ->> 'bin' = '090909098988';
+SELECT discounts  FROM contracts WHERE requisites ->> 'bin' = '090909098988';
 SELECT id, discounts::json as discount  FROM contracts WHERE requisites ->> 'bin' = '070340005201';
 SELECT json_array_elements(discounts ->'periods') FROM  contracts;
 

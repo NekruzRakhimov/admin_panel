@@ -2,6 +2,7 @@ package service
 
 import (
 	"admin_panel/model"
+	"admin_panel/pkg/repository"
 	"errors"
 	"fmt"
 	"log"
@@ -85,4 +86,38 @@ func ConvertTime(date string)  (string, error) {
 	//fmt.Println(sprintf)
 
 	return updateTime, nil
+}
+
+func DiscountRBPeriodTime(rb model.RBRequest)  {
+	//TODO: из базы мы должны взять массив скидок (типы периодов)
+	// тут будем вызов массива по периодам (цикл)
+	// внутри цикла возьмем данные по закупам из 1С
+	//
+	//
+	var counts  []float32
+	var count float32
+	periods, _ := repository.GetDicsountPeriod(rb.BIN)
+
+	for _, period := range periods{
+		r := model.RBRequest{
+			BIN:              rb.BIN,
+			Type:             "",
+			ContractorName:   "",
+			PeriodFrom:       period.PeriodFrom,
+			PeriodTo:         period.PeriodTo,
+			DoubtedDiscounts: nil,
+		}
+
+		purchase, _ := GetSales1C(r, "purchase")
+
+		for _, value := range  purchase.SalesArr{
+			count += value.Total
+		}
+		counts = append(counts, count)
+	}
+
+
+
+
+	
 }

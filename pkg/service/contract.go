@@ -419,7 +419,17 @@ func ConformContract(contractId int, status string) error {
 		contractFor1C.UpdatedAt = parts[0]
 	}
 
-	_, _ = SaveContract1C(contractFor1C)
+	respFrom1C, err := SaveContract1C(contractFor1C)
+	if err != nil {
+		return err
+	}
+	if respFrom1C.Status != "success"{
+		return errors.New("не удалось сохранить договор в 1С")
+	}
+	//TODO: необходимо тут сохранить договор у нас в бд
+
+
+
 	//if err != nil {
 	//	return err
 	//}
