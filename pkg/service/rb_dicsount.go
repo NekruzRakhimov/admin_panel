@@ -157,4 +157,5 @@ func DiscountRBPeriodTime(request model.RBRequest) ([]model.RbDTO, error) {
 	//	counts = append(counts, count)
 	//}
 
+	return nil, nil
 }

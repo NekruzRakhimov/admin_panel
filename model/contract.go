@@ -168,8 +168,8 @@ type DoubtedDiscountResponse struct {
 }
 
 type DoubtedDiscount struct {
-	ContractNumber string `json:"contract_number"`
-	Discounts      []DoubtedDiscountDetails
+	ContractNumber string                   `json:"contract_number"`
+	Discounts      []DoubtedDiscountDetails `json:"discounts"`
 }
 
 type DoubtedDiscountDetails struct {
