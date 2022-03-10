@@ -86,3 +86,8 @@ SELECT discounts ->> 'periods'  an  FROM contracts WHERE requisites ->> 'bin' = 
 
 
 SELECT id, manager, ext_contract_code FROM contracts WHERE requisites ->> 'bin' =  '100840008133';
+
+Update contracts SET ext_contract_code = 'K0054437' WHERE requisites ->> 'bin' =  '100840008133';
+
+
+DELETE FROM contracts WHERE  id = 264;
