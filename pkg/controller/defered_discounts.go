@@ -29,6 +29,19 @@ func GetAllDeferredDiscounts(c *gin.Context) {
 }
 
 func FormExcelForDeferredDiscounts(c *gin.Context) {
+	var request model.RBRequest
+	if err := c.BindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	if err := service.FormExcelForDeferredDiscounts(request); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	c.File("files/reports/dd/reportDD.xlsx")
 
 }
 
