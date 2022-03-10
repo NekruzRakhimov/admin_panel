@@ -77,6 +77,14 @@ func GetAllRBByContractorBIN(c *gin.Context) {
 	}
 	contracts = append(contracts, rbFourthType...)
 
+	// #5
+	rb5thType, err := service.GetRB5thType(request)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+	contracts = append(contracts, rb5thType...)
+
 	// #8
 	rbEighthType, err := service.GetRBEighthType(request)
 	if err != nil {
