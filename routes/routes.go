@@ -108,6 +108,9 @@ func ReportsRoutes(r *gin.Engine) {
 	reports.POST("/rb", controller.GetAllRBByContractorBIN)
 	reports.POST("/rb/excel", controller.FormExcelForRB)
 	//reports.GET("/rb_brand/excel", controller.FormExcelForRBBrand)
+
+	reports.POST("/dd", controller.GetAllDeferredDiscounts)
+	reports.POST("/dd/excel", controller.FormExcelForDeferredDiscounts)
 }
 
 func ContractRoutes(r *gin.Engine) {
