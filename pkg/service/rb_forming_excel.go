@@ -44,8 +44,8 @@ func FormExcelForRBReport(request model.RBRequest) error {
 		isRB3 bool
 		isRB4 bool
 		isRB5 bool
-		//isRB6  bool
-		//isRB7  bool
+		isRB6 bool
+		isRB7 bool
 		isRB8 bool
 		//isRB9  bool
 		isRB10 bool
@@ -73,6 +73,12 @@ func FormExcelForRBReport(request model.RBRequest) error {
 			}
 			if discount.Code == RB5Code && discount.IsSelected {
 				isRB5 = true
+			}
+			if discount.Code == RB6Code && discount.IsSelected {
+				isRB6 = true
+			}
+			if discount.Code == RB7Code && discount.IsSelected {
+				isRB7 = true
 			}
 			if discount.Code == RB10Code && discount.IsSelected {
 				isRB10 = true
@@ -345,6 +351,80 @@ func FormExcelForRBReport(request model.RBRequest) error {
 		f.SetCellValue(RB5Name, fmt.Sprintf("%s%d", "F", lastRow), totalDiscountsSum)
 		err = f.SetCellStyle(RB5Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
 		err = f.SetCellStyle(RB2Name, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
+
+	}
+
+	if isRB6 {
+		rb6thType, err := GetRB6thType(request)
+		if err != nil {
+			return err
+		}
+
+		if err != nil {
+			return err
+		}
+		f.NewSheet(RB6Name)
+		f.SetCellValue(RB6Name, "A1", "Период")
+		f.SetCellValue(RB6Name, "B1", "Номер договора/ДС")
+		f.SetCellValue(RB6Name, "C1", "Тип скидки")
+		f.SetCellValue(RB6Name, "D1", "Бренд")
+		f.SetCellValue(RB6Name, "E1", "Скидка %")
+		f.SetCellValue(RB6Name, "F1", "Сумма скидки")
+		err = f.SetCellStyle(RB6Name, "A1", "F1", style)
+
+		var totalDiscountsSum int
+		for i, contract := range rb6thType {
+			f.SetCellValue(RB6Name, fmt.Sprintf("%s%d", "A", i+2), fmt.Sprintf("%s-%s", contract.StartDate, contract.EndDate))
+			f.SetCellValue(RB6Name, fmt.Sprintf("%s%d", "B", i+2), contract.ContractNumber)
+			f.SetCellValue(RB6Name, fmt.Sprintf("%s%d", "C", i+2), RB6Name)
+			f.SetCellValue(RB6Name, fmt.Sprintf("%s%d", "D", i+2), contract.BrandName)
+			f.SetCellValue(RB6Name, fmt.Sprintf("%s%d", "E", i+2), contract.DiscountPercent)
+			f.SetCellValue(RB6Name, fmt.Sprintf("%s%d", "F", i+2), contract.DiscountAmount)
+			totalDiscountsSum += int(contract.DiscountAmount)
+			lastRow = i + 2
+		}
+		lastRow += 1
+		f.SetCellValue(RB6Name, fmt.Sprintf("%s%d", "E", lastRow), "Итог:")
+		f.SetCellValue(RB6Name, fmt.Sprintf("%s%d", "F", lastRow), totalDiscountsSum)
+		err = f.SetCellStyle(RB6Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
+		err = f.SetCellStyle(RB6Name, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
+
+	}
+
+	if isRB7 {
+		rb7thType, err := GetRB7thType(request)
+		if err != nil {
+			return err
+		}
+
+		if err != nil {
+			return err
+		}
+		f.NewSheet(RB7Name)
+		f.SetCellValue(RB7Name, "A1", "Период")
+		f.SetCellValue(RB7Name, "B1", "Номер договора/ДС")
+		f.SetCellValue(RB7Name, "C1", "Тип скидки")
+		f.SetCellValue(RB7Name, "D1", "Бренд")
+		f.SetCellValue(RB7Name, "E1", "Скидка %")
+		f.SetCellValue(RB7Name, "F1", "Сумма скидки")
+		err = f.SetCellStyle(RB7Name, "A1", "F1", style)
+
+		var totalDiscountsSum int
+		for i, contract := range rb7thType {
+			f.SetCellValue(RB7Name, fmt.Sprintf("%s%d", "A", i+2), fmt.Sprintf("%s-%s", contract.StartDate, contract.EndDate))
+			f.SetCellValue(RB7Name, fmt.Sprintf("%s%d", "B", i+2), contract.ContractNumber)
+			f.SetCellValue(RB7Name, fmt.Sprintf("%s%d", "C", i+2), RB7Name)
+			f.SetCellValue(RB7Name, fmt.Sprintf("%s%d", "D", i+2), contract.BrandName)
+			f.SetCellValue(RB7Name, fmt.Sprintf("%s%d", "E", i+2), contract.DiscountPercent)
+			f.SetCellValue(RB7Name, fmt.Sprintf("%s%d", "F", i+2), contract.DiscountAmount)
+			totalDiscountsSum += int(contract.DiscountAmount)
+			lastRow = i + 2
+		}
+		lastRow += 1
+		f.SetCellValue(RB7Name, fmt.Sprintf("%s%d", "E", lastRow), "Итог:")
+		f.SetCellValue(RB7Name, fmt.Sprintf("%s%d", "F", lastRow), totalDiscountsSum)
+		err = f.SetCellStyle(RB7Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
+		err = f.SetCellStyle(RB7Name, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
 
 	}
 

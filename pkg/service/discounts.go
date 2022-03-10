@@ -480,7 +480,7 @@ func GetDoubtedDiscounts(request model.RBRequest) (doubtedDiscounts []model.Doub
 		var DoubtedDiscountDetails []model.DoubtedDiscountDetails
 		for _, discount := range contract.Discounts {
 			var DoubtedDiscountDetail model.DoubtedDiscountDetails
-			if discount.Code == RB4Code && discount.IsSelected == true {
+			if (discount.Code == RB4Code || discount.Code == RB11Code) && discount.IsSelected == true {
 				DoubtedDiscountDetail.Name = discount.Name
 				DoubtedDiscountDetail.Code = discount.Code
 				DoubtedDiscountDetail.IsCompleted = repository.DoubtedDiscountExecutionCheck(request, contract.ContractParameters.ContractNumber, discount.Code)
@@ -792,7 +792,7 @@ func GetRB6thType(request model.RBRequest) (rbDTO []model.RbDTO, err error) {
 								ProductCode:     brand.BrandCode,
 								DiscountPercent: brand.DiscountPercent,
 								DiscountAmount:  discountAmount,
-								DiscountType:    RB5Name,
+								DiscountType:    RB6Name,
 							})
 						}
 
@@ -851,7 +851,7 @@ func GetRB7thType(request model.RBRequest) (rbDTO []model.RbDTO, err error) {
 								ProductCode:     brand.BrandCode,
 								DiscountPercent: brand.DiscountPercent,
 								DiscountAmount:  discountAmount,
-								DiscountType:    RB5Name,
+								DiscountType:    RB7Name,
 							})
 						}
 
