@@ -3521,6 +3521,9 @@
                 },
                 "purchase_amount": {
                     "type": "number"
+                },
+                "sales_amount": {
+                    "type": "number"
                 }
             }
         },
@@ -3729,6 +3732,10 @@
                 "prepayment": {
                     "type": "number"
                 },
+                "price_type": {
+                    "description": "добавленнл",
+                    "type": "string"
+                },
                 "return_time_delivery": {
                     "description": "время возврата при условии не поставки",
                     "type": "integer"
@@ -3886,10 +3893,25 @@
                         "$ref": "#/definitions/model.DiscountBrands"
                     }
                 },
+                "discount_percent": {
+                    "type": "number"
+                },
+                "growth_percent": {
+                    "type": "number"
+                },
+                "is_sale": {
+                    "type": "boolean"
+                },
                 "is_selected": {
                     "type": "boolean"
                 },
                 "name": {
+                    "type": "string"
+                },
+                "period_from": {
+                    "type": "string"
+                },
+                "period_to": {
                     "type": "string"
                 },
                 "periods": {
@@ -3940,17 +3962,60 @@
         "model.DiscountPeriod": {
             "type": "object",
             "properties": {
+                "discount_percent": {
+                    "type": "number"
+                },
+                "growth_percent": {
+                    "type": "number"
+                },
+                "name": {
+                    "type": "string"
+                },
                 "period_from": {
                     "type": "string"
                 },
                 "period_to": {
                     "type": "string"
                 },
+                "purchase_amount": {
+                    "type": "number"
+                },
                 "reward_amount": {
                     "type": "integer"
                 },
                 "total_amount": {
                     "type": "number"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.DoubtedDiscount": {
+            "type": "object",
+            "properties": {
+                "contract_number": {
+                    "type": "string"
+                },
+                "discounts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.DoubtedDiscountDetails"
+                    }
+                }
+            }
+        },
+        "model.DoubtedDiscountDetails": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "is_completed": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
                 }
             }
         },
@@ -4022,6 +4087,23 @@
                 }
             }
         },
+        "model.PriceType": {
+            "type": "object",
+            "properties": {
+                "client_bin": {
+                    "type": "string"
+                },
+                "pricetype_code": {
+                    "type": "string"
+                },
+                "pricetype_currency": {
+                    "type": "string"
+                },
+                "pricetype_name": {
+                    "type": "string"
+                }
+            }
+        },
         "model.PriceTypeCreate": {
             "type": "object",
             "properties": {
@@ -4050,23 +4132,6 @@
                 }
             }
         },
-        "model.ProdPriceType": {
-            "type": "object",
-            "properties": {
-                "client_bin": {
-                    "type": "string"
-                },
-                "pricetype_code": {
-                    "type": "string"
-                },
-                "pricetype_currency": {
-                    "type": "string"
-                },
-                "pricetype_name": {
-                    "type": "string"
-                }
-            }
-        },
         "model.Product": {
             "type": "object",
             "properties": {
@@ -4082,8 +4147,8 @@
                 "price": {
                     "type": "number"
                 },
-                "prod_price_type": {
-                    "$ref": "#/definitions/model.ProdPriceType"
+                "price_type": {
+                    "$ref": "#/definitions/model.PriceType"
                 },
                 "producer": {
                     "type": "string"
@@ -4114,10 +4179,19 @@
                 "contractor_name": {
                     "type": "string"
                 },
+                "doubted_discounts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.DoubtedDiscount"
+                    }
+                },
                 "period_from": {
                     "type": "string"
                 },
                 "period_to": {
+                    "type": "string"
+                },
+                "type": {
                     "type": "string"
                 }
             }
@@ -4140,6 +4214,9 @@
                 "discount_percent": {
                     "type": "number"
                 },
+                "discount_type": {
+                    "type": "string"
+                },
                 "end_date": {
                     "type": "string"
                 },
@@ -4156,6 +4233,9 @@
                     "type": "number"
                 },
                 "start_date": {
+                    "type": "string"
+                },
+                "type_period": {
                     "type": "string"
                 }
             }
@@ -4207,6 +4287,9 @@
                                 "type": "string"
                             },
                             "pricetype_currency": {
+                                "type": "string"
+                            },
+                            "pricetype_currency_name": {
                                 "type": "string"
                             },
                             "pricetype_name": {
@@ -4315,31 +4398,34 @@
                 "sales_arr": {
                     "type": "array",
                     "items": {
-                        "type": "object",
-                        "properties": {
-                            "brand_code": {
-                                "type": "string"
-                            },
-                            "brand_name": {
-                                "type": "string"
-                            },
-                            "date": {
-                                "type": "string"
-                            },
-                            "product_code": {
-                                "type": "string"
-                            },
-                            "product_name": {
-                                "type": "string"
-                            },
-                            "qnt_total": {
-                                "type": "number"
-                            },
-                            "total": {
-                                "type": "number"
-                            }
-                        }
+                        "$ref": "#/definitions/model.SalesArr"
                     }
+                }
+            }
+        },
+        "model.SalesArr": {
+            "type": "object",
+            "properties": {
+                "brand_code": {
+                    "type": "string"
+                },
+                "brand_name": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "product_code": {
+                    "type": "string"
+                },
+                "product_name": {
+                    "type": "string"
+                },
+                "qnt_total": {
+                    "type": "number"
+                },
+                "total": {
+                    "type": "number"
                 }
             }
         },
