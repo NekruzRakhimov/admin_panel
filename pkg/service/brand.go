@@ -332,15 +332,11 @@ func GetBrandSales(reqBrand model.ReqBrand) (model.Sales, error) {
 		log.Println(err)
 		return sales, err
 	}
-	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
 
 	defer resp.Body.Close()
-	if err != nil {
-		log.Println(err)
-		return sales, err
-	}
 	body = bytes.TrimPrefix(body, []byte("\xef\xbb\xbf")) // Or []byte{239, 187, 191}
 
+	log.Println("BODY: ", string(body))
 	err = json.Unmarshal(body, &sales)
 	if err != nil {
 		log.Println(err)
