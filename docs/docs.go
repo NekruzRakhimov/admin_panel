@@ -3704,7 +3704,10 @@ const docTemplate = `{
                 "contract_number": {
                     "type": "string"
                 },
-                "currency": {
+                "currency_code": {
+                    "type": "string"
+                },
+                "currency_name": {
                     "type": "string"
                 },
                 "date_of_delivery": {
@@ -3736,8 +3739,10 @@ const docTemplate = `{
                 "prepayment": {
                     "type": "number"
                 },
-                "price_type": {
-                    "description": "добавленнл",
+                "price_type_code": {
+                    "type": "string"
+                },
+                "price_type_name": {
                     "type": "string"
                 },
                 "return_time_delivery": {
