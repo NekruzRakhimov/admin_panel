@@ -11,16 +11,19 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 const (
 	TempDateCompleter = " 0:00:00"
 	TempDateEnd       = " 23:59:59"
 )
-
 func GetBrands() (model.Brand, error) {
 	brand := model.Brand{}
-	client := &http.Client{}
+	client := &http.Client{
+		Timeout: 120 * time.Second,
+
+	}
 	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/brandlist"
 	req, err := http.NewRequest("GET", uri, nil)
 	req.Header.Set("Content-Type", "application/json") // This makes it work
@@ -79,7 +82,9 @@ func GetSales(reqBrand model.ReqBrand) (model.Sales, error) {
 
 	//parm.Add("datestart", "01.01.2022 0:02:09")
 	//parm.Add("dateend", "01.01.2022 0:02:09")
-	client := &http.Client{}
+	client := &http.Client{
+		Timeout: 120 * time.Second,
+	}
 	log.Println(reqBodyBytes)
 	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/getdata"
 	req, err := http.NewRequest("POST", uri, reqBodyBytes)
@@ -124,7 +129,9 @@ func AddBrand(brandName string) (model.AddBrand, error) {
 	reqBodyBytes := new(bytes.Buffer)
 	json.NewEncoder(reqBodyBytes).Encode(&brand)
 
-	client := &http.Client{}
+	client := &http.Client{
+		Timeout: 120 * time.Second,
+	}
 	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/createbrand"
 	req, err := http.NewRequest("POST", uri, reqBodyBytes)
 	req.Header.Set("Content-Type", "application/json") // This makes it work
@@ -188,7 +195,9 @@ func GetSalesBrand(reqBrand model.ReqBrand, brandInfo []model.BrandInfo) (model.
 
 	//parm.Add("datestart", "01.01.2022 0:02:09")
 	//parm.Add("dateend", "01.01.2022 0:02:09")
-	client := &http.Client{}
+	client := &http.Client{
+		Timeout: 120 * time.Second,
+	}
 	log.Println(reqBodyBytes)
 	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/getdata"
 	req, err := http.NewRequest("POST", uri, reqBodyBytes)
@@ -250,7 +259,9 @@ func GetPurchase(reqBrand model.ReqBrand) (model.Purchase, error) {
 
 	//parm.Add("datestart", "01.01.2022 0:02:09")
 	//parm.Add("dateend", "01.01.2022 0:02:09")
-	client := &http.Client{}
+	client := &http.Client{
+		Timeout: 120 * time.Second,
+	}
 	log.Println(reqBodyBytes)
 	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/getdata"
 	req, err := http.NewRequest("POST", uri, reqBodyBytes)
@@ -311,7 +322,9 @@ func GetBrandSales(reqBrand model.ReqBrand) (model.Sales, error) {
 
 	//parm.Add("datestart", "01.01.2022 0:02:09")
 	//parm.Add("dateend", "01.01.2022 0:02:09")
-	client := &http.Client{}
+	client := &http.Client{
+		Timeout: 120 * time.Second,
+	}
 	log.Println(reqBodyBytes)
 	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/getdata"
 	req, err := http.NewRequest("POST", uri, reqBodyBytes)
@@ -559,7 +572,9 @@ func GetSalesSKU(reqBrand model.ReqBrand) (model.Sales, error) {
 
 	//parm.Add("datestart", "01.01.2022 0:02:09")
 	//parm.Add("dateend", "01.01.2022 0:02:09")
-	client := &http.Client{}
+	client := &http.Client{
+		Timeout: 120 * time.Second,
+	}
 	log.Println(reqBodyBytes)
 	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/getdata"
 	req, err := http.NewRequest("POST", uri, reqBodyBytes)
@@ -620,7 +635,9 @@ func PresentationDiscount(rbReq model.RBRequest) (model.Purchase, error) {
 
 	//parm.Add("datestart", "01.01.2022 0:02:09")
 	//parm.Add("dateend", "01.01.2022 0:02:09")
-	client := &http.Client{}
+	client := &http.Client{
+		Timeout: 120 * time.Second,
+	}
 	log.Println(reqBodyBytes)
 	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/getdata"
 	req, err := http.NewRequest("POST", uri, reqBodyBytes)
@@ -681,7 +698,9 @@ func GetSales1C(rb model.ReqBrand, typeData string) (model.Sales, error) {
 
 	//parm.Add("datestart", "01.01.2022 0:02:09")
 	//parm.Add("dateend", "01.01.2022 0:02:09")
-	client := &http.Client{}
+	client := &http.Client{
+		Timeout: 120 * time.Second,
+	}
 	log.Println("request--->", reqBodyBytes)
 	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/getdata"
 	req, err := http.NewRequest("POST", uri, reqBodyBytes)
@@ -739,7 +758,9 @@ func GetDataFrom1C(request model.GetData1CRequest) (response model.GetData1CResp
 	req.Header.Set("Content-Type", "application/json") // This makes it work
 	req.SetBasicAuth("http_client", "123456")
 
-	client := &http.Client{}
+	client := &http.Client{
+		Timeout: 120 * time.Second,
+	}
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Println(err)
@@ -762,6 +783,6 @@ func GetDataFrom1C(request model.GetData1CRequest) (response model.GetData1CResp
 		log.Println(err)
 		return model.GetData1CResponse{}, err
 	}
-
 	return response, nil
+
 }
