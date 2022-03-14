@@ -56,6 +56,7 @@ func runAllRoutes(r *gin.Engine) {
 	AdminRoutes(r)
 	ReportsRoutes(r)
 	NotificationsRoutes(r)
+	routesFor1C(r)
 }
 
 func runServer(r *gin.Engine) {
@@ -74,6 +75,10 @@ func runServer(r *gin.Engine) {
 	if err != nil {
 		log.Println(err)
 	}
+}
+
+func routesFor1C(r *gin.Engine) {
+	r.POST("/1c/data", controller.SaveDataFrom1C)
 }
 
 func tempRoutes(r *gin.Engine) {
@@ -108,6 +113,9 @@ func ReportsRoutes(r *gin.Engine) {
 	reports.POST("/rb", controller.GetAllRBByContractorBIN)
 	reports.POST("/rb/excel", controller.FormExcelForRB)
 	//reports.GET("/rb_brand/excel", controller.FormExcelForRBBrand)
+
+	reports.POST("/dd", controller.GetAllDeferredDiscounts)
+	reports.POST("/dd/excel", controller.FormExcelForDeferredDiscounts)
 }
 
 func ContractRoutes(r *gin.Engine) {
