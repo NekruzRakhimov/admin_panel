@@ -170,6 +170,11 @@ func GetExcellBrand(c *gin.Context) {
 
 }
 
+func SaveDataFrom1C(c *gin.Context) {
+
+	c.JSON(http.StatusOK, gin.H{"reason": "данные сохранены"})
+}
+
 //func RbDiscountForSalesGrowth(c *gin.Context) {
 //	var rbReqst model.RBRequest
 //

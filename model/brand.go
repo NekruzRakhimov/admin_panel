@@ -138,10 +138,11 @@ type BrandAndPercent struct {
 
 type RespPriceType struct {
 	PricetypeArr []struct {
-		PricetypeName     string `json:"pricetype_name"`
-		PricetypeCode     string `json:"pricetype_code"`
-		PricetypeCurrency string `json:"pricetype_currency"`
-		ClientBin         string `json:"client_bin"`
+		PricetypeName         string `json:"pricetype_name"`
+		PricetypeCode         string `json:"pricetype_code"`
+		PricetypeCurrency     string `json:"pricetype_currency"`
+		ClientBin             string `json:"client_bin"`
+		PriceTypeCurrencyName string `json:"pricetype_currency_name"`
 	} `json:"pricetype_arr"`
 }
 

@@ -449,7 +449,7 @@ func ConvertContractToContractDTOFor1CStruct(contract model.Contract) (contractF
 		ContractParameters: model.ContractParametersDTOFor1C{
 			ContractNumber:            contract.ContractParameters.ContractNumber,
 			ContractAmount:            contract.ContractParameters.ContractAmount,
-			Currency:                  contract.ContractParameters.Currency,
+			Currency:                  contract.ContractParameters.CurrencyName,
 			Prepayment:                contract.ContractParameters.Prepayment,
 			DateOfDelivery:            contract.ContractParameters.DateOfDelivery,
 			FrequencyDeferredDiscount: contract.ContractParameters.FrequencyDeferredDiscount,

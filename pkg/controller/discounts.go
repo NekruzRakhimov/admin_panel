@@ -266,14 +266,10 @@ func Check1CGetData(c *gin.Context) {
 	}
 
 	requestFor1C := model.GetData1CRequest{
-		ClientBin:      request.BIN,
-		Beneficiary:    "",
-		DateStart:      request.PeriodFrom,
-		DateEnd:        request.PeriodTo,
-		Type:           "sales",
-		TypeValue:      "",
-		TypeParameters: nil,
-		Contracts:      nil,
+		ClientBin: request.BIN,
+		DateStart: request.PeriodFrom,
+		DateEnd:   request.PeriodTo,
+		Type:      "sales_brand_only",
 	}
 
 	data, err := service.GetDataFrom1C(requestFor1C)
