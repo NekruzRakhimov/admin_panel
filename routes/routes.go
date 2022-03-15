@@ -207,7 +207,7 @@ func NotificationsRoutes(r *gin.Engine) {
 
 // HealthCheck godoc
 // @Summary Show the status of server.
-// @Description get the status of server.
+// @Description gets the status of server.
 // @Tags root
 // @Accept */*
 // @Produce json

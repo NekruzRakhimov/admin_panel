@@ -18,11 +18,11 @@ const (
 	TempDateCompleter = " 0:00:00"
 	TempDateEnd       = " 23:59:59"
 )
+
 func GetBrands() (model.Brand, error) {
 	brand := model.Brand{}
 	client := &http.Client{
 		Timeout: 120 * time.Second,
-
 	}
 	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/brandlist"
 	req, err := http.NewRequest("GET", uri, nil)
@@ -68,7 +68,7 @@ func GetSales(reqBrand model.ReqBrand) (model.Sales, error) {
 		ClientBin:      reqBrand.ClientBin,
 		DateStart:      reqBrand.DateStart + TempDateCompleter,
 		DateEnd:        reqBrand.DateEnd + TempDateEnd,
-		Type:           "sales",
+		Type:           "sales_brand_only",
 		TypeValue:      "",
 		TypeParameters: nil,
 	}
@@ -181,7 +181,7 @@ func GetSalesBrand(reqBrand model.ReqBrand, brandInfo []model.BrandInfo) (model.
 		ClientBin:      reqBrand.ClientBin,
 		DateStart:      reqBrand.DateStart + TempDateCompleter,
 		DateEnd:        reqBrand.DateEnd + TempDateEnd,
-		Type:           "sales",
+		Type:           "sales_brand_only",
 		TypeValue:      "",
 		TypeParameters: nil,
 	}
@@ -308,7 +308,7 @@ func GetBrandSales(reqBrand model.ReqBrand) (model.Sales, error) {
 		ClientBin:      reqBrand.ClientBin,
 		DateStart:      reqBrand.DateStart + TempDateCompleter,
 		DateEnd:        reqBrand.DateEnd + TempDateEnd,
-		Type:           "sales",
+		Type:           "sales_brand_only",
 		TypeValue:      reqBrand.TypeValue,
 		TypeParameters: reqBrand.TypeParameters,
 	}
@@ -558,7 +558,7 @@ func GetSalesSKU(reqBrand model.ReqBrand) (model.Sales, error) {
 		ClientBin:      reqBrand.ClientBin,
 		DateStart:      reqBrand.DateStart + TempDateCompleter,
 		DateEnd:        reqBrand.DateEnd + TempDateEnd,
-		Type:           "sales",
+		Type:           "sales_brand_only",
 		TypeValue:      reqBrand.TypeValue,
 		TypeParameters: reqBrand.TypeParameters,
 	}
