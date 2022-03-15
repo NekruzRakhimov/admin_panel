@@ -161,10 +161,6 @@ definitions:
         type: string
       contract_number:
         type: string
-      currency_code:
-        type: string
-      currency_name:
-        type: string
       date_of_delivery:
         type: string
       delivery_address:
@@ -185,9 +181,13 @@ definitions:
         type: boolean
       prepayment:
         type: number
-      price_type_code:
+      pricetype_code:
         type: string
-      price_type_name:
+      pricetype_currency:
+        type: string
+      pricetype_currency_name:
+        type: string
+      pricetype_name:
         type: string
       return_time_delivery:
         description: время возврата при условии не поставки
@@ -724,7 +724,7 @@ paths:
     get:
       consumes:
       - '*/*'
-      description: get the status of server.
+      description: gets the status of server.
       produces:
       - application/json
       responses:
