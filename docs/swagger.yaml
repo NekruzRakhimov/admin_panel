@@ -43,6 +43,8 @@ definitions:
         type: number
       purchase_amount:
         type: number
+      sales_amount:
+        type: number
     type: object
   model.Client:
     properties:
@@ -159,7 +161,9 @@ definitions:
         type: string
       contract_number:
         type: string
-      currency:
+      currency_code:
+        type: string
+      currency_name:
         type: string
       date_of_delivery:
         type: string
@@ -181,6 +185,10 @@ definitions:
         type: boolean
       prepayment:
         type: number
+      price_type_code:
+        type: string
+      price_type_name:
+        type: string
       return_time_delivery:
         description: время возврата при условии не поставки
         type: integer
@@ -283,9 +291,19 @@ definitions:
         items:
           $ref: '#/definitions/model.DiscountBrands'
         type: array
+      discount_percent:
+        type: number
+      growth_percent:
+        type: number
+      is_sale:
+        type: boolean
       is_selected:
         type: boolean
       name:
+        type: string
+      period_from:
+        type: string
+      period_to:
         type: string
       periods:
         items:
@@ -318,14 +336,42 @@ definitions:
     type: object
   model.DiscountPeriod:
     properties:
+      discount_percent:
+        type: number
+      growth_percent:
+        type: number
+      name:
+        type: string
       period_from:
         type: string
       period_to:
         type: string
+      purchase_amount:
+        type: number
       reward_amount:
         type: integer
       total_amount:
         type: number
+      type:
+        type: string
+    type: object
+  model.DoubtedDiscount:
+    properties:
+      contract_number:
+        type: string
+      discounts:
+        items:
+          $ref: '#/definitions/model.DoubtedDiscountDetails'
+        type: array
+    type: object
+  model.DoubtedDiscountDetails:
+    properties:
+      code:
+        type: string
+      is_completed:
+        type: boolean
+      name:
+        type: string
     type: object
   model.DoubtedDiscountResponse:
     properties:
@@ -371,6 +417,17 @@ definitions:
       id:
         type: integer
     type: object
+  model.PriceType:
+    properties:
+      client_bin:
+        type: string
+      pricetype_code:
+        type: string
+      pricetype_currency:
+        type: string
+      pricetype_name:
+        type: string
+    type: object
   model.PriceTypeCreate:
     properties:
       client_bin:
@@ -389,17 +446,6 @@ definitions:
       pricetype_name:
         type: string
     type: object
-  model.ProdPriceType:
-    properties:
-      client_bin:
-        type: string
-      pricetype_code:
-        type: string
-      pricetype_currency:
-        type: string
-      pricetype_name:
-        type: string
-    type: object
   model.Product:
     properties:
       currency:
@@ -410,8 +456,8 @@ definitions:
         type: number
       price:
         type: number
-      prod_price_type:
-        $ref: '#/definitions/model.ProdPriceType'
+      price_type:
+        $ref: '#/definitions/model.PriceType'
       producer:
         type: string
       product_name:
@@ -431,9 +477,15 @@ definitions:
         type: string
       contractor_name:
         type: string
+      doubted_discounts:
+        items:
+          $ref: '#/definitions/model.DoubtedDiscount'
+        type: array
       period_from:
         type: string
       period_to:
+        type: string
+      type:
         type: string
     type: object
   model.RbDTO:
@@ -448,6 +500,8 @@ definitions:
         type: number
       discount_percent:
         type: number
+      discount_type:
+        type: string
       end_date:
         type: string
       id:
@@ -459,6 +513,8 @@ definitions:
       reward_amount:
         type: number
       start_date:
+        type: string
+      type_period:
         type: string
     type: object
   model.Requisites:
@@ -492,6 +548,8 @@ definitions:
             pricetype_code:
               type: string
             pricetype_currency:
+              type: string
+            pricetype_currency_name:
               type: string
             pricetype_name:
               type: string
@@ -562,23 +620,25 @@ definitions:
     properties:
       sales_arr:
         items:
-          properties:
-            brand_code:
-              type: string
-            brand_name:
-              type: string
-            date:
-              type: string
-            product_code:
-              type: string
-            product_name:
-              type: string
-            qnt_total:
-              type: number
-            total:
-              type: number
-          type: object
+          $ref: '#/definitions/model.SalesArr'
         type: array
+    type: object
+  model.SalesArr:
+    properties:
+      brand_code:
+        type: string
+      brand_name:
+        type: string
+      date:
+        type: string
+      product_code:
+        type: string
+      product_name:
+        type: string
+      qnt_total:
+        type: number
+      total:
+        type: number
     type: object
   model.SearchContract:
     properties:
