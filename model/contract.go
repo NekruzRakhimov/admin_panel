@@ -115,21 +115,19 @@ type SupplierCompanyManager struct {
 	FullName string `json:"full_name"`
 }
 
-type T struct {
-
-
-
-	ClientBin             string `json:"client_bin"`
-
-}
 
 type ContractParameters struct {
 	ContractNumber  string  `json:"contract_number"`
 	ContractAmount  float32 `json:"contract_amount"`
+
+
 	PricetypeCurrencyName string `json:"pricetype_currency_name,omitempty"`
 	PricetypeCurrency     string `json:"pricetype_currency,omitempty"`
 	PricetypeName         string `json:"pricetype_name,omitempty"`
 	PricetypeCode         string `json:"pricetype_code,omitempty"`
+
+
+
 	Prepayment                float32  `json:"prepayment,omitempty"`
 	DateOfDelivery            string   `json:"date_of_delivery,omitempty"`
 	FrequencyDeferredDiscount string   `json:"frequency_deferred_discount,omitempty"` //Кратность расчета отложенной скидки TODO: возможно нужно поменять
