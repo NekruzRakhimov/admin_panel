@@ -217,7 +217,7 @@ func GetSalesBrand(reqBrand model.ReqBrand, brandInfo []model.BrandInfo) (model.
 		log.Println(err)
 		return sales, err
 	}
-	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", body)
+	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
 
 	defer resp.Body.Close()
 	if err != nil {
@@ -281,7 +281,7 @@ func GetPurchase(reqBrand model.ReqBrand) (model.Purchase, error) {
 		log.Println(err)
 		return purchase, err
 	}
-	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", body)
+	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
 
 	defer resp.Body.Close()
 	if err != nil {

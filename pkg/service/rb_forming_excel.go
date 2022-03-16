@@ -210,10 +210,11 @@ func FormExcelForRBReport(request model.RBRequest) error {
 	}
 
 	if isRB2 {
-		rbSecondType, err := GetAllRBSecondType(request)
+		rbSecondType := CountDiscountBrand(request)
 		if err != nil {
 			return err
 		}
+
 		f.NewSheet(RB2Name)
 		f.SetCellValue(RB2Name, "A1", "Период")
 		f.SetCellValue(RB2Name, "B1", "Номер договора/ДС")
