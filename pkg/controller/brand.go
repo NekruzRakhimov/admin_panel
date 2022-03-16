@@ -172,6 +172,22 @@ func GetExcellBrand(c *gin.Context) {
 
 }
 
+func GetExcellGrowth(c *gin.Context) {
+	var req model.RBRequest
+	//var req model.ReqBrand
+
+	//c.ShouldBind(&req)
+	c.BindJSON(&req)
+
+	log.Println("запрос для прироста ->>>: ", req)
+	growth, _ := service.RbDiscountForSalesGrowth(req)
+	//discount := service.CountDiscountBrand(req)
+	//discount, _ := service.GetSales(req)
+
+	c.JSON(200, gin.H{"growth": growth})
+
+}
+
 func SaveDataFrom1C(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"reason": "данные сохранены"})

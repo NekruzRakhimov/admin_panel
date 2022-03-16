@@ -101,12 +101,15 @@ insert into brands (brand, discount_percent, contract_id) VALUES ('Старт', 
 SELECT *From brands ;
 
 
+
 Update contracts SET ext_contract_code = 'K0054437' WHERE requisites ->> 'bin' =  '100840008133';
 
 
 SELECT * FROM brands WHERE  contract_id = 285;
 
 SELECT *FROM  contracts where  id = 285;
+
+
 
 
 DELETE FROM contracts WHERE  id = 264;
