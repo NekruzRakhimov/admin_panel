@@ -30,6 +30,9 @@ SELECT c.id, b.contract_id, c.contract_parameters ->> 'contract_number' AS contr
 DELETE FROM contracts WHERE  id =248;
 
 
+SELECT  * FROM contracts WHERE id = 294;
+
+
 
 --WHERE cars_info -> 'sold' = 'true';
 

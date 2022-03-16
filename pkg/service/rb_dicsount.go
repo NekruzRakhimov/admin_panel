@@ -37,101 +37,105 @@ func RbDiscountForSalesGrowth(rb model.RBRequest) ([]model.RbDTO, error) {
 		fmt.Println("contract MESSAGE", contract.Discounts)
 		for _, discount := range contract.Discounts {
 			// после всех проверок логика начнется
-			//if discount.Code == "RB_DISCOUNT_FOR_SALES_GROWTH" {
-			for _, period := range discount.Periods {
-				periodFrom, _ := time.Parse(layoutISO, period.PeriodFrom)
-				periodTo, _ := time.Parse(layoutISO, period.PeriodTo)
-				fmt.Println(periodFrom)
-				fmt.Println(periodTo)
+			if discount.Code == "RB_DISCOUNT_FOR_SALES_GROWTH" {
+				for _, period := range discount.Periods {
+					periodFrom, _ := time.Parse(layoutISO, period.PeriodFrom)
+					periodTo, _ := time.Parse(layoutISO, period.PeriodTo)
+					fmt.Println(periodFrom)
+					fmt.Println(periodTo)
 
-				//if periodFrom.After(reqPeriodFrom) || periodTo.Before(reqPeriodTo) {
-				pastTimeFrom, err := ConvertTime(period.PeriodFrom)
-				if err != nil {
-					return nil, err
-				}
-				pastTimeTo, err := ConvertTime(period.PeriodTo)
-				if err != nil {
-					return nil, err
-				}
-
-				// это чтобы брали на 1 год меньше
-				pastPeriod := model.ReqBrand{
-					ClientBin:      rb.BIN,
-					DateStart:      pastTimeFrom,
-					DateEnd:        pastTimeTo,
-					Type:           "",
-					TypeValue:      "",
-					TypeParameters: nil,
-					Contracts:      nil,
-				}
-
-				// Это необходимо, чтобы получить продажи за тек период
-				present := model.ReqBrand{
-					ClientBin:      rb.BIN,
-					Beneficiary:    "",
-					DateStart:      rb.PeriodFrom,
-					DateEnd:        rb.PeriodTo,
-					Type:           "",
-					TypeValue:      "",
-					TypeParameters: nil,
-					Contracts:      nil,
-				}
-				// берем продажи за тек год и за 1 год меньше
-				presentPeriod, err := GetSales1C(present, "sales_brand_only")
-				fmt.Println("PRESENT", presentPeriod)
-
-				if err != nil {
-					return nil, err
-				}
-				oldPeriod, err := GetSales1C(pastPeriod, "sales_brand_only")
-				fmt.Println("PAST ==================", oldPeriod)
-				if err != nil {
-					return nil, err
-				}
-				var preCoutnt float32
-				var pastCount float32
-
-				// считаем за тек период
-				for _, present := range presentPeriod.SalesArr {
-					preCoutnt += present.Total
-				}
-				// считаем за прошлый год
-				for _, past := range oldPeriod.SalesArr {
-					pastCount += past.Total
-
-				}
-				fmt.Println("Сумма на настоящее", preCoutnt)
-				fmt.Println("Сумма на прошлый год", pastCount)
-
-				// находим прирост в процентах
-				growthPercent := (pastCount * 100 / preCoutnt) - 100
-
-				// проверяем разницу с тек по прошлогодний год, если процент прироста выше, логика выполнится
-				if growthPercent > period.GrowthPercent {
-					discountAmount := preCoutnt * 5 / 100
-
-					fmt.Println("discountAmount", discountAmount)
-
-					rbDTO := model.RbDTO{
-						StartDate:            period.PeriodFrom,
-						EndDate:              period.PeriodTo,
-						TypePeriod:           "",
-						BrandName:            "",
-						ProductCode:          "",
-						DiscountPercent:      period.DiscountPercent,
-						DiscountAmount:       discountAmount,
-						TotalWithoutDiscount: preCoutnt,
+					//if periodFrom.After(reqPeriodFrom) || periodTo.Before(reqPeriodTo) {
+					pastTimeFrom, err := ConvertTime(period.PeriodFrom)
+					if err != nil {
+						return nil, err
 					}
-					rbDTOsl = append(rbDTOsl, rbDTO)
+					pastTimeTo, err := ConvertTime(period.PeriodTo)
+					if err != nil {
+						return nil, err
+					}
+
+					// это чтобы брали на 1 год меньше
+					pastPeriod := model.ReqBrand{
+						ClientBin:      rb.BIN,
+						DateStart:      pastTimeFrom,
+						DateEnd:        pastTimeTo,
+						Type:           "",
+						TypeValue:      "",
+						TypeParameters: nil,
+						Contracts:      nil,
+					}
+
+					// Это необходимо, чтобы получить продажи за тек период
+					present := model.ReqBrand{
+						ClientBin:      rb.BIN,
+						Beneficiary:    "",
+						DateStart:      rb.PeriodFrom,
+						DateEnd:        rb.PeriodTo,
+						Type:           "",
+						TypeValue:      "",
+						TypeParameters: nil,
+						Contracts:      nil,
+					}
+					// берем продажи за тек год и за 1 год меньше
+					presentPeriod, err := GetSales1C(present, "sales_brand_only")
+					fmt.Println("PRESENT", presentPeriod)
+
+					if err != nil {
+						return nil, err
+					}
+					oldPeriod, err := GetSales1C(pastPeriod, "sales_brand_only")
+					fmt.Println("PAST ==================", oldPeriod)
+					if err != nil {
+						return nil, err
+					}
+					var preCoutnt float32
+					var pastCount float32
+
+					// считаем за тек период
+					for _, present := range presentPeriod.SalesArr {
+						preCoutnt += present.Total
+					}
+					// считаем за прошлый год
+					for _, past := range oldPeriod.SalesArr {
+						pastCount += past.Total
+
+					}
+					fmt.Println("Сумма на настоящее", preCoutnt)
+					fmt.Println("Сумма на прошлый год", pastCount)
+
+					// находим прирост в процентах
+					growthPercent := (pastCount * 100 / preCoutnt) - 100
+					fmt.Println("growthPercent", growthPercent)
+					// проверяем разницу с тек по прошлогодний год, если процент прироста выше, логика выполнится
+
+					fmt.Println("growth_percent", period.GrowthPercent)
+					fmt.Println("discount percnet", period.DiscountPercent)
+					fmt.Println()
+					if growthPercent > period.GrowthPercent {
+						discountAmount := preCoutnt * period.DiscountPercent / 100
+
+						fmt.Println("discountAmount", discountAmount)
+
+						rbDTO := model.RbDTO{
+							StartDate:            period.PeriodFrom,
+							EndDate:              period.PeriodTo,
+							TypePeriod:           "",
+							BrandName:            "",
+							ProductCode:          "",
+							DiscountPercent:      period.DiscountPercent,
+							DiscountAmount:       discountAmount,
+							TotalWithoutDiscount: preCoutnt,
+						}
+						rbDTOsl = append(rbDTOsl, rbDTO)
+
+					}
 
 				}
 
 			}
 
 		}
-
 	}
-	//}
 	//}
 	return rbDTOsl, nil
 }
