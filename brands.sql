@@ -87,7 +87,26 @@ SELECT discounts ->> 'periods'  an  FROM contracts WHERE requisites ->> 'bin' = 
 
 SELECT id, manager, ext_contract_code FROM contracts WHERE requisites ->> 'bin' =  '100840008133';
 
+
+SELECT  id, requisites ->> 'bin' as BIN, contract_parameters ->> 'start_date' as start,  contract_parameters ->> 'end_date' as end_date from contracts
+
+
+SELECT  id, requisites ->> 'bin' as BIN, contract_parameters ->> 'start_date' as start,  contract_parameters ->> 'end_date' as end_date from contracts
+WHERE requisites ->> 'bin' = '860418401075';
+
+
+insert into brands (brand, discount_percent, contract_id) VALUES ('Старт', 5, 285);
+
+
+SELECT *From brands ;
+
+
 Update contracts SET ext_contract_code = 'K0054437' WHERE requisites ->> 'bin' =  '100840008133';
+
+
+SELECT * FROM brands WHERE  contract_id = 285;
+
+SELECT *FROM  contracts where  id = 285;
 
 
 DELETE FROM contracts WHERE  id = 264;

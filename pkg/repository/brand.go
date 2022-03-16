@@ -40,7 +40,7 @@ func GetIDBYBIN(bin string) ([]model.BrandAndPercent, string) {
 	var BrandsAndDiscount []model.BrandAndPercent
 	var ContractsID model.ContractID
 
-
+	// тут по БИНу получаю номер договора
 	// ID Договора я ему возвращаю тут получается
 	db.GetDBConn().Raw("SELECT id, contract_parameters ->> 'contract_number' AS contract_number FROM contracts WHERE requisites ->> 'bin' = $1", bin).Scan(&ContractsID)
 

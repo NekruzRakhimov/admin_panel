@@ -6,7 +6,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/xuri/excelize/v2"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -85,7 +84,7 @@ func GetSales(reqBrand model.ReqBrand) (model.Sales, error) {
 	client := &http.Client{
 		Timeout: 120 * time.Second,
 	}
-	log.Println(reqBodyBytes)
+	log.Println("запрос", reqBodyBytes)
 	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/getdata"
 	req, err := http.NewRequest("POST", uri, reqBodyBytes)
 	req.Header.Set("Content-Type", "application/json") // This makes it work
@@ -105,7 +104,7 @@ func GetSales(reqBrand model.ReqBrand) (model.Sales, error) {
 		log.Println(err)
 		return sales, err
 	}
-	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", body)
+	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
 
 	defer resp.Body.Close()
 	if err != nil {
@@ -360,194 +359,253 @@ func GetBrandSales(reqBrand model.ReqBrand) (model.Sales, error) {
 
 }
 
-func FoundBrandDiscount(reqBrand model.ReqBrand) []model.RbDTO {
-	var rbBrands []model.RbDTO
-	var rbBrand model.RbDTO
-	var totalBrandsDiscount []model.TotalBrandDiscount
-	var BrandTotal model.TotalBrandDiscount
+//func FoundBrandDiscount(rbReq model.RBRequest) []model.RbDTO {
+//	var rbBrands []model.RbDTO
+//	var rbBrand model.RbDTO
+//	var totalBrandsDiscount []model.TotalBrandDiscount
+//	var BrandTotal model.TotalBrandDiscount
+//
+//	// f, err := excelize.OpenFile("files/reports/rb/rb_report.xlsx")
+//	// if err != nil {
+//	// 	fmt.Println(err)
+//	// 	return rbBrands
+//	// }
+//
+//	// берем бренды по Бину
+//
+//	// тут возвращаю
+//	//brand AS brand_name, discount_percent, contract_id - 3 fields
+//
+//	// имя брендов и 1 номер договора
+//	dataBrand, contractNumber := repository.GetIDBYBIN(rbReq.BIN)
+//	log.Println("ДАННЫЕ БРЕНДОВ", dataBrand)
+//
+//	// тут что ищем?
+//	// dataBrand - ID, discount, brand
+//
+//	for _, value := range dataBrand {
+//		var floatPercent float32
+//		valuePercent, err := strconv.ParseFloat(value.DiscountPercent, 32)
+//		if err != nil {
+//			// do something sensible
+//		}
+//		floatPercent = float32(valuePercent)
+//
+//		// тут добавляю бренды в TypeParameters
+//		//reqBrand.TypeParameters = append(reqBrand.TypeParameters, value.BrandName)
+//		//ID              int     `json:"id"` -- отдадим сами
+//		//ContractNumber  string  `json:"contract_number"`  -- взял
+//		//StartDate       string  `json:"start_date"`  -- возьмем из запроса
+//		//EndDate         string  `json:"end_date"` -- возьмем из запроса
+//		//BrandName       string  `json:"brand_name,omitempty"` -- отдадим сами
+//		//DiscountPercent float32 `json:"discount_percent"` -- отдадим сами
+//		//DiscountAmount  float32 `json:"discount_amount"` --  отдадим тоже сами
+//		BrandTotal.ContractNumber = contractNumber
+//		BrandTotal.BrandName = value.BrandName
+//		BrandTotal.DiscountPercent = floatPercent
+//		BrandTotal.Id, _ = strconv.Atoi(value.ContractID)
+//
+//		totalBrandsDiscount = append(totalBrandsDiscount, BrandTotal)
+//	}
+//
+//	log.Println("reqBrand.TypeParameters", reqBrand.TypeParameters)
+//
+//	// BrandName string  `json:"brand_name"`
+//	//	Amount    float32 `json:"amount"` - сумма чего тогда
+//
+//	// reqBrand -> он дает массив брендов
+//
+//	sales, _ := GetBrandSales(reqBrand)
+//
+//	// Берет определенные бренды из 1С:
+//	counter := 1
+//	for _, sale := range sales.SalesArr {
+//
+//		//   {
+//		//            "product_name": "7Stick жевательная резинка Арбуз 14,5 г ",
+//		//            "product_code": "00000074577",
+//		//            "total": 3600,
+//		//            "qnt_total": 36,
+//		//            "date": "2022-01-03T00:00:00",
+//		//            "brand_code": "000000137",
+//		//            "brand_name": "7Stick"
+//		//        },
+//
+//		count := float32(0)
+//		//	тут будет список брендов
+//
+//		//TODO: тут ты можешь сразу записать в экселе наименование,кол-во,код, сумму, бренд,
+//		//sale.BrandName
+//
+//		//TODO: после того как мы записали все бренды, мы должны посчитать от него общую сумму
+//		for _, brand := range reqBrand.TypeParameters {
+//			log.Println("BRAND", brand)
+//
+//			// мы нашли схожие бренды, что мы должны сделать?
+//			if sale.BrandName == brand {
+//				count += sale.Total // - это сколько было продано по данному товару
+//				//TODO: ты итог должен записать и после чего какой процент и только потом сумму скидки
+//
+//				//TOTAL
+//				// Percent
+//
+//				counter += 1
+//				strCount := fmt.Sprint(counter)
+//
+//				//log.Println("Наименование: ", sale.ProductName)
+//
+//				//log.Println("Количество:", sale.QntTotal)
+//				//log.Println("Номер продукта:", sale.ProductCode)
+//				//log.Println("Стоимость: ", sale.Total)
+//				//log.Println("БРЕНД:", sale.BrandName)
+//				f.SetCellValue("Sheet1", "A"+strCount, sale.ProductName)
+//				f.SetCellValue("Sheet1", "B"+strCount, sale.QntTotal)
+//				f.SetCellValue("Sheet1", "C"+strCount, sale.ProductCode)
+//				f.SetCellValue("Sheet1", "D"+strCount, sale.Total)
+//				f.SetCellValue("Sheet1", "E"+strCount, sale.BrandName)
+//				if err := f.SaveAs("reportRB_brand1.xlsx"); err != nil {
+//					fmt.Println("ERRRRRRRRRRRRRRRRRRRRRRRRRRRRROOOOOOOOOOORRRRRRRRRRR", err)
+//
+//				}
+//
+//				// Тут он пустой
+//				fmt.Println("totalBrandsDiscount", totalBrandsDiscount)
+//				fmt.Println("LEN:", len(totalBrandsDiscount))
+//				if len(totalBrandsDiscount) == 0 {
+//
+//					//TODO: тут записываем каждый бренд и его общую сумму, это и есть TOTAL но по скидкам
+//
+//					log.Println("сРАБАОТЛО")
+//					BrandTotal.BrandName = brand
+//					BrandTotal.Amount = count
+//
+//					totalBrandsDiscount = append(totalBrandsDiscount, BrandTotal)
+//
+//				}
+//
+//				//  в начале так как массив длина его 0 - поэтому мы заранее добавили 1 бренд
+//				// после чего делаем проверку, если нашли схожий бренд - просто делаем + суммы к этому бренду
+//				for i, check := range totalBrandsDiscount {
+//					log.Println("___________________________________________________________________")
+//
+//					if brand != check.BrandName {
+//						BrandTotal.BrandName = brand
+//						BrandTotal.Amount = count
+//						fmt.Println("записался в массив")
+//						log.Println("записался в массив")
+//						totalBrandsDiscount = append(totalBrandsDiscount, BrandTotal)
+//					} else if brand == check.BrandName {
+//						fmt.Println("обновили  массив")
+//						log.Println("обновили  массив")
+//						totalBrandsDiscount[i].Amount += count
+//					}
+//
+//				}
+//
+//				// когда мы посчитали общую сумму данного бренда мы должны найти его скидку
+//
+//			}
+//
+//		}
+//
+//	}
+//
+//	for _, value := range totalBrandsDiscount {
+//		fmt.Println("ИтогСуммы: ", value.Amount)
+//		TotalPercent := (value.Amount * value.DiscountPercent) / 100
+//		log.Println("Сумма скидки: ", TotalPercent)
+//		log.Println("Скидка: ", value.DiscountPercent)
+//		//ID              int     `json:"id"`
+//		//ContractNumber  string  `json:"contract_number"`
+//		//StartDate       string  `json:"start_date"`
+//		//EndDate         string  `json:"end_date"`
+//		//BrandName       string  `json:"brand_name,omitempty"`
+//		//DiscountPercent float32 `json:"discount_percent"`
+//		//DiscountAmount  float32 `json:"discount_amount"`
+//
+//		rbBrand.ID = value.Id
+//		rbBrand.ContractNumber = value.ContractNumber
+//		rbBrand.StartDate = reqBrand.DateStart
+//		rbBrand.EndDate = reqBrand.DateEnd
+//		rbBrand.DiscountPercent = value.DiscountPercent
+//		rbBrand.DiscountAmount = TotalPercent
+//
+//	}
+//
+//	//ID              int     `json:"id"`
+//	//ContractNumber  string  `json:"contract_number"`
+//	//StartDate       string  `json:"start_date"`
+//	//EndDate         string  `json:"end_date"`
+//	//BrandName       string  `json:"brand_name,omitempty"`
+//	//DiscountPercent float32 `json:"discount_percent"`
+//	//DiscountAmount  float32 `json:"discount_amount"`
+//	//TODO: вернуть даннные:
+//	// 1. процент
+//	// 2. Сумму скидки
+//	// 3. Имя Бренда
+//	// 4.  номер договора??
+//	// 5. ID Договора
+//
+//	log.Println(rbBrands, "ОТВЕТ ТВОЕЙ МОДЕЛИ")
+//
+//	return rbBrands
+//
+//}
 
-	f, err := excelize.OpenFile("files/reports/rb/rb_report.xlsx")
-	if err != nil {
-		fmt.Println(err)
-		return rbBrands
+func CountDiscountBrand(rbReq model.RBRequest) []model.RbDTO {
+	brandTotal := map[string]float32{}
+	var rbDtoSl []model.RbDTO
+	fmt.Println("запрос от тебя", rbReq)
+	rbBrand := model.ReqBrand{
+		ClientBin: rbReq.BIN,
+		DateStart: rbReq.PeriodFrom,
+		DateEnd:   rbReq.PeriodTo,
 	}
+	fmt.Println("rbBrand", rbBrand)
+	// берем бренды и их Total
+	sales, _ := GetSales(rbBrand)
 
-	// берем бренды по Бину
-
-	// тут возвращаю
-	//brand AS brand_name, discount_percent, contract_id - 3 fields
-	dataBrand, contractNumber := repository.GetIDBYBIN(reqBrand.ClientBin)
-	log.Println("ДАННЫЕ БРЕНДОВ", dataBrand)
-
-	// тут что ищем?
-	// dataBrand - ID, discount, brand
-
-	for _, value := range dataBrand {
-		var floatPercent float32
-		valuePercent, err := strconv.ParseFloat(value.DiscountPercent, 32)
-		if err != nil {
-			// do something sensible
-		}
-		floatPercent = float32(valuePercent)
-
-		// тут добавляю бренды в TypeParameters
-		reqBrand.TypeParameters = append(reqBrand.TypeParameters, value.BrandName)
-		//ID              int     `json:"id"` -- отдадим сами
-		//ContractNumber  string  `json:"contract_number"`  -- взял
-		//StartDate       string  `json:"start_date"`  -- возьмем из запроса
-		//EndDate         string  `json:"end_date"` -- возьмем из запроса
-		//BrandName       string  `json:"brand_name,omitempty"` -- отдадим сами
-		//DiscountPercent float32 `json:"discount_percent"` -- отдадим сами
-		//DiscountAmount  float32 `json:"discount_amount"` --  отдадим тоже сами
-		BrandTotal.ContractNumber = contractNumber
-		BrandTotal.BrandName = value.BrandName
-		BrandTotal.DiscountPercent = floatPercent
-		BrandTotal.Id, _ = strconv.Atoi(value.ContractID)
-
-		totalBrandsDiscount = append(totalBrandsDiscount, BrandTotal)
-	}
-
-	log.Println("reqBrand.TypeParameters", reqBrand.TypeParameters)
-
-	// BrandName string  `json:"brand_name"`
-	//	Amount    float32 `json:"amount"` - сумма чего тогда
-
-	// reqBrand -> он дает массив брендов
-
-	sales, _ := GetBrandSales(reqBrand)
-
-	// Берет определенные бренды из 1С:
-	counter := 1
+	// тут считаем общую сумму каждого бренда
 	for _, sale := range sales.SalesArr {
+		brandTotal[sale.BrandName] += sale.Total
+	}
 
-		//   {
-		//            "product_name": "7Stick жевательная резинка Арбуз 14,5 г ",
-		//            "product_code": "00000074577",
-		//            "total": 3600,
-		//            "qnt_total": 36,
-		//            "date": "2022-01-03T00:00:00",
-		//            "brand_code": "000000137",
-		//            "brand_name": "7Stick"
-		//        },
+	fmt.Println("MAP: ", brandTotal)
 
-		count := float32(0)
-		//	тут будет список брендов
+	dataBrands, contractNumb := repository.GetIDBYBIN(rbReq.BIN)
+	fmt.Println("dataBrand", dataBrands)
+	fmt.Println("sales", sales.SalesArr)
 
-		//TODO: тут ты можешь сразу записать в экселе наименование,кол-во,код, сумму, бренд,
-		//sale.BrandName
-
-		//TODO: после того как мы записали все бренды, мы должны посчитать от него общую сумму
-		for _, brand := range reqBrand.TypeParameters {
-			log.Println("BRAND", brand)
-
-			// мы нашли схожие бренды, что мы должны сделать?
-			if sale.BrandName == brand {
-				count += sale.Total // - это сколько было продано по данному товару
-				//TODO: ты итог должен записать и после чего какой процент и только потом сумму скидки
-
-				//TOTAL
-				// Percent
-
-				counter += 1
-				strCount := fmt.Sprint(counter)
-
-				//log.Println("Наименование: ", sale.ProductName)
-
-				//log.Println("Количество:", sale.QntTotal)
-				//log.Println("Номер продукта:", sale.ProductCode)
-				//log.Println("Стоимость: ", sale.Total)
-				//log.Println("БРЕНД:", sale.BrandName)
-				f.SetCellValue("Sheet1", "A"+strCount, sale.ProductName)
-				f.SetCellValue("Sheet1", "B"+strCount, sale.QntTotal)
-				f.SetCellValue("Sheet1", "C"+strCount, sale.ProductCode)
-				f.SetCellValue("Sheet1", "D"+strCount, sale.Total)
-				f.SetCellValue("Sheet1", "E"+strCount, sale.BrandName)
-				if err := f.SaveAs("reportRB_brand1.xlsx"); err != nil {
-					fmt.Println("ERRRRRRRRRRRRRRRRRRRRRRRRRRRRROOOOOOOOOOORRRRRRRRRRR", err)
-
+	for _, brand := range dataBrands {
+		for brandName, total := range brandTotal {
+			if brand.BrandName == brandName {
+				value, _ := strconv.ParseFloat(brand.DiscountPercent, 32)
+				dicsount := float32(value)
+				TotalPercent := (total * dicsount) / 100
+				fmt.Println("Сумма со скдикой", TotalPercent)
+				fmt.Println("Название бренда", brand)
+				rbdro := model.RbDTO{
+					ID:                   0,
+					ContractNumber:       contractNumb,
+					StartDate:            rbReq.PeriodFrom,
+					EndDate:              rbReq.PeriodTo,
+					TypePeriod:           "",
+					BrandName:            brandName,
+					ProductCode:          "",
+					DiscountPercent:      dicsount,
+					DiscountAmount:       TotalPercent,
+					TotalWithoutDiscount: 0,
+					LeasePlan:            0,
+					RewardAmount:         0,
+					DiscountType:         "",
 				}
-
-				// Тут он пустой
-				fmt.Println("totalBrandsDiscount", totalBrandsDiscount)
-				fmt.Println("LEN:", len(totalBrandsDiscount))
-				if len(totalBrandsDiscount) == 0 {
-
-					//TODO: тут записываем каждый бренд и его общую сумму, это и есть TOTAL но по скидкам
-
-					log.Println("сРАБАОТЛО")
-					BrandTotal.BrandName = brand
-					BrandTotal.Amount = count
-
-					totalBrandsDiscount = append(totalBrandsDiscount, BrandTotal)
-
-				}
-
-				//  в начале так как массив длина его 0 - поэтому мы заранее добавили 1 бренд
-				// после чего делаем проверку, если нашли схожий бренд - просто делаем + суммы к этому бренду
-				for i, check := range totalBrandsDiscount {
-					log.Println("___________________________________________________________________")
-
-					if brand != check.BrandName {
-						BrandTotal.BrandName = brand
-						BrandTotal.Amount = count
-						fmt.Println("записался в массив")
-						log.Println("записался в массив")
-						totalBrandsDiscount = append(totalBrandsDiscount, BrandTotal)
-					} else if brand == check.BrandName {
-						fmt.Println("обновили  массив")
-						log.Println("обновили  массив")
-						totalBrandsDiscount[i].Amount += count
-					}
-
-				}
-
-				// когда мы посчитали общую сумму данного бренда мы должны найти его скидку
+				rbDtoSl = append(rbDtoSl, rbdro)
 
 			}
-
 		}
-
 	}
 
-	for _, value := range totalBrandsDiscount {
-		fmt.Println("ИтогСуммы: ", value.Amount)
-		TotalPercent := (value.Amount * value.DiscountPercent) / 100
-		log.Println("Сумма скидки: ", TotalPercent)
-		log.Println("Скидка: ", value.DiscountPercent)
-		//ID              int     `json:"id"`
-		//ContractNumber  string  `json:"contract_number"`
-		//StartDate       string  `json:"start_date"`
-		//EndDate         string  `json:"end_date"`
-		//BrandName       string  `json:"brand_name,omitempty"`
-		//DiscountPercent float32 `json:"discount_percent"`
-		//DiscountAmount  float32 `json:"discount_amount"`
-
-		rbBrand.ID = value.Id
-		rbBrand.ContractNumber = value.ContractNumber
-		rbBrand.StartDate = reqBrand.DateStart
-		rbBrand.EndDate = reqBrand.DateEnd
-		rbBrand.DiscountPercent = value.DiscountPercent
-		rbBrand.DiscountAmount = TotalPercent
-
-	}
-
-	//ID              int     `json:"id"`
-	//ContractNumber  string  `json:"contract_number"`
-	//StartDate       string  `json:"start_date"`
-	//EndDate         string  `json:"end_date"`
-	//BrandName       string  `json:"brand_name,omitempty"`
-	//DiscountPercent float32 `json:"discount_percent"`
-	//DiscountAmount  float32 `json:"discount_amount"`
-	//TODO: вернуть даннные:
-	// 1. процент
-	// 2. Сумму скидки
-	// 3. Имя Бренда
-	// 4.  номер договора??
-	// 5. ID Договора
-
-	log.Println(rbBrands, "ОТВЕТ ТВОЕЙ МОДЕЛИ")
-
-	return rbBrands
+	return rbDtoSl
 
 }
 

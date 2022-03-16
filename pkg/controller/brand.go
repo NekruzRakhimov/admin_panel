@@ -158,13 +158,15 @@ func GenerateReportBrand(c *gin.Context) {
 }
 
 func GetExcellBrand(c *gin.Context) {
-	var req model.ReqBrand
+	var req model.RBRequest
+	//var req model.ReqBrand
 
 	//c.ShouldBind(&req)
 	c.BindJSON(&req)
 
 	log.Println("запрос->>>: ", req)
-	discount := service.FoundBrandDiscount(req)
+	discount := service.CountDiscountBrand(req)
+	//discount, _ := service.GetSales(req)
 
 	c.JSON(200, gin.H{"discount": discount})
 

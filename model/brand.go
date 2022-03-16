@@ -7,6 +7,14 @@ type Brand struct {
 	} `json:"brand_arr"`
 }
 
+type TotalAmountBrand struct {
+	Total     float32 `json:"total"`
+	QntTotal  float32 `json:"qnt_total"`
+	Date      string  `json:"date"`
+	BrandCode string  `json:"brand_code"`
+	BrandName string  `json:"brand_name"`
+}
+
 type Sales struct {
 	SalesArr []SalesArr `json:"sales_arr"`
 }
