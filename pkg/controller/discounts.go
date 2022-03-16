@@ -45,7 +45,7 @@ func GetAllRBByContractorBIN(c *gin.Context) {
 	contracts = append(contracts, contracts1stType...)
 
 	// #2
-	rbSecondType, err := service.GetAllRBSecondType(request)
+	rbSecondType := service.CountDiscountBrand(request)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return

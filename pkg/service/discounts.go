@@ -516,12 +516,15 @@ func InfoPresentationDiscount(request model.RBRequest) (rbDTO []model.RbDTO, err
 		Beneficiary: request.ContractorName,
 		DateStart:   request.PeriodFrom,
 		DateEnd:     request.PeriodTo,
-		Type:        "sales",
+		Type:        "sales_brand_only",
 	}
 
 	sales, err := GetSales(req)
 
 	totalAmount := GetTotalAmount(sales)
+
+	log.Printf("[CHECK PRES SAlES: %+v\n", sales)
+	log.Printf("[CHECK PRES TOTAL AMOUNT]: %f\n", totalAmount)
 
 	for _, contract := range contracts {
 		for _, discount := range contract.Discounts {
@@ -530,6 +533,10 @@ func InfoPresentationDiscount(request model.RBRequest) (rbDTO []model.RbDTO, err
 				if repository.DoubtedDiscountExecutionCheck(request, contract.ContractParameters.ContractNumber, discount.Code) {
 					discountAmount = totalAmount * discount.DiscountPercent / 100
 				}
+				log.Printf("[CHECK PRES DISCOUNT PERCENT]: %f\n", discount.DiscountPercent)
+				log.Printf("[CHECK PRES TOTAL AMOUNT]: %f\n", totalAmount)
+				log.Printf("[CHECK PRES DISCOUNT AMOUNT]: %f\n", discountAmount)
+				log.Println("[CHECK PRES TRUE/FALSE]: ", repository.DoubtedDiscountExecutionCheck(request, contract.ContractParameters.ContractNumber, discount.Code))
 				rbDTO = append(rbDTO, model.RbDTO{
 					ContractNumber:  contract.ContractParameters.ContractNumber,
 					StartDate:       request.PeriodTo,
@@ -537,6 +544,7 @@ func InfoPresentationDiscount(request model.RBRequest) (rbDTO []model.RbDTO, err
 					DiscountPercent: discount.DiscountPercent,
 					DiscountAmount:  discountAmount,
 				})
+				log.Printf("CHECK PRES DISCOUNT rbDTO %+v\n", rbDTO)
 			}
 		}
 	}
