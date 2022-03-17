@@ -123,28 +123,53 @@ func GetAllRBByContractorBIN(c *gin.Context) {
 	}
 	contracts = append(contracts, rbTenthType...)
 
+	//// #12
+	//rb12thType, err := service.RbDiscountForSalesGrowth(request)
+	//if err != nil {
+	//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+	//	return
+	//}
+	//for i := range rb12thType {
+	//	rb12thType[i].DiscountType = service.RB12Name
+	//}
+	//contracts = append(contracts, rb12thType...)
+	//
+	//// #13
+	//rb13thType, err := service.DiscountRBPeriodTime(request)
+	//if err != nil {
+	//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+	//	return
+	//}
+	//for i := range rb13thType {
+	//	rb13thType[i].DiscountType = service.RB13Name
+	//}
+	//
+	//contracts = append(contracts, rb13thType...)
 	// #12
-	rb12thType, err := service.RbDiscountForSalesGrowth(request)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-		return
-	}
-	for i := range rb12thType {
-		rb12thType[i].DiscountType = service.RB12Name
-	}
-	contracts = append(contracts, rb12thType...)
-
-	// #13
-	rb13thType, err := service.DiscountRBPeriodTime(request)
+	rb13thType, err := service.RbDiscountForSalesGrowth(request)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
 	}
 	for i := range rb13thType {
-		rb13thType[i].DiscountType = service.RB13Name
+		rb13thType[i].DiscountType = service.RB12Name
 	}
-
 	contracts = append(contracts, rb13thType...)
+
+	// #13
+	//rb13thType, err := service.DiscountRBPeriodTime(request)
+	//if err != nil {
+	//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+	//	return
+	//}
+	//for i := range rb13thType {
+	//	rb13thType[i].DiscountType = service.RB13Name
+	//}
+	//
+	//contracts = append(contracts, rb13thType...)
+
+
+
 
 	SortedContracts := []model.RbDTO{}
 	for _, contract := range contracts {
