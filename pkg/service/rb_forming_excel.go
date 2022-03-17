@@ -87,7 +87,7 @@ func FormExcelForRBReport(request model.RBRequest) error {
 				isRB12 = true
 			}
 			if discount.Code == RB13Code && discount.IsSelected {
-				isRB12 = true
+				isRB13 = true
 			}
 		}
 	}
