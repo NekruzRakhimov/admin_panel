@@ -505,8 +505,8 @@ func FormExcelForRBReport(request model.RBRequest) error {
 		//err = f.SetCellStyle(RB2Name, fmt.Sprintf("%s%d", "G", lastRow), fmt.Sprintf("%s%d", "G", lastRow), style)
 	}
 
-	if isRB12 {
-		rb12thType, err := RbDiscountForSalesGrowth(request)
+	if isRB13 {
+		rb13thType, err := RbDiscountForSalesGrowth(request)
 		if err != nil {
 			return err
 		}
@@ -524,7 +524,7 @@ func FormExcelForRBReport(request model.RBRequest) error {
 		var totalDiscountsSum float32
 		fmt.Printf("CHECK \n%+v\n CHECK", contracts)
 		var i int
-		for _, contract := range rb12thType {
+		for _, contract := range rb13thType {
 			f.SetCellValue(RB12Name, fmt.Sprintf("%s%d", "A", i+2), fmt.Sprintf("%s-%s", contract.StartDate, contract.EndDate))
 			f.SetCellValue(RB12Name, fmt.Sprintf("%s%d", "B", i+2), contract.ContractNumber)
 			f.SetCellValue(RB12Name, fmt.Sprintf("%s%d", "C", i+2), RB12Name)
@@ -543,7 +543,7 @@ func FormExcelForRBReport(request model.RBRequest) error {
 		//err = f.SetCellStyle(RB2Name, fmt.Sprintf("%s%d", "G", lastRow), fmt.Sprintf("%s%d", "G", lastRow), style)
 	}
 
-	if isRB13 {
+	if isRB12 {
 		rb12thType, err := DiscountRBPeriodTime(request)
 		if err != nil {
 			return err
