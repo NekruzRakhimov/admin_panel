@@ -251,7 +251,7 @@ func GetAllContracts(contractType string) (contractsMiniInfo []model.ContractMin
 	}
 	//fmt.Printf(">>>>>>>>>>>>>>>>>contractsWithJson%+v\n", contractsWithJson)
 
-	//log.Println(contractsWithJson, "ПОСМОТРИ РЕЗУЛЬТАТ")
+	log.Println(contractsWithJson, "ПОСМОТРИ РЕЗУЛЬТАТ")
 	// до этого момента я получаю нужный результат
 	fmt.Printf("my_logs[ %+v\n]", contractsWithJson)
 
@@ -261,10 +261,10 @@ func GetAllContracts(contractType string) (contractsMiniInfo []model.ContractMin
 		return nil, err
 	}
 
-	fmt.Printf(">>>>>>>>>>>>>>>>>contracts%+v\n", contracts)
+	//fmt.Printf(">>>>>>>>>>>>>>>>>contracts%+v\n", contracts)
 
 	for _, contract := range contracts {
-		fmt.Printf(">>>>>>>>>>>>>>>>>loop contract>>>>>>>%+v\n", contract)
+		//fmt.Printf(">>>>>>>>>>>>>>>>>loop contract>>>>>>>%+v\n", contract)
 		//fmt.Printf("отдельные данные:  %t", contract.IsExtendContract)
 		fmt.Printf("BOOOL %t\n", contract.IsExtendContract)
 		fmt.Printf("%v\n", contract.IsExtendContract)
@@ -314,6 +314,9 @@ func ConvertContractToContractMiniInfo(contract model.Contract) (contractMiniInf
 	contractMiniInfo.Beneficiary = contract.Requisites.Beneficiary
 	contractMiniInfo.IsExtendContract = contract.IsExtendContract
 	contractMiniInfo.ExtendDate = contract.ExtendDate
+	contractMiniInfo.StartDate = contract.ContractParameters.StartDate
+	contractMiniInfo.EndDate = contract.ContractParameters.EndDate
+	contractMiniInfo.EndDate = contract.ContractParameters.ContractNumber
 
 	return contractMiniInfo
 }
@@ -765,7 +768,7 @@ func GetCurrencies() ([]model.ConvertCurrency, error) {
 	//parm.Add("datestart", "01.01.2022 0:02:09")
 	//parm.Add("dateend", "01.01.2022 0:02:09")
 	client := &http.Client{}
-//	log.Println(reqBodyBytes)
+	//	log.Println(reqBodyBytes)
 	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/currency_list"
 	req, err := http.NewRequest("GET", uri, nil)
 	req.Header.Set("Content-Type", "application/json") // This makes it work
@@ -799,11 +802,10 @@ func GetCurrencies() ([]model.ConvertCurrency, error) {
 		log.Println(err)
 		return ConvertCurrencySl, err
 	}
-	for _, value := range CurrencyArr.CurrencyArr{
+	for _, value := range CurrencyArr.CurrencyArr {
 		convertCur := model.ConvertCurrency{
 			CurrencyName: value.CurrencyName,
 			CurrencyCode: value.CurrencyCode,
-			
 		}
 		ConvertCurrencySl = append(ConvertCurrencySl, convertCur)
 	}

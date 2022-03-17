@@ -95,7 +95,7 @@ func Check1CRoutes(r *gin.Engine) {
 
 	r.POST("/price_type", controller.GetPriceType)
 	r.POST("/create_price_type", controller.CreatePriceType)
-	r.GET("/currencies", controller.GetCurrencies)
+	r.GET("/currencies", controller.GetCurrencies) // add swagger
 
 	r.GET("/brands/", controller.GetBrands)
 	r.GET("/add_brand/", controller.AddBrand)
