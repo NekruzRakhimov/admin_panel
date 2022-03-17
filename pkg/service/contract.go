@@ -675,20 +675,17 @@ func GetPriceType(bin string) ([]model.PriceTypeAndCode, error) {
 		return priceAndCodeSl, err
 	}
 
-	for _, code := range priceType.PricetypeArr{
+	for _, code := range priceType.PricetypeArr {
 		priceAndCodeMap[code.PricetypeCode] = code.PricetypeName
 	}
 	for key, value := range priceAndCodeMap {
-	priceAndCode  := model.PriceTypeAndCode{
-		PricetypeName: value,
-		PricetypeCode: key,
+		priceAndCode := model.PriceTypeAndCode{
+			PricetypeName: value,
+			PricetypeCode: key,
 		}
 		priceAndCodeSl = append(priceAndCodeSl, priceAndCode)
 
-
 	}
-
-
 
 	return priceAndCodeSl, nil
 
@@ -747,5 +744,70 @@ func CreatePriceType(payload model.PriceTypeCreate) (model.PriceTypeResponse, er
 	}
 
 	return responsePriceType, nil
+
+}
+
+func GetCurrencies() ([]model.ConvertCurrency, error) {
+	var CurrencyArr model.CurrencyArr
+	var ConvertCurrencySl []model.ConvertCurrency
+
+	//date := model.ReqBrand{
+	//	ClientBin: bin,
+	//}
+	//for _, value := range brandInfo {
+	//	date.TypeParameters = append(date.TypeParameters, value.Brand)
+	//}
+
+	// reqBodyBytes := new(bytes.Buffer)
+	// json.NewEncoder(reqBodyBytes).Encode(&payload)
+	// fmt.Println(">>> ", reqBodyBytes)
+
+	//parm.Add("datestart", "01.01.2022 0:02:09")
+	//parm.Add("dateend", "01.01.2022 0:02:09")
+	client := &http.Client{}
+//	log.Println(reqBodyBytes)
+	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/currency_list"
+	req, err := http.NewRequest("GET", uri, nil)
+	req.Header.Set("Content-Type", "application/json") // This makes it work
+	req.SetBasicAuth("http_client", "123456")
+
+	if err != nil {
+		log.Println(err)
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println(err)
+		return ConvertCurrencySl, err
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Println(err)
+		return ConvertCurrencySl, err
+	}
+	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
+
+	defer resp.Body.Close()
+	if err != nil {
+		log.Println(err)
+		return ConvertCurrencySl, err
+	}
+	body = bytes.TrimPrefix(body, []byte("\xef\xbb\xbf")) // Or []byte{239, 187, 191}
+
+	err = json.Unmarshal(body, &CurrencyArr)
+	if err != nil {
+		log.Println(err)
+		return ConvertCurrencySl, err
+	}
+	for _, value := range CurrencyArr.CurrencyArr{
+		convertCur := model.ConvertCurrency{
+			CurrencyName: value.CurrencyName,
+			CurrencyCode: value.CurrencyCode,
+			
+		}
+		ConvertCurrencySl = append(ConvertCurrencySl, convertCur)
+	}
+
+	return ConvertCurrencySl, nil
 
 }

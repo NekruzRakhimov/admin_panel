@@ -790,3 +790,16 @@ func CreatePriceType(c *gin.Context) {
 	c.JSON(http.StatusOK, priceTypeResponse)
 
 }
+
+
+func GetCurrencies(c *gin.Context)  {
+	currencies, err := service.GetCurrencies()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, currencies)
+	
+
+	
+}

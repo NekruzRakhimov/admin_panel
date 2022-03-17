@@ -155,15 +155,25 @@ type RespPriceType struct {
 }
 
 type PriceTypeAndCode struct {
-	PricetypeName         string `json:"pricetype_name"`
-	PricetypeCode         string `json:"pricetype_code"`
-	ClientBin             string `json:"client_bin"`
+	PricetypeName string `json:"pricetype_name"`
+	PricetypeCode string `json:"pricetype_code"`
+	ClientBin     string `json:"client_bin,omitempty"`
 }
-
-
 
 type PriceTypeResponse struct {
 	PricetypeCode string `json:"pricetype_code"`
 	PricetypeName string `json:"pricetype_name"`
 	ClientBin     string `json:"client_bin"`
+}
+
+type CurrencyArr struct {
+	CurrencyArr []struct {
+		CurrencyName string `json:"currency_name"`
+		CurrencyCode string `json:"currency_code"`
+	} `json:"currency_arr"`
+}
+
+type ConvertCurrency struct {
+	CurrencyName string `json:"currency_name"`
+	CurrencyCode string `json:"currency_code"`
 }
