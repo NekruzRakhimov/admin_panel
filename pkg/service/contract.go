@@ -620,8 +620,11 @@ func GetCountries() (model.Country, error) {
 
 }
 
-func GetPriceType(bin string) (model.RespPriceType, error) {
+func GetPriceType(bin string) ([]model.PriceTypeAndCode, error) {
 	var priceType model.RespPriceType
+	priceAndCodeMap := map[string]string{}
+
+	var priceAndCodeSl []model.PriceTypeAndCode
 
 	date := model.ReqBrand{
 		ClientBin: bin,
@@ -649,30 +652,45 @@ func GetPriceType(bin string) (model.RespPriceType, error) {
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Println(err)
-		return priceType, err
+		return priceAndCodeSl, err
 	}
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		log.Println(err)
-		return priceType, err
+		return priceAndCodeSl, err
 	}
 	//log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
 
 	defer resp.Body.Close()
 	if err != nil {
 		log.Println(err)
-		return priceType, err
+		return priceAndCodeSl, err
 	}
 	body = bytes.TrimPrefix(body, []byte("\xef\xbb\xbf")) // Or []byte{239, 187, 191}
 
 	err = json.Unmarshal(body, &priceType)
 	if err != nil {
 		log.Println(err)
-		return priceType, err
+		return priceAndCodeSl, err
 	}
 
-	return priceType, nil
+	for _, code := range priceType.PricetypeArr{
+		priceAndCodeMap[code.PricetypeCode] = code.PricetypeName
+	}
+	for key, value := range priceAndCodeMap {
+	priceAndCode  := model.PriceTypeAndCode{
+		PricetypeName: value,
+		PricetypeCode: key,
+		}
+		priceAndCodeSl = append(priceAndCodeSl, priceAndCode)
+
+
+	}
+
+
+
+	return priceAndCodeSl, nil
 
 }
 

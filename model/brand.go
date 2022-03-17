@@ -154,6 +154,14 @@ type RespPriceType struct {
 	} `json:"pricetype_arr"`
 }
 
+type PriceTypeAndCode struct {
+	PricetypeName         string `json:"pricetype_name"`
+	PricetypeCode         string `json:"pricetype_code"`
+	ClientBin             string `json:"client_bin"`
+}
+
+
+
 type PriceTypeResponse struct {
 	PricetypeCode string `json:"pricetype_code"`
 	PricetypeName string `json:"pricetype_name"`
