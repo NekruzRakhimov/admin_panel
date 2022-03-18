@@ -791,7 +791,17 @@ func CreatePriceType(c *gin.Context) {
 
 }
 
-
+// GetCurrencies godoc
+// @Summary     get currencies
+// @Description  get currencies
+// @Tags         price_type
+// @Accept       json
+// @Produce      json
+// @Success      200      {object}  []model.ConvertCurrency
+// @Failure      400      {object}  map[string]interface{}
+// @Failure      404      {object}  map[string]interface{}
+// @Failure      500      {object}  map[string]interface{}
+// @Router       /currencies [get]
 func GetCurrencies(c *gin.Context)  {
 	currencies, err := service.GetCurrencies()
 	if err != nil {

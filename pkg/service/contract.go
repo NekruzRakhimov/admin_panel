@@ -452,7 +452,7 @@ func ConvertContractToContractDTOFor1CStruct(contract model.Contract) (contractF
 		ContractParameters: model.ContractParametersDTOFor1C{
 			ContractNumber:            contract.ContractParameters.ContractNumber,
 			ContractAmount:            contract.ContractParameters.ContractAmount,
-			Currency:                  contract.ContractParameters.PricetypeCurrencyName,
+			Currency:                  contract.ContractParameters.CurrencyName,
 			Prepayment:                contract.ContractParameters.Prepayment,
 			DateOfDelivery:            contract.ContractParameters.DateOfDelivery,
 			FrequencyDeferredDiscount: contract.ContractParameters.FrequencyDeferredDiscount,
@@ -731,7 +731,7 @@ func CreatePriceType(payload model.PriceTypeCreate) (model.PriceTypeResponse, er
 		log.Println(err)
 		return responsePriceType, err
 	}
-	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
+	//log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
 
 	defer resp.Body.Close()
 	if err != nil {
@@ -754,19 +754,7 @@ func GetCurrencies() ([]model.ConvertCurrency, error) {
 	var CurrencyArr model.CurrencyArr
 	var ConvertCurrencySl []model.ConvertCurrency
 
-	//date := model.ReqBrand{
-	//	ClientBin: bin,
-	//}
-	//for _, value := range brandInfo {
-	//	date.TypeParameters = append(date.TypeParameters, value.Brand)
-	//}
 
-	// reqBodyBytes := new(bytes.Buffer)
-	// json.NewEncoder(reqBodyBytes).Encode(&payload)
-	// fmt.Println(">>> ", reqBodyBytes)
-
-	//parm.Add("datestart", "01.01.2022 0:02:09")
-	//parm.Add("dateend", "01.01.2022 0:02:09")
 	client := &http.Client{}
 	//	log.Println(reqBodyBytes)
 	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/currency_list"
@@ -788,7 +776,7 @@ func GetCurrencies() ([]model.ConvertCurrency, error) {
 		log.Println(err)
 		return ConvertCurrencySl, err
 	}
-	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
+	//log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
 
 	defer resp.Body.Close()
 	if err != nil {

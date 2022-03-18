@@ -1236,6 +1236,53 @@ var doc = `{
                 }
             }
         },
+        "/currencies": {
+            "get": {
+                "description": "get currencies",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "price_type"
+                ],
+                "summary": "get currencies",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.ConvertCurrency"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/detach_role/{user_id}/{role_id}": {
             "delete": {
                 "description": "Detach by json Role To User",
@@ -3682,6 +3729,9 @@ var doc = `{
                 "created_at": {
                     "type": "string"
                 },
+                "end_date": {
+                    "type": "string"
+                },
                 "extend_date": {
                     "type": "string"
                 },
@@ -3690,6 +3740,9 @@ var doc = `{
                 },
                 "is_extend_contract": {
                     "type": "boolean"
+                },
+                "start_date": {
+                    "type": "string"
                 },
                 "status": {
                     "type": "string"
@@ -3709,6 +3762,13 @@ var doc = `{
                     "type": "string"
                 },
                 "contract_number": {
+                    "type": "string"
+                },
+                "currency_code": {
+                    "type": "string"
+                },
+                "currency_name": {
+                    "description": "update fields",
                     "type": "string"
                 },
                 "date_of_delivery": {
@@ -3743,12 +3803,6 @@ var doc = `{
                 "pricetype_code": {
                     "type": "string"
                 },
-                "pricetype_currency": {
-                    "type": "string"
-                },
-                "pricetype_currency_name": {
-                    "type": "string"
-                },
                 "pricetype_name": {
                     "type": "string"
                 },
@@ -3777,6 +3831,17 @@ var doc = `{
                     "type": "string"
                 },
                 "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.ConvertCurrency": {
+            "type": "object",
+            "properties": {
+                "currency_code": {
+                    "type": "string"
+                },
+                "currency_name": {
                     "type": "string"
                 }
             }

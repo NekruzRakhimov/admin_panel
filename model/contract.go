@@ -122,8 +122,9 @@ type ContractParameters struct {
 	ContractNumber string  `json:"contract_number"`
 	ContractAmount float32 `json:"contract_amount"`
 
-	PricetypeCurrencyName string `json:"pricetype_currency_name,omitempty"`
-	PricetypeCurrency     string `json:"pricetype_currency,omitempty"`
+	// update fields
+	CurrencyName string `json:"currency_name,omitempty"`
+	CurrencyCode string `json:"currency_code,omitempty"`
 	PricetypeName         string `json:"pricetype_name,omitempty"`
 	PricetypeCode         string `json:"pricetype_code,omitempty"`
 
