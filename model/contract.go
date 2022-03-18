@@ -87,6 +87,9 @@ type ContractMiniInfo struct {
 	UpdatedAt        string  `json:"updated_at,omitempty"`
 	IsExtendContract bool    `json:"is_extend_contract"`
 	ExtendDate       string  `json:"extend_date"`
+
+	EndDate   string `json:"end_date"`
+	StartDate string `json:"start_date"`
 }
 
 // Requisites Ревезиты
@@ -115,18 +118,14 @@ type SupplierCompanyManager struct {
 	FullName string `json:"full_name"`
 }
 
-
 type ContractParameters struct {
-	ContractNumber  string  `json:"contract_number"`
-	ContractAmount  float32 `json:"contract_amount"`
-
+	ContractNumber string  `json:"contract_number"`
+	ContractAmount float32 `json:"contract_amount"`
 
 	PricetypeCurrencyName string `json:"pricetype_currency_name,omitempty"`
 	PricetypeCurrency     string `json:"pricetype_currency,omitempty"`
 	PricetypeName         string `json:"pricetype_name,omitempty"`
 	PricetypeCode         string `json:"pricetype_code,omitempty"`
-
-
 
 	Prepayment                float32  `json:"prepayment,omitempty"`
 	DateOfDelivery            string   `json:"date_of_delivery,omitempty"`
