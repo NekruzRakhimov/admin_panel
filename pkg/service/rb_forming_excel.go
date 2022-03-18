@@ -165,6 +165,11 @@ func FormExcelForRBReport(request model.RBRequest) error {
 	//RB1
 
 	if isRB1 {
+		contract1stType, err := GetAllRBByContractorBIN(request)
+		if err != nil {
+			return err
+		}
+
 		f.NewSheet(RB1Name)
 		f.SetCellValue(RB1Name, "A1", "Период")
 		f.SetCellValue(RB1Name, "B1", "Номер договора/ДС")
@@ -176,32 +181,32 @@ func FormExcelForRBReport(request model.RBRequest) error {
 		var totalDiscountsSum int
 		fmt.Printf("CHECK \n%+v\n CHECK", contracts)
 		var i int
-		for _, contract := range contracts {
-			for _, discountStruct := range contract.Discounts {
-				if discountStruct.Code != "TOTAL_AMOUNT_OF_SELLING" {
-					continue
-				}
+		for _, contract := range contract1stType {
+			//for _, discountStruct := range contract.Discounts {
+			//if discountStruct.Code != "TOTAL_AMOUNT_OF_SELLING" {
+			//	continue
+			//}
 
-				var rewardASum int
-				var totalSum float32
-				if len(contract.Discounts) > 0 {
-					if len(contract.Discounts[0].Periods) > 0 {
-						rewardASum = contract.Discounts[0].Periods[0].RewardAmount
-						totalSum = contract.Discounts[0].Periods[0].TotalAmount
-					}
-				}
-				if totalSum <= totalAmount {
-					discount = rewardASum
-				}
-				f.SetCellValue(RB1Name, fmt.Sprintf("%s%d", "A", i+2), fmt.Sprintf("%s-%s", contract.ContractParameters.StartDate, contract.ContractParameters.EndDate))
-				f.SetCellValue(RB1Name, fmt.Sprintf("%s%d", "B", i+2), contract.ContractParameters.ContractNumber)
-				f.SetCellValue(RB1Name, fmt.Sprintf("%s%d", "C", i+2), "Скидка за объем закупа")
-				f.SetCellValue(RB1Name, fmt.Sprintf("%s%d", "D", i+2), rewardASum)
-				f.SetCellValue(RB1Name, fmt.Sprintf("%s%d", "E", i+2), discount)
-				totalDiscountsSum += discount
-				lastRow = i + 2
-				i++
-			}
+			//var rewardASum int
+			//var totalSum float32
+			//if len(contract.Discounts) > 0 {
+			//	if len(contract.Discounts[0].Periods) > 0 {
+			//		rewardASum = contract.Discounts[0].Periods[0].RewardAmount
+			//		totalSum = contract.Discounts[0].Periods[0].TotalAmount
+			//	}
+			//}
+			//if totalSum <= totalAmount {
+			//	discount = rewardASum
+			//}
+			f.SetCellValue(RB1Name, fmt.Sprintf("%s%d", "A", i+2), fmt.Sprintf("%s-%s", contract.StartDate, contract.EndDate))
+			f.SetCellValue(RB1Name, fmt.Sprintf("%s%d", "B", i+2), contract.ContractNumber)
+			f.SetCellValue(RB1Name, fmt.Sprintf("%s%d", "C", i+2), "Скидка за объем закупа")
+			f.SetCellValue(RB1Name, fmt.Sprintf("%s%d", "D", i+2), contract.RewardAmount)
+			f.SetCellValue(RB1Name, fmt.Sprintf("%s%d", "E", i+2), contract.DiscountAmount)
+			totalDiscountsSum += discount
+			lastRow = i + 2
+			i++
+			//}
 		}
 		lastRow += 1
 		f.SetCellValue(RB1Name, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
@@ -509,85 +514,83 @@ func FormExcelForRBReport(request model.RBRequest) error {
 	if isRB12 {
 
 		log.Println("RB12->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-	//	rb12thType, err := RbDiscountForSalesGrowth(request)
-	//	if err != nil {
-	//		return err
-	//	}
-	//
-	//	f.NewSheet(RB12Name)
-	//	f.SetCellValue(RB12Name, "A1", "Период")
-	//	f.SetCellValue(RB12Name, "B1", "Номер договора/ДС")
-	//	f.SetCellValue(RB12Name, "C1", "Тип скидки")
-	//	f.SetCellValue(RB12Name, "D1", "Скидка %")
-	//	f.SetCellValue(RB12Name, "E1", "Сумма скидки")
-	//	//f.SetCellValue(RB4Name, "D1", "Код товара")
-	//	//f.SetCellValue(RB4Name, "E1", "План закупа")
-	//	err = f.SetCellStyle(RB12Name, "A1", "E1", style)
-	//
-	//	var totalDiscountsSum float32
-	//	fmt.Printf("CHECK \n%+v\n CHECK", contracts)
-	//	var i int
-	//	for _, contract := range rb12thType {
-	//		f.SetCellValue(RB12Name, fmt.Sprintf("%s%d", "A", i+2), fmt.Sprintf("%s-%s", contract.StartDate, contract.EndDate))
-	//		f.SetCellValue(RB12Name, fmt.Sprintf("%s%d", "B", i+2), contract.ContractNumber)
-	//		f.SetCellValue(RB12Name, fmt.Sprintf("%s%d", "C", i+2), RB12Name)
-	//		f.SetCellValue(RB12Name, fmt.Sprintf("%s%d", "D", i+2), contract.DiscountPercent)
-	//		f.SetCellValue(RB12Name, fmt.Sprintf("%s%d", "E", i+2), contract.DiscountAmount)
-	//		//f.SetCellValue(RB4Name, fmt.Sprintf("%s%d", "D", i+2), contract.ProductCode)
-	//		//f.SetCellValue(RB4Name, fmt.Sprintf("%s%d", "E", i+2), contract.LeasePlan)
-	//		totalDiscountsSum += contract.DiscountAmount
-	//		lastRow = i + 2
-	//		i++
-	//	}
-	//	lastRow += 1
-	//	f.SetCellValue(RB12Name, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
-	//	f.SetCellValue(RB12Name, fmt.Sprintf("%s%d", "E", lastRow), totalDiscountsSum)
-	//	err = f.SetCellStyle(RB12Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "E", lastRow), style)
-	//	//err = f.SetCellStyle(RB2Name, fmt.Sprintf("%s%d", "G", lastRow), fmt.Sprintf("%s%d", "G", lastRow), style)
-	//}
+		//	rb12thType, err := RbDiscountForSalesGrowth(request)
+		//	if err != nil {
+		//		return err
+		//	}
+		//
+		//	f.NewSheet(RB12Name)
+		//	f.SetCellValue(RB12Name, "A1", "Период")
+		//	f.SetCellValue(RB12Name, "B1", "Номер договора/ДС")
+		//	f.SetCellValue(RB12Name, "C1", "Тип скидки")
+		//	f.SetCellValue(RB12Name, "D1", "Скидка %")
+		//	f.SetCellValue(RB12Name, "E1", "Сумма скидки")
+		//	//f.SetCellValue(RB4Name, "D1", "Код товара")
+		//	//f.SetCellValue(RB4Name, "E1", "План закупа")
+		//	err = f.SetCellStyle(RB12Name, "A1", "E1", style)
+		//
+		//	var totalDiscountsSum float32
+		//	fmt.Printf("CHECK \n%+v\n CHECK", contracts)
+		//	var i int
+		//	for _, contract := range rb12thType {
+		//		f.SetCellValue(RB12Name, fmt.Sprintf("%s%d", "A", i+2), fmt.Sprintf("%s-%s", contract.StartDate, contract.EndDate))
+		//		f.SetCellValue(RB12Name, fmt.Sprintf("%s%d", "B", i+2), contract.ContractNumber)
+		//		f.SetCellValue(RB12Name, fmt.Sprintf("%s%d", "C", i+2), RB12Name)
+		//		f.SetCellValue(RB12Name, fmt.Sprintf("%s%d", "D", i+2), contract.DiscountPercent)
+		//		f.SetCellValue(RB12Name, fmt.Sprintf("%s%d", "E", i+2), contract.DiscountAmount)
+		//		//f.SetCellValue(RB4Name, fmt.Sprintf("%s%d", "D", i+2), contract.ProductCode)
+		//		//f.SetCellValue(RB4Name, fmt.Sprintf("%s%d", "E", i+2), contract.LeasePlan)
+		//		totalDiscountsSum += contract.DiscountAmount
+		//		lastRow = i + 2
+		//		i++
+		//	}
+		//	lastRow += 1
+		//	f.SetCellValue(RB12Name, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
+		//	f.SetCellValue(RB12Name, fmt.Sprintf("%s%d", "E", lastRow), totalDiscountsSum)
+		//	err = f.SetCellStyle(RB12Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "E", lastRow), style)
+		//	//err = f.SetCellStyle(RB2Name, fmt.Sprintf("%s%d", "G", lastRow), fmt.Sprintf("%s%d", "G", lastRow), style)
+		//}
 
-	//if isRB13 {
-	//	rb12thType, err := DiscountRBPeriodTime(request)
-	//	if err != nil {
-	//		return err
-	//	}
-	//
-	//	f.NewSheet(RB13Name)
-	//	f.SetCellValue(RB13Name, "A1", "Период")
-	//	f.SetCellValue(RB13Name, "B1", "Номер договора/ДС")
-	//	f.SetCellValue(RB13Name, "C1", "Тип скидки")
-	//	f.SetCellValue(RB13Name, "D1", "Скидка %")
-	//	f.SetCellValue(RB13Name, "E1", "Сумма скидки")
-	//	//f.SetCellValue(RB4Name, "D1", "Код товара")
-	//	//f.SetCellValue(RB4Name, "E1", "План закупа")
-	//	err = f.SetCellStyle(RB13Name, "A1", "E1", style)
-	//
-	//	var totalDiscountsSum float32
-	//	fmt.Printf("CHECK \n%+v\n CHECK", contracts)
-	//	var i int
-	//	for _, contract := range rb12thType {
-	//		f.SetCellValue(RB13Name, fmt.Sprintf("%s%d", "A", i+2), fmt.Sprintf("%s-%s", contract.StartDate, contract.EndDate))
-	//		f.SetCellValue(RB13Name, fmt.Sprintf("%s%d", "B", i+2), contract.ContractNumber)
-	//		f.SetCellValue(RB13Name, fmt.Sprintf("%s%d", "C", i+2), RB13Name)
-	//		f.SetCellValue(RB13Name, fmt.Sprintf("%s%d", "D", i+2), contract.DiscountPercent)
-	//		f.SetCellValue(RB13Name, fmt.Sprintf("%s%d", "E", i+2), contract.DiscountAmount)
-	//		//f.SetCellValue(RB4Name, fmt.Sprintf("%s%d", "D", i+2), contract.ProductCode)
-	//		//f.SetCellValue(RB4Name, fmt.Sprintf("%s%d", "E", i+2), contract.LeasePlan)
-	//		totalDiscountsSum += contract.DiscountAmount
-	//		lastRow = i + 2
-	//		i++
-	//	}
-	//	lastRow += 1
-	//	f.SetCellValue(RB13Name, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
-	//	f.SetCellValue(RB13Name, fmt.Sprintf("%s%d", "E", lastRow), totalDiscountsSum)
-	//	err = f.SetCellStyle(RB13Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "E", lastRow), style)
-	//	//err = f.SetCellStyle(RB2Name, fmt.Sprintf("%s%d", "G", lastRow), fmt.Sprintf("%s%d", "G", lastRow), style)
+		//if isRB13 {
+		//	rb12thType, err := DiscountRBPeriodTime(request)
+		//	if err != nil {
+		//		return err
+		//	}
+		//
+		//	f.NewSheet(RB13Name)
+		//	f.SetCellValue(RB13Name, "A1", "Период")
+		//	f.SetCellValue(RB13Name, "B1", "Номер договора/ДС")
+		//	f.SetCellValue(RB13Name, "C1", "Тип скидки")
+		//	f.SetCellValue(RB13Name, "D1", "Скидка %")
+		//	f.SetCellValue(RB13Name, "E1", "Сумма скидки")
+		//	//f.SetCellValue(RB4Name, "D1", "Код товара")
+		//	//f.SetCellValue(RB4Name, "E1", "План закупа")
+		//	err = f.SetCellStyle(RB13Name, "A1", "E1", style)
+		//
+		//	var totalDiscountsSum float32
+		//	fmt.Printf("CHECK \n%+v\n CHECK", contracts)
+		//	var i int
+		//	for _, contract := range rb12thType {
+		//		f.SetCellValue(RB13Name, fmt.Sprintf("%s%d", "A", i+2), fmt.Sprintf("%s-%s", contract.StartDate, contract.EndDate))
+		//		f.SetCellValue(RB13Name, fmt.Sprintf("%s%d", "B", i+2), contract.ContractNumber)
+		//		f.SetCellValue(RB13Name, fmt.Sprintf("%s%d", "C", i+2), RB13Name)
+		//		f.SetCellValue(RB13Name, fmt.Sprintf("%s%d", "D", i+2), contract.DiscountPercent)
+		//		f.SetCellValue(RB13Name, fmt.Sprintf("%s%d", "E", i+2), contract.DiscountAmount)
+		//		//f.SetCellValue(RB4Name, fmt.Sprintf("%s%d", "D", i+2), contract.ProductCode)
+		//		//f.SetCellValue(RB4Name, fmt.Sprintf("%s%d", "E", i+2), contract.LeasePlan)
+		//		totalDiscountsSum += contract.DiscountAmount
+		//		lastRow = i + 2
+		//		i++
+		//	}
+		//	lastRow += 1
+		//	f.SetCellValue(RB13Name, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
+		//	f.SetCellValue(RB13Name, fmt.Sprintf("%s%d", "E", lastRow), totalDiscountsSum)
+		//	err = f.SetCellStyle(RB13Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "E", lastRow), style)
+		//	//err = f.SetCellStyle(RB2Name, fmt.Sprintf("%s%d", "G", lastRow), fmt.Sprintf("%s%d", "G", lastRow), style)
 	}
-
 
 	if isRB13 {
 		log.Println("13 отчет генерировался--------------------------------------------------------------------")
-
 
 		rb13thType, err := RbDiscountForSalesGrowth(request)
 		if err != nil {
