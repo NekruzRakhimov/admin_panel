@@ -392,7 +392,7 @@ func DefiningRBReport(contracts []model.Contract, totalAmount float32) (contract
 		var contractRB []model.RbDTO
 		for _, discount := range contract.Discounts {
 			if discount.Code == "TOTAL_AMOUNT_OF_SELLING" && discount.IsSelected {
-				contractRB = DiscountToReportRB(contract.Discounts[0], contract, totalAmount)
+				contractRB = DiscountToReportRB(discount, contract, totalAmount)
 			}
 		}
 		contractsRB = append(contractsRB, contractRB...)
@@ -411,7 +411,11 @@ func DiscountToReportRB(discount model.Discount, contract model.Contract, totalA
 			StartDate:      discount.Periods[0].PeriodFrom,
 			EndDate:        discount.Periods[0].PeriodTo,
 		}
-		if totalAmount >= discount.Periods[0].TotalAmount {
+
+		if len(discount.Periods) > 1 && totalAmount >= discount.Periods[1].TotalAmount && discount.Periods[1].RewardAmount > discount.Periods[0].RewardAmount {
+			fmt.Printf("worked [totalAmount = %d AND discount.Periods[0].TotalAmount = %d]\n", totalAmount, discount.Periods[0].TotalAmount)
+			contractRB.DiscountAmount = float32(discount.Periods[0].RewardAmount)
+		} else if totalAmount >= discount.Periods[0].TotalAmount {
 			fmt.Printf("worked [totalAmount = %d AND discount.Periods[0].TotalAmount = %d]\n", totalAmount, discount.Periods[0].TotalAmount)
 			contractRB.DiscountAmount = float32(discount.Periods[0].RewardAmount)
 		}
