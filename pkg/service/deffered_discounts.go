@@ -1,7 +1,7 @@
 package service
 
 import (
-	"admin_panel/model"
+	"admin_panel/models"
 	"admin_panel/pkg/repository"
 	"fmt"
 	"github.com/xuri/excelize/v2"
@@ -24,7 +24,7 @@ const (
 	DD6Code = "deferred_discount_for_implementation_of_annual_plan_in_credit_note_form"
 )
 
-func GetAllDeferredDiscounts(request model.RBRequest) (RbDTO []model.RbDTO, err error) {
+func GetAllDeferredDiscounts(request models.RBRequest) (RbDTO []models.RbDTO, err error) {
 	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.BIN, request.PeriodFrom, request.PeriodTo)
 	if err != nil {
 		return nil, err
@@ -41,7 +41,7 @@ func GetAllDeferredDiscounts(request model.RBRequest) (RbDTO []model.RbDTO, err 
 		for _, discount := range contract.Discounts {
 			if (discount.Code == DD1Code || discount.Code == DD2Code || discount.Code == DD3Code ||
 				discount.Code == DD4Code || discount.Code == DD5Code || discount.Code == DD6Code) && discount.IsSelected == true {
-				RbDTO = append(RbDTO, model.RbDTO{
+				RbDTO = append(RbDTO, models.RbDTO{
 					ContractNumber:  contract.ContractParameters.ContractNumber,
 					StartDate:       contract.ContractParameters.StartDate,
 					EndDate:         contract.ContractParameters.EndDate,
@@ -56,7 +56,7 @@ func GetAllDeferredDiscounts(request model.RBRequest) (RbDTO []model.RbDTO, err 
 	return RbDTO, nil
 }
 
-func FormExcelForDeferredDiscounts(request model.RBRequest) error {
+func FormExcelForDeferredDiscounts(request models.RBRequest) error {
 	contracts, err := GetAllDeferredDiscounts(request)
 	if err != nil {
 		return err

@@ -1,19 +1,19 @@
 package service
 
 import (
-	"admin_panel/model"
+	"admin_panel/models"
 	"admin_panel/pkg/repository"
 )
 
-func GetAllRights() (rights []model.Right, err error) {
+func GetAllRights() (rights []models.Right, err error) {
 	return repository.GetAllRights()
 }
 
-func AddNewRight(right model.Right) error {
+func AddNewRight(right models.Right) error {
 	return repository.AddNewRight(right)
 }
 
-func EditRight(right model.Right) error {
+func EditRight(right models.Right) error {
 	return repository.EditRight(right)
 }
 
@@ -21,6 +21,6 @@ func DeleteRight(id int) error {
 	return repository.DeleteRight(id)
 }
 
-func GetRightByID(rightId int) (model.Right, error) {
+func GetRightByID(rightId int) (models.Right, error) {
 	return repository.GetRightByID(rightId)
 }

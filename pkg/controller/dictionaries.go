@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"admin_panel/model"
+	"admin_panel/models"
 	"admin_panel/pkg/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -14,7 +14,7 @@ import (
 // @Accept  json
 // @Produce  json
 // @Tags dictionary
-// @Success 200 {array}  model.Dictionary
+// @Success 200 {array}  models.Dictionary
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /dictionary [get]
@@ -35,7 +35,7 @@ func GetAllDictionaries(c *gin.Context) {
 // @Produce  json
 // @Tags dictionary
 // @Param  id path int true "Dictionary ID"
-// @Success 200 {object}  model.Dictionary
+// @Success 200 {object}  models.Dictionary
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /dictionary/{id} [get]
@@ -61,13 +61,13 @@ func GetAllDictionaryByID(c *gin.Context) {
 // @Tags dictionary
 // @Accept  json
 // @Produce  json
-// @Param Dictionary body model.Dictionary true "Create Dictionary"
+// @Param Dictionary body models.Dictionary true "Create Dictionary"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /dictionary [post]
 func CreatDictionary(c *gin.Context) {
-	var dictionary model.Dictionary
+	var dictionary models.Dictionary
 	err := c.BindJSON(&dictionary)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
@@ -89,13 +89,13 @@ func CreatDictionary(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param  id path int true "Dictionary ID"
-// @Param  Dictionary body model.Dictionary true "Update account"
+// @Param  Dictionary body models.Dictionary true "Update account"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /dictionary/{id} [put]
 func EditDictionary(c *gin.Context) {
-	var dictionary model.Dictionary
+	var dictionary models.Dictionary
 	err := c.BindJSON(&dictionary)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
@@ -147,13 +147,13 @@ func DeleteDictionary(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param id path string true "dictionary ID"
-// @Param DictionaryValue body model.DictionaryValue true  "Dictionary Value"
+// @Param DictionaryValue body models.DictionaryValue true  "Dictionary Value"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /dictionary/{id}/value [post]
 func CreateDictionaryValue(c *gin.Context) {
-	var dictionaryValue model.DictionaryValue
+	var dictionaryValue models.DictionaryValue
 	err := c.BindJSON(&dictionaryValue)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
@@ -181,7 +181,7 @@ func CreateDictionaryValue(c *gin.Context) {
 // @Produce  json
 // @Tags dictionary_values
 // @Param id path string true "dictionary ID"
-// @Success 200 {array}  model.DictionaryValue
+// @Success 200 {array}  models.DictionaryValue
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /dictionary/{id}/value [get]
@@ -208,7 +208,7 @@ func GetAllDictionaryValues(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param id path string true "dictionary ID"
-// @Param DictionaryValue body model.DictionaryValue true  "Dictionary Value"
+// @Param DictionaryValue body models.DictionaryValue true  "Dictionary Value"
 // @Param value_id path string true "value ID"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400,404 {object} map[string]interface{}
@@ -227,7 +227,7 @@ func EditDictionaryValue(c *gin.Context) {
 		return
 	}
 
-	var dictionaryValue model.DictionaryValue
+	var dictionaryValue models.DictionaryValue
 	err = c.BindJSON(&dictionaryValue)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
@@ -283,7 +283,7 @@ func DeleteDictionaryValue(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Tags dictionary
-// @Success 200 {array}  model.Currency
+// @Success 200 {array}  models.Currency
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /dictionary/currencies [get]
@@ -303,7 +303,7 @@ func GetAllCurrencies(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Tags dictionary
-// @Success 200 {array}  model.Position
+// @Success 200 {array}  models.Position
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /dictionary/positions [get]
@@ -323,7 +323,7 @@ func GetAllPositions(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Tags dictionary
-// @Success 200 {array}  model.Address
+// @Success 200 {array}  models.Address
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /dictionary/addresses [get]
@@ -343,7 +343,7 @@ func GetAllAddresses(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Tags dictionary
-// @Success 200 {array}  model.FrequencyDeferredDiscount
+// @Success 200 {array}  models.FrequencyDeferredDiscount
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /dictionary/frequency_deferred_discounts [get]

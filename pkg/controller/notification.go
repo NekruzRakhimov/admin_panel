@@ -27,7 +27,7 @@ var SearchByNumber struct {
 // @Tags         notifications
 // @Accept       json
 // @Produce      json
-// @Success      200  {array}   model.Notification
+// @Success      200  {array}   models.Notification
 // @Router       /notifications [get]
 func GetNotifications(c *gin.Context) {
 	notifications := service.GetNotifications()
@@ -43,7 +43,7 @@ func GetNotifications(c *gin.Context) {
 // @Accept       json
 // @Produce      json
 // @Param        contract_number	 query string  true  "contract_number"
-// @Success      200      {object}  model.Notification
+// @Success      200      {object}  models.Notification
 // @Failure      400      {object}  map[string]interface{}
 // @Failure      404      {object}  map[string]interface{}
 // @Failure      500      {object}  map[string]interface{}

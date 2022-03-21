@@ -1,7 +1,7 @@
 package service
 
 import (
-	"admin_panel/model"
+	"admin_panel/models"
 	"admin_panel/pkg/repository"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func GetAllUsersFullInfo() (users []model.User, err error) {
+func GetAllUsersFullInfo() (users []models.User, err error) {
 	users, err = repository.GetAllUsers()
 	if err != nil {
 		return nil, err
@@ -27,7 +27,7 @@ func GetAllUsersFullInfo() (users []model.User, err error) {
 	return users, nil
 }
 
-func CreateNewUser(user model.User) error {
+func CreateNewUser(user models.User) error {
 	user, err := repository.CreateNewUser(user)
 	if err != nil {
 		log.Println("[service.CreateNewUser]|[repository.CreateNewUser]| error is: ", err.Error())
@@ -42,7 +42,7 @@ func CreateNewUser(user model.User) error {
 	return nil
 }
 
-func EditUser(role model.User) error {
+func EditUser(role models.User) error {
 	return repository.EditUser(role)
 }
 
@@ -58,15 +58,15 @@ func DetachRoleFromUser(userId, roleId int) error {
 	return repository.DetachRoleFromUser(userId, roleId)
 }
 
-func GetUserById(userId int) (model.User, error) {
+func GetUserById(userId int) (models.User, error) {
 	user, err := repository.GetUserById(userId)
 	if err != nil {
-		return model.User{}, err
+		return models.User{}, err
 	}
 
 	roles, err := repository.GetAllRolesByUserId(userId)
 	if err != nil {
-		return model.User{}, err
+		return models.User{}, err
 	}
 	user.Roles = roles
 

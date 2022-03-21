@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"admin_panel/model"
+	"admin_panel/models"
 	"admin_panel/pkg/service"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -17,7 +17,7 @@ import (
 // @Accept  json
 // @Produce  json
 // @Tags rights
-// @Success 200 {array} model.Right
+// @Success 200 {array} models.Right
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /rights/ [get]
@@ -39,13 +39,13 @@ func GetAllRights(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Tags rights
-// @Param  right  body model.Right true "add role"
+// @Param  right  body models.Right true "add role"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /rights/ [post]
 func AddNewRight(c *gin.Context) {
-	var right model.Right
+	var right models.Right
 	if err := c.BindJSON(&right); err != nil {
 		log.Println("[controller.AddNewRight]|[binding json]| error is: ", err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
@@ -69,13 +69,13 @@ func AddNewRight(c *gin.Context) {
 // @Produce  json
 // @Tags rights
 // @Param  id path string true "rigth ID"
-// @Param  right  body model.Right true "update right"
+// @Param  right  body models.Right true "update right"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /rights/{id} [put]
 func EditRight(c *gin.Context) {
-	var right model.Right
+	var right models.Right
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		log.Println("[controller.EditRight]|[binding id param]| error is: ", err.Error())
@@ -135,7 +135,7 @@ func DeleteRight(c *gin.Context) {
 // @Produce  json
 // @Tags rights
 // @Param  id path int true "user ID"
-// @Success 200 {object} model.Right
+// @Success 200 {object} models.Right
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /rights/{id}/details [get]

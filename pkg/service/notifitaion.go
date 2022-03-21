@@ -2,7 +2,7 @@ package service
 
 import (
 	"admin_panel/db"
-	"admin_panel/model"
+	"admin_panel/models"
 	"admin_panel/pkg/repository"
 	"crypto/tls"
 	"fmt"
@@ -14,8 +14,8 @@ import (
 //Notification - берет те договора у которых истек срок
 func Notification() {
 	endDateContract := time.Now().Add((24 * 60) * time.Hour)
-	var notifications []model.Notification
-	var notification model.Notification
+	var notifications []models.Notification
+	var notification models.Notification
 
 	db.GetDBConn().Raw("SELECT requisites ->>  'bin' AS bin, contract_parameters ->> 'contract_date' AS contract_date, contract_parameters ->> 'contract_number'  AS   contract_number, type, supplier_company_manager ->> 'email'  AS email FROM contracts WHERE status = 'в работе'").Scan(&notifications)
 
@@ -82,7 +82,7 @@ func GetContractNot(contractNum string) int {
 		ID  int    `json:"id"`
 		Bin string `json:"bin"`
 	}
-	var notifications []model.Notification
+	var notifications []models.Notification
 
 	//db.GetDBConn().Raw("SELECT requisites -> 'bin' AS bin, contract_parameters -> 'contract_date' AS contract_date, contract_parameters -> 'contract_number'  AS   contract_number, type, supplier_company_manager -> 'email'  AS email FROM contracts WHERE status = 'в работе'").Scan(&notifications)
 	fmt.Println(notifications)
@@ -94,7 +94,7 @@ func GetContractNot(contractNum string) int {
 
 }
 
-func GetNotifications() []model.Notification {
+func GetNotifications() []models.Notification {
 	return repository.GetNotification()
 
 }
@@ -136,7 +136,7 @@ func SendNotification(email string, message string) error {
 	return nil
 }
 
-func SearchNotification(number string) ([]model.Notification, error) {
+func SearchNotification(number string) ([]models.Notification, error) {
 	return repository.SearchNotification(number)
 
 }

@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"admin_panel/model"
+	"admin_panel/models"
 	"admin_panel/pkg/service"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -16,7 +16,7 @@ import (
 // @Accept  json
 // @Produce  json
 // @Tags roles
-// @Success 200 {array} model.Role
+// @Success 200 {array} models.Role
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /roles/ [get]
@@ -38,13 +38,13 @@ func GetAllRoles(c *gin.Context) {
 // @Produce  json
 // @Tags roles
 // @Param  id path string true "role ID"
-// @Param  role body model.Role true "Update role"
+// @Param  role body models.Role true "Update role"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /roles/{id} [put]
 func EditRole(c *gin.Context) {
-	var role model.Role
+	var role models.Role
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		log.Println("[controller.EditRole]|[binding id param]| error is: ", err.Error())
@@ -74,13 +74,13 @@ func EditRole(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Tags roles
-// @Param  role  body model.Role true "Add role"
+// @Param  role  body models.Role true "Add role"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /roles/ [post]
 func AddNewRole(c *gin.Context) {
-	var role model.Role
+	var role models.Role
 	if err := c.BindJSON(&role); err != nil {
 		log.Println("[controller.AddNewRole]|[binding json]| error is: ", err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
@@ -103,7 +103,7 @@ func AddNewRole(c *gin.Context) {
 // @Produce  json
 // @Tags roles
 // @Param  id path string true "role ID"
-// @Param  role  body model.Role true "Update role"
+// @Param  role  body models.Role true "Update role"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
@@ -204,7 +204,7 @@ func DetachRightFromRole(c *gin.Context) {
 // @Produce  json
 // @Tags roles
 // @Param  id path int true "role ID"
-// @Success 200 {object} model.Role
+// @Success 200 {object} models.Role
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /roles/{id}/details [get]

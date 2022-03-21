@@ -1,8 +1,9 @@
 package controller
 
 import (
-	"admin_panel/model"
+	"admin_panel/models"
 	"admin_panel/pkg/service"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
@@ -14,7 +15,7 @@ import (
 // @Tags         brands
 // @Accept       json
 // @Produce      json
-// @Success      200      {object}  model.Brand
+// @Success      200      {object}  models.Brand
 // @Failure      400      {object}  map[string]interface{}
 // @Failure      404      {object}  map[string]interface{}
 // @Failure      500      {object}  map[string]interface{}
@@ -35,8 +36,8 @@ func GetBrands(c *gin.Context) {
 // @Tags         sales
 // @Accept       json
 // @Produce      json
-// @Param        payload  body      model.DateSales  true  "Add BrandName"
-// @Success      200      {object}  model.Sales
+// @Param        payload  body      models.DateSales  true  "Add BrandName"
+// @Success      200      {object}  models.Sales
 // @Failure      400      {object}  map[string]interface{}
 // @Failure      404      {object}  map[string]interface{}
 // @Failure      500      {object}  map[string]interface{}
@@ -54,7 +55,7 @@ func GetSales(c *gin.Context) {
 	//  "product_code":
 	//  "total": - сумма продаж
 	//   "qnt_total": - кол-во
-	payload := model.RBRequest{}
+	payload := models.RBRequest{}
 	err := c.ShouldBindJSON(&payload)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
@@ -64,8 +65,8 @@ func GetSales(c *gin.Context) {
 	//payload.PeriodFrom += service.TempDateCompleter
 	//payload.PeriodTo += service.TempDateEnd
 
-	//var brandInfo []model.BrandInfo
-	req := model.ReqBrand{
+	//var brandInfo []models.BrandInfo
+	req := models.ReqBrand{
 		ClientBin:   payload.BIN,
 		Beneficiary: payload.ContractorName,
 		DateStart:   payload.PeriodFrom,
@@ -73,7 +74,7 @@ func GetSales(c *gin.Context) {
 		Type:        "sales",
 	}
 
-	brandInfo := []model.BrandInfo{}
+	brandInfo := []models.BrandInfo{}
 	sales, err := service.GetSalesBrand(req, brandInfo)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
@@ -90,7 +91,7 @@ func GetSales(c *gin.Context) {
 // @Accept       json
 // @Produce      json
 // @Param        brand_name   query     string  true  "brand_name"
-// @Success      200      {object}  model.Sales
+// @Success      200      {object}  models.Sales
 // @Failure      400      {object}  map[string]interface{}
 // @Failure      404      {object}  map[string]interface{}
 // @Failure      500      {object}  map[string]interface{}
@@ -114,14 +115,14 @@ func AddBrand(c *gin.Context) {
 // @Accept       json
 // @Produce      json
 // @Param        brand_name   query     string  true  "brand_name"
-// @Success      200      {object}  model.Sales
+// @Success      200      {object}  models.Sales
 // @Failure      400      {object}  map[string]interface{}
 // @Failure      404      {object}  map[string]interface{}
 // @Failure      500      {object}  map[string]interface{}
 // @Router       /add_brand/ [get]
 func GetBrandInfo(c *gin.Context) {
 
-	var req model.ReqBrand
+	var req models.ReqBrand
 
 	err := c.ShouldBind(&req)
 	if err != nil {
@@ -135,7 +136,7 @@ func GetBrandInfo(c *gin.Context) {
 }
 
 func GenerateReportBrand(c *gin.Context) {
-	var req model.ReqBrand
+	var req models.ReqBrand
 
 	err := c.ShouldBind(&req)
 	if err != nil {
@@ -158,14 +159,14 @@ func GenerateReportBrand(c *gin.Context) {
 }
 
 func GetExcellBrand(c *gin.Context) {
-	var req model.RBRequest
-	//var req model.ReqBrand
+	var req models.RBRequest
+	//var req models.ReqBrand
 
 	//c.ShouldBind(&req)
 	c.BindJSON(&req)
 
 	log.Println("запрос->>>: ", req)
-	discount := service.CountDiscountBrand(req)
+	discount := service.GetRB2ndType(req)
 	//discount, _ := service.GetSales(req)
 
 	c.JSON(200, gin.H{"discount": discount})
@@ -173,15 +174,15 @@ func GetExcellBrand(c *gin.Context) {
 }
 
 func GetExcellGrowth(c *gin.Context) {
-	var req model.RBRequest
-	//var req model.ReqBrand
+	var req models.RBRequest
+	//var req models.ReqBrand
 
 	//c.ShouldBind(&req)
 	c.BindJSON(&req)
 
-	log.Println("запрос для прироста ->>>: ", req)
-	growth, _ := service.RbDiscountForSalesGrowth(req)
-	//discount := service.CountDiscountBrand(req)
+	fmt.Println("запрос для прироста ->>>: ", req)
+	growth, _ := service.GetRB13thType(req)
+	//discount := service.GetRB2ndType(req)
 	//discount, _ := service.GetSales(req)
 
 	c.JSON(200, gin.H{"growth": growth})
@@ -193,12 +194,12 @@ func SaveDataFrom1C(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"reason": "данные сохранены"})
 }
 
-//func RbDiscountForSalesGrowth(c *gin.Context) {
-//	var rbReqst model.RBRequest
+//func GetRB13thType(c *gin.Context) {
+//	var rbReqst models.RBRequest
 //
 //	c.ShouldBind(&rbReqst)
 //
-//	growth, f, total := service.RbDiscountForSalesGrowth(rbReqst)
+//	growth, f, total := service.GetRB13thType(rbReqst)
 //
 //	c.JSON(200, gin.H{"past": growth,
 //		"present": f,

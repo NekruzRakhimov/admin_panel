@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"admin_panel/model"
+	"admin_panel/models"
 	"admin_panel/pkg/service"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -14,13 +14,13 @@ import (
 // @Accept  json
 // @Produce  json
 // @Tags reports
-// @Param  contract  body model.RBRequest true "forming report"
-// @Success 200 {array}  model.RbDTO
+// @Param  contract  body models.RBRequest true "forming report"
+// @Success 200 {array}  models.RbDTO
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /reports/rb [post]
 func GetAllRBByContractorBIN(c *gin.Context) {
-	var request model.RBRequest
+	var request models.RBRequest
 	if err := c.BindJSON(&request); err != nil {
 		log.Println("[controller][GetAllRBByContractorBIN] error is: ", err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
@@ -32,147 +32,14 @@ func GetAllRBByContractorBIN(c *gin.Context) {
 		return
 	}
 
-	var contracts []model.RbDTO
-	// #1
-	contracts1stType, err := service.GetAllRBByContractorBIN(request)
+	RbDTOs, err := service.GetAllRBByContractorBIN(request)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
 	}
-	for i := range contracts1stType {
-		contracts1stType[i].DiscountType = service.RB1Name
-	}
-	contracts = append(contracts, contracts1stType...)
 
-	// #2
-	rbSecondType := service.CountDiscountBrand(request)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-		return
-	}
-	for i := range rbSecondType {
-		rbSecondType[i].DiscountType = service.RB2Name
-	}
-	contracts = append(contracts, rbSecondType...)
-
-	// #3
-	rbThirdType, err := service.GetRBThirdType(request)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-		return
-	}
-	for i := range rbThirdType {
-		rbThirdType[i].DiscountType = service.RB3Name
-	}
-	contracts = append(contracts, rbThirdType...)
-
-	// #4
-	rbFourthType, err := service.InfoPresentationDiscount(request)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-		return
-	}
-	for i := range rbFourthType {
-		rbFourthType[i].DiscountType = service.RB4Name
-	}
-	contracts = append(contracts, rbFourthType...)
-
-	// #5
-	rb5thType, err := service.GetRB5thType(request)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-		return
-	}
-	contracts = append(contracts, rb5thType...)
-
-	// #6
-	rb6thType, err := service.GetRB6thType(request)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-		return
-	}
-	contracts = append(contracts, rb6thType...)
-
-	// #7
-	rb7thType, err := service.GetRB7thType(request)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-		return
-	}
-	contracts = append(contracts, rb7thType...)
-
-	// #8
-	rbEighthType, err := service.GetRBEighthType(request)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-		return
-	}
-	for i := range rbEighthType {
-		rbEighthType[i].DiscountType = service.RB8Name
-	}
-	contracts = append(contracts, rbEighthType...)
-
-	// #10
-	rbTenthType, err := service.GetRbTenthType(request)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-		return
-	}
-	for i := range rbTenthType {
-		rbTenthType[i].DiscountType = service.RB10Name
-	}
-	contracts = append(contracts, rbTenthType...)
-
-	//// #12
-	//rb12thType, err := service.RbDiscountForSalesGrowth(request)
-	//if err != nil {
-	//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-	//	return
-	//}
-	//for i := range rb12thType {
-	//	rb12thType[i].DiscountType = service.RB12Name
-	//}
-	//contracts = append(contracts, rb12thType...)
-	//
-	//// #13
-	//rb13thType, err := service.DiscountRBPeriodTime(request)
-	//if err != nil {
-	//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-	//	return
-	//}
-	//for i := range rb13thType {
-	//	rb13thType[i].DiscountType = service.RB13Name
-	//}
-	//
-	//contracts = append(contracts, rb13thType...)
-	// #12
-	rb13thType, err := service.RbDiscountForSalesGrowth(request)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-		return
-	}
-	for i := range rb13thType {
-		rb13thType[i].DiscountType = service.RB12Name
-	}
-	contracts = append(contracts, rb13thType...)
-
-	// #13
-	//rb13thType, err := service.DiscountRBPeriodTime(request)
-	//if err != nil {
-	//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-	//	return
-	//}
-	//for i := range rb13thType {
-	//	rb13thType[i].DiscountType = service.RB13Name
-	//}
-	//
-	//contracts = append(contracts, rb13thType...)
-
-
-
-
-	SortedContracts := []model.RbDTO{}
-	for _, contract := range contracts {
+	SortedContracts := []models.RbDTO{}
+	for _, contract := range RbDTOs {
 		if contract.ID != 0 {
 			SortedContracts = append(SortedContracts, contract)
 		}
@@ -182,7 +49,7 @@ func GetAllRBByContractorBIN(c *gin.Context) {
 }
 
 func FormExcelForRB(c *gin.Context) {
-	var request model.RBRequest
+	var request models.RBRequest
 	if err := c.BindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 		return
@@ -207,7 +74,7 @@ func FormExcelForRB(c *gin.Context) {
 }
 
 func FormExcelForRBBrand(c *gin.Context) {
-	//var request model.RBRequest
+	//var request models.RBRequest
 	//if err := c.BindJSON(&request); err != nil {
 	//	c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 	//	return
@@ -228,14 +95,14 @@ func FormExcelForRBBrand(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Tags reports
-// @Param  contract  body model.RBRequest true "getting doubted discounts"
-// @Success 200 {array}  model.Discount
+// @Param  contract  body models.RBRequest true "getting doubted discounts"
+// @Success 200 {array}  models.Discount
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /reports/doubted_discounts [post]
 func GetDoubtedDiscounts(c *gin.Context) {
 
-	var request model.RBRequest
+	var request models.RBRequest
 	if err := c.BindJSON(&request); err != nil {
 		log.Println("[controller][c.BindJSON] error is: ", err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
@@ -258,14 +125,14 @@ func GetDoubtedDiscounts(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Tags reports
-// @Param  contract  body model.DoubtedDiscountResponse true "saving doubted discounts"
+// @Param  contract  body models.DoubtedDiscountResponse true "saving doubted discounts"
 // @Success 200 {object}  map[string]interface{}
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /reports/doubted_discounts [put]
 func SaveDoubtedDiscountsResults(c *gin.Context) {
 
-	var request model.DoubtedDiscountResponse
+	var request models.DoubtedDiscountResponse
 	if err := c.BindJSON(&request); err != nil {
 		log.Println("[controller][c.BindJSON] error is: ", err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
@@ -283,14 +150,14 @@ func SaveDoubtedDiscountsResults(c *gin.Context) {
 }
 
 func Check1CGetData(c *gin.Context) {
-	var request model.RBRequest
+	var request models.RBRequest
 	if err := c.BindJSON(&request); err != nil {
 		log.Println("[controller][c.BindJSON] error is: ", err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 		return
 	}
 
-	requestFor1C := model.GetData1CRequest{
+	requestFor1C := models.GetData1CRequest{
 		ClientBin: request.BIN,
 		DateStart: request.PeriodFrom,
 		DateEnd:   request.PeriodTo,

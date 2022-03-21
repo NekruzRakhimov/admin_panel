@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"admin_panel/model"
+	"admin_panel/models"
 	"admin_panel/pkg/service"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -53,7 +53,7 @@ func Login(c *gin.Context) {
 			"access":    accessToken,
 			"refresh":   refreshToken,
 			"full_name": "Кабдушева Алиса Марсовна",
-			"roles": []model.Roles{
+			"roles": []models.Roles{
 				{
 					Role: "Менеджер по закупкам",
 				},
@@ -163,7 +163,7 @@ func Login(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Tags users
-// @Success 200 {array} model.User
+// @Success 200 {array} models.User
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /users/ [get]
@@ -184,13 +184,13 @@ func GetAllUsers(c *gin.Context) {
 //@Tags users
 // @Accept  json
 // @Produce  json
-// @Param user body model.User true "Add user"
+// @Param user body models.User true "Add user"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /users/ [post]
 func CreateNewUser(c *gin.Context) {
-	var role model.User
+	var role models.User
 	if err := c.BindJSON(&role); err != nil {
 		log.Println("[controller.CreateNewUser]|[binding json]| error is: ", err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
@@ -213,13 +213,13 @@ func CreateNewUser(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param  id path int true "user ID"
-// @Param  account body model.User true "Update account"
+// @Param  account body models.User true "Update account"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /users/{id} [put]
 func EditUser(c *gin.Context) {
-	var user model.User
+	var user models.User
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		log.Println("[controller.EditUser]|[binding id param]| error is: ", err.Error())
@@ -348,7 +348,7 @@ func DetachRoleFromUser(c *gin.Context) {
 // @Produce  json
 // @Tags users
 // @Param  id path int true "user ID"
-// @Success 200 {object} model.User
+// @Success 200 {object} models.User
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /users/{id}/details [get]
@@ -474,7 +474,7 @@ func FindUserByTableName(c *gin.Context) {
 // @Router /users/search/{user_number} [get]
 func FindUserByTableName(c *gin.Context) {
 
-	roles := []model.Roles{
+	roles := []models.Roles{
 		{
 			Role: "Менеджер по закупкам",
 		},

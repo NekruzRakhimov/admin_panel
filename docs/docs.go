@@ -82,7 +82,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Sales"
+                            "$ref": "#/definitions/models.Sales"
                         }
                     },
                     "400": {
@@ -307,7 +307,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Brand"
+                            "$ref": "#/definitions/models.Brand"
                         }
                     },
                     "400": {
@@ -407,7 +407,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.ClientBin"
+                            "$ref": "#/definitions/models.ClientBin"
                         }
                     }
                 ],
@@ -415,7 +415,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Client"
+                            "$ref": "#/definitions/models.Client"
                         }
                     },
                     "400": {
@@ -469,7 +469,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.ContractMiniInfo"
+                                "$ref": "#/definitions/models.ContractMiniInfo"
                             }
                         }
                     },
@@ -517,7 +517,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.Contract"
+                            "$ref": "#/definitions/models.Contract"
                         }
                     },
                     {
@@ -750,7 +750,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.Contract"
+                                "$ref": "#/definitions/models.Contract"
                             }
                         }
                     },
@@ -867,7 +867,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.ContractStatusHistory"
+                                "$ref": "#/definitions/models.ContractStatusHistory"
                             }
                         }
                     },
@@ -921,7 +921,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Contract"
+                            "$ref": "#/definitions/models.Contract"
                         }
                     },
                     "400": {
@@ -968,7 +968,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.Contract"
+                            "$ref": "#/definitions/models.Contract"
                         }
                     },
                     {
@@ -1031,7 +1031,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.Contract"
+                            "$ref": "#/definitions/models.Contract"
                         }
                     },
                     {
@@ -1109,7 +1109,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.Counterparty"
+                                "$ref": "#/definitions/models.Counterparty"
                             }
                         }
                     },
@@ -1154,7 +1154,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Country"
+                            "$ref": "#/definitions/models.Country"
                         }
                     },
                     "400": {
@@ -1201,7 +1201,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.PriceTypeCreate"
+                            "$ref": "#/definitions/models.PriceTypeCreate"
                         }
                     }
                 ],
@@ -1209,7 +1209,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.PriceTypeResponse"
+                            "$ref": "#/definitions/models.PriceTypeResponse"
                         }
                     },
                     "400": {
@@ -1255,7 +1255,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.ConvertCurrency"
+                                "$ref": "#/definitions/models.ConvertCurrency"
                             }
                         }
                     },
@@ -1363,7 +1363,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.Dictionary"
+                                "$ref": "#/definitions/models.Dictionary"
                             }
                         }
                     },
@@ -1409,7 +1409,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.Dictionary"
+                            "$ref": "#/definitions/models.Dictionary"
                         }
                     }
                 ],
@@ -1464,7 +1464,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.Address"
+                                "$ref": "#/definitions/models.Address"
                             }
                         }
                     },
@@ -1511,7 +1511,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.Currency"
+                                "$ref": "#/definitions/models.Currency"
                             }
                         }
                     },
@@ -1558,7 +1558,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.FrequencyDeferredDiscount"
+                                "$ref": "#/definitions/models.FrequencyDeferredDiscount"
                             }
                         }
                     },
@@ -1605,7 +1605,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.Position"
+                                "$ref": "#/definitions/models.Position"
                             }
                         }
                     },
@@ -1659,7 +1659,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Dictionary"
+                            "$ref": "#/definitions/models.Dictionary"
                         }
                     },
                     "400": {
@@ -1711,7 +1711,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.Dictionary"
+                            "$ref": "#/definitions/models.Dictionary"
                         }
                     }
                 ],
@@ -1823,7 +1823,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.DictionaryValue"
+                                "$ref": "#/definitions/models.DictionaryValue"
                             }
                         }
                     },
@@ -1876,7 +1876,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.DictionaryValue"
+                            "$ref": "#/definitions/models.DictionaryValue"
                         }
                     }
                 ],
@@ -1939,7 +1939,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.DictionaryValue"
+                            "$ref": "#/definitions/models.DictionaryValue"
                         }
                     },
                     {
@@ -2112,7 +2112,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.Notification"
+                                "$ref": "#/definitions/models.Notification"
                             }
                         }
                     }
@@ -2139,7 +2139,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.BinPriceType"
+                            "$ref": "#/definitions/models.BinPriceType"
                         }
                     }
                 ],
@@ -2147,7 +2147,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.RespPriceType"
+                            "$ref": "#/definitions/models.RespPriceType"
                         }
                     },
                     "400": {
@@ -2194,7 +2194,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.DoubtedDiscountResponse"
+                            "$ref": "#/definitions/models.DoubtedDiscountResponse"
                         }
                     }
                 ],
@@ -2248,7 +2248,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.RBRequest"
+                            "$ref": "#/definitions/models.RBRequest"
                         }
                     }
                 ],
@@ -2258,7 +2258,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.Discount"
+                                "$ref": "#/definitions/models.Discount"
                             }
                         }
                     },
@@ -2306,7 +2306,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.RBRequest"
+                            "$ref": "#/definitions/models.RBRequest"
                         }
                     }
                 ],
@@ -2316,7 +2316,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.RbDTO"
+                                "$ref": "#/definitions/models.RbDTO"
                             }
                         }
                     },
@@ -2363,7 +2363,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.Right"
+                                "$ref": "#/definitions/models.Right"
                             }
                         }
                     },
@@ -2409,7 +2409,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.Right"
+                            "$ref": "#/definitions/models.Right"
                         }
                     }
                 ],
@@ -2472,7 +2472,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.Right"
+                            "$ref": "#/definitions/models.Right"
                         }
                     }
                 ],
@@ -2586,7 +2586,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Right"
+                            "$ref": "#/definitions/models.Right"
                         }
                     },
                     "400": {
@@ -2632,7 +2632,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.Role"
+                                "$ref": "#/definitions/models.Role"
                             }
                         }
                     },
@@ -2678,7 +2678,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.Role"
+                            "$ref": "#/definitions/models.Role"
                         }
                     }
                 ],
@@ -2741,7 +2741,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.Role"
+                            "$ref": "#/definitions/models.Role"
                         }
                     }
                 ],
@@ -2802,7 +2802,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.Role"
+                            "$ref": "#/definitions/models.Role"
                         }
                     }
                 ],
@@ -2864,7 +2864,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Role"
+                            "$ref": "#/definitions/models.Role"
                         }
                     },
                     "400": {
@@ -2911,7 +2911,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.DateSales"
+                            "$ref": "#/definitions/models.DateSales"
                         }
                     }
                 ],
@@ -2919,7 +2919,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Sales"
+                            "$ref": "#/definitions/models.Sales"
                         }
                     },
                     "400": {
@@ -2979,7 +2979,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.SearchContract"
+                            "$ref": "#/definitions/models.SearchContract"
                         }
                     },
                     "400": {
@@ -3046,7 +3046,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.SearchContract"
+                            "$ref": "#/definitions/models.SearchContract"
                         }
                     },
                     "400": {
@@ -3113,7 +3113,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.SearchContract"
+                            "$ref": "#/definitions/models.SearchContract"
                         }
                     },
                     "400": {
@@ -3166,7 +3166,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Notification"
+                            "$ref": "#/definitions/models.Notification"
                         }
                     },
                     "400": {
@@ -3212,7 +3212,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.User"
+                                "$ref": "#/definitions/models.User"
                             }
                         }
                     },
@@ -3258,7 +3258,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.User"
+                            "$ref": "#/definitions/models.User"
                         }
                     }
                 ],
@@ -3374,7 +3374,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.User"
+                            "$ref": "#/definitions/models.User"
                         }
                     }
                 ],
@@ -3484,7 +3484,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.User"
+                            "$ref": "#/definitions/models.User"
                         }
                     },
                     "400": {
@@ -3524,7 +3524,7 @@ var doc = `{
                 }
             }
         },
-        "model.Address": {
+        "models.Address": {
             "type": "object",
             "properties": {
                 "code": {
@@ -3538,7 +3538,7 @@ var doc = `{
                 }
             }
         },
-        "model.BinPriceType": {
+        "models.BinPriceType": {
             "type": "object",
             "properties": {
                 "client_bin": {
@@ -3546,7 +3546,7 @@ var doc = `{
                 }
             }
         },
-        "model.Brand": {
+        "models.Brand": {
             "type": "object",
             "properties": {
                 "brand_arr": {
@@ -3565,7 +3565,7 @@ var doc = `{
                 }
             }
         },
-        "model.BrandDTO": {
+        "models.BrandDTO": {
             "type": "object",
             "properties": {
                 "brand_code": {
@@ -3585,7 +3585,7 @@ var doc = `{
                 }
             }
         },
-        "model.Client": {
+        "models.Client": {
             "type": "object",
             "properties": {
                 "account_number": {
@@ -3611,7 +3611,7 @@ var doc = `{
                 }
             }
         },
-        "model.ClientBin": {
+        "models.ClientBin": {
             "type": "object",
             "properties": {
                 "bin": {
@@ -3619,14 +3619,14 @@ var doc = `{
                 }
             }
         },
-        "model.Contract": {
+        "models.Contract": {
             "type": "object",
             "properties": {
                 "comment": {
                     "type": "string"
                 },
                 "contract_parameters": {
-                    "$ref": "#/definitions/model.ContractParameters"
+                    "$ref": "#/definitions/models.ContractParameters"
                 },
                 "created_at": {
                     "type": "string"
@@ -3635,13 +3635,13 @@ var doc = `{
                     "description": "Brand           string ` + "`" + `json:\"brand\"` + "`" + `\n\tDiscountPercent string ` + "`" + `json:\"discount_percent\"` + "`" + `",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/model.DiscountBrand"
+                        "$ref": "#/definitions/models.DiscountBrand"
                     }
                 },
                 "discounts": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/model.Discount"
+                        "$ref": "#/definitions/models.Discount"
                     }
                 },
                 "extend_date": {
@@ -3665,17 +3665,17 @@ var doc = `{
                 "products": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/model.Product"
+                        "$ref": "#/definitions/models.Product"
                     }
                 },
                 "requisites": {
-                    "$ref": "#/definitions/model.Requisites"
+                    "$ref": "#/definitions/models.Requisites"
                 },
                 "status": {
                     "type": "string"
                 },
                 "supplier_company_manager": {
-                    "$ref": "#/definitions/model.SupplierCompanyManager"
+                    "$ref": "#/definitions/models.SupplierCompanyManager"
                 },
                 "type": {
                     "type": "string"
@@ -3688,7 +3688,7 @@ var doc = `{
                 }
             }
         },
-        "model.ContractCounterparty": {
+        "models.ContractCounterparty": {
             "type": "object",
             "properties": {
                 "discount": {
@@ -3705,7 +3705,7 @@ var doc = `{
                 }
             }
         },
-        "model.ContractMiniInfo": {
+        "models.ContractMiniInfo": {
             "type": "object",
             "properties": {
                 "amount": {
@@ -3752,7 +3752,7 @@ var doc = `{
                 }
             }
         },
-        "model.ContractParameters": {
+        "models.ContractParameters": {
             "type": "object",
             "properties": {
                 "contract_amount": {
@@ -3815,7 +3815,7 @@ var doc = `{
                 }
             }
         },
-        "model.ContractStatusHistory": {
+        "models.ContractStatusHistory": {
             "type": "object",
             "properties": {
                 "author": {
@@ -3835,7 +3835,7 @@ var doc = `{
                 }
             }
         },
-        "model.ConvertCurrency": {
+        "models.ConvertCurrency": {
             "type": "object",
             "properties": {
                 "currency_code": {
@@ -3846,7 +3846,7 @@ var doc = `{
                 }
             }
         },
-        "model.Counterparty": {
+        "models.Counterparty": {
             "type": "object",
             "properties": {
                 "bin": {
@@ -3855,7 +3855,7 @@ var doc = `{
                 "contracts": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/model.ContractCounterparty"
+                        "$ref": "#/definitions/models.ContractCounterparty"
                     }
                 },
                 "id_1C": {
@@ -3869,7 +3869,7 @@ var doc = `{
                 }
             }
         },
-        "model.Country": {
+        "models.Country": {
             "type": "object",
             "properties": {
                 "country_arr": {
@@ -3888,7 +3888,7 @@ var doc = `{
                 }
             }
         },
-        "model.Currency": {
+        "models.Currency": {
             "type": "object",
             "properties": {
                 "code": {
@@ -3902,7 +3902,7 @@ var doc = `{
                 }
             }
         },
-        "model.DateSales": {
+        "models.DateSales": {
             "type": "object",
             "properties": {
                 "client_bin": {
@@ -3928,7 +3928,7 @@ var doc = `{
                 }
             }
         },
-        "model.Dictionary": {
+        "models.Dictionary": {
             "type": "object",
             "properties": {
                 "author": {
@@ -3945,7 +3945,7 @@ var doc = `{
                 }
             }
         },
-        "model.DictionaryValue": {
+        "models.DictionaryValue": {
             "type": "object",
             "properties": {
                 "dictionary_id": {
@@ -3959,7 +3959,7 @@ var doc = `{
                 }
             }
         },
-        "model.Discount": {
+        "models.Discount": {
             "type": "object",
             "properties": {
                 "code": {
@@ -3971,7 +3971,7 @@ var doc = `{
                 "discount_brands": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/model.DiscountBrands"
+                        "$ref": "#/definitions/models.DiscountBrands"
                     }
                 },
                 "discount_percent": {
@@ -3998,12 +3998,12 @@ var doc = `{
                 "periods": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/model.DiscountPeriod"
+                        "$ref": "#/definitions/models.DiscountPeriod"
                     }
                 }
             }
         },
-        "model.DiscountBrand": {
+        "models.DiscountBrand": {
             "type": "object",
             "properties": {
                 "brand_code": {
@@ -4023,13 +4023,13 @@ var doc = `{
                 }
             }
         },
-        "model.DiscountBrands": {
+        "models.DiscountBrands": {
             "type": "object",
             "properties": {
                 "brands": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/model.BrandDTO"
+                        "$ref": "#/definitions/models.BrandDTO"
                     }
                 },
                 "period_from": {
@@ -4040,7 +4040,7 @@ var doc = `{
                 }
             }
         },
-        "model.DiscountPeriod": {
+        "models.DiscountPeriod": {
             "type": "object",
             "properties": {
                 "discount_percent": {
@@ -4072,7 +4072,7 @@ var doc = `{
                 }
             }
         },
-        "model.DoubtedDiscount": {
+        "models.DoubtedDiscount": {
             "type": "object",
             "properties": {
                 "contract_number": {
@@ -4081,12 +4081,12 @@ var doc = `{
                 "discounts": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/model.DoubtedDiscountDetails"
+                        "$ref": "#/definitions/models.DoubtedDiscountDetails"
                     }
                 }
             }
         },
-        "model.DoubtedDiscountDetails": {
+        "models.DoubtedDiscountDetails": {
             "type": "object",
             "properties": {
                 "code": {
@@ -4100,21 +4100,21 @@ var doc = `{
                 }
             }
         },
-        "model.DoubtedDiscountResponse": {
+        "models.DoubtedDiscountResponse": {
             "type": "object",
             "properties": {
                 "doubted_discount": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/model.RBRequest"
+                        "$ref": "#/definitions/models.RBRequest"
                     }
                 },
                 "rb_request": {
-                    "$ref": "#/definitions/model.RBRequest"
+                    "$ref": "#/definitions/models.RBRequest"
                 }
             }
         },
-        "model.FrequencyDeferredDiscount": {
+        "models.FrequencyDeferredDiscount": {
             "type": "object",
             "properties": {
                 "code": {
@@ -4128,7 +4128,7 @@ var doc = `{
                 }
             }
         },
-        "model.Notification": {
+        "models.Notification": {
             "type": "object",
             "properties": {
                 "bin": {
@@ -4154,7 +4154,7 @@ var doc = `{
                 }
             }
         },
-        "model.Position": {
+        "models.Position": {
             "type": "object",
             "properties": {
                 "code": {
@@ -4168,7 +4168,7 @@ var doc = `{
                 }
             }
         },
-        "model.PriceType": {
+        "models.PriceType": {
             "type": "object",
             "properties": {
                 "client_bin": {
@@ -4185,7 +4185,7 @@ var doc = `{
                 }
             }
         },
-        "model.PriceTypeCreate": {
+        "models.PriceTypeCreate": {
             "type": "object",
             "properties": {
                 "client_bin": {
@@ -4199,7 +4199,7 @@ var doc = `{
                 }
             }
         },
-        "model.PriceTypeResponse": {
+        "models.PriceTypeResponse": {
             "type": "object",
             "properties": {
                 "client_bin": {
@@ -4213,7 +4213,7 @@ var doc = `{
                 }
             }
         },
-        "model.Product": {
+        "models.Product": {
             "type": "object",
             "properties": {
                 "currency": {
@@ -4229,7 +4229,7 @@ var doc = `{
                     "type": "number"
                 },
                 "price_type": {
-                    "$ref": "#/definitions/model.PriceType"
+                    "$ref": "#/definitions/models.PriceType"
                 },
                 "producer": {
                     "type": "string"
@@ -4251,7 +4251,7 @@ var doc = `{
                 }
             }
         },
-        "model.RBRequest": {
+        "models.RBRequest": {
             "type": "object",
             "properties": {
                 "bin": {
@@ -4263,7 +4263,7 @@ var doc = `{
                 "doubted_discounts": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/model.DoubtedDiscount"
+                        "$ref": "#/definitions/models.DoubtedDiscount"
                     }
                 },
                 "period_from": {
@@ -4277,7 +4277,7 @@ var doc = `{
                 }
             }
         },
-        "model.RbDTO": {
+        "models.RbDTO": {
             "type": "object",
             "properties": {
                 "TotalWithoutDiscount": {
@@ -4321,7 +4321,7 @@ var doc = `{
                 }
             }
         },
-        "model.Requisites": {
+        "models.Requisites": {
             "type": "object",
             "properties": {
                 "account_number": {
@@ -4353,7 +4353,7 @@ var doc = `{
                 }
             }
         },
-        "model.RespPriceType": {
+        "models.RespPriceType": {
             "type": "object",
             "properties": {
                 "pricetype_arr": {
@@ -4381,7 +4381,7 @@ var doc = `{
                 }
             }
         },
-        "model.Right": {
+        "models.Right": {
             "type": "object",
             "properties": {
                 "code": {
@@ -4398,7 +4398,7 @@ var doc = `{
                 }
             }
         },
-        "model.RightDTO": {
+        "models.RightDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -4418,7 +4418,7 @@ var doc = `{
                 }
             }
         },
-        "model.Role": {
+        "models.Role": {
             "type": "object",
             "properties": {
                 "code": {
@@ -4436,7 +4436,7 @@ var doc = `{
                 "rights": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/model.RightDTO"
+                        "$ref": "#/definitions/models.RightDTO"
                     }
                 },
                 "status": {
@@ -4444,7 +4444,7 @@ var doc = `{
                 }
             }
         },
-        "model.RoleDTO": {
+        "models.RoleDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -4465,7 +4465,7 @@ var doc = `{
                 "omitempty": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/model.RightDTO"
+                        "$ref": "#/definitions/models.RightDTO"
                     }
                 },
                 "status": {
@@ -4473,18 +4473,18 @@ var doc = `{
                 }
             }
         },
-        "model.Sales": {
+        "models.Sales": {
             "type": "object",
             "properties": {
                 "sales_arr": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/model.SalesArr"
+                        "$ref": "#/definitions/models.SalesArr"
                     }
                 }
             }
         },
-        "model.SalesArr": {
+        "models.SalesArr": {
             "type": "object",
             "properties": {
                 "brand_code": {
@@ -4510,7 +4510,7 @@ var doc = `{
                 }
             }
         },
-        "model.SearchContract": {
+        "models.SearchContract": {
             "type": "object",
             "properties": {
                 "amount": {
@@ -4548,7 +4548,7 @@ var doc = `{
                 }
             }
         },
-        "model.SupplierCompanyManager": {
+        "models.SupplierCompanyManager": {
             "type": "object",
             "properties": {
                 "base": {
@@ -4578,7 +4578,7 @@ var doc = `{
                 }
             }
         },
-        "model.User": {
+        "models.User": {
             "type": "object",
             "properties": {
                 "email": {
@@ -4602,7 +4602,7 @@ var doc = `{
                 "roles": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/model.RoleDTO"
+                        "$ref": "#/definitions/models.RoleDTO"
                     }
                 },
                 "status": {

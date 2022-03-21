@@ -2,7 +2,7 @@ package controller
 
 import (
 	"admin_panel/db"
-	"admin_panel/model"
+	"admin_panel/models"
 	"admin_panel/pkg/repository"
 	"admin_panel/pkg/service"
 	"fmt"
@@ -11,7 +11,7 @@ import (
 )
 
 func GetCarsBrand(c *gin.Context) {
-	var cars []model.Cars
+	var cars []models.Cars
 
 	db.GetDBConn().Raw("SELECT cars_info -> 'brand' AS brand  FROM cars").Scan(&cars)
 
@@ -22,7 +22,7 @@ func GetCarsBrand(c *gin.Context) {
 }
 
 func GetDisPer(c *gin.Context) {
-	var bin model.ClientBin
+	var bin models.ClientBin
 	c.ShouldBind(&bin)
 
 	period, err := repository.GetDiscountPeriod(bin.Bin)
@@ -34,9 +34,9 @@ func GetDisPer(c *gin.Context) {
 }
 
 func DiscountRBPeriodTime(c *gin.Context) {
-	var request model.RBRequest
+	var request models.RBRequest
 	c.ShouldBind(&request)
-	timeP, err := service.DiscountRBPeriodTime(request)
+	timeP, err := service.GetRB12thType(request)
 	if err != nil {
 		c.JSON(400, err)
 		return
@@ -46,7 +46,7 @@ func DiscountRBPeriodTime(c *gin.Context) {
 }
 
 func GetContractCode(c *gin.Context) {
-	var request model.RBRequest
+	var request models.RBRequest
 	c.ShouldBind(&request)
 	code := service.GetExternalCode(request.BIN)
 	c.JSON(200, code)

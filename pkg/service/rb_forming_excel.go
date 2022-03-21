@@ -1,14 +1,14 @@
 package service
 
 import (
-	"admin_panel/model"
+	"admin_panel/models"
 	"admin_panel/pkg/repository"
 	"fmt"
 	"github.com/xuri/excelize/v2"
 	"log"
 )
 
-func FormExcelForRBReport(request model.RBRequest) error {
+func FormExcelForRBReport(request models.RBRequest) error {
 	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.BIN, request.PeriodFrom, request.PeriodTo)
 	if err != nil {
 		fmt.Println(">> 1")
@@ -23,7 +23,7 @@ func FormExcelForRBReport(request model.RBRequest) error {
 
 	//TODO: посмотри потом
 	//testBin := "060840003599"
-	req := model.ReqBrand{
+	req := models.ReqBrand{
 		ClientBin:   request.BIN,
 		Beneficiary: request.ContractorName,
 		DateStart:   request.PeriodFrom,
@@ -31,7 +31,7 @@ func FormExcelForRBReport(request model.RBRequest) error {
 		Type:        "sales",
 	}
 
-	brandInfo := []model.BrandInfo{}
+	brandInfo := []models.BrandInfo{}
 	sales, err := GetSalesBrand(req, brandInfo)
 	if err != nil {
 		fmt.Println(">> 3")
@@ -216,7 +216,7 @@ func FormExcelForRBReport(request model.RBRequest) error {
 	}
 
 	if isRB2 {
-		rbSecondType := CountDiscountBrand(request)
+		rbSecondType := GetRB2ndType(request)
 		if err != nil {
 			return err
 		}
@@ -249,7 +249,7 @@ func FormExcelForRBReport(request model.RBRequest) error {
 	}
 
 	if isRB3 {
-		rbThirdType, err := GetRBThirdType(request)
+		rbThirdType, err := GetRB3rdType(request)
 		if err != nil {
 			return err
 		}
@@ -287,7 +287,7 @@ func FormExcelForRBReport(request model.RBRequest) error {
 	}
 
 	if isRB4 {
-		rbFourthType, err := InfoPresentationDiscount(request)
+		rbFourthType, err := GetRB4thType(request)
 		if err != nil {
 			return err
 		}
@@ -436,7 +436,7 @@ func FormExcelForRBReport(request model.RBRequest) error {
 	}
 
 	if isRB8 {
-		rbEighthType, err := GetRBEighthType(request)
+		rbEighthType, err := GetRB8thType(request)
 		if err != nil {
 			return err
 		}
@@ -474,7 +474,7 @@ func FormExcelForRBReport(request model.RBRequest) error {
 	}
 
 	if isRB10 {
-		rbFourthType, err := InfoPresentationDiscount(request)
+		rbFourthType, err := GetRB4thType(request)
 		if err != nil {
 			return err
 		}
@@ -514,7 +514,7 @@ func FormExcelForRBReport(request model.RBRequest) error {
 	if isRB12 {
 
 		log.Println("RB12->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-		//	rb12thType, err := RbDiscountForSalesGrowth(request)
+		//	rb12thType, err := GetRB13thType(request)
 		//	if err != nil {
 		//		return err
 		//	}
@@ -552,7 +552,7 @@ func FormExcelForRBReport(request model.RBRequest) error {
 		//}
 
 		//if isRB13 {
-		//	rb12thType, err := DiscountRBPeriodTime(request)
+		//	rb12thType, err := GetRB12thType(request)
 		//	if err != nil {
 		//		return err
 		//	}
@@ -592,7 +592,7 @@ func FormExcelForRBReport(request model.RBRequest) error {
 	if isRB13 {
 		log.Println("13 отчет генерировался--------------------------------------------------------------------")
 
-		rb13thType, err := RbDiscountForSalesGrowth(request)
+		rb13thType, err := GetRB13thType(request)
 		if err != nil {
 			return err
 		}

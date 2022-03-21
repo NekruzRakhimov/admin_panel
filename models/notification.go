@@ -1,4 +1,4 @@
-package model
+package models
 
 type Notification struct {
 	Id             int    `json:"id"`

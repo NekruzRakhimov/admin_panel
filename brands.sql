@@ -14,7 +14,7 @@ WHERE requisites ->> 'bin' = '080240011774';
 
 
 
-SELECT id FROM contracts WHERE requisites ->> 'bin' = '080240011774';
+SELECT id FROM contracts WHERE requisites ->> 'bin' = '960340000029';
 
 SELECT  discounts FROM contracts;
 
@@ -31,6 +31,10 @@ DELETE FROM contracts WHERE  id =248;
 
 
 SELECT  * FROM contracts WHERE id = 294;
+
+
+
+SELECT * from contracts WHERE req
 
 
 

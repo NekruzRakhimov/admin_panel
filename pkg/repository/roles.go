@@ -2,10 +2,10 @@ package repository
 
 import (
 	"admin_panel/db"
-	"admin_panel/model"
+	"admin_panel/models"
 )
 
-func GetAllRoles() (roles []model.Role, err error) {
+func GetAllRoles() (roles []models.Role, err error) {
 	if err := db.GetDBConn().Table("roles").Where("is_removed = ?", false).Order("id").Find(&roles).Error; err != nil {
 		return nil, err
 	}
@@ -13,24 +13,24 @@ func GetAllRoles() (roles []model.Role, err error) {
 	return roles, nil
 }
 
-func GetRoleByID(roleId int) (role model.Role, err error) {
+func GetRoleByID(roleId int) (role models.Role, err error) {
 	role.ID = roleId
 	if err := db.GetDBConn().Table("roles").Find(&role).Error; err != nil {
-		return model.Role{}, err
+		return models.Role{}, err
 	}
 
 	return role, nil
 }
 
-func AddNewRole(role model.Role) (model.Role, error) {
+func AddNewRole(role models.Role) (models.Role, error) {
 	if err := db.GetDBConn().Table("roles").Save(&role).Error; err != nil {
-		return model.Role{}, err
+		return models.Role{}, err
 	}
 
 	return role, nil
 }
 
-func EditRole(role model.Role) error {
+func EditRole(role models.Role) error {
 	if err := db.GetDBConn().Table("roles").Omit("rights").Save(&role).Error; err != nil {
 		return err
 	}

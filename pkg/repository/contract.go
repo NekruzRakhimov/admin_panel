@@ -2,7 +2,7 @@ package repository
 
 import (
 	"admin_panel/db"
-	"admin_panel/model"
+	"admin_panel/models"
 	"errors"
 	"fmt"
 	"github.com/jinzhu/gorm"
@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-func CreateContract(contractWithJson model.ContractWithJsonB) error {
+func CreateContract(contractWithJson models.ContractWithJsonB) error {
 	fmt.Printf(">>>> %+v", contractWithJson)
 	err := db.GetDBConn().Table("contracts").Omit("created_at", "updated_at", "is_extend_contract", "extend_date", "brand_name", "brand_code", "discount_percent", "contract_id").Create(&contractWithJson).Error
 	fmt.Println(contractWithJson.ID, "ContractID")
@@ -31,7 +31,7 @@ func CreateContract(contractWithJson model.ContractWithJsonB) error {
 	return nil
 }
 
-func EditContract(contractWithJson model.ContractWithJsonB) error {
+func EditContract(contractWithJson models.ContractWithJsonB) error {
 	if err := db.GetDBConn().Table("contracts").Omit("created_at", "updated_at", "is_extend_contract", "extend_date", "contract_id").Save(&contractWithJson).Error; err != nil {
 		log.Println("[repository.EditContract]|[db.GetDBConn().Table(\"contracts\").Save(&contractWithJson).Error]| error is: ", err.Error())
 		return err
@@ -57,7 +57,7 @@ func EditContract(contractWithJson model.ContractWithJsonB) error {
 	return nil
 }
 
-func GetAllContracts(contractStatus string) (contracts []model.ContractWithJsonB, err error) {
+func GetAllContracts(contractStatus string) (contracts []models.ContractWithJsonB, err error) {
 	fmt.Println("GetALlContract Calling---------------------------")
 
 	var contractStatusRus = ""
@@ -93,14 +93,14 @@ func GetAllContracts(contractStatus string) (contracts []model.ContractWithJsonB
 	return contracts, nil
 }
 
-func GetContractDetails(contractId int) (contract model.ContractWithJsonB, err error) {
+func GetContractDetails(contractId int) (contract models.ContractWithJsonB, err error) {
 	contract.ID = contractId
-	var brands []model.DiscountBrand
+	var brands []models.DiscountBrand
 	if err := db.GetDBConn().Table("contracts").Find(&contract).Error; err != nil {
-		return model.ContractWithJsonB{}, err
+		return models.ContractWithJsonB{}, err
 	}
 	if err = db.GetDBConn().Raw("SELECT id, brand as brand_name, brand_code, discount_percent FROM  brands  WHERE  contract_id = ?", contract.ID).Scan(&brands).Error; err != nil {
-		return model.ContractWithJsonB{}, err
+		return models.ContractWithJsonB{}, err
 	}
 	log.Println("BRANDS", brands)
 	contract.DiscountBrand = brands
@@ -173,7 +173,7 @@ func RevisionContract(contractId int, comment string) error {
 	return nil
 }
 
-func GetContractStatusChangesHistory(contractId int) (history []model.ContractStatusHistory, err error) {
+func GetContractStatusChangesHistory(contractId int) (history []models.ContractStatusHistory, err error) {
 	sqlQuery := "SELECT * FROM status_changes_history WHERE contract_id = ?"
 	if err := db.GetDBConn().Raw(sqlQuery, contractId).Scan(&history).Error; err != nil {
 		return nil, err
@@ -202,8 +202,8 @@ func SaveContractExternalCode(contractId int, contractCode string) error {
 	return nil
 }
 
-func SearchContractByNumber(param string, status string) ([]model.SearchContract, error) {
-	var search []model.SearchContract
+func SearchContractByNumber(param string, status string) ([]models.SearchContract, error) {
+	var search []models.SearchContract
 	query := fmt.Sprint("SELECT id, status, requisites ->> 'beneficiary' AS  beneficiary,  contract_parameters ->> 'contract_number' AS contract_number," +
 		"type AS contract_type,  created_at, updated_at, manager AS author, contract_parameters ->> 'contract_amount' AS amount FROM  contracts " +
 		"WHERE  contract_parameters ->> 'contract_number' like  $1 ")
@@ -236,8 +236,8 @@ func SearchContractByNumber(param string, status string) ([]model.SearchContract
 
 }
 
-func SearchContractHistory(field string, param string) ([]model.SearchContract, error) {
-	var search []model.SearchContract
+func SearchContractHistory(field string, param string) ([]models.SearchContract, error) {
+	var search []models.SearchContract
 
 	if field == "author" {
 		query := fmt.Sprintf("SELECT id, requisites ->> 'beneficiary' AS  beneficiary,  contract_parameters ->> 'contract_number' AS contract_number," +
@@ -273,7 +273,7 @@ func SearchContractHistory(field string, param string) ([]model.SearchContract, 
 }
 
 func ChangeDataContract(id int) error {
-	var endDate model.Date
+	var endDate models.Date
 
 	onWork := "в работе"
 
@@ -307,8 +307,8 @@ func ChangeDataContract(id int) error {
 
 }
 
-func SearchHistoryExecution(field string, param string) ([]model.SearchContract, error) {
-	var search []model.SearchContract
+func SearchHistoryExecution(field string, param string) ([]models.SearchContract, error) {
+	var search []models.SearchContract
 	if field == "author" {
 		query := fmt.Sprintf("SELECT id, manager AS author, status," +
 			"created_at, contract_parameters ->> 'end_date' AS end_date, comment FROM  contracts " +

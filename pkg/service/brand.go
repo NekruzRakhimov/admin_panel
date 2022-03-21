@@ -1,7 +1,7 @@
 package service
 
 import (
-	"admin_panel/model"
+	"admin_panel/models"
 	"admin_panel/pkg/repository"
 	"bytes"
 	"encoding/json"
@@ -18,8 +18,8 @@ const (
 	TempDateEnd       = " 23:59:59"
 )
 
-func GetBrands() (model.Brand, error) {
-	brand := model.Brand{}
+func GetBrands() (models.Brand, error) {
+	brand := models.Brand{}
 	client := &http.Client{
 		Timeout: 120 * time.Second,
 	}
@@ -60,10 +60,10 @@ func GetBrands() (model.Brand, error) {
 
 }
 
-func GetSales(reqBrand model.ReqBrand) (model.Sales, error) {
-	var sales model.Sales
+func GetSales(reqBrand models.ReqBrand) (models.Sales, error) {
+	var sales models.Sales
 
-	date := model.ReqBrand{
+	date := models.ReqBrand{
 		ClientBin:      reqBrand.ClientBin,
 		DateStart:      reqBrand.DateStart + TempDateCompleter,
 		DateEnd:        reqBrand.DateEnd + TempDateEnd,
@@ -123,8 +123,8 @@ func GetSales(reqBrand model.ReqBrand) (model.Sales, error) {
 }
 
 //service
-func AddBrand(brandName string) (model.AddBrand, error) {
-	brand := model.AddBrand{BrandName: brandName}
+func AddBrand(brandName string) (models.AddBrand, error) {
+	brand := models.AddBrand{BrandName: brandName}
 	reqBodyBytes := new(bytes.Buffer)
 	json.NewEncoder(reqBodyBytes).Encode(&brand)
 
@@ -168,15 +168,15 @@ func AddBrand(brandName string) (model.AddBrand, error) {
 
 }
 
-func GetBrandInfo(bin string) ([]model.BrandInfo, error) {
+func GetBrandInfo(bin string) ([]models.BrandInfo, error) {
 	return repository.GetBrandInfo(bin)
 
 }
 
-func GetSalesBrand(reqBrand model.ReqBrand, brandInfo []model.BrandInfo) (model.Sales, error) {
-	var sales model.Sales
+func GetSalesBrand(reqBrand models.ReqBrand, brandInfo []models.BrandInfo) (models.Sales, error) {
+	var sales models.Sales
 
-	date := model.ReqBrand{
+	date := models.ReqBrand{
 		ClientBin:      reqBrand.ClientBin,
 		DateStart:      reqBrand.DateStart + TempDateCompleter,
 		DateEnd:        reqBrand.DateEnd + TempDateEnd,
@@ -236,10 +236,10 @@ func GetSalesBrand(reqBrand model.ReqBrand, brandInfo []model.BrandInfo) (model.
 
 }
 
-func GetPurchase(reqBrand model.ReqBrand) (model.Purchase, error) {
-	var purchase model.Purchase
+func GetPurchase(reqBrand models.ReqBrand) (models.Purchase, error) {
+	var purchase models.Purchase
 
-	date := model.ReqBrand{
+	date := models.ReqBrand{
 		ClientBin:      reqBrand.ClientBin,
 		DateStart:      reqBrand.DateStart + TempDateCompleter,
 		DateEnd:        reqBrand.DateEnd + TempDateEnd,
@@ -300,10 +300,10 @@ func GetPurchase(reqBrand model.ReqBrand) (model.Purchase, error) {
 
 }
 
-func GetBrandSales(reqBrand model.ReqBrand) (model.Sales, error) {
-	var sales model.Sales
+func GetBrandSales(reqBrand models.ReqBrand) (models.Sales, error) {
+	var sales models.Sales
 
-	date := model.ReqBrand{
+	date := models.ReqBrand{
 		ClientBin:      reqBrand.ClientBin,
 		DateStart:      reqBrand.DateStart + TempDateCompleter,
 		DateEnd:        reqBrand.DateEnd + TempDateEnd,
@@ -359,11 +359,11 @@ func GetBrandSales(reqBrand model.ReqBrand) (model.Sales, error) {
 
 }
 
-//func FoundBrandDiscount(rbReq model.RBRequest) []model.RbDTO {
-//	var rbBrands []model.RbDTO
-//	var rbBrand model.RbDTO
-//	var totalBrandsDiscount []model.TotalBrandDiscount
-//	var BrandTotal model.TotalBrandDiscount
+//func FoundBrandDiscount(rbReq models.RBRequest) []models.RbDTO {
+//	var rbBrands []models.RbDTO
+//	var rbBrand models.RbDTO
+//	var totalBrandsDiscount []models.TotalBrandDiscount
+//	var BrandTotal models.TotalBrandDiscount
 //
 //	// f, err := excelize.OpenFile("files/reports/rb/rb_report.xlsx")
 //	// if err != nil {
@@ -377,7 +377,7 @@ func GetBrandSales(reqBrand model.ReqBrand) (model.Sales, error) {
 //	//brand AS brand_name, discount_percent, contract_id - 3 fields
 //
 //	// имя брендов и 1 номер договора
-//	dataBrand, contractNumber := repository.GetIDBYBIN(rbReq.BIN)
+//	dataBrand, contractNumber := repository.GetIDByBIN(rbReq.BIN)
 //	log.Println("ДАННЫЕ БРЕНДОВ", dataBrand)
 //
 //	// тут что ищем?
@@ -552,11 +552,11 @@ func GetBrandSales(reqBrand model.ReqBrand) (model.Sales, error) {
 //
 //}
 
-func CountDiscountBrand(rbReq model.RBRequest) []model.RbDTO {
+func GetRB2ndType(rbReq models.RBRequest) []models.RbDTO {
 	brandTotal := map[string]float32{}
-	var rbDtoSl []model.RbDTO
+	var rbDtoSl []models.RbDTO
 	fmt.Println("запрос от тебя", rbReq)
-	rbBrand := model.ReqBrand{
+	rbBrand := models.ReqBrand{
 		ClientBin: rbReq.BIN,
 		DateStart: rbReq.PeriodFrom,
 		DateEnd:   rbReq.PeriodTo,
@@ -573,7 +573,7 @@ func CountDiscountBrand(rbReq model.RBRequest) []model.RbDTO {
 	fmt.Println("MAP: ", brandTotal)
 
 	// берем скидки по брендам и название брендов
-	dataBrands, contractNumb := repository.GetIDBYBIN(rbReq.BIN)
+	dataBrands, contractNumb := repository.GetIDByBIN(rbReq.BIN)
 	fmt.Println("dataBrand", dataBrands)
 	fmt.Println("sales", sales.SalesArr)
 
@@ -585,7 +585,7 @@ func CountDiscountBrand(rbReq model.RBRequest) []model.RbDTO {
 				TotalPercent := (total * dicsount) / 100
 				fmt.Println("Сумма со скдикой", TotalPercent)
 				fmt.Println("Название бренда", brand)
-				rbdro := model.RbDTO{
+				rbdro := models.RbDTO{
 					ID:                   0,
 					ContractNumber:       contractNumb,
 					StartDate:            rbReq.PeriodFrom,
@@ -598,7 +598,7 @@ func CountDiscountBrand(rbReq model.RBRequest) []model.RbDTO {
 					TotalWithoutDiscount: 0,
 					LeasePlan:            0,
 					RewardAmount:         0,
-					DiscountType:         "",
+					DiscountType:         RB2Name,
 				}
 				rbDtoSl = append(rbDtoSl, rbdro)
 
@@ -610,10 +610,10 @@ func CountDiscountBrand(rbReq model.RBRequest) []model.RbDTO {
 
 }
 
-func GetSalesSKU(reqBrand model.ReqBrand) (model.Sales, error) {
-	var sales model.Sales
+func GetSalesSKU(reqBrand models.ReqBrand) (models.Sales, error) {
+	var sales models.Sales
 
-	date := model.ReqBrand{
+	date := models.ReqBrand{
 		ClientBin:      reqBrand.ClientBin,
 		DateStart:      reqBrand.DateStart + TempDateCompleter,
 		DateEnd:        reqBrand.DateEnd + TempDateEnd,
@@ -673,10 +673,10 @@ func GetSalesSKU(reqBrand model.ReqBrand) (model.Sales, error) {
 
 }
 
-func PresentationDiscount(rbReq model.RBRequest) (model.Purchase, error) {
-	var purchase model.Purchase
+func PresentationDiscount(rbReq models.RBRequest) (models.Purchase, error) {
+	var purchase models.Purchase
 
-	date := model.ReqBrand{
+	date := models.ReqBrand{
 		ClientBin:      rbReq.BIN,
 		DateStart:      rbReq.PeriodFrom + TempDateCompleter,
 		DateEnd:        rbReq.PeriodTo + TempDateEnd,
@@ -736,10 +736,10 @@ func PresentationDiscount(rbReq model.RBRequest) (model.Purchase, error) {
 
 }
 
-func GetSales1C(rb model.ReqBrand, typeData string) (model.Sales, error) {
-	var sales model.Sales
+func GetSales1C(rb models.ReqBrand, typeData string) (models.Sales, error) {
+	var sales models.Sales
 
-	date := model.ReqBrand{
+	date := models.ReqBrand{
 		ClientBin:      rb.ClientBin,
 		DateStart:      rb.DateStart + TempDateCompleter,
 		DateEnd:        rb.DateEnd + TempDateEnd,
@@ -799,13 +799,13 @@ func GetSales1C(rb model.ReqBrand, typeData string) (model.Sales, error) {
 
 }
 
-func GetDataFrom1C(request model.GetData1CRequest) (response model.GetData1CResponse, err error) {
+func GetDataFrom1C(request models.GetData1CRequest) (response models.GetData1CResponse, err error) {
 	request.DateStart += TempDateCompleter
 	request.DateEnd += TempDateEnd
 
 	reqBodyBytes := new(bytes.Buffer)
 	if err = json.NewEncoder(reqBodyBytes).Encode(&request); err != nil {
-		return model.GetData1CResponse{}, err
+		return models.GetData1CResponse{}, err
 	}
 
 	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/getdata"
@@ -823,13 +823,13 @@ func GetDataFrom1C(request model.GetData1CRequest) (response model.GetData1CResp
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Println(err)
-		return model.GetData1CResponse{}, err
+		return models.GetData1CResponse{}, err
 	}
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		log.Println(err)
-		return model.GetData1CResponse{}, err
+		return models.GetData1CResponse{}, err
 	}
 
 	defer resp.Body.Close()
@@ -840,7 +840,7 @@ func GetDataFrom1C(request model.GetData1CRequest) (response model.GetData1CResp
 	err = json.Unmarshal(body, &response)
 	if err != nil {
 		log.Println(err)
-		return model.GetData1CResponse{}, err
+		return models.GetData1CResponse{}, err
 	}
 	return response, nil
 

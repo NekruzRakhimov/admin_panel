@@ -1,7 +1,7 @@
 package service
 
 import (
-	"admin_panel/model"
+	"admin_panel/models"
 	"bytes"
 	"encoding/base64"
 	"encoding/json"
@@ -80,7 +80,7 @@ func AddOperationExternalService(login, password string) (response []byte, statu
 	return responseSTR, http.StatusOK, nil
 }
 
-func CounterpartyContract(binClient string) ([]model.Counterparty, error) {
+func CounterpartyContract(binClient string) ([]models.Counterparty, error) {
 	var binOrganizationAKNIET = "060540001442"
 	client := &http.Client{}
 	endpoint := fmt.Sprintf("http://188.225.10.191:5555/api/v2/counterparty/%s/%s", binClient, binOrganizationAKNIET)
@@ -107,7 +107,7 @@ func CounterpartyContract(binClient string) ([]model.Counterparty, error) {
 		log.Fatal(err)
 	}
 	log.Println(string(body))
-	var contractCounterparty []model.Counterparty
+	var contractCounterparty []models.Counterparty
 	// ----------> часть Unmarshall json ->
 	err = json.Unmarshal(body, &contractCounterparty)
 	if err != nil {
@@ -118,11 +118,11 @@ func CounterpartyContract(binClient string) ([]model.Counterparty, error) {
 	return contractCounterparty, nil
 }
 
-func SaveContract1C(contract model.ContractDTOFor1C) (model.RespContract, error) {
+func SaveContract1C(contract models.ContractDTOFor1C) (models.RespContract, error) {
 	fmt.Println("calling service 1C")
 	log.Println("calling service 1C")
 
-	var respContract1C model.RespContract
+	var respContract1C models.RespContract
 	saveContract := new(bytes.Buffer)
 	err := json.NewEncoder(saveContract).Encode(contract)
 	if err != nil {
@@ -165,9 +165,9 @@ func SaveContract1C(contract model.ContractDTOFor1C) (model.RespContract, error)
 	return respContract1C, nil
 }
 
-func SearchByBinClient(bin model.ClientBin) (model.Client, error) {
+func SearchByBinClient(bin models.ClientBin) (models.Client, error) {
 	//var binOrganizationAKNIET = "060540001442"
-	var binClient model.Client
+	var binClient models.Client
 
 	bodyBin := new(bytes.Buffer)
 	err := json.NewEncoder(bodyBin).Encode(bin)

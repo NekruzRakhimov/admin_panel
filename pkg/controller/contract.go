@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"admin_panel/model"
+	"admin_panel/models"
 	"admin_panel/pkg/service"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -18,14 +18,14 @@ import (
 // @Accept  json
 // @Produce  json
 // @Tags contracts
-// @Param  contract  body model.Contract true "creating contract"
+// @Param  contract  body models.Contract true "creating contract"
 // @Param  type  query string true "type of contract"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /contract/{type} [post]
 func CreateContract(c *gin.Context) {
-	var contract model.Contract
+	var contract models.Contract
 
 	if err := c.BindJSON(&contract); err != nil {
 		log.Println("[controller.CreateContract]|[c.BindJSO]| error is: ", err.Error())
@@ -50,14 +50,14 @@ func CreateContract(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Tags contracts
-// @Param  contract  body model.Contract true "creating contract"
+// @Param  contract  body models.Contract true "creating contract"
 // @Param  id  path string true "id договора на основе которого создаётся ДС"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /contract/additional_agreement/{id} [post]
 func AddAdditionalAgreement(c *gin.Context) {
-	var contract model.Contract
+	var contract models.Contract
 	prevContractIdStr := c.Param("id")
 	prevContractId, err := strconv.Atoi(prevContractIdStr)
 	if err != nil {
@@ -88,7 +88,7 @@ func AddAdditionalAgreement(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Tags contracts
-// @Param  contract  body model.Contract true "editing contract"
+// @Param  contract  body models.Contract true "editing contract"
 // @Param  id  path string true "id of contract"
 // @Param  type  path string true "type of contract"
 // @Success 200 {object} map[string]interface{}
@@ -96,7 +96,7 @@ func AddAdditionalAgreement(c *gin.Context) {
 // @Failure 500 {object} map[string]interface{}
 // @Router /contract/{type}/{id} [put]
 func EditContract(c *gin.Context) {
-	var contract model.Contract
+	var contract models.Contract
 	contract.Type = c.Param("type")
 
 	contractIdStr := c.Param("id")
@@ -130,7 +130,7 @@ func EditContract(c *gin.Context) {
 // @Produce  json
 // @Tags contracts
 // @Param  status  query string false "status of contract"
-// @Success 200 {array}  model.ContractMiniInfo
+// @Success 200 {array}  models.ContractMiniInfo
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /contract/ [get]
@@ -154,7 +154,7 @@ func GetAllContracts(c *gin.Context) {
 // @Produce  json
 // @Tags contracts
 // @Param  id  path string true "id of contract"
-// @Success 200 {object}  model.Contract
+// @Success 200 {object}  models.Contract
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /contract/{id}/details [get]
@@ -242,7 +242,7 @@ func CancelContract(c *gin.Context) {
 // @Produce  json
 // @Tags contracts
 // @Param  id  path string true "id of contract"
-// @Success 200 {array}  model.Contract
+// @Success 200 {array}  models.Contract
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /contract/history/{id} [get]
@@ -272,7 +272,7 @@ func GetContractHistory(c *gin.Context) {
 // @Produce  json
 // @Tags contracts
 // @Param  id  path string true "id of contract"
-// @Success 200 {array}  model.ContractStatusHistory
+// @Success 200 {array}  models.ContractStatusHistory
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /contract/status_history/{id} [get]
@@ -391,10 +391,10 @@ func ConvertExcelToStruct(c *gin.Context) {
 		return
 	}
 
-	var products []model.Product
+	var products []models.Product
 	counter := 2
 	for {
-		var product model.Product
+		var product models.Product
 		product.ProductNumber, err = f.GetCellValue("page1", fmt.Sprintf("A%d", counter))
 		if err != nil {
 			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
@@ -469,7 +469,7 @@ func ConvertExcelToStruct(c *gin.Context) {
 // @Produce  json
 // @Tags contracts
 // @Param client path string true "BINClient"
-// @Success 200 {array}  model.Counterparty
+// @Success 200 {array}  models.Counterparty
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /counterparty/{client} [get]
@@ -492,14 +492,14 @@ func CounterpartyContract(c *gin.Context) {
 // @Tags         search
 // @Accept       json
 // @Produce      json
-// @Param        bin  body      model.ClientBin  true  "bin"
-// @Success      200      {object}  model.Client
+// @Param        bin  body      models.ClientBin  true  "bin"
+// @Success      200      {object}  models.Client
 // @Failure      400      {object}  map[string]interface{}
 // @Failure      404      {object}  map[string]interface{}
 // @Failure      500      {object}  map[string]interface{}
 // @Router       /client_search [post]
 func SearchBinClient(c *gin.Context) {
-	var clientBin model.ClientBin
+	var clientBin models.ClientBin
 
 	err := c.ShouldBindJSON(&clientBin)
 	if err != nil {
@@ -571,7 +571,7 @@ func Notification(c *gin.Context) {
 // @Produce      json
 // @Param        contract_number	 query string  true  "contract_number"
 // @Param        status	 query string  true  "status"
-// @Success      200      {object}  model.SearchContract
+// @Success      200      {object}  models.SearchContract
 // @Failure      400      {object}  map[string]interface{}
 // @Failure      404      {object}  map[string]interface{}
 // @Failure      500      {object}  map[string]interface{}
@@ -622,7 +622,7 @@ func SearchContractByNumber(c *gin.Context) {
 // @Param        id   path     string  true  "id"
 // @Param        target   query     string  true  "target"
 // @Param        param    query     string  true  "target"
-// @Success      200      {object}  model.SearchContract
+// @Success      200      {object}  models.SearchContract
 // @Failure      400      {object}  map[string]interface{}
 // @Failure      404      {object}  map[string]interface{}
 // @Failure      500      {object}  map[string]interface{}
@@ -688,7 +688,7 @@ func ChangeDataContract(c *gin.Context) {
 // @Tags         country
 // @Accept       json
 // @Produce      json
-// @Success      200      {object}  model.Country
+// @Success      200      {object}  models.Country
 // @Failure      400      {object}  map[string]interface{}
 // @Failure      404      {object}  map[string]interface{}
 // @Failure      500      {object}  map[string]interface{}
@@ -717,7 +717,7 @@ func GetCountries(c *gin.Context) {
 // @Param        id   path     string  true  "id"
 // @Param        target   query     string  true  "target"
 // @Param        param    query     string  true  "target"
-// @Success      200      {object}  model.SearchContract
+// @Success      200      {object}  models.SearchContract
 // @Failure      400      {object}  map[string]interface{}
 // @Failure      404      {object}  map[string]interface{}
 // @Failure      500      {object}  map[string]interface{}
@@ -740,14 +740,14 @@ func SearchHistoryExecution(c *gin.Context) {
 // @Tags         price_type
 // @Accept       json
 // @Produce      json
-// @Param        client_bin  body     model.BinPriceType  true  "client_bin"
-// @Success      200      {object}  model.RespPriceType
+// @Param        client_bin  body     models.BinPriceType  true  "client_bin"
+// @Success      200      {object}  models.RespPriceType
 // @Failure      400      {object}  map[string]interface{}
 // @Failure      404      {object}  map[string]interface{}
 // @Failure      500      {object}  map[string]interface{}
 // @Router       /price_type/ [post]
 func GetPriceType(c *gin.Context) {
-	var payload model.BinPriceType
+	var payload models.BinPriceType
 
 	err := c.ShouldBindJSON(&payload)
 	if err != nil {
@@ -768,14 +768,14 @@ func GetPriceType(c *gin.Context) {
 // @Tags         price_type
 // @Accept       json
 // @Produce      json
-// @Param        payload  body     model.PriceTypeCreate  true  "payload"
-// @Success      200      {object}  model.PriceTypeResponse
+// @Param        payload  body     models.PriceTypeCreate  true  "payload"
+// @Success      200      {object}  models.PriceTypeResponse
 // @Failure      400      {object}  map[string]interface{}
 // @Failure      404      {object}  map[string]interface{}
 // @Failure      500      {object}  map[string]interface{}
 // @Router       /create_price_type/ [post]
 func CreatePriceType(c *gin.Context) {
-	var payload model.PriceTypeCreate
+	var payload models.PriceTypeCreate
 
 	err := c.ShouldBindJSON(&payload)
 	if err != nil {
@@ -797,19 +797,17 @@ func CreatePriceType(c *gin.Context) {
 // @Tags         price_type
 // @Accept       json
 // @Produce      json
-// @Success      200      {object}  []model.ConvertCurrency
+// @Success      200      {object}  []models.ConvertCurrency
 // @Failure      400      {object}  map[string]interface{}
 // @Failure      404      {object}  map[string]interface{}
 // @Failure      500      {object}  map[string]interface{}
 // @Router       /currencies [get]
-func GetCurrencies(c *gin.Context)  {
+func GetCurrencies(c *gin.Context) {
 	currencies, err := service.GetCurrencies()
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, currencies)
-	
 
-	
 }

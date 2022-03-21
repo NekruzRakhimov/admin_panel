@@ -2,10 +2,10 @@ package repository
 
 import (
 	"admin_panel/db"
-	"admin_panel/model"
+	"admin_panel/models"
 )
 
-func GetAllCurrencies() (currencies []model.Currency, err error) {
+func GetAllCurrencies() (currencies []models.Currency, err error) {
 	sqlQuery := "SELECT * FROM currencies"
 	if err := db.GetDBConn().Raw(sqlQuery).Scan(&currencies).Error; err != nil {
 		return nil, err
@@ -14,7 +14,7 @@ func GetAllCurrencies() (currencies []model.Currency, err error) {
 	return currencies, nil
 }
 
-func GetAllPositions() (positions []model.Position, err error) {
+func GetAllPositions() (positions []models.Position, err error) {
 	sqlQuery := "SELECT * FROM positions"
 	if err := db.GetDBConn().Raw(sqlQuery).Scan(&positions).Error; err != nil {
 		return nil, err
@@ -23,7 +23,7 @@ func GetAllPositions() (positions []model.Position, err error) {
 	return positions, nil
 }
 
-func GetAllAddresses() (addresses []model.Address, err error) {
+func GetAllAddresses() (addresses []models.Address, err error) {
 	sqlQuery := "SELECT id, value as code FROM dictionary_values WHERE dictionary_id = 1"
 	if err := db.GetDBConn().Raw(sqlQuery).Scan(&addresses).Error; err != nil {
 		return nil, err
@@ -32,7 +32,7 @@ func GetAllAddresses() (addresses []model.Address, err error) {
 	return addresses, nil
 }
 
-func GetAllFrequencyDeferredDiscounts() (frequencyDeferredDiscounts []model.FrequencyDeferredDiscount, err error) {
+func GetAllFrequencyDeferredDiscounts() (frequencyDeferredDiscounts []models.FrequencyDeferredDiscount, err error) {
 	sqlQuery := "SELECT * FROM frequency_deferred_discount"
 	if err := db.GetDBConn().Raw(sqlQuery).Scan(&frequencyDeferredDiscounts).Error; err != nil {
 		return nil, err
@@ -41,7 +41,7 @@ func GetAllFrequencyDeferredDiscounts() (frequencyDeferredDiscounts []model.Freq
 	return frequencyDeferredDiscounts, nil
 }
 
-func GetAllDictionaries() (dictionaries []model.Dictionary, err error) {
+func GetAllDictionaries() (dictionaries []models.Dictionary, err error) {
 	sqlQuery := "SELECT * FROM dictionaries WHERE is_removed = false ORDER BY id"
 	err = db.GetDBConn().Raw(sqlQuery).Scan(&dictionaries).Error
 	if err != nil {
@@ -51,17 +51,17 @@ func GetAllDictionaries() (dictionaries []model.Dictionary, err error) {
 	return dictionaries, nil
 }
 
-func GetDictionaryByID(dictionaryID int) (dictionary model.Dictionary, err error) {
+func GetDictionaryByID(dictionaryID int) (dictionary models.Dictionary, err error) {
 	sqlQuery := "SELECT * FROM dictionaries WHERE id = ? AND is_removed = false ORDER BY id"
 	err = db.GetDBConn().Raw(sqlQuery, dictionaryID).Scan(&dictionary).Error
 	if err != nil {
-		return model.Dictionary{}, err
+		return models.Dictionary{}, err
 	}
 
 	return dictionary, nil
 }
 
-func CreateDictionary(dictionary model.Dictionary) error {
+func CreateDictionary(dictionary models.Dictionary) error {
 	if err := db.GetDBConn().Table("dictionaries").Omit("author").Create(&dictionary).Error; err != nil {
 		return err
 	}
@@ -69,7 +69,7 @@ func CreateDictionary(dictionary model.Dictionary) error {
 	return nil
 }
 
-func EditDictionary(dictionary model.Dictionary) error {
+func EditDictionary(dictionary models.Dictionary) error {
 	if err := db.GetDBConn().Table("dictionaries").Omit("author").Save(&dictionary).Error; err != nil {
 		return err
 	}
@@ -86,7 +86,7 @@ func DeleteDictionary(dictionaryID int) error {
 	return nil
 }
 
-func GetAllDictionaryValues(dictionaryID int) (dictionaryValues []model.DictionaryValue, err error) {
+func GetAllDictionaryValues(dictionaryID int) (dictionaryValues []models.DictionaryValue, err error) {
 	sqlQuery := "SELECT * FROM dictionary_values WHERE dictionary_id = ? ORDER BY id"
 	err = db.GetDBConn().Raw(sqlQuery, dictionaryID).Scan(&dictionaryValues).Error
 	if err != nil {
@@ -96,7 +96,7 @@ func GetAllDictionaryValues(dictionaryID int) (dictionaryValues []model.Dictiona
 	return dictionaryValues, nil
 }
 
-func CreateDictionaryValue(dictionaryValue model.DictionaryValue) error {
+func CreateDictionaryValue(dictionaryValue models.DictionaryValue) error {
 	if err := db.GetDBConn().Table("dictionary_values").Create(&dictionaryValue).Error; err != nil {
 		return err
 	}
@@ -104,7 +104,7 @@ func CreateDictionaryValue(dictionaryValue model.DictionaryValue) error {
 	return nil
 }
 
-func EditDictionaryValue(dictionaryValue model.DictionaryValue) error {
+func EditDictionaryValue(dictionaryValue models.DictionaryValue) error {
 	if err := db.GetDBConn().Table("dictionary_values").Save(&dictionaryValue).Error; err != nil {
 		return err
 	}

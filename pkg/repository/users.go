@@ -2,11 +2,11 @@ package repository
 
 import (
 	"admin_panel/db"
-	"admin_panel/model"
+	"admin_panel/models"
 	"fmt"
 )
 
-func GetAllUsers() (users []model.User, err error) {
+func GetAllUsers() (users []models.User, err error) {
 	if err := db.GetDBConn().Table("users").Where("is_removed = ?", false).Order("id").Find(&users).Error; err != nil {
 		return nil, err
 	}
@@ -14,7 +14,7 @@ func GetAllUsers() (users []model.User, err error) {
 	return users, nil
 }
 
-func GetAllRolesByUserId(userId int) (roles []model.RoleDTO, err error) {
+func GetAllRolesByUserId(userId int) (roles []models.RoleDTO, err error) {
 	sqlQuery := `SELECT roles.*,
 				   case
 					   when roles.id in (SELECT role_id FROM users_roles WHERE user_id = ?)
@@ -30,15 +30,15 @@ func GetAllRolesByUserId(userId int) (roles []model.RoleDTO, err error) {
 	return roles, nil
 }
 
-func CreateNewUser(user model.User) (model.User, error) {
+func CreateNewUser(user models.User) (models.User, error) {
 	if err := db.GetDBConn().Table("users").Save(&user).Error; err != nil {
-		return model.User{}, err
+		return models.User{}, err
 	}
 
 	return user, nil
 }
 
-func AddRolesToUser(userId int, roles []model.RoleDTO) error {
+func AddRolesToUser(userId int, roles []models.RoleDTO) error {
 	sqlQuery := "INSERT INTO users_roles (user_id, role_id) VALUES(?, ?)"
 
 	for _, role := range roles {
@@ -50,7 +50,7 @@ func AddRolesToUser(userId int, roles []model.RoleDTO) error {
 	return nil
 }
 
-func EditUser(user model.User) error {
+func EditUser(user models.User) error {
 	if err := db.GetDBConn().Table("users").Omit("roles").Save(&user).Error; err != nil {
 		return err
 	}
@@ -84,10 +84,10 @@ func DetachRoleFromUser(userId, roleId int) error { // todo: затем заме
 	return nil
 }
 
-func GetUserById(userId int) (user model.User, err error) {
+func GetUserById(userId int) (user models.User, err error) {
 	user.ID = userId
 	if err := db.GetDBConn().Table("users").Omit("password").Find(&user).Error; err != nil {
-		return model.User{}, err
+		return models.User{}, err
 	}
 
 	return user, nil

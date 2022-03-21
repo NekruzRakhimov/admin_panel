@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"admin_panel/model"
+	"admin_panel/models"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/unidoc/unioffice/color"
@@ -30,7 +30,7 @@ func init() {
 // @Accept  json
 // @Produce  json
 // @Tags contracts
-// @Param  contract  body model.Contract true "forming contract"
+// @Param  contract  body models.Contract true "forming contract"
 // @Param  with_temp_conditions  param string true "with temperature conditions"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400,404 {object} map[string]interface{}
@@ -38,7 +38,7 @@ func init() {
 // @Router /contract/{type} [post]
 
 func FormContract(c *gin.Context) {
-	var contract model.Contract
+	var contract models.Contract
 
 	if err := c.BindJSON(&contract); err != nil {
 		log.Println("[controller.FormContract]|[c.BindJSO]| error is: ", err.Error())
@@ -66,7 +66,7 @@ func FormContract(c *gin.Context) {
 	}
 }
 
-func SupplyContract(c *gin.Context, contract model.Contract, withTempConditions bool) {
+func SupplyContract(c *gin.Context, contract models.Contract, withTempConditions bool) {
 	if withTempConditions {
 		SupplyContractWithTempConditions(c, contract)
 	} else {
@@ -74,7 +74,7 @@ func SupplyContract(c *gin.Context, contract model.Contract, withTempConditions 
 	}
 }
 
-func SupplyContractWithTempConditions(c *gin.Context, contract model.Contract) {
+func SupplyContractWithTempConditions(c *gin.Context, contract models.Contract) {
 	doc, err := document.Open("files/contracts/supply/without_temp_cond.docx")
 	if err != nil {
 		log.Fatalf("error opening document: %s", err)
@@ -204,7 +204,7 @@ func SupplyContractWithTempConditions(c *gin.Context, contract model.Contract) {
 	c.File("files/contracts/edit-document.docx")
 }
 
-func SupplyContractWithoutTempConditions(c *gin.Context, contract model.Contract) {
+func SupplyContractWithoutTempConditions(c *gin.Context, contract models.Contract) {
 	doc, err := document.Open("files/contracts/supply/without_temp_cond.docx")
 	if err != nil {
 		log.Fatalf("error opening document: %s", err)
@@ -328,7 +328,7 @@ func SupplyContractWithoutTempConditions(c *gin.Context, contract model.Contract
 	c.File("files/contracts/edit-document.docx")
 }
 
-func MarketingServiceContract(c *gin.Context, contract model.Contract) {
+func MarketingServiceContract(c *gin.Context, contract models.Contract) {
 	doc, err := document.Open("files/contracts/marketing_service/marketing_service.docx")
 	if err != nil {
 		log.Fatalf("error opening document: %s", err)

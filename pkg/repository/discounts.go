@@ -2,11 +2,11 @@ package repository
 
 import (
 	"admin_panel/db"
-	"admin_panel/model"
+	"admin_panel/models"
 	"log"
 )
 
-func SaveDoubtedDiscounts(bin, periodFrom, periodTo, contractNumber string, discounts []model.DoubtedDiscountDetails) error {
+func SaveDoubtedDiscounts(bin, periodFrom, periodTo, contractNumber string, discounts []models.DoubtedDiscountDetails) error {
 	for _, discount := range discounts {
 		if err := AddOrUpdateDoubtedDiscount(bin, periodFrom, periodTo, contractNumber, discount.Code, discount.Name, discount.IsCompleted); err != nil {
 			log.Println("[repository.SaveDoubtedDiscounts]|[repository.AddOrUpdateDoubtedDiscount] error is: ", err.Error())
@@ -30,7 +30,7 @@ func AddOrUpdateDoubtedDiscount(bin, periodFrom, periodTo, contractNumber, disco
 	return nil
 }
 
-func GetAllContractDetailByBIN(bin, PeriodFrom, PeriodTo string) (contracts []model.ContractWithJsonB, err error) {
+func GetAllContractDetailByBIN(bin, PeriodFrom, PeriodTo string) (contracts []models.ContractWithJsonB, err error) {
 	if err = db.GetDBConn().Table("contracts").
 		Where(`requisites ->> 'bin' = ? 	
 					AND contract_parameters ->> 'start_date' >= ? AND contract_parameters ->> 'end_date' <= ?`, bin, PeriodFrom, PeriodTo).
@@ -39,7 +39,7 @@ func GetAllContractDetailByBIN(bin, PeriodFrom, PeriodTo string) (contracts []mo
 		return nil, err
 	}
 
-	//var brands []model.DiscountBrand
+	//var brands []models.DiscountBrand
 	for i, contract := range contracts {
 		if err = db.GetDBConn().Raw("SELECT id, brand as brand_name, brand_code, discount_percent FROM  brands  WHERE  contract_id = ?", contract.ID).Scan(&contracts[i].DiscountBrand).Error; err != nil {
 			return nil, err
@@ -51,9 +51,9 @@ func GetAllContractDetailByBIN(bin, PeriodFrom, PeriodTo string) (contracts []mo
 	return contracts, nil
 }
 
-func GetDiscountPeriod(bin string) ([]model.Discount, error) {
-	//var discounts []model.Discount
-	var discount []model.Discount
+func GetDiscountPeriod(bin string) ([]models.Discount, error) {
+	//var discounts []models.Discount
+	var discount []models.Discount
 
 	//db.GetDBConn().Raw("SELECT jsonb_array_elements(discounts) FROM contracts WHERE  requisites ->> bin = $1", bin).Scan(&discounts)
 	err := db.GetDBConn().Raw("SELECT discounts::text as discount FROM contracts WHERE requisites ->> 'bin' = $1", bin).Scan(&discount).Error
@@ -65,7 +65,7 @@ func GetDiscountPeriod(bin string) ([]model.Discount, error) {
 
 }
 
-func DoubtedDiscountExecutionCheck(request model.RBRequest, contractNumber, discountCode string) (isCompleted bool) {
+func DoubtedDiscountExecutionCheck(request models.RBRequest, contractNumber, discountCode string) (isCompleted bool) {
 	var isCompletedArr []bool
 	sqlQuery := "SELECT is_completed FROM doubted_discounts WHERE bin = ? AND contract_number = ? AND code = ? AND period_from = ? AND period_to = ?"
 	_ = db.GetDBConn().Raw(sqlQuery, request.BIN, contractNumber, discountCode, request.PeriodFrom, request.PeriodTo).Pluck("is_completed", &isCompletedArr)

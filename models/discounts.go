@@ -1,4 +1,4 @@
-package model
+package models
 
 type RBRequest struct {
 	BIN              string            `json:"bin"`

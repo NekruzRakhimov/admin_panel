@@ -1,13 +1,13 @@
 package controller
 
 import (
-	"admin_panel/model"
+	"admin_panel/models"
 	"github.com/gin-gonic/gin"
 )
 
 func PresentationDiscount(c *gin.Context) {
 
-	var rbReq model.RBRequest
+	var rbReq models.RBRequest
 
 	c.ShouldBind(&rbReq)
 

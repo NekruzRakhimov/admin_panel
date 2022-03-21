@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"admin_panel/model"
+	"admin_panel/models"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	AppSettings model.Settings
+	AppSettings models.Settings
 )
 
 func ReadSettings() {

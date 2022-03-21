@@ -1,4 +1,4 @@
-package model
+package models
 
 type ContractWithJsonB struct {
 	ID                        int             `json:"id"`
@@ -123,10 +123,10 @@ type ContractParameters struct {
 	ContractAmount float32 `json:"contract_amount"`
 
 	// update fields
-	CurrencyName string `json:"currency_name,omitempty"`
-	CurrencyCode string `json:"currency_code,omitempty"`
-	PricetypeName         string `json:"pricetype_name,omitempty"`
-	PricetypeCode         string `json:"pricetype_code,omitempty"`
+	CurrencyName  string `json:"currency_name,omitempty"`
+	CurrencyCode  string `json:"currency_code,omitempty"`
+	PricetypeName string `json:"pricetype_name,omitempty"`
+	PricetypeCode string `json:"pricetype_code,omitempty"`
 
 	Prepayment                float32  `json:"prepayment,omitempty"`
 	DateOfDelivery            string   `json:"date_of_delivery,omitempty"`
@@ -194,7 +194,7 @@ type Discount struct {
 	PeriodFrom      string           `json:"period_from"`
 	IsSale          bool             `json:"is_sale"`
 	PeriodTo        string           `json:"period_to"`
-		DiscountPercent float32          `json:"discount_percent"`
+	DiscountPercent float32          `json:"discount_percent"`
 	GrowthPercent   float32          `json:"growth_percent"`
 	Periods         []DiscountPeriod `json:"periods,omitempty"`
 	DiscountBrands  []DiscountBrands `json:"discount_brands"`

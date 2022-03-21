@@ -2,7 +2,7 @@ package service
 
 import (
 	"admin_panel/db"
-	"admin_panel/model"
+	"admin_panel/models"
 	"admin_panel/pkg/repository"
 	"errors"
 	"fmt"
@@ -12,10 +12,10 @@ import (
 	"time"
 )
 
-func RbDiscountForSalesGrowth(rb model.RBRequest) ([]model.RbDTO, error) {
+func GetRB13thType(rb models.RBRequest) ([]models.RbDTO, error) {
 	log.Println("ФУНКЦИЯ ПО ПРИРОСТУ ВЫЗВАЛАСЬ===================================================================================================")
 	fmt.Println("ФУНКЦИЯ ПО ПРИРОСТУ ВЫЗВАЛАСЬ===================================================================================================")
-	var rbDTOsl []model.RbDTO
+	var rbDTOsl []models.RbDTO
 
 	// чтобы преобразоват дату в ввиде День.Месяц.Год
 	layoutISO := "02.1.2006"
@@ -29,7 +29,7 @@ func RbDiscountForSalesGrowth(rb model.RBRequest) ([]model.RbDTO, error) {
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println("contractsWithJson", contractsWithJson)
+	fmt.Println("contractsWithJson=============================================", contractsWithJson)
 	contracts, err := BulkConvertContractFromJsonB(contractsWithJson)
 	if err != nil {
 		return nil, err
@@ -59,7 +59,7 @@ func RbDiscountForSalesGrowth(rb model.RBRequest) ([]model.RbDTO, error) {
 					}
 
 					// это чтобы брали на 1 год меньше
-					pastPeriod := model.ReqBrand{
+					pastPeriod := models.ReqBrand{
 						ClientBin:      rb.BIN,
 						DateStart:      pastTimeFrom,
 						DateEnd:        pastTimeTo,
@@ -70,7 +70,7 @@ func RbDiscountForSalesGrowth(rb model.RBRequest) ([]model.RbDTO, error) {
 					}
 
 					// Это необходимо, чтобы получить продажи за тек период
-					present := model.ReqBrand{
+					present := models.ReqBrand{
 						ClientBin:      rb.BIN,
 						Beneficiary:    "",
 						DateStart:      rb.PeriodFrom,
@@ -124,7 +124,8 @@ func RbDiscountForSalesGrowth(rb model.RBRequest) ([]model.RbDTO, error) {
 
 						fmt.Println("discountAmount", discountAmount)
 
-						rbDTO := model.RbDTO{
+						rbDTO := models.RbDTO{
+							ContractNumber:       contract.ContractParameters.ContractNumber,
 							StartDate:            period.PeriodFrom,
 							EndDate:              period.PeriodTo,
 							TypePeriod:           "",
@@ -133,9 +134,24 @@ func RbDiscountForSalesGrowth(rb model.RBRequest) ([]model.RbDTO, error) {
 							DiscountPercent:      period.DiscountPercent,
 							DiscountAmount:       discountAmount,
 							TotalWithoutDiscount: preCount,
+							DiscountType:         RB13Name,
 						}
 						rbDTOsl = append(rbDTOsl, rbDTO)
 
+					} else {
+						rbDTO := models.RbDTO{
+							ContractNumber:       contract.ContractParameters.ContractNumber,
+							StartDate:            period.PeriodFrom,
+							EndDate:              period.PeriodTo,
+							TypePeriod:           "",
+							BrandName:            "",
+							ProductCode:          "",
+							DiscountPercent:      period.DiscountPercent,
+							DiscountAmount:       0,
+							TotalWithoutDiscount: preCount,
+							DiscountType:         RB13Name,
+						}
+						rbDTOsl = append(rbDTOsl, rbDTO)
 					}
 
 				}
@@ -166,8 +182,8 @@ func ConvertTime(date string) (string, error) {
 	return updateTime, nil
 }
 
-func DiscountRBPeriodTime(req model.RBRequest) ([]model.RbDTO, error) {
-	var rbDTOsl []model.RbDTO
+func GetRB12thType(req models.RBRequest) ([]models.RbDTO, error) {
+	var rbDTOsl []models.RbDTO
 
 	// parsing string by TIME
 	layoutISO := "02.1.2006"
@@ -201,7 +217,7 @@ func DiscountRBPeriodTime(req model.RBRequest) ([]model.RbDTO, error) {
 					PeriodFrom, _ := time.Parse(layoutISO, period.PeriodFrom)
 					PeriodTo, _ := time.Parse(layoutISO, period.PeriodTo)
 					if PeriodFrom.After(reqPeriodFrom) || PeriodTo.Before(reqPeriodTo) {
-						reqBrand := model.ReqBrand{
+						reqBrand := models.ReqBrand{
 							ClientBin:      req.BIN,
 							DateStart:      req.PeriodFrom,
 							DateEnd:        req.PeriodFrom,
@@ -216,7 +232,7 @@ func DiscountRBPeriodTime(req model.RBRequest) ([]model.RbDTO, error) {
 						if period.PurchaseAmount < float32(count) {
 							total := float32(count) * period.DiscountPercent / 100
 
-							RbDTO := model.RbDTO{
+							RbDTO := models.RbDTO{
 								ContractNumber:       contract.ContractParameters.ContractNumber,
 								StartDate:            period.PeriodFrom,
 								EndDate:              period.PeriodTo,
@@ -224,6 +240,7 @@ func DiscountRBPeriodTime(req model.RBRequest) ([]model.RbDTO, error) {
 								DiscountPercent:      period.DiscountPercent,
 								DiscountAmount:       total,
 								TotalWithoutDiscount: float32(count),
+								DiscountType:         RB12Name,
 							}
 							rbDTOsl = append(rbDTOsl, RbDTO)
 
@@ -240,8 +257,8 @@ func DiscountRBPeriodTime(req model.RBRequest) ([]model.RbDTO, error) {
 	return rbDTOsl, nil
 }
 
-func GetExternalCode(bin string) []model.ContractCode {
-	var ExtContractCode []model.ContractCode
+func GetExternalCode(bin string) []models.ContractCode {
+	var ExtContractCode []models.ContractCode
 	db.GetDBConn().Raw("SELECT ext_contract_code FROM contracts WHERE requisites ->> 'bin' =  $1", bin).Scan(&ExtContractCode)
 
 	return ExtContractCode

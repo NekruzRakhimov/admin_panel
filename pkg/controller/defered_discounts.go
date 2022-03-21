@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"admin_panel/model"
+	"admin_panel/models"
 	"admin_panel/pkg/service"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -9,7 +9,7 @@ import (
 )
 
 func GetAllDeferredDiscounts(c *gin.Context) {
-	var request model.RBRequest
+	var request models.RBRequest
 	if err := c.BindJSON(&request); err != nil {
 		log.Println("[controller][GetAllRBByContractorBIN] error is: ", err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
@@ -29,7 +29,7 @@ func GetAllDeferredDiscounts(c *gin.Context) {
 }
 
 func FormExcelForDeferredDiscounts(c *gin.Context) {
-	var request model.RBRequest
+	var request models.RBRequest
 	if err := c.BindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 		return
@@ -45,7 +45,7 @@ func FormExcelForDeferredDiscounts(c *gin.Context) {
 
 }
 
-func GetTotalFromRbDTO(contracts []model.RbDTO) (totalAmount float32) {
+func GetTotalFromRbDTO(contracts []models.RbDTO) (totalAmount float32) {
 	for _, contract := range contracts {
 		totalAmount += contract.DiscountAmount
 	}

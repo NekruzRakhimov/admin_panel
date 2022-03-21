@@ -2,12 +2,12 @@ package repository
 
 import (
 	"admin_panel/db"
-	"admin_panel/model"
+	"admin_panel/models"
 	"errors"
 	"fmt"
 )
 
-func GetAllRights() (rights []model.Right, err error) {
+func GetAllRights() (rights []models.Right, err error) {
 	if err := db.GetDBConn().Table("rights").Where("is_removed = ?", false).Order("id").Scan(&rights).Error; err != nil {
 		return nil, err
 	}
@@ -15,7 +15,7 @@ func GetAllRights() (rights []model.Right, err error) {
 	return rights, nil
 }
 
-func AddNewRight(right model.Right) error {
+func AddNewRight(right models.Right) error {
 	if err := db.GetDBConn().Table("rights").Create(&right).Error; err != nil {
 		return errors.New("право с таким кодом уже существоует")
 	}
@@ -23,7 +23,7 @@ func AddNewRight(right model.Right) error {
 	return nil
 }
 
-func EditRight(right model.Right) error {
+func EditRight(right models.Right) error {
 	if err := db.GetDBConn().Table("rights").Save(&right).Error; err != nil {
 		return err
 	}
@@ -39,7 +39,7 @@ func DeleteRight(id int) error {
 	return nil
 }
 
-func GetAllRightsByRoleId(roleId int) (rights []model.RightDTO, err error) {
+func GetAllRightsByRoleId(roleId int) (rights []models.RightDTO, err error) {
 	sqlQuery := `SELECT rights.*,
 				   case
 					   when rights.id in (SELECT right_id FROM roles_rights WHERE role_id = ?)
@@ -55,7 +55,7 @@ func GetAllRightsByRoleId(roleId int) (rights []model.RightDTO, err error) {
 	return rights, nil
 }
 
-func AddRightsToRole(roleId int, rights []model.RightDTO) error {
+func AddRightsToRole(roleId int, rights []models.RightDTO) error {
 	sqlQuery := "INSERT INTO roles_rights (role_id, right_id) VALUES(?, ?)"
 
 	for _, right := range rights {
@@ -67,10 +67,10 @@ func AddRightsToRole(roleId int, rights []model.RightDTO) error {
 	return nil
 }
 
-func GetRightByID(rightId int) (right model.Right, err error) {
+func GetRightByID(rightId int) (right models.Right, err error) {
 	right.ID = rightId
 	if err := db.GetDBConn().Table("rights").Find(&right).Error; err != nil {
-		return model.Right{}, err
+		return models.Right{}, err
 	}
 
 	return right, nil

@@ -1,7 +1,7 @@
 package service
 
 import (
-	"admin_panel/model"
+	"admin_panel/models"
 	"admin_panel/pkg/repository"
 	"bytes"
 	"encoding/json"
@@ -13,15 +13,15 @@ import (
 	"strings"
 )
 
-func GetContractDetails(contractId int) (contract model.Contract, err error) {
+func GetContractDetails(contractId int) (contract models.Contract, err error) {
 	contractWithJsonB, err := repository.GetContractDetails(contractId)
 	if err != nil {
-		return model.Contract{}, err
+		return models.Contract{}, err
 	}
 
 	contract, err = ConvertContractFromJsonB(contractWithJsonB)
 	if err != nil {
-		return model.Contract{}, err
+		return models.Contract{}, err
 	}
 
 	switch contractWithJsonB.Status {
@@ -42,8 +42,8 @@ func GetContractDetails(contractId int) (contract model.Contract, err error) {
 	return contract, nil
 }
 
-func AddAdditionalAgreement(contract model.Contract) error {
-	var contractWithJson model.ContractWithJsonB
+func AddAdditionalAgreement(contract models.Contract) error {
+	var contractWithJson models.ContractWithJsonB
 
 	contractWithJson.PrevContractId = contract.PrevContractId
 	contractWithJson.Comment = contract.Comment
@@ -109,7 +109,7 @@ func AddAdditionalAgreement(contract model.Contract) error {
 	return repository.CreateContract(contractWithJson)
 }
 
-func CreateContract(contract model.Contract) (err error) {
+func CreateContract(contract models.Contract) (err error) {
 	contractsMiniInfo, err := GetAllContracts("")
 	if err != nil {
 		return err
@@ -123,7 +123,7 @@ func CreateContract(contract model.Contract) (err error) {
 		}
 	}
 
-	var contractWithJson model.ContractWithJsonB
+	var contractWithJson models.ContractWithJsonB
 
 	contractWithJson.Type = contract.Type
 	contractWithJson.Comment = contract.Comment
@@ -183,8 +183,8 @@ func CreateContract(contract model.Contract) (err error) {
 	return repository.CreateContract(contractWithJson)
 }
 
-func EditContract(contract model.Contract) error {
-	var contractWithJson model.ContractWithJsonB
+func EditContract(contract models.Contract) error {
+	var contractWithJson models.ContractWithJsonB
 
 	contractWithJson.ID = contract.ID
 	contractWithJson.Type = contract.Type
@@ -243,7 +243,7 @@ func EditContract(contract model.Contract) error {
 	return repository.EditContract(contractWithJson)
 }
 
-func GetAllContracts(contractType string) (contractsMiniInfo []model.ContractMiniInfo, err error) {
+func GetAllContracts(contractType string) (contractsMiniInfo []models.ContractMiniInfo, err error) {
 	// здесь ты получаешь все поля
 	contractsWithJson, err := repository.GetAllContracts(contractType)
 	if err != nil {
@@ -277,7 +277,7 @@ func GetAllContracts(contractType string) (contractsMiniInfo []model.ContractMin
 	return contractsMiniInfo, nil
 }
 
-func ConvertContractToContractMiniInfo(contract model.Contract) (contractMiniInfo model.ContractMiniInfo) {
+func ConvertContractToContractMiniInfo(contract models.Contract) (contractMiniInfo models.ContractMiniInfo) {
 	log.Println(contract.IsExtendContract, "contract.IsExtendContract")
 	log.Println(contract.ID, "ID:")
 	log.Println(contract.ExtendDate, "extend_date:")
@@ -321,7 +321,7 @@ func ConvertContractToContractMiniInfo(contract model.Contract) (contractMiniInf
 	return contractMiniInfo
 }
 
-func ConvertContractsFromJsonB(contractsWithJsonB []model.ContractWithJsonB) (contracts []model.Contract, err error) {
+func ConvertContractsFromJsonB(contractsWithJsonB []models.ContractWithJsonB) (contracts []models.Contract, err error) {
 	for _, contractWithJsonB := range contractsWithJsonB {
 		contract, err := ConvertContractFromJsonB(contractWithJsonB)
 
@@ -336,7 +336,7 @@ func ConvertContractsFromJsonB(contractsWithJsonB []model.ContractWithJsonB) (co
 	return contracts, nil
 }
 
-func ConvertContractFromJsonB(contractWithJson model.ContractWithJsonB) (contract model.Contract, err error) {
+func ConvertContractFromJsonB(contractWithJson models.ContractWithJsonB) (contract models.Contract, err error) {
 
 	log.Println("ConvertContractFromJsonB=======================", contractWithJson.ID, contractWithJson.IsExtendContract, contractWithJson.ExtendDate)
 
@@ -356,31 +356,31 @@ func ConvertContractFromJsonB(contractWithJson model.ContractWithJsonB) (contrac
 	err = json.Unmarshal([]byte(contractWithJson.Requisites), &contract.Requisites)
 	if err != nil {
 		log.Println("[service][json.Unmarshal([]byte(contractWithJson.Requisites), &contract.Requisites)] error is: ", err.Error())
-		return model.Contract{}, err
+		return models.Contract{}, err
 	}
 
 	err = json.Unmarshal([]byte(contractWithJson.SupplierCompanyManager), &contract.SupplierCompanyManager)
 	if err != nil {
 		log.Println("[service][json.Unmarshal([]byte(contractWithJson.SupplierCompanyManager), &contract.SupplierCompanyManager)] error is: ", err.Error())
-		return model.Contract{}, err
+		return models.Contract{}, err
 	}
 
 	err = json.Unmarshal([]byte(contractWithJson.ContractParameters), &contract.ContractParameters)
 	if err != nil {
 		log.Println("[service][.Unmarshal([]byte(contractWithJson.ContractParameters), &contract.ContractParameters)] error is: ", err.Error())
-		return model.Contract{}, err
+		return models.Contract{}, err
 	}
 
 	err = json.Unmarshal([]byte(contractWithJson.Products), &contract.Products)
 	if err != nil {
 		log.Println("[service][json.Unmarshal([]byte(contractWithJson.Products), &contract.Products)] error is: ", err.Error())
-		return model.Contract{}, err
+		return models.Contract{}, err
 	}
 
 	err = json.Unmarshal([]byte(contractWithJson.Discounts), &contract.Discounts)
 	if err != nil {
 		log.Println("[service][json.Unmarshal([]byte(contractWithJson.Discounts), &contract.Discounts)] error is: ", err.Error())
-		return model.Contract{}, err
+		return models.Contract{}, err
 	}
 
 	contract.IsExtendContract = contract.ContractParameters.IsExtendContract
@@ -439,8 +439,8 @@ func ConformContract(contractId int, status string) error {
 
 }
 
-func ConvertContractToContractDTOFor1CStruct(contract model.Contract) (contractFor1C model.ContractDTOFor1C) {
-	contractFor1C = model.ContractDTOFor1C{
+func ConvertContractToContractDTOFor1CStruct(contract models.Contract) (contractFor1C models.ContractDTOFor1C) {
+	contractFor1C = models.ContractDTOFor1C{
 		ID:                     contract.ID,
 		Type:                   contract.Type,
 		PrevContractId:         contract.PrevContractId,
@@ -449,7 +449,7 @@ func ConvertContractToContractDTOFor1CStruct(contract model.Contract) (contractF
 		Manager:                contract.Manager,
 		KAM:                    contract.KAM,
 		SupplierCompanyManager: contract.SupplierCompanyManager,
-		ContractParameters: model.ContractParametersDTOFor1C{
+		ContractParameters: models.ContractParametersDTOFor1C{
 			ContractNumber:            contract.ContractParameters.ContractNumber,
 			ContractAmount:            contract.ContractParameters.ContractAmount,
 			Currency:                  contract.ContractParameters.CurrencyName,
@@ -496,8 +496,8 @@ func CancelContract(contractId int) error {
 	return nil
 }
 
-func GetContractHistory(contractId int) (contractsMiniInfo []model.ContractMiniInfo, err error) {
-	var contracts []model.Contract
+func GetContractHistory(contractId int) (contractsMiniInfo []models.ContractMiniInfo, err error) {
+	var contracts []models.Contract
 	contractWithJsonB, err := repository.GetContractDetails(contractId)
 	if err != nil {
 		return nil, err
@@ -539,7 +539,7 @@ func GetContractHistory(contractId int) (contractsMiniInfo []model.ContractMiniI
 		contractsMiniInfo = append(contractsMiniInfo, contractMiniInfo)
 	}
 
-	var contractsMiniInfoWithoutDrafts []model.ContractMiniInfo
+	var contractsMiniInfoWithoutDrafts []models.ContractMiniInfo
 
 	for _, info := range contractsMiniInfo {
 		if info.Status != "DRAFT" {
@@ -558,21 +558,21 @@ func RevisionContract(contractId int, comment string) error {
 	return repository.RevisionContract(contractId, comment)
 }
 
-func GetContractStatusChangesHistory(contractId int) (history []model.ContractStatusHistory, err error) {
+func GetContractStatusChangesHistory(contractId int) (history []models.ContractStatusHistory, err error) {
 	return repository.GetContractStatusChangesHistory(contractId)
 }
 
-func SearchContractByNumber(contractNumber, status string) ([]model.SearchContract, error) {
+func SearchContractByNumber(contractNumber, status string) ([]models.SearchContract, error) {
 	return repository.SearchContractByNumber(contractNumber, status)
 
 }
 
-func SearchContractHistory(field, param string) ([]model.SearchContract, error) {
+func SearchContractHistory(field, param string) ([]models.SearchContract, error) {
 	return repository.SearchContractHistory(field, param)
 
 }
 
-func SearchHistoryExecution(field, param string) ([]model.SearchContract, error) {
+func SearchHistoryExecution(field, param string) ([]models.SearchContract, error) {
 	return repository.SearchHistoryExecution(field, param)
 
 }
@@ -582,8 +582,8 @@ func ChangeDataContract(id int) error {
 
 }
 
-func GetCountries() (model.Country, error) {
-	countries := model.Country{}
+func GetCountries() (models.Country, error) {
+	countries := models.Country{}
 	client := &http.Client{}
 	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/countrylist"
 	req, err := http.NewRequest("GET", uri, nil)
@@ -615,7 +615,7 @@ func GetCountries() (model.Country, error) {
 	err = json.Unmarshal(body, &countries)
 	if err != nil {
 		log.Println(err)
-		return model.Country{}, err
+		return models.Country{}, err
 	}
 
 	fmt.Println(string(body))
@@ -623,13 +623,13 @@ func GetCountries() (model.Country, error) {
 
 }
 
-func GetPriceType(bin string) ([]model.PriceTypeAndCode, error) {
-	var priceType model.RespPriceType
+func GetPriceType(bin string) ([]models.PriceTypeAndCode, error) {
+	var priceType models.RespPriceType
 	priceAndCodeMap := map[string]string{}
 
-	var priceAndCodeSl []model.PriceTypeAndCode
+	var priceAndCodeSl []models.PriceTypeAndCode
 
-	date := model.ReqBrand{
+	date := models.ReqBrand{
 		ClientBin: bin,
 	}
 	//for _, value := range brandInfo {
@@ -682,7 +682,7 @@ func GetPriceType(bin string) ([]model.PriceTypeAndCode, error) {
 		priceAndCodeMap[code.PricetypeCode] = code.PricetypeName
 	}
 	for key, value := range priceAndCodeMap {
-		priceAndCode := model.PriceTypeAndCode{
+		priceAndCode := models.PriceTypeAndCode{
 			PricetypeName: value,
 			PricetypeCode: key,
 		}
@@ -694,10 +694,10 @@ func GetPriceType(bin string) ([]model.PriceTypeAndCode, error) {
 
 }
 
-func CreatePriceType(payload model.PriceTypeCreate) (model.PriceTypeResponse, error) {
-	var responsePriceType model.PriceTypeResponse
+func CreatePriceType(payload models.PriceTypeCreate) (models.PriceTypeResponse, error) {
+	var responsePriceType models.PriceTypeResponse
 
-	//date := model.ReqBrand{
+	//date := models.ReqBrand{
 	//	ClientBin: bin,
 	//}
 	//for _, value := range brandInfo {
@@ -750,10 +750,9 @@ func CreatePriceType(payload model.PriceTypeCreate) (model.PriceTypeResponse, er
 
 }
 
-func GetCurrencies() ([]model.ConvertCurrency, error) {
-	var CurrencyArr model.CurrencyArr
-	var ConvertCurrencySl []model.ConvertCurrency
-
+func GetCurrencies() ([]models.ConvertCurrency, error) {
+	var CurrencyArr models.CurrencyArr
+	var ConvertCurrencySl []models.ConvertCurrency
 
 	client := &http.Client{}
 	//	log.Println(reqBodyBytes)
@@ -791,7 +790,7 @@ func GetCurrencies() ([]model.ConvertCurrency, error) {
 		return ConvertCurrencySl, err
 	}
 	for _, value := range CurrencyArr.CurrencyArr {
-		convertCur := model.ConvertCurrency{
+		convertCur := models.ConvertCurrency{
 			CurrencyName: value.CurrencyName,
 			CurrencyCode: value.CurrencyCode,
 		}
