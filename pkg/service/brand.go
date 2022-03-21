@@ -572,6 +572,7 @@ func CountDiscountBrand(rbReq model.RBRequest) []model.RbDTO {
 
 	fmt.Println("MAP: ", brandTotal)
 
+	// берем скидки по брендам и название брендов
 	dataBrands, contractNumb := repository.GetIDBYBIN(rbReq.BIN)
 	fmt.Println("dataBrand", dataBrands)
 	fmt.Println("sales", sales.SalesArr)

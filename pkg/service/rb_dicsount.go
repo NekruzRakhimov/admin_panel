@@ -37,6 +37,8 @@ func RbDiscountForSalesGrowth(rb model.RBRequest) ([]model.RbDTO, error) {
 
 	for _, contract := range contracts {
 		fmt.Println("contract MESSAGE", contract.Discounts)
+
+		// от сюда берем скидки и периоды
 		for _, discount := range contract.Discounts {
 			// после всех проверок логика начнется
 			if discount.Code == "RB_DISCOUNT_FOR_SALES_GROWTH" {
@@ -90,31 +92,35 @@ func RbDiscountForSalesGrowth(rb model.RBRequest) ([]model.RbDTO, error) {
 					if err != nil {
 						return nil, err
 					}
-					var preCoutnt float32
+					var preCount float32
 					var pastCount float32
 
 					// считаем за тек период
 					for _, present := range presentPeriod.SalesArr {
-						preCoutnt += present.Total
+						preCount += present.Total
 					}
 					// считаем за прошлый год
 					for _, past := range oldPeriod.SalesArr {
 						pastCount += past.Total
 
 					}
-					fmt.Println("Сумма на настоящее", preCoutnt)
-					fmt.Println("Сумма на прошлый год", pastCount)
+					fmt.Println("Сумма за настоящее", preCount)
+					fmt.Println("Сумма за прошлый год", pastCount)
 
 					// находим прирост в процентах
-					growthPercent := (pastCount * 100 / preCoutnt) - 100
+					//growthPercent := (pastCount * 100 / preCount) - 100
+
+					// находим разницу за нынешний год
+					diff := preCount - pastCount
+					growthPercent := (100 * diff) / pastCount
 					fmt.Println("growthPercent", growthPercent)
 					// проверяем разницу с тек по прошлогодний год, если процент прироста выше, логика выполнится
 
 					fmt.Println("growth_percent", period.GrowthPercent)
-					fmt.Println("discount percnet", period.DiscountPercent)
+					fmt.Println("discount percent", period.DiscountPercent)
 					fmt.Println()
 					if growthPercent > period.GrowthPercent {
-						discountAmount := preCoutnt * period.DiscountPercent / 100
+						discountAmount := preCount * period.DiscountPercent / 100
 
 						fmt.Println("discountAmount", discountAmount)
 
@@ -126,7 +132,7 @@ func RbDiscountForSalesGrowth(rb model.RBRequest) ([]model.RbDTO, error) {
 							ProductCode:          "",
 							DiscountPercent:      period.DiscountPercent,
 							DiscountAmount:       discountAmount,
-							TotalWithoutDiscount: preCoutnt,
+							TotalWithoutDiscount: preCount,
 						}
 						rbDTOsl = append(rbDTOsl, rbDTO)
 

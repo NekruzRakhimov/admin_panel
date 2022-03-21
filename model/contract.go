@@ -194,7 +194,7 @@ type Discount struct {
 	PeriodFrom      string           `json:"period_from"`
 	IsSale          bool             `json:"is_sale"`
 	PeriodTo        string           `json:"period_to"`
-	DiscountPercent float32          `json:"discount_percent"`
+		DiscountPercent float32          `json:"discount_percent"`
 	GrowthPercent   float32          `json:"growth_percent"`
 	Periods         []DiscountPeriod `json:"periods,omitempty"`
 	DiscountBrands  []DiscountBrands `json:"discount_brands"`
