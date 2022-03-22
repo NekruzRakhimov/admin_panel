@@ -9,7 +9,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"strconv"
 	"time"
 )
 
@@ -122,7 +121,6 @@ func GetSales(reqBrand models.ReqBrand) (models.Sales, error) {
 	return sales, nil
 }
 
-//service
 func AddBrand(brandName string) (models.AddBrand, error) {
 	brand := models.AddBrand{BrandName: brandName}
 	reqBodyBytes := new(bytes.Buffer)
@@ -551,64 +549,6 @@ func GetBrandSales(reqBrand models.ReqBrand) (models.Sales, error) {
 //	return rbBrands
 //
 //}
-
-func GetRB2ndType(rbReq models.RBRequest) []models.RbDTO {
-	brandTotal := map[string]float32{}
-	var rbDtoSl []models.RbDTO
-	fmt.Println("запрос от тебя", rbReq)
-	rbBrand := models.ReqBrand{
-		ClientBin: rbReq.BIN,
-		DateStart: rbReq.PeriodFrom,
-		DateEnd:   rbReq.PeriodTo,
-	}
-	fmt.Println("rbBrand", rbBrand)
-	// берем бренды и их Total
-	sales, _ := GetSales(rbBrand)
-
-	// тут считаем общую сумму каждого бренда
-	for _, sale := range sales.SalesArr {
-		brandTotal[sale.BrandName] += sale.Total
-	}
-
-	fmt.Println("MAP: ", brandTotal)
-
-	// берем скидки по брендам и название брендов
-	dataBrands, contractNumb := repository.GetIDByBIN(rbReq.BIN)
-	fmt.Println("dataBrand", dataBrands)
-	fmt.Println("sales", sales.SalesArr)
-
-	for _, brand := range dataBrands {
-		for brandName, total := range brandTotal {
-			if brand.BrandName == brandName {
-				value, _ := strconv.ParseFloat(brand.DiscountPercent, 32)
-				dicsount := float32(value)
-				TotalPercent := (total * dicsount) / 100
-				fmt.Println("Сумма со скдикой", TotalPercent)
-				fmt.Println("Название бренда", brand)
-				rbdro := models.RbDTO{
-					ID:                   0,
-					ContractNumber:       contractNumb,
-					StartDate:            rbReq.PeriodFrom,
-					EndDate:              rbReq.PeriodTo,
-					TypePeriod:           "",
-					BrandName:            brandName,
-					ProductCode:          "",
-					DiscountPercent:      dicsount,
-					DiscountAmount:       TotalPercent,
-					TotalWithoutDiscount: 0,
-					LeasePlan:            0,
-					RewardAmount:         0,
-					DiscountType:         RB2Name,
-				}
-				rbDtoSl = append(rbDtoSl, rbdro)
-
-			}
-		}
-	}
-
-	return rbDtoSl
-
-}
 
 func GetSalesSKU(reqBrand models.ReqBrand) (models.Sales, error) {
 	var sales models.Sales

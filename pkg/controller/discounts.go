@@ -38,14 +38,14 @@ func GetAllRBByContractorBIN(c *gin.Context) {
 		return
 	}
 
-	SortedContracts := []models.RbDTO{}
-	for _, contract := range RbDTOs {
-		if contract.ID != 0 {
-			SortedContracts = append(SortedContracts, contract)
-		}
-	}
+	//SortedContracts := []models.RbDTO{}
+	//for _, contract := range RbDTOs {
+	//	if contract.ID != 0 {
+	//		SortedContracts = append(SortedContracts, contract)
+	//	}
+	//}
 
-	c.JSON(http.StatusOK, SortedContracts)
+	c.JSON(http.StatusOK, RbDTOs)
 }
 
 func FormExcelForRB(c *gin.Context) {
@@ -64,10 +64,6 @@ func FormExcelForRB(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
 	}
-	//if request.BIN == "010203040506" {
-	//	c.File("files/reports/rb/report_brand_new.xlsx")
-	//	return
-	//}
 
 	c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 	c.File("files/reports/rb/rb_report.xlsx")

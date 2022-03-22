@@ -209,3 +209,222 @@ func SearchByBinClient(bin models.ClientBin) (models.Client, error) {
 	return binClient, nil
 
 }
+
+func GetCurrencies() ([]models.ConvertCurrency, error) {
+	var CurrencyArr models.CurrencyArr
+	var ConvertCurrencySl []models.ConvertCurrency
+
+	client := &http.Client{}
+	//	log.Println(reqBodyBytes)
+	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/currency_list"
+	req, err := http.NewRequest("GET", uri, nil)
+	req.Header.Set("Content-Type", "application/json") // This makes it work
+	req.SetBasicAuth("http_client", "123456")
+
+	if err != nil {
+		log.Println(err)
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println(err)
+		return ConvertCurrencySl, err
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Println(err)
+		return ConvertCurrencySl, err
+	}
+	//log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
+
+	defer resp.Body.Close()
+	if err != nil {
+		log.Println(err)
+		return ConvertCurrencySl, err
+	}
+	body = bytes.TrimPrefix(body, []byte("\xef\xbb\xbf")) // Or []byte{239, 187, 191}
+
+	err = json.Unmarshal(body, &CurrencyArr)
+	if err != nil {
+		log.Println(err)
+		return ConvertCurrencySl, err
+	}
+	for _, value := range CurrencyArr.CurrencyArr {
+		convertCur := models.ConvertCurrency{
+			CurrencyName: value.CurrencyName,
+			CurrencyCode: value.CurrencyCode,
+		}
+		ConvertCurrencySl = append(ConvertCurrencySl, convertCur)
+	}
+
+	return ConvertCurrencySl, nil
+
+}
+
+func GetCountries() (models.Country, error) {
+	countries := models.Country{}
+	client := &http.Client{}
+	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/countrylist"
+	req, err := http.NewRequest("GET", uri, nil)
+	req.Header.Set("Content-Type", "application/json") // This makes it work
+	req.SetBasicAuth("http_client", "123456")
+
+	if err != nil {
+		log.Println(err)
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println(err)
+		return countries, err
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Println(err)
+		return countries, err
+	}
+
+	defer resp.Body.Close()
+	if err != nil {
+		log.Println(err)
+		return countries, err
+	}
+	body = bytes.TrimPrefix(body, []byte("\xef\xbb\xbf")) // Or []byte{239, 187, 191}
+
+	err = json.Unmarshal(body, &countries)
+	if err != nil {
+		log.Println(err)
+		return models.Country{}, err
+	}
+
+	fmt.Println(string(body))
+	return countries, nil
+
+}
+
+func GetPriceType(bin string) ([]models.PriceTypeAndCode, error) {
+	var priceType models.RespPriceType
+	priceAndCodeMap := map[string]string{}
+
+	var priceAndCodeSl []models.PriceTypeAndCode
+
+	date := models.ReqBrand{
+		ClientBin: bin,
+	}
+	//for _, value := range brandInfo {
+	//	date.TypeParameters = append(date.TypeParameters, value.Brand)
+	//}
+
+	reqBodyBytes := new(bytes.Buffer)
+	json.NewEncoder(reqBodyBytes).Encode(&date)
+	fmt.Println(">>> ", reqBodyBytes)
+
+	//parm.Add("datestart", "01.01.2022 0:02:09")
+	//parm.Add("dateend", "01.01.2022 0:02:09")
+	client := &http.Client{}
+	log.Println(reqBodyBytes)
+	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/pricetype"
+	req, err := http.NewRequest("POST", uri, reqBodyBytes)
+	req.Header.Set("Content-Type", "application/json") // This makes it work
+	req.SetBasicAuth("http_client", "123456")
+
+	if err != nil {
+		log.Println(err)
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println(err)
+		return priceAndCodeSl, err
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Println(err)
+		return priceAndCodeSl, err
+	}
+	//log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
+
+	defer resp.Body.Close()
+	if err != nil {
+		log.Println(err)
+		return priceAndCodeSl, err
+	}
+	body = bytes.TrimPrefix(body, []byte("\xef\xbb\xbf")) // Or []byte{239, 187, 191}
+
+	err = json.Unmarshal(body, &priceType)
+	if err != nil {
+		log.Println(err)
+		return priceAndCodeSl, err
+	}
+
+	for _, code := range priceType.PricetypeArr {
+		priceAndCodeMap[code.PricetypeCode] = code.PricetypeName
+	}
+	for key, value := range priceAndCodeMap {
+		priceAndCode := models.PriceTypeAndCode{
+			PricetypeName: value,
+			PricetypeCode: key,
+		}
+		priceAndCodeSl = append(priceAndCodeSl, priceAndCode)
+
+	}
+
+	return priceAndCodeSl, nil
+
+}
+
+func CreatePriceType(payload models.PriceTypeCreate) (models.PriceTypeResponse, error) {
+	var responsePriceType models.PriceTypeResponse
+
+	//date := models.ReqBrand{
+	//	ClientBin: bin,
+	//}
+	//for _, value := range brandInfo {
+	//	date.TypeParameters = append(date.TypeParameters, value.Brand)
+	//}
+
+	reqBodyBytes := new(bytes.Buffer)
+	json.NewEncoder(reqBodyBytes).Encode(&payload)
+	fmt.Println(">>> ", reqBodyBytes)
+
+	//parm.Add("datestart", "01.01.2022 0:02:09")
+	//parm.Add("dateend", "01.01.2022 0:02:09")
+	client := &http.Client{}
+	log.Println(reqBodyBytes)
+	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration//create_pricetype"
+	req, err := http.NewRequest("POST", uri, reqBodyBytes)
+	req.Header.Set("Content-Type", "application/json") // This makes it work
+	req.SetBasicAuth("http_client", "123456")
+
+	if err != nil {
+		log.Println(err)
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println(err)
+		return responsePriceType, err
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Println(err)
+		return responsePriceType, err
+	}
+	//log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
+
+	defer resp.Body.Close()
+	if err != nil {
+		log.Println(err)
+		return responsePriceType, err
+	}
+	body = bytes.TrimPrefix(body, []byte("\xef\xbb\xbf")) // Or []byte{239, 187, 191}
+
+	err = json.Unmarshal(body, &responsePriceType)
+	if err != nil {
+		log.Println(err)
+		return responsePriceType, err
+	}
+
+	return responsePriceType, nil
+
+}

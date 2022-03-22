@@ -36,7 +36,18 @@ func GetDisPer(c *gin.Context) {
 func DiscountRBPeriodTime(c *gin.Context) {
 	var request models.RBRequest
 	c.ShouldBind(&request)
-	timeP, err := service.GetRB12thType(request)
+
+	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.BIN, request.PeriodFrom, request.PeriodTo)
+	if err != nil {
+		return
+	}
+
+	contracts, err := service.BulkConvertContractFromJsonB(contractsWithJson)
+	if err != nil {
+		return
+	}
+
+	timeP, err := service.GetRB12thType(request, contracts)
 	if err != nil {
 		c.JSON(400, err)
 		return

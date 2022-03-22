@@ -2,6 +2,7 @@ package controller
 
 import (
 	"admin_panel/models"
+	"admin_panel/pkg/repository"
 	"admin_panel/pkg/service"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -158,7 +159,7 @@ func GenerateReportBrand(c *gin.Context) {
 
 }
 
-func GetExcellBrand(c *gin.Context) {
+func GetExcelBrand(c *gin.Context) {
 	var req models.RBRequest
 	//var req models.ReqBrand
 
@@ -173,15 +174,25 @@ func GetExcellBrand(c *gin.Context) {
 
 }
 
-func GetExcellGrowth(c *gin.Context) {
+func GetExcelGrowth(c *gin.Context) {
 	var req models.RBRequest
 	//var req models.ReqBrand
 
 	//c.ShouldBind(&req)
 	c.BindJSON(&req)
 
+	contractsWithJson, err := repository.GetAllContractDetailByBIN(req.BIN, req.PeriodFrom, req.PeriodTo)
+	if err != nil {
+		return
+	}
+
+	contracts, err := service.BulkConvertContractFromJsonB(contractsWithJson)
+	if err != nil {
+		return
+	}
+
 	fmt.Println("запрос для прироста ->>>: ", req)
-	growth, _ := service.GetRB13thType(req)
+	growth, _ := service.GetRB13thType(req, contracts)
 	//discount := service.GetRB2ndType(req)
 	//discount, _ := service.GetSales(req)
 
@@ -193,16 +204,3 @@ func SaveDataFrom1C(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"reason": "данные сохранены"})
 }
-
-//func GetRB13thType(c *gin.Context) {
-//	var rbReqst models.RBRequest
-//
-//	c.ShouldBind(&rbReqst)
-//
-//	growth, f, total := service.GetRB13thType(rbReqst)
-//
-//	c.JSON(200, gin.H{"past": growth,
-//		"present": f,
-//	"total": total})
-//
-//}

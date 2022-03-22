@@ -104,8 +104,8 @@ func Check1CRoutes(r *gin.Engine) {
 	r.POST("/sales/", controller.GetSales)
 
 	r.POST("/presentationdiscount", controller.PresentationDiscount)
-	r.POST("/get_excell_brand", controller.GetExcellBrand)
-	r.POST("/get_excell_growth", controller.GetExcellGrowth)
+	r.POST("/get_excell_brand", controller.GetExcelBrand)
+	r.POST("/get_excell_growth", controller.GetExcelGrowth)
 }
 
 func ReportsRoutes(r *gin.Engine) {
