@@ -402,11 +402,11 @@ func GetRB13thType(rb models.RBRequest, contracts []models.Contract) ([]models.R
 					fmt.Println("Сумма за прошлый год", pastCount)
 
 					// находим прирост в процентах
-					growthPercent := (pastCount * 100 / preCount) - 100
+					//growthPercent := (pastCount * 100 / preCount) - 100
 
 					// находим разницу за нынешний год
-					//diff := preCount - pastCount
-					//growthPercent := (100 * diff) / pastCount
+					diff := preCount - pastCount
+					growthPercent := (100 * diff) / pastCount
 					fmt.Println("growthPercent", growthPercent)
 					// проверяем разницу с тек по прошлогодний год, если процент прироста выше, логика выполнится
 
