@@ -84,7 +84,6 @@
                     "brands": [
                         {
                             "discount_percent": 10,
-                            "purchase_amount": 100000,
                             "sales_amount": 10,
                             "brand_name": "Bella",
                             "brand_code": "010021"

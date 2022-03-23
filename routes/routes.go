@@ -4,6 +4,7 @@ import (
 	"admin_panel/pkg/controller"
 	"admin_panel/utils"
 	"fmt"
+	limits "github.com/gin-contrib/size"
 	"github.com/gin-gonic/gin"
 	"github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -32,6 +33,8 @@ func RunAllRoutes() {
 	// Статус код 500, при любых panic()
 	r.Use(gin.Recovery())
 
+	r.Use(limits.RequestSizeLimiter(100))
+
 	// Запуск end-point'ов
 	runAllRoutes(r)
 
@@ -41,6 +44,7 @@ func RunAllRoutes() {
 }
 
 func runAllRoutes(r *gin.Engine) {
+
 	r.GET("/", HealthCheck)
 	//r.POST("/rbdiscountforsalesgrowth", controller.RbDiscountForSalesGrowth)
 	r.POST("/login", controller.Login)
