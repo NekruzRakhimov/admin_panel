@@ -132,9 +132,9 @@ func FormExcelForRBReport(request models.RBRequest) error {
 	for i, s := range sales.SalesArr {
 		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", i+2), s.ProductName)
 		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", i+2), s.ProductCode)
-		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "C", i+2), s.Total)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "C", i+2), s.Total / s.QntTotal)
 		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "D", i+2), s.QntTotal)
-		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "E", i+2), s.QntTotal*s.Total)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "E", i+2), s.Total)
 		lastRow = i
 	}
 
