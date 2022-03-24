@@ -120,25 +120,39 @@ func GetTotalSalesForSku(sales models.Sales, sku string) (totalSum float32) {
 }
 
 func GetRB8thType(request models.RBRequest, contracts []models.Contract) ([]models.RbDTO, error) {
-	req := models.ReqBrand{
+	//req := models.ReqBrand{
+	//	ClientBin:      request.BIN,
+	//	Beneficiary:    request.ContractorName,
+	//	DateStart:      request.PeriodFrom,
+	//	DateEnd:        request.PeriodTo,
+	//	Type:           "sales",
+	//	TypeValue:      "",
+	//	TypeParameters: nil,
+	//}
+	//
+	//sales, err := GetBrandSales(req)
+	//if err != nil {
+	//	return nil, err
+	//}
+
+	present := models.ReqBrand{
 		ClientBin:      request.BIN,
-		Beneficiary:    request.ContractorName,
+		Beneficiary:    "",
 		DateStart:      request.PeriodFrom,
 		DateEnd:        request.PeriodTo,
-		Type:           "sales",
+		Type:           "",
 		TypeValue:      "",
 		TypeParameters: nil,
+		Contracts:      nil,
 	}
 
-	sales, err := GetBrandSales(req)
+	sales, err := GetSales1C(present, "sales_brand_only")
+	//sales, err := GetSales(req)
 	if err != nil {
 		return nil, err
 	}
 
 	totalAmount := GetTotalAmount(sales)
-
-	fmt.Printf("req \n\n%+v\n\n", req)
-	fmt.Printf("SALES \n\n%+v\n\n", sales)
 
 	var RBs []models.RbDTO
 	fmt.Println("*********************************************")
@@ -184,12 +198,12 @@ func GetTotalFromSalesByBrand(sales models.Sales, brand string) (totalAmount flo
 	return totalAmount
 }
 
-func DefiningRBReport(contracts []models.Contract, totalAmount float32) (contractsRB []models.RbDTO) {
+func DefiningRBReport(contracts []models.Contract, totalAmount float32, request models.RBRequest) (contractsRB []models.RbDTO) {
 	for _, contract := range contracts {
 		var contractRB []models.RbDTO
 		for _, discount := range contract.Discounts {
 			if discount.Code == "TOTAL_AMOUNT_OF_SELLING" && discount.IsSelected {
-				contractRB = DiscountToReportRB(discount, contract, totalAmount)
+				contractRB = DiscountToReportRB(discount, contract, totalAmount, request)
 			}
 		}
 		contractsRB = append(contractsRB, contractRB...)
@@ -198,7 +212,7 @@ func DefiningRBReport(contracts []models.Contract, totalAmount float32) (contrac
 	return contractsRB
 }
 
-func DiscountToReportRB(discount models.Discount, contract models.Contract, totalAmount float32) (contractsRB []models.RbDTO) {
+func DiscountToReportRB(discount models.Discount, contract models.Contract, totalAmount float32, request models.RBRequest) (contractsRB []models.RbDTO) {
 	var contractRB models.RbDTO
 
 	if len(discount.Periods) > 0 {
@@ -210,13 +224,27 @@ func DiscountToReportRB(discount models.Discount, contract models.Contract, tota
 			EndDate:        discount.Periods[0].PeriodTo,
 		}
 
-		if len(discount.Periods) > 1 && totalAmount >= discount.Periods[1].TotalAmount && discount.Periods[1].RewardAmount > discount.Periods[0].RewardAmount {
-			fmt.Printf("worked [totalAmount = %d AND discount.Periods[0].TotalAmount = %d]\n", totalAmount, discount.Periods[0].TotalAmount)
-			contractRB.DiscountAmount = float32(discount.Periods[0].RewardAmount)
-		} else if totalAmount >= discount.Periods[0].TotalAmount {
-			fmt.Printf("worked [totalAmount = %d AND discount.Periods[0].TotalAmount = %d]\n", totalAmount, discount.Periods[0].TotalAmount)
-			contractRB.DiscountAmount = float32(discount.Periods[0].RewardAmount)
+		var totalDiscountAmount float32
+		var totalDiscountRewardAmount int
+
+		for _, period := range discount.Periods {
+			if period.PeriodFrom >= request.PeriodFrom && period.PeriodTo <= request.PeriodTo &&
+				period.TotalAmount <= totalAmount && period.TotalAmount >= totalDiscountAmount && period.RewardAmount >= totalDiscountRewardAmount {
+				totalDiscountAmount = period.TotalAmount
+				totalDiscountRewardAmount = period.RewardAmount
+			}
 		}
+
+		contractRB.RewardAmount = totalDiscountAmount
+		contractRB.DiscountAmount = float32(totalDiscountRewardAmount)
+
+		//if len(discount.Periods) > 1 && totalAmount >= discount.Periods[1].TotalAmount && discount.Periods[1].RewardAmount > discount.Periods[0].RewardAmount {
+		//	fmt.Printf("worked [totalAmount = %d AND discount.Periods[0].TotalAmount = %d]\n", totalAmount, discount.Periods[0].TotalAmount)
+		//	contractRB.DiscountAmount = float32(discount.Periods[0].RewardAmount)
+		//} else if totalAmount >= discount.Periods[0].TotalAmount {
+		//	fmt.Printf("worked [totalAmount = %d AND discount.Periods[0].TotalAmount = %d]\n", totalAmount, discount.Periods[0].TotalAmount)
+		//	contractRB.DiscountAmount = float32(discount.Periods[0].RewardAmount)
+		//}
 	}
 	contractsRB = append(contractsRB, contractRB)
 
@@ -226,7 +254,7 @@ func DiscountToReportRB(discount models.Discount, contract models.Contract, tota
 func GetTotalAmount(sales models.Sales) float32 {
 	var amount float32
 	for _, s := range sales.SalesArr {
-		amount += s.Total * s.QntTotal
+		amount += s.Total
 	}
 
 	return amount

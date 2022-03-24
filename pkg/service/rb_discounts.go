@@ -46,15 +46,27 @@ const (
 func GetRB1stType(request models.RBRequest, contracts []models.Contract) ([]models.RbDTO, error) {
 	//TODO: посмотри потом
 	//testBin := "060840003599"
-	req := models.ReqBrand{
-		ClientBin:   request.BIN,
-		Beneficiary: request.ContractorName,
-		DateStart:   request.PeriodFrom,
-		DateEnd:     request.PeriodTo,
-		Type:        "sales",
+	//req := models.ReqBrand{
+	//	ClientBin:   request.BIN,
+	//	Beneficiary: request.ContractorName,
+	//	DateStart:   request.PeriodFrom,
+	//	DateEnd:     request.PeriodTo,
+	//	Type:        "sales",
+	//}
+
+	present := models.ReqBrand{
+		ClientBin:      request.BIN,
+		Beneficiary:    "",
+		DateStart:      request.PeriodFrom,
+		DateEnd:        request.PeriodTo,
+		Type:           "",
+		TypeValue:      "",
+		TypeParameters: nil,
+		Contracts:      nil,
 	}
 
-	sales, err := GetSales(req)
+	sales, err := GetSales1C(present, "sales_brand_only")
+	//sales, err := GetSales(req)
 	if err != nil {
 		return nil, err
 	}
@@ -62,7 +74,7 @@ func GetRB1stType(request models.RBRequest, contracts []models.Contract) ([]mode
 	fmt.Printf("###%+v\n", contracts)
 	totalAmount := GetTotalAmount(sales)
 
-	contractRB := DefiningRBReport(contracts, totalAmount)
+	contractRB := DefiningRBReport(contracts, totalAmount, request)
 
 	return contractRB, nil
 }
