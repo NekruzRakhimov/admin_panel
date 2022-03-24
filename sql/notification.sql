@@ -53,3 +53,9 @@ SELECT jsonb_object_keys( '{"brand": "Mitsubishi", "sold": true}'::jsonb );
 
 
 SELECT jsonb_extract_path('{"brand": "Honda", "sold": false}'::jsonb, 'brand');
+
+
+
+--SELECT contract_parameters ->> 'contract_number', id FROM contracts  WHERE requisites ->> 'bin' = '860418401075';
+
+SELECT discounts,id FROM contracts  WHERE contract_parameters ->> 'contract_number' = '90001';

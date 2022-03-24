@@ -7,7 +7,7 @@ definitions:
       password:
         type: string
     type: object
-  model.Address:
+  models.Address:
     properties:
       code:
         type: string
@@ -16,12 +16,12 @@ definitions:
       id:
         type: integer
     type: object
-  model.BinPriceType:
+  models.BinPriceType:
     properties:
       client_bin:
         type: string
     type: object
-  model.Brand:
+  models.Brand:
     properties:
       brand_arr:
         items:
@@ -33,7 +33,7 @@ definitions:
           type: object
         type: array
     type: object
-  model.BrandDTO:
+  models.BrandDTO:
     properties:
       brand_code:
         type: string
@@ -46,7 +46,7 @@ definitions:
       sales_amount:
         type: number
     type: object
-  model.Client:
+  models.Client:
     properties:
       account_number:
         type: string
@@ -63,28 +63,28 @@ definitions:
       reason:
         type: string
     type: object
-  model.ClientBin:
+  models.ClientBin:
     properties:
       bin:
         type: string
     type: object
-  model.Contract:
+  models.Contract:
     properties:
       comment:
         type: string
       contract_parameters:
-        $ref: '#/definitions/model.ContractParameters'
+        $ref: '#/definitions/models.ContractParameters'
       created_at:
         type: string
       discount_brand:
         description: "Brand           string `json:\"brand\"`\n\tDiscountPercent string
           `json:\"discount_percent\"`"
         items:
-          $ref: '#/definitions/model.DiscountBrand'
+          $ref: '#/definitions/models.DiscountBrand'
         type: array
       discounts:
         items:
-          $ref: '#/definitions/model.Discount'
+          $ref: '#/definitions/models.Discount'
         type: array
       extend_date:
         type: string
@@ -100,14 +100,14 @@ definitions:
         type: string
       products:
         items:
-          $ref: '#/definitions/model.Product'
+          $ref: '#/definitions/models.Product'
         type: array
       requisites:
-        $ref: '#/definitions/model.Requisites'
+        $ref: '#/definitions/models.Requisites'
       status:
         type: string
       supplier_company_manager:
-        $ref: '#/definitions/model.SupplierCompanyManager'
+        $ref: '#/definitions/models.SupplierCompanyManager'
       type:
         type: string
       updated_at:
@@ -115,7 +115,7 @@ definitions:
       with_temperature_conditions:
         type: boolean
     type: object
-  model.ContractCounterparty:
+  models.ContractCounterparty:
     properties:
       discount:
         type: integer
@@ -126,7 +126,7 @@ definitions:
       price_type:
         type: string
     type: object
-  model.ContractMiniInfo:
+  models.ContractMiniInfo:
     properties:
       amount:
         type: number
@@ -157,7 +157,7 @@ definitions:
       updated_at:
         type: string
     type: object
-  model.ContractParameters:
+  models.ContractParameters:
     properties:
       contract_amount:
         type: number
@@ -200,7 +200,7 @@ definitions:
       start_date:
         type: string
     type: object
-  model.ContractStatusHistory:
+  models.ContractStatusHistory:
     properties:
       author:
         type: string
@@ -213,20 +213,20 @@ definitions:
       status:
         type: string
     type: object
-  model.ConvertCurrency:
+  models.ConvertCurrency:
     properties:
       currency_code:
         type: string
       currency_name:
         type: string
     type: object
-  model.Counterparty:
+  models.Counterparty:
     properties:
       bin:
         type: string
       contracts:
         items:
-          $ref: '#/definitions/model.ContractCounterparty'
+          $ref: '#/definitions/models.ContractCounterparty'
         type: array
       id_1C:
         type: string
@@ -235,7 +235,7 @@ definitions:
       organization:
         type: string
     type: object
-  model.Country:
+  models.Country:
     properties:
       country_arr:
         items:
@@ -247,7 +247,7 @@ definitions:
           type: object
         type: array
     type: object
-  model.Currency:
+  models.Currency:
     properties:
       code:
         type: string
@@ -256,7 +256,7 @@ definitions:
       id:
         type: integer
     type: object
-  model.DateSales:
+  models.DateSales:
     properties:
       client_bin:
         type: string
@@ -273,7 +273,7 @@ definitions:
       typeValue:
         type: string
     type: object
-  model.Dictionary:
+  models.Dictionary:
     properties:
       author:
         type: string
@@ -284,7 +284,7 @@ definitions:
       name:
         type: string
     type: object
-  model.DictionaryValue:
+  models.DictionaryValue:
     properties:
       dictionary_id:
         type: integer
@@ -293,7 +293,7 @@ definitions:
       value:
         type: string
     type: object
-  model.Discount:
+  models.Discount:
     properties:
       code:
         type: string
@@ -301,7 +301,7 @@ definitions:
         type: integer
       discount_brands:
         items:
-          $ref: '#/definitions/model.DiscountBrands'
+          $ref: '#/definitions/models.DiscountBrands'
         type: array
       discount_percent:
         type: number
@@ -319,10 +319,10 @@ definitions:
         type: string
       periods:
         items:
-          $ref: '#/definitions/model.DiscountPeriod'
+          $ref: '#/definitions/models.DiscountPeriod'
         type: array
     type: object
-  model.DiscountBrand:
+  models.DiscountBrand:
     properties:
       brand_code:
         type: string
@@ -335,18 +335,18 @@ definitions:
       id:
         type: integer
     type: object
-  model.DiscountBrands:
+  models.DiscountBrands:
     properties:
       brands:
         items:
-          $ref: '#/definitions/model.BrandDTO'
+          $ref: '#/definitions/models.BrandDTO'
         type: array
       period_from:
         type: string
       period_to:
         type: string
     type: object
-  model.DiscountPeriod:
+  models.DiscountPeriod:
     properties:
       discount_percent:
         type: number
@@ -367,16 +367,16 @@ definitions:
       type:
         type: string
     type: object
-  model.DoubtedDiscount:
+  models.DoubtedDiscount:
     properties:
       contract_number:
         type: string
       discounts:
         items:
-          $ref: '#/definitions/model.DoubtedDiscountDetails'
+          $ref: '#/definitions/models.DoubtedDiscountDetails'
         type: array
     type: object
-  model.DoubtedDiscountDetails:
+  models.DoubtedDiscountDetails:
     properties:
       code:
         type: string
@@ -385,16 +385,16 @@ definitions:
       name:
         type: string
     type: object
-  model.DoubtedDiscountResponse:
+  models.DoubtedDiscountResponse:
     properties:
       doubted_discount:
         items:
-          $ref: '#/definitions/model.RBRequest'
+          $ref: '#/definitions/models.RBRequest'
         type: array
       rb_request:
-        $ref: '#/definitions/model.RBRequest'
+        $ref: '#/definitions/models.RBRequest'
     type: object
-  model.FrequencyDeferredDiscount:
+  models.FrequencyDeferredDiscount:
     properties:
       code:
         type: string
@@ -403,7 +403,7 @@ definitions:
       id:
         type: integer
     type: object
-  model.Notification:
+  models.Notification:
     properties:
       bin:
         type: string
@@ -420,7 +420,7 @@ definitions:
       type:
         type: string
     type: object
-  model.Position:
+  models.Position:
     properties:
       code:
         type: string
@@ -429,7 +429,7 @@ definitions:
       id:
         type: integer
     type: object
-  model.PriceType:
+  models.PriceType:
     properties:
       client_bin:
         type: string
@@ -440,7 +440,7 @@ definitions:
       pricetype_name:
         type: string
     type: object
-  model.PriceTypeCreate:
+  models.PriceTypeCreate:
     properties:
       client_bin:
         type: string
@@ -449,7 +449,7 @@ definitions:
       pricetype_name:
         type: string
     type: object
-  model.PriceTypeResponse:
+  models.PriceTypeResponse:
     properties:
       client_bin:
         type: string
@@ -458,7 +458,7 @@ definitions:
       pricetype_name:
         type: string
     type: object
-  model.Product:
+  models.Product:
     properties:
       currency:
         type: string
@@ -469,7 +469,7 @@ definitions:
       price:
         type: number
       price_type:
-        $ref: '#/definitions/model.PriceType'
+        $ref: '#/definitions/models.PriceType'
       producer:
         type: string
       product_name:
@@ -483,7 +483,7 @@ definitions:
       substance:
         type: string
     type: object
-  model.RBRequest:
+  models.RBRequest:
     properties:
       bin:
         type: string
@@ -491,7 +491,7 @@ definitions:
         type: string
       doubted_discounts:
         items:
-          $ref: '#/definitions/model.DoubtedDiscount'
+          $ref: '#/definitions/models.DoubtedDiscount'
         type: array
       period_from:
         type: string
@@ -500,7 +500,7 @@ definitions:
       type:
         type: string
     type: object
-  model.RbDTO:
+  models.RbDTO:
     properties:
       TotalWithoutDiscount:
         type: number
@@ -529,7 +529,7 @@ definitions:
       type_period:
         type: string
     type: object
-  model.Requisites:
+  models.Requisites:
     properties:
       account_number:
         type: string
@@ -550,7 +550,7 @@ definitions:
       swift_code:
         type: string
     type: object
-  model.RespPriceType:
+  models.RespPriceType:
     properties:
       pricetype_arr:
         items:
@@ -568,7 +568,7 @@ definitions:
           type: object
         type: array
     type: object
-  model.Right:
+  models.Right:
     properties:
       code:
         type: string
@@ -579,7 +579,7 @@ definitions:
       section:
         type: string
     type: object
-  model.RightDTO:
+  models.RightDTO:
     properties:
       code:
         type: string
@@ -592,7 +592,7 @@ definitions:
       section:
         type: string
     type: object
-  model.Role:
+  models.Role:
     properties:
       code:
         type: string
@@ -604,12 +604,12 @@ definitions:
         type: string
       rights:
         items:
-          $ref: '#/definitions/model.RightDTO'
+          $ref: '#/definitions/models.RightDTO'
         type: array
       status:
         type: string
     type: object
-  model.RoleDTO:
+  models.RoleDTO:
     properties:
       code:
         type: string
@@ -623,19 +623,19 @@ definitions:
         type: string
       omitempty:
         items:
-          $ref: '#/definitions/model.RightDTO'
+          $ref: '#/definitions/models.RightDTO'
         type: array
       status:
         type: string
     type: object
-  model.Sales:
+  models.Sales:
     properties:
       sales_arr:
         items:
-          $ref: '#/definitions/model.SalesArr'
+          $ref: '#/definitions/models.SalesArr'
         type: array
     type: object
-  model.SalesArr:
+  models.SalesArr:
     properties:
       brand_code:
         type: string
@@ -652,7 +652,7 @@ definitions:
       total:
         type: number
     type: object
-  model.SearchContract:
+  models.SearchContract:
     properties:
       amount:
         type: string
@@ -677,7 +677,7 @@ definitions:
       updated_at:
         type: string
     type: object
-  model.SupplierCompanyManager:
+  models.SupplierCompanyManager:
     properties:
       base:
         description: Основание - надо понять как правильно назвать это
@@ -697,7 +697,7 @@ definitions:
       work_phone:
         type: string
     type: object
-  model.User:
+  models.User:
     properties:
       email:
         type: string
@@ -713,7 +713,7 @@ definitions:
         type: string
       roles:
         items:
-          $ref: '#/definitions/model.RoleDTO'
+          $ref: '#/definitions/models.RoleDTO'
         type: array
       status:
         type: string
@@ -765,7 +765,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Sales'
+            $ref: '#/definitions/models.Sales'
         "400":
           description: Bad Request
           schema:
@@ -920,7 +920,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Brand'
+            $ref: '#/definitions/models.Brand'
         "400":
           description: Bad Request
           schema:
@@ -989,14 +989,14 @@ paths:
         name: bin
         required: true
         schema:
-          $ref: '#/definitions/model.ClientBin'
+          $ref: '#/definitions/models.ClientBin'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Client'
+            $ref: '#/definitions/models.Client'
         "400":
           description: Bad Request
           schema:
@@ -1032,7 +1032,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/model.ContractMiniInfo'
+              $ref: '#/definitions/models.ContractMiniInfo'
             type: array
         "400":
           description: Bad Request
@@ -1069,7 +1069,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Contract'
+            $ref: '#/definitions/models.Contract'
         "400":
           description: Bad Request
           schema:
@@ -1099,7 +1099,7 @@ paths:
         name: contract
         required: true
         schema:
-          $ref: '#/definitions/model.Contract'
+          $ref: '#/definitions/models.Contract'
       - description: type of contract
         in: query
         name: type
@@ -1142,7 +1142,7 @@ paths:
         name: contract
         required: true
         schema:
-          $ref: '#/definitions/model.Contract'
+          $ref: '#/definitions/models.Contract'
       - description: id of contract
         in: path
         name: id
@@ -1190,7 +1190,7 @@ paths:
         name: contract
         required: true
         schema:
-          $ref: '#/definitions/model.Contract'
+          $ref: '#/definitions/models.Contract'
       - description: id договора на основе которого создаётся ДС
         in: path
         name: id
@@ -1351,7 +1351,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/model.Contract'
+              $ref: '#/definitions/models.Contract'
             type: array
         "400":
           description: Bad Request
@@ -1431,7 +1431,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/model.ContractStatusHistory'
+              $ref: '#/definitions/models.ContractStatusHistory'
             type: array
         "400":
           description: Bad Request
@@ -1469,7 +1469,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/model.Counterparty'
+              $ref: '#/definitions/models.Counterparty'
             type: array
         "400":
           description: Bad Request
@@ -1500,7 +1500,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Country'
+            $ref: '#/definitions/models.Country'
         "400":
           description: Bad Request
           schema:
@@ -1530,14 +1530,14 @@ paths:
         name: payload
         required: true
         schema:
-          $ref: '#/definitions/model.PriceTypeCreate'
+          $ref: '#/definitions/models.PriceTypeCreate'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.PriceTypeResponse'
+            $ref: '#/definitions/models.PriceTypeResponse'
         "400":
           description: Bad Request
           schema:
@@ -1568,7 +1568,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/model.ConvertCurrency'
+              $ref: '#/definitions/models.ConvertCurrency'
             type: array
         "400":
           description: Bad Request
@@ -1642,7 +1642,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/model.Dictionary'
+              $ref: '#/definitions/models.Dictionary'
             type: array
         "400":
           description: Bad Request
@@ -1672,7 +1672,7 @@ paths:
         name: Dictionary
         required: true
         schema:
-          $ref: '#/definitions/model.Dictionary'
+          $ref: '#/definitions/models.Dictionary'
       produces:
       - application/json
       responses:
@@ -1749,7 +1749,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Dictionary'
+            $ref: '#/definitions/models.Dictionary'
         "400":
           description: Bad Request
           schema:
@@ -1783,7 +1783,7 @@ paths:
         name: Dictionary
         required: true
         schema:
-          $ref: '#/definitions/model.Dictionary'
+          $ref: '#/definitions/models.Dictionary'
       produces:
       - application/json
       responses:
@@ -1828,7 +1828,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/model.DictionaryValue'
+              $ref: '#/definitions/models.DictionaryValue'
             type: array
         "400":
           description: Bad Request
@@ -1863,7 +1863,7 @@ paths:
         name: DictionaryValue
         required: true
         schema:
-          $ref: '#/definitions/model.DictionaryValue'
+          $ref: '#/definitions/models.DictionaryValue'
       produces:
       - application/json
       responses:
@@ -1944,7 +1944,7 @@ paths:
         name: DictionaryValue
         required: true
         schema:
-          $ref: '#/definitions/model.DictionaryValue'
+          $ref: '#/definitions/models.DictionaryValue'
       - description: value ID
         in: path
         name: value_id
@@ -1988,7 +1988,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/model.Address'
+              $ref: '#/definitions/models.Address'
             type: array
         "400":
           description: Bad Request
@@ -2020,7 +2020,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/model.Currency'
+              $ref: '#/definitions/models.Currency'
             type: array
         "400":
           description: Bad Request
@@ -2052,7 +2052,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/model.FrequencyDeferredDiscount'
+              $ref: '#/definitions/models.FrequencyDeferredDiscount'
             type: array
         "400":
           description: Bad Request
@@ -2084,7 +2084,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/model.Position'
+              $ref: '#/definitions/models.Position'
             type: array
         "400":
           description: Bad Request
@@ -2154,7 +2154,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/model.Notification'
+              $ref: '#/definitions/models.Notification'
             type: array
       summary: List Notifications
       tags:
@@ -2170,14 +2170,14 @@ paths:
         name: client_bin
         required: true
         schema:
-          $ref: '#/definitions/model.BinPriceType'
+          $ref: '#/definitions/models.BinPriceType'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.RespPriceType'
+            $ref: '#/definitions/models.RespPriceType'
         "400":
           description: Bad Request
           schema:
@@ -2207,7 +2207,7 @@ paths:
         name: contract
         required: true
         schema:
-          $ref: '#/definitions/model.RBRequest'
+          $ref: '#/definitions/models.RBRequest'
       produces:
       - application/json
       responses:
@@ -2215,7 +2215,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/model.Discount'
+              $ref: '#/definitions/models.Discount'
             type: array
         "400":
           description: Bad Request
@@ -2245,7 +2245,7 @@ paths:
         name: contract
         required: true
         schema:
-          $ref: '#/definitions/model.DoubtedDiscountResponse'
+          $ref: '#/definitions/models.DoubtedDiscountResponse'
       produces:
       - application/json
       responses:
@@ -2283,7 +2283,7 @@ paths:
         name: contract
         required: true
         schema:
-          $ref: '#/definitions/model.RBRequest'
+          $ref: '#/definitions/models.RBRequest'
       produces:
       - application/json
       responses:
@@ -2291,7 +2291,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/model.RbDTO'
+              $ref: '#/definitions/models.RbDTO'
             type: array
         "400":
           description: Bad Request
@@ -2323,7 +2323,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/model.Right'
+              $ref: '#/definitions/models.Right'
             type: array
         "400":
           description: Bad Request
@@ -2353,7 +2353,7 @@ paths:
         name: right
         required: true
         schema:
-          $ref: '#/definitions/model.Right'
+          $ref: '#/definitions/models.Right'
       produces:
       - application/json
       responses:
@@ -2432,7 +2432,7 @@ paths:
         name: right
         required: true
         schema:
-          $ref: '#/definitions/model.Right'
+          $ref: '#/definitions/models.Right'
       produces:
       - application/json
       responses:
@@ -2476,7 +2476,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Right'
+            $ref: '#/definitions/models.Right'
         "400":
           description: Bad Request
           schema:
@@ -2507,7 +2507,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/model.Role'
+              $ref: '#/definitions/models.Role'
             type: array
         "400":
           description: Bad Request
@@ -2537,7 +2537,7 @@ paths:
         name: role
         required: true
         schema:
-          $ref: '#/definitions/model.Role'
+          $ref: '#/definitions/models.Role'
       produces:
       - application/json
       responses:
@@ -2580,7 +2580,7 @@ paths:
         name: role
         required: true
         schema:
-          $ref: '#/definitions/model.Role'
+          $ref: '#/definitions/models.Role'
       produces:
       - application/json
       responses:
@@ -2622,7 +2622,7 @@ paths:
         name: role
         required: true
         schema:
-          $ref: '#/definitions/model.Role'
+          $ref: '#/definitions/models.Role'
       produces:
       - application/json
       responses:
@@ -2666,7 +2666,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Role'
+            $ref: '#/definitions/models.Role'
         "400":
           description: Bad Request
           schema:
@@ -2696,14 +2696,14 @@ paths:
         name: payload
         required: true
         schema:
-          $ref: '#/definitions/model.DateSales'
+          $ref: '#/definitions/models.DateSales'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Sales'
+            $ref: '#/definitions/models.Sales'
         "400":
           description: Bad Request
           schema:
@@ -2744,7 +2744,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.SearchContract'
+            $ref: '#/definitions/models.SearchContract'
         "400":
           description: Bad Request
           schema:
@@ -2795,7 +2795,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.SearchContract'
+            $ref: '#/definitions/models.SearchContract'
         "400":
           description: Bad Request
           schema:
@@ -2846,7 +2846,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.SearchContract'
+            $ref: '#/definitions/models.SearchContract'
         "400":
           description: Bad Request
           schema:
@@ -2882,7 +2882,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Notification'
+            $ref: '#/definitions/models.Notification'
         "400":
           description: Bad Request
           schema:
@@ -2913,7 +2913,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/model.User'
+              $ref: '#/definitions/models.User'
             type: array
         "400":
           description: Bad Request
@@ -2943,7 +2943,7 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/model.User'
+          $ref: '#/definitions/models.User'
       produces:
       - application/json
       responses:
@@ -3019,7 +3019,7 @@ paths:
         name: account
         required: true
         schema:
-          $ref: '#/definitions/model.User'
+          $ref: '#/definitions/models.User'
       produces:
       - application/json
       responses:
@@ -3063,7 +3063,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.User'
+            $ref: '#/definitions/models.User'
         "400":
           description: Bad Request
           schema:
