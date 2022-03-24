@@ -38,6 +38,10 @@ func GetAllRBByContractorBIN(c *gin.Context) {
 		return
 	}
 
+	for i := range RbDTOs {
+		RbDTOs[i].Status = "Выполнено"
+	}
+
 	//SortedContracts := []models.RbDTO{}
 	//for _, contract := range RbDTOs {
 	//	if contract.ID != 0 {

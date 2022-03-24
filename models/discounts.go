@@ -23,4 +23,5 @@ type RbDTO struct {
 	LeasePlan            float32 `json:"lease_plan"`
 	RewardAmount         float32 `json:"reward_amount"`
 	DiscountType         string  `json:"discount_type"`
+	Status               string  `json:"status"`
 }
