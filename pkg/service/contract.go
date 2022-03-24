@@ -283,6 +283,8 @@ func ConvertContractToContractMiniInfo(contract models.Contract) (contractMiniIn
 		contractMiniInfo.ContractType = "Договор маркетинговых услуг"
 	} else if contract.Type == "supply" {
 		contractMiniInfo.ContractType = "Договор поставок"
+	} else if contract.PrevContractId != 0 {
+		contractMiniInfo.ContractType = "ДС"
 	}
 
 	switch contract.Status {
