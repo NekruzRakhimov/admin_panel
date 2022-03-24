@@ -151,9 +151,13 @@ type ContractParametersDTOFor1C struct {
 	DeliveryAddress           string  `json:"delivery_address,omitempty"`
 	DeliveryTimeInterval      int     `json:"delivery_time_interval,omitempty"` //интервал времени поставки после поступления денежых средств
 	ReturnTimeDelivery        int     `json:"return_time_delivery,omitempty"`   //время возврата при условии не поставки
-	PriceType                 string  `json:"price_type,omitempty"`
-	StartDate                 string  `json:"start_date,omitempty"`
-	EndDate                   string  `json:"end_date,omitempty"`
+	CurrencyName              string  `json:"currency_name,omitempty"`
+	CurrencyCode              string  `json:"currency_code,omitempty"`
+	PricetypeName             string  `json:"pricetype_name,omitempty"`
+	PricetypeCode             string  `json:"pricetype_code,omitempty"`
+	//PriceType                 string  `json:"price_type,omitempty"`
+	StartDate string `json:"start_date,omitempty"`
+	EndDate   string `json:"end_date,omitempty"`
 }
 
 type Product struct {

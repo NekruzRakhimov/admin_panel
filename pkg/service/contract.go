@@ -316,7 +316,6 @@ func ConvertContractToContractMiniInfo(contract models.Contract) (contractMiniIn
 	contractMiniInfo.ExtendDate = contract.ExtendDate
 	contractMiniInfo.StartDate = contract.ContractParameters.StartDate
 	contractMiniInfo.EndDate = contract.ContractParameters.EndDate
-	contractMiniInfo.EndDate = contract.ContractParameters.ContractNumber
 
 	return contractMiniInfo
 }
@@ -440,6 +439,7 @@ func ConformContract(contractId int, status string) error {
 }
 
 func ConvertContractToContractDTOFor1CStruct(contract models.Contract) (contractFor1C models.ContractDTOFor1C) {
+
 	contractFor1C = models.ContractDTOFor1C{
 		ID:                     contract.ID,
 		Type:                   contract.Type,
@@ -459,9 +459,14 @@ func ConvertContractToContractDTOFor1CStruct(contract models.Contract) (contract
 			DeliveryAddress:           strings.Join(contract.ContractParameters.DeliveryAddress, "; "),
 			DeliveryTimeInterval:      contract.ContractParameters.DeliveryTimeInterval,
 			ReturnTimeDelivery:        contract.ContractParameters.ReturnTimeDelivery,
-			PriceType:                 "оптом",
-			StartDate:                 contract.CreatedAt,
-			EndDate:                   contract.ContractParameters.ContractDate,
+			// обновил поля
+			CurrencyName:  contract.ContractParameters.CurrencyName,
+			CurrencyCode:  contract.ContractParameters.CurrencyCode,
+			PricetypeName: contract.ContractParameters.PricetypeName,
+			PricetypeCode: contract.ContractParameters.PricetypeCode,
+			// до сюда
+			StartDate: contract.CreatedAt,
+			EndDate:   contract.ContractParameters.ContractDate,
 		},
 		WithTemperatureConditions: contract.WithTemperatureConditions,
 		Products:                  contract.Products,
