@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -79,6 +80,71 @@ func AddOperationExternalService(login, password string) (response []byte, statu
 
 	return responseSTR, http.StatusOK, nil
 }
+
+
+func GetLogin(payload io.Reader) (authResponse models.AuthResponse, err error) {
+	fmt.Println("body", payload)
+	client := &http.Client{
+		Timeout:       60 * time.Second,
+		CheckRedirect: redirectPolicyFunc,
+	}
+
+
+	if err != nil {
+		log.Println("[repository.AddOperationExternalService]|[json.Marshal(&paymentRequest)] error is ", err.Error())
+		return authResponse, err
+	}
+
+	req, err := http.NewRequest("POST", baseUrl, payload)
+	if err != nil {
+		log.Println("[repository.AddOperationExternalService]|[http.NewRequest] error is ", err.Error())
+		return authResponse, err
+	}
+	req.Header.Set("Content-Type", "application/json") // This makes it work
+	//req.Header.Add("Authorization", "Basic "+basicAuth("http_client", "123456"))
+	req.SetBasicAuth("http_client", "123456" )
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println(err)
+		return authResponse, err
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Println(err)
+		return authResponse, err
+	}
+	//	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", body)
+
+	defer resp.Body.Close()
+	if err != nil {
+		log.Println(err)
+		return authResponse, err
+	}
+	body = bytes.TrimPrefix(body, []byte("\xef\xbb\xbf")) // Or []byte{239, 187, 191}
+
+	err = json.Unmarshal(body, &authResponse)
+	if err != nil {
+		log.Println(err)
+		return authResponse, err
+	}
+
+	return authResponse,  nil
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 func CounterpartyContract(binClient string) ([]models.Counterparty, error) {
 	var binOrganizationAKNIET = "060540001442"

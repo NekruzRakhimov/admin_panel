@@ -3,6 +3,8 @@ package controller
 import (
 	"admin_panel/models"
 	"admin_panel/pkg/service"
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -156,6 +158,69 @@ func Login(c *gin.Context) {
 	//	"refresh": refreshToken,
 	//})
 }
+
+func LoginNew(c *gin.Context)  {
+	var payload LoginData
+
+	err := c.ShouldBind(&payload)
+	fmt.Println("запрос", payload)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
+		return
+	}
+	reqBodyBytes := new(bytes.Buffer)
+	json.NewEncoder(reqBodyBytes).Encode(&payload)
+	fmt.Println(reqBodyBytes)
+	login, err := service.GetLogin(reqBodyBytes)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
+		return
+	}
+	accessToken, err := service.GenerateToken(payload.Login, payload.Password)
+	if err != nil {
+		log.Println("[controller.Login]|[service.GenerateToken]| error is: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	refreshToken, err := service.GenerateToken(payload.Login, accessToken)
+	if err != nil {
+		log.Println("[controller.Login]|[service.GenerateToken]| error is: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+	login.Access = accessToken
+	login.Refresh =  refreshToken
+
+	c.JSON(http.StatusOK, login)
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // GetAllUsers Get All Users godoc
 // @Summary Get All Users

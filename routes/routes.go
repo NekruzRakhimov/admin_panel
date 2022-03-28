@@ -46,7 +46,8 @@ func runAllRoutes(r *gin.Engine) {
 
 	r.GET("/", HealthCheck)
 	//r.POST("/rbdiscountforsalesgrowth", controller.RbDiscountForSalesGrowth)
-	r.POST("/login", controller.Login)
+	r.POST("/login", controller.LoginNew)
+	//r.POST("/loginnew", controller.LoginNew)
 	r.POST("/getdisper", controller.GetDisPer)
 	r.POST("/getdisp", controller.DiscountRBPeriodTime)
 	r.POST("/getcode", controller.GetContractCode)
