@@ -187,30 +187,39 @@ func GetRB3rdType(request models.RBRequest, contracts []models.Contract) ([]mode
 }
 
 func GetRB4thType(request models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
+	externalCodes := GetExternalCode(request.BIN)
+	var contractsCode []string
+	for _, value := range externalCodes {
+		contractsCode = append(contractsCode, value.ExtContractCode)
+	}
+
+
 	req := models.ReqBrand{
 		ClientBin:   request.BIN,
 		Beneficiary: request.ContractorName,
 		DateStart:   request.PeriodFrom,
 		DateEnd:     request.PeriodTo,
-		Type:        "sales_brand_only",
+		Contracts: contractsCode,
 	}
 
-	sales, err := GetSales(req)
+	//sales, err := GetSales(req)
+	purchase, err := GetPurchase(req)
 
-	totalAmount := GetTotalAmount(sales)
+	totalAmountPurchase := GetTotalAmountPurchase(purchase)
 
-	log.Printf("[CHECK PRES SAlES: %+v\n", sales)
-	log.Printf("[CHECK PRES TOTAL AMOUNT]: %f\n", totalAmount)
+
+	log.Printf("[CHECK PRES SAlES: %+v\n", purchase)
+	log.Printf("[CHECK PRES TOTAL AMOUNT]: %f\n", totalAmountPurchase)
 
 	for _, contract := range contracts {
 		for _, discount := range contract.Discounts {
 			if discount.Code == RB4Code && discount.IsSelected == true {
 				var discountAmount float32
 				if repository.DoubtedDiscountExecutionCheck(request, contract.ContractParameters.ContractNumber, discount.Code) {
-					discountAmount = totalAmount * discount.DiscountPercent / 100
+					discountAmount = totalAmountPurchase * discount.DiscountPercent / 100
 				}
 				log.Printf("[CHECK PRES DISCOUNT PERCENT]: %f\n", discount.DiscountPercent)
-				log.Printf("[CHECK PRES TOTAL AMOUNT]: %f\n", totalAmount)
+				log.Printf("[CHECK PRES TOTAL AMOUNT]: %f\n", totalAmountPurchase)
 				log.Printf("[CHECK PRES DISCOUNT AMOUNT]: %f\n", discountAmount)
 				log.Println("[CHECK PRES TRUE/FALSE]: ", repository.DoubtedDiscountExecutionCheck(request, contract.ContractParameters.ContractNumber, discount.Code))
 				rbDTO = append(rbDTO, models.RbDTO{
@@ -219,6 +228,7 @@ func GetRB4thType(request models.RBRequest, contracts []models.Contract) (rbDTO 
 					EndDate:         request.PeriodFrom,
 					DiscountPercent: discount.DiscountPercent,
 					DiscountAmount:  discountAmount,
+					TotalWithoutDiscount: totalAmountPurchase,
 					DiscountType:    RB4Name,
 				})
 				log.Printf("CHECK PRES DISCOUNT rbDTO %+v\n", rbDTO)
