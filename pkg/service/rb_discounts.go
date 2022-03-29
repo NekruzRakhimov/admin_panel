@@ -471,21 +471,21 @@ func GetRB13thType(rb models.RBRequest, contracts []models.Contract) ([]models.R
 }
 
 func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.RbDTO, error) {
+	fmt.Println("====================вызов функции =========================================")
+	//totalbyCode := map[string]int{}
+
 	var rbDTOsl []models.RbDTO
 
 	// parsing string by TIME
 	//layoutISO := "02.1.2006"
-	var count int
+
 	// parsing string to Time
 	//reqPeriodFrom, _ := time.Parse(layoutISO, req.PeriodFrom)
 	//reqPeriodTo, _ := time.Parse(layoutISO, req.PeriodTo)
 
 	// get all contracts_code by BIN
 	externalCodes := GetExternalCode(req.BIN)
-	var contractsCode []string
-	for _, value := range externalCodes {
-		contractsCode = append(contractsCode, value.ExtContractCode)
-	}
+	contractsCode := JoinContractCode(externalCodes)
 
 	for _, contract := range contracts {
 		fmt.Println("contract MESSAGE", contract.Discounts)
@@ -504,24 +504,25 @@ func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.
 						Contracts:      contractsCode, // необходимо получить коды контрактов
 					}
 					purchase, _ := GetPurchase(reqBrand)
-					for _, amount := range purchase.PurchaseArr {
-						count += amount.Total
-					}
-					if period.PurchaseAmount < float32(count) {
-						total := float32(count) * period.DiscountPercent / 100
 
-						RbDTO := models.RbDTO{
-							ContractNumber:       contract.ContractParameters.ContractNumber,
-							StartDate:            period.PeriodFrom,
-							EndDate:              period.PeriodTo,
-							TypePeriod:           period.Type,
-							DiscountPercent:      period.DiscountPercent,
-							DiscountAmount:       total,
-							TotalWithoutDiscount: float32(count),
-							DiscountType:         RB12Name,
+					totalPurchaseCode := CountPurchaseByCode(purchase)
+
+					for _, amount := range totalPurchaseCode {
+						if period.PurchaseAmount < float32(amount) {
+							total := float32(amount) * period.DiscountPercent / 100
+							RbDTO := models.RbDTO{
+								ContractNumber:       contract.ContractParameters.ContractNumber,
+								StartDate:            period.PeriodFrom,
+								EndDate:              period.PeriodTo,
+								TypePeriod:           period.Type,
+								DiscountPercent:      period.DiscountPercent,
+								DiscountAmount:       total,
+								TotalWithoutDiscount: float32(amount),
+								DiscountType:         RB12Name,
+							}
+							rbDTOsl = append(rbDTOsl, RbDTO)
+
 						}
-						rbDTOsl = append(rbDTOsl, RbDTO)
-
 					}
 
 				}
@@ -529,8 +530,38 @@ func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.
 			}
 
 		}
+
 	}
+	//}
 	//}
 
 	return rbDTOsl, nil
+}
+
+//считываем итог по каждому контракт коду
+func CountPurchaseByCode(purchase models.Purchase) map[string]int {
+	totallyCode := map[string]int{}
+	for _, value := range purchase.PurchaseArr {
+		if _, ok := totallyCode[value.ContractCode]; !ok {
+			totallyCode[value.ContractCode] += value.Total
+			//do something here
+		}
+
+	}
+	return totallyCode
+}
+
+// собираем все контракт коды в слайс
+func JoinContractCode(externalCodes []models.ContractCode) []string {
+
+	var contractsCode []string
+	for _, value := range externalCodes {
+		fmt.Println("value.ExtContractCode===========================================================================", value.ExtContractCode)
+
+		if value.ExtContractCode == "" {
+			continue
+		}
+		contractsCode = append(contractsCode, value.ExtContractCode)
+	}
+	return contractsCode
 }

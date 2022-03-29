@@ -47,6 +47,8 @@ func DiscountRBPeriodTime(c *gin.Context) {
 		return
 	}
 
+	fmt.Println("contracts", contracts)
+
 	timeP, err := service.GetRB12thType(request, contracts)
 	if err != nil {
 		c.JSON(400, err)
