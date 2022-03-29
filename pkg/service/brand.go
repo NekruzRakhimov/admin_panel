@@ -241,7 +241,7 @@ func GetPurchase(reqBrand models.ReqBrand) (models.Purchase, error) {
 		ClientBin:      reqBrand.ClientBin,
 		DateStart:      reqBrand.DateStart + TempDateCompleter,
 		DateEnd:        reqBrand.DateEnd + TempDateEnd,
-		Type:           "purchase",
+		Type:           "purchase_brand_only",
 		TypeValue:      "",
 		TypeParameters: nil,
 		Contracts:      reqBrand.Contracts,
