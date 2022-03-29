@@ -260,6 +260,17 @@ func GetTotalAmount(sales models.Sales) float32 {
 	return amount
 }
 
+
+func GetTotalAmountPurchase(purchase models.Purchase) float32 {
+	var amount float32
+	for _, s := range purchase.PurchaseArr {
+		amount += float32(s.Total)
+	}
+
+	return amount
+}
+
+
 func GetTotalAmountFrom1CDataSalesOrPurchases(data []models.GetData1CProducts) float32 {
 	var amount float32
 	for _, s := range data {
