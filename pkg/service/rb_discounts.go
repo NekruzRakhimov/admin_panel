@@ -498,7 +498,7 @@ func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.
 					reqBrand := models.ReqBrand{
 						ClientBin:      req.BIN,
 						DateStart:      req.PeriodFrom,
-						DateEnd:        req.PeriodFrom,
+						DateEnd:        req.PeriodTo,
 						TypeValue:      "",
 						TypeParameters: nil,
 						Contracts:      contractsCode, // необходимо получить коды контрактов
