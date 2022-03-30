@@ -66,6 +66,7 @@ func GetRB1stType(request models.RBRequest, contracts []models.Contract) ([]mode
 		Contracts:      contractsCode, // необходимо получить коды контрактов
 	}
 	purchase, _ := GetPurchase(reqBrand)
+	totalAmount := GetPurchaseTotalAmount(purchase)
 
 	//totalPurchaseCode := CountPurchaseByCode(purchase)
 	//
@@ -87,7 +88,6 @@ func GetRB1stType(request models.RBRequest, contracts []models.Contract) ([]mode
 	//}
 
 	fmt.Printf("###%+v\n", contracts)
-	totalAmount := GetPurchaseTotalAmount(purchase)
 	log.Printf("[PURCHASE] %f ", totalAmount)
 
 	contractRB := DefiningRBReport(contracts, totalAmount, request)
@@ -163,29 +163,43 @@ func GetRB2ndType(rbReq models.RBRequest) []models.RbDTO {
 
 func GetRB3rdType(request models.RBRequest, contracts []models.Contract) ([]models.RbDTO, error) {
 
+	//req := models.ReqBrand{
+	//	ClientBin:      request.BIN,
+	//	Beneficiary:    request.ContractorName,
+	//	DateStart:      request.PeriodFrom,
+	//	DateEnd:        request.PeriodTo,
+	//	Type:           "sales",
+	//	TypeValue:      "sku",
+	//	TypeParameters: GetAllProductsSku(contracts),
+	//}
+	//
+	//sales, err := GetBrandSales(req)
+	//if err != nil {
+	//	return nil, err
+	//}
+
+	externalCodes := GetExternalCode(request.BIN)
+	contractsCode := JoinContractCode(externalCodes)
+
 	req := models.ReqBrand{
 		ClientBin:      request.BIN,
-		Beneficiary:    request.ContractorName,
 		DateStart:      request.PeriodFrom,
 		DateEnd:        request.PeriodTo,
-		Type:           "sales",
-		TypeValue:      "sku",
-		TypeParameters: GetAllProductsSku(contracts),
+		TypeValue:      "",
+		TypeParameters: nil,
+		Contracts:      contractsCode, // необходимо получить коды контрактов
 	}
+	purchase, _ := GetPurchase(req)
+	totalAmount := GetPurchaseTotalAmount(purchase)
 
-	sales, err := GetBrandSales(req)
-	if err != nil {
-		return nil, err
-	}
-
-	fmt.Printf("req \n\n%+v\n\n", req)
-	fmt.Printf("SALES \n\n%+v\n\n", sales)
+	//fmt.Printf("req \n\n%+v\n\n", req)
+	//fmt.Printf("SALES \n\n%+v\n\n", sales)
 
 	var RBs []models.RbDTO
 	fmt.Println("*********************************************")
 	for _, contract := range contracts {
 		for _, product := range contract.Products {
-			total := GetTotalSalesForSku(sales, product.Sku)
+			//total := GetTotalSalesForSku(sales, product.Sku)
 			rb := models.RbDTO{
 				ID:              contract.ID,
 				ContractNumber:  contract.ContractParameters.ContractNumber,
@@ -196,8 +210,8 @@ func GetRB3rdType(request models.RBRequest, contracts []models.Contract) ([]mode
 				LeasePlan:       product.LeasePlan,
 				DiscountType:    RB3Name,
 			}
-			if total >= product.LeasePlan {
-				rb.DiscountAmount = total * rb.DiscountPercent / 100
+			if totalAmount >= product.LeasePlan {
+				rb.DiscountAmount = totalAmount * rb.DiscountPercent / 100
 			} else {
 				rb.DiscountAmount = 0
 			}
