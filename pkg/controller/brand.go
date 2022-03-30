@@ -250,6 +250,31 @@ func GetRb3(c *gin.Context) {
 	c.JSON(200, rb)
 }
 
+func GetRb5(c *gin.Context) {
+	var req models.RBRequest
+	//var req models.ReqBrand
+
+	//c.ShouldBind(&req)
+	c.BindJSON(&req)
+
+	contractsWithJson, err := repository.GetAllContractDetailByBIN(req.BIN, req.PeriodFrom, req.PeriodTo)
+	if err != nil {
+		return
+	}
+
+	contracts, err := service.BulkConvertContractFromJsonB(contractsWithJson)
+	if err != nil {
+		return
+	}
+
+	fmt.Println("запрос для прироста ->>>: ", req)
+	rb, _ := service.GetRB5thType(req, contracts)
+	//discount := service.GetRB2ndType(req)
+	//discount, _ := service.GetSales(req)
+
+	c.JSON(200, rb)
+}
+
 func SaveDataFrom1C(c *gin.Context) {
 	//log.Println("###1C BEGIN##")
 	//var body []byte

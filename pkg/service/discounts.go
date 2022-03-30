@@ -382,44 +382,67 @@ func GetRB5thType(request models.RBRequest, contracts []models.Contract) (rbDTO 
 	for _, contract := range contracts {
 		for _, discount := range contract.Discounts {
 			if discount.Code == RB5Code && discount.IsSelected == true {
-				for _, discountBrand := range discount.DiscountBrands {
-					if discountBrand.PeriodFrom >= request.PeriodFrom && discountBrand.PeriodTo <= request.PeriodTo {
-						req := models.ReqBrand{
-							ClientBin:      request.BIN,
-							Beneficiary:    request.ContractorName,
-							DateStart:      request.PeriodFrom,
-							DateEnd:        request.PeriodTo,
-							Type:           "sales",
-							TypeValue:      "brands",
-							TypeParameters: GeAllBrands(discountBrand.Brands),
-						}
-
-						sales, err := GetBrandSales(req)
-						if err != nil {
-							return nil, err
-						}
-
-						for _, brand := range discountBrand.Brands {
-							totalAmount := GetTotalPurchasesForBrands(sales, brand.BrandName)
-							var discountAmount float32
-							if totalAmount >= brand.PurchaseAmount {
-								discountAmount = totalAmount * brand.DiscountPercent / 100
-							}
-
-							rbDTO = append(rbDTO, models.RbDTO{
-								ContractNumber:  contract.ContractParameters.ContractNumber,
-								StartDate:       discount.PeriodFrom,
-								EndDate:         discount.PeriodTo,
-								BrandName:       brand.BrandName,
-								ProductCode:     brand.BrandCode,
-								DiscountPercent: brand.DiscountPercent,
-								DiscountAmount:  discountAmount,
-								DiscountType:    RB5Name,
-							})
-						}
-
-					}
+				rbDTO, err = RB5Details(request, contract, discount)
+				if err != nil {
+					return nil, err
 				}
+			}
+		}
+	}
+
+	return rbDTO, nil
+}
+
+func RB5Details(request models.RBRequest, contract models.Contract, discount models.Discount) (rbDTO []models.RbDTO, err error) {
+	log.Printf("\n[DISCOUNT_DETAILS] %+v\n", discount)
+	for _, discountBrand := range discount.DiscountBrands {
+		if discountBrand.PeriodFrom >= request.PeriodFrom && discountBrand.PeriodTo <= request.PeriodTo {
+			//req := models.ReqBrand{
+			//	ClientBin:      request.BIN,
+			//	Beneficiary:    request.ContractorName,
+			//	DateStart:      request.PeriodFrom,
+			//	DateEnd:        request.PeriodTo,
+			//	Type:           "sales",
+			//	TypeValue:      "brands",
+			//	TypeParameters: GeAllBrands(discountBrand.Brands),
+			//}
+			//
+			//sales, err := GetBrandSales(req)
+			//if err != nil {
+			//	return nil, err
+			//}
+
+			externalCodes := GetExternalCode(request.BIN)
+			contractsCode := JoinContractCode(externalCodes)
+
+			reqBrand := models.ReqBrand{
+				ClientBin:      request.BIN,
+				DateStart:      request.PeriodFrom,
+				DateEnd:        request.PeriodTo,
+				TypeValue:      "",
+				TypeParameters: nil,
+				Contracts:      contractsCode, // необходимо получить коды контрактов
+			}
+			purchase, _ := GetPurchase(reqBrand)
+			totalAmount := GetPurchaseTotalAmount(purchase)
+
+			for _, brand := range discountBrand.Brands {
+				//totalAmount := GetTotalPurchasesForBrands(sales, brand.BrandName)
+				var discountAmount float32
+				if totalAmount >= brand.PurchaseAmount {
+					discountAmount = totalAmount * brand.DiscountPercent / 100
+				}
+
+				rbDTO = append(rbDTO, models.RbDTO{
+					ContractNumber:  contract.ContractParameters.ContractNumber,
+					StartDate:       discountBrand.PeriodFrom,
+					EndDate:         discountBrand.PeriodTo,
+					BrandName:       brand.BrandName,
+					ProductCode:     brand.BrandCode,
+					DiscountPercent: brand.DiscountPercent,
+					DiscountAmount:  discountAmount,
+					DiscountType:    RB5Name,
+				})
 			}
 		}
 	}
