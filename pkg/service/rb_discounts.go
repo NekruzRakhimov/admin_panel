@@ -54,29 +54,53 @@ func GetRB1stType(request models.RBRequest, contracts []models.Contract) ([]mode
 	//	Type:        "sales",
 	//}
 
-	present := models.ReqBrand{
+	externalCodes := GetExternalCode(request.BIN)
+	contractsCode := JoinContractCode(externalCodes)
+
+	reqBrand := models.ReqBrand{
 		ClientBin:      request.BIN,
-		Beneficiary:    "",
 		DateStart:      request.PeriodFrom,
 		DateEnd:        request.PeriodTo,
-		Type:           "",
 		TypeValue:      "",
 		TypeParameters: nil,
-		Contracts:      nil,
+		Contracts:      contractsCode, // необходимо получить коды контрактов
 	}
+	purchase, _ := GetPurchase(reqBrand)
 
-	sales, err := GetSales1C(present, "sales_brand_only")
+	//totalPurchaseCode := CountPurchaseByCode(purchase)
+	//
+	//present := models.ReqBrand{
+	//	ClientBin:      request.BIN,
+	//	Beneficiary:    "",
+	//	DateStart:      request.PeriodFrom,
+	//	DateEnd:        request.PeriodTo,
+	//	Type:           "",
+	//	TypeValue:      "",
+	//	TypeParameters: nil,
+	//	Contracts:      nil,
+	//}
+	//
+	//sales, err := GetSales1C(present, "sales_brand_only")
 	//sales, err := GetSales(req)
-	if err != nil {
-		return nil, err
-	}
+	//if err != nil {
+	//	return nil, err
+	//}
 
 	fmt.Printf("###%+v\n", contracts)
-	totalAmount := GetTotalAmount(sales)
+	totalAmount := GetPurchaseTotalAmount(purchase)
+	log.Printf("[PURCHASE] %f ", totalAmount)
 
 	contractRB := DefiningRBReport(contracts, totalAmount, request)
 
 	return contractRB, nil
+}
+
+func GetPurchaseTotalAmount(purchases models.Purchase) (totalAmount float32) {
+	for _, purchase := range purchases.PurchaseArr {
+		totalAmount += float32(purchase.Total)
+	}
+
+	return totalAmount
 }
 
 func GetRB2ndType(rbReq models.RBRequest) []models.RbDTO {

@@ -200,7 +200,36 @@ func GetExcelGrowth(c *gin.Context) {
 
 }
 
-func SaveDataFrom1C(c *gin.Context) {
+func GetRb1(c *gin.Context) {
+	var req models.RBRequest
+	//var req models.ReqBrand
 
+	//c.ShouldBind(&req)
+	c.BindJSON(&req)
+
+	contractsWithJson, err := repository.GetAllContractDetailByBIN(req.BIN, req.PeriodFrom, req.PeriodTo)
+	if err != nil {
+		return
+	}
+
+	contracts, err := service.BulkConvertContractFromJsonB(contractsWithJson)
+	if err != nil {
+		return
+	}
+
+	fmt.Println("запрос для прироста ->>>: ", req)
+	rb1, _ := service.GetRB1stType(req, contracts)
+	//discount := service.GetRB2ndType(req)
+	//discount, _ := service.GetSales(req)
+
+	c.JSON(200, rb1)
+}
+
+func SaveDataFrom1C(c *gin.Context) {
+	//log.Println("###1C BEGIN##")
+	//var body []byte
+	//c.Request.Body.Read()
+	//log.Printf("%s"))
+	//log.Println("###1C END##")
 	c.JSON(http.StatusOK, gin.H{"reason": "данные сохранены"})
 }
