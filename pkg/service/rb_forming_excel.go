@@ -23,21 +23,57 @@ func FormExcelForRBReport(request models.RBRequest) error {
 
 	//TODO: посмотри потом
 	//testBin := "060840003599"
-	req := models.ReqBrand{
-		ClientBin:   request.BIN,
-		Beneficiary: request.ContractorName,
-		DateStart:   request.PeriodFrom,
-		DateEnd:     request.PeriodTo,
-		Type:        "sales",
-	}
+	//req := models.ReqBrand{
+	//	ClientBin:   request.BIN,
+	//	Beneficiary: request.ContractorName,
+	//	DateStart:   request.PeriodFrom,
+	//	DateEnd:     request.PeriodTo,
+	//	Type:        "sales",
+	//}
 
-	brandInfo := []models.BrandInfo{}
-	sales, err := GetSalesBrand(req, brandInfo)
-	if err != nil {
-		fmt.Println(">> 3")
-		fmt.Println(err.Error())
-		return err
+	//brandInfo := []models.BrandInfo{}
+	//sales, err := GetSalesBrand(req, brandInfo)
+	//if err != nil {
+	//	fmt.Println(">> 3")
+	//	fmt.Println(err.Error())
+	//	return err
+	//}
+
+	externalCodes := GetExternalCode(request.BIN)
+	contractsCode := JoinContractCode(externalCodes)
+
+	req := models.ReqBrand{
+		ClientBin:      request.BIN,
+		DateStart:      request.PeriodFrom,
+		DateEnd:        request.PeriodTo,
+		TypeValue:      "",
+		TypeParameters: nil,
+		Contracts:      contractsCode, // необходимо получить коды контрактов
 	}
+	purchases, _ := GetPurchase(req)
+
+	//totalPurchaseCode := CountPurchaseByCode(purchase)
+	//
+	//present := models.ReqBrand{
+	//	ClientBin:      request.BIN,
+	//	Beneficiary:    "",
+	//	DateStart:      request.PeriodFrom,
+	//	DateEnd:        request.PeriodTo,
+	//	Type:           "",
+	//	TypeValue:      "",
+	//	TypeParameters: nil,
+	//	Contracts:      nil,
+	//}
+	//
+	//sales, err := GetSales1C(present, "sales_brand_only")
+	//sales, err := GetSales(req)
+	//if err != nil {
+	//	return nil, err
+	//}
+
+	fmt.Printf("###%+v\n", contracts)
+	totalAmount := GetPurchaseTotalAmount(purchases)
+	log.Printf("[PURCHASE] %f ", totalAmount)
 
 	var (
 		isRB1 bool
@@ -93,19 +129,19 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		}
 	}
 
-	totalAmount := GetTotalAmount(sales)
+	//totalAmount := GetPurchaseTotalAmount(sales)
 
 	fmt.Println(contracts)
 	fmt.Println(totalAmount)
-	var conTotalAmount float32
-	var rewardAmount int
+	//var conTotalAmount float32
+	//var rewardAmount int
 
 	f := excelize.NewFile()
 
-	var discount int
-	if conTotalAmount <= totalAmount {
-		discount = rewardAmount
-	}
+	//var discount int
+	//if conTotalAmount <= totalAmount {
+	//	discount = rewardAmount
+	//}
 
 	style, err := f.NewStyle(&excelize.Style{
 		Fill: excelize.Fill{Type: "pattern", Color: []string{"#F5DEB3"}, Pattern: 1},
@@ -126,13 +162,13 @@ func FormExcelForRBReport(request models.RBRequest) error {
 	f.SetCellValue(sheet, "D1", "Количество")
 	f.SetCellValue(sheet, "E1", "Итог:")
 
-	fmt.Printf(">>arr>>%+v", sales.SalesArr)
+	//fmt.Printf(">>arr>>%+v", sales.SalesArr)
 
 	var lastRow int
-	for i, s := range sales.SalesArr {
+	for i, s := range purchases.PurchaseArr {
 		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", i+2), s.ProductName)
 		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", i+2), s.ProductCode)
-		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "C", i+2), s.Total / s.QntTotal)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "C", i+2), s.Total/s.QntTotal)
 		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "D", i+2), s.QntTotal)
 		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "E", i+2), s.Total)
 		lastRow = i
@@ -164,7 +200,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB1Name, "E1", "Сумма скидки")
 		err = f.SetCellStyle(RB1Name, "A1", "E1", style)
 
-		var totalDiscountsSum int
+		var totalDiscountsSum float32
 		fmt.Printf("CHECK \n%+v\n CHECK", contracts)
 		var i int
 		for _, contract := range contract1stType {
@@ -173,7 +209,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 			f.SetCellValue(RB1Name, fmt.Sprintf("%s%d", "C", i+2), "Скидка за объем закупа")
 			f.SetCellValue(RB1Name, fmt.Sprintf("%s%d", "D", i+2), contract.RewardAmount)
 			f.SetCellValue(RB1Name, fmt.Sprintf("%s%d", "E", i+2), contract.DiscountAmount)
-			totalDiscountsSum += discount
+			totalDiscountsSum += contract.DiscountAmount
 			lastRow = i + 2
 			i++
 		}
