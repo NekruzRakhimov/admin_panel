@@ -13,6 +13,10 @@ import (
 
 func CreateContract(contractWithJson models.ContractWithJsonB) error {
 	fmt.Printf(">>>> %+v", contractWithJson)
+	if err := db.GetDBConn().Table("contracts").Exec("UPDATE contracts SET status = ?' WHERE id = ?", "заверщённый", contractWithJson.PrevContractId).Error; err != nil {
+		return err
+	}
+
 	err := db.GetDBConn().Table("contracts").Omit("created_at", "updated_at", "is_extend_contract", "extend_date", "brand_name", "brand_code", "discount_percent", "contract_id").Create(&contractWithJson).Error
 	fmt.Println(contractWithJson.ID, "ContractID")
 
