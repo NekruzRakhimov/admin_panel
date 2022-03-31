@@ -13,7 +13,7 @@ import (
 
 func CreateContract(contractWithJson models.ContractWithJsonB) error {
 	fmt.Printf(">>>> %+v", contractWithJson)
-	if err := db.GetDBConn().Table("contracts").Exec("UPDATE contracts SET status = ?' WHERE id = ?", "заверщённый", contractWithJson.PrevContractId).Error; err != nil {
+	if err := db.GetDBConn().Table("contracts").Exec("UPDATE contracts SET status = ? WHERE id = ?", "заверщённый", contractWithJson.PrevContractId).Error; err != nil {
 		return err
 	}
 
