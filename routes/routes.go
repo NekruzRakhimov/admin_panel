@@ -50,6 +50,7 @@ func runAllRoutes(r *gin.Engine) {
 	//r.POST("/loginnew", controller.LoginNew)
 	r.POST("/getdisper", controller.GetDisPer)
 	r.POST("/getdisp", controller.DiscountRBPeriodTime)
+	r.POST("/getrbseven", controller.DiscountRB7)
 	r.POST("/getcode", controller.GetContractCode)
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 

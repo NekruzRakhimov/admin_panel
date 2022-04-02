@@ -34,7 +34,7 @@ const (
 	RB4Code  = "DISCOUNT_FOR_REPRESENTATION"
 	RB5Code  = "DISCOUNT_FOR_FIX_SUM_MTZ"
 	RB6Code  = "DISCOUNT_FOR_MTZ"
-	RB7Code  = "DISCOUNT_FOR_LEASE_PERCENT"
+	RB7Code  = "DISCOUNT_FOR_FULFILLING_SALES"
 	RB8Code  = "DISCOUNT_FOR_LEASE_GENERAL"
 	RB9Code  = "DISCOUNT_FOR_FILIAL"
 	RB10Code = "DISCOUNT_FOR_LOGISTIC"
@@ -526,6 +526,104 @@ func GetRB13thType(rb models.RBRequest, contracts []models.Contract) ([]models.R
 	return rbDTOsl, nil
 }
 
+func GetRB7thType(rb models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
+	req := models.ReqBrand{
+		ClientBin: rb.BIN,
+
+		DateStart: rb.PeriodFrom,
+		DateEnd:   rb.PeriodTo,
+	}
+
+	sales, err := GetSales(req)
+
+	// тут взяли бренды и их сумму общуюю
+	mapBrands := CountSalesByBrand(sales)
+
+	// 3 договора - бренд есть только у одного
+	for _, contract := range contracts {
+		for _, discount := range contract.Discounts {
+			if discount.Code == RB7Code && discount.IsSelected == true {
+				log.Println("Запрос выполняется")
+				fmt.Println("Запрос выполняется")
+				for _, discountBrand := range discount.DiscountBrands {
+					for _, dataBrand := range discountBrand.Brands {
+						for brand, total := range mapBrands {
+							fmt.Println("TOTAL", total)
+							fmt.Println("Brand из бд", dataBrand.BrandName)
+							fmt.Println("Brand из 1С", brand)
+							if brand == dataBrand.BrandName {
+								//fmt.Println("Brand", dataBrand.BrandName)
+								fmt.Println("Amount", dataBrand.PurchaseAmount)
+								var discountAmount float32
+								if total >= dataBrand.PurchaseAmount {
+
+									discountAmount = total * dataBrand.DiscountPercent / 100
+								}
+								rbDTO = append(rbDTO, models.RbDTO{
+									ContractNumber:  contract.ContractParameters.ContractNumber,
+									StartDate:       discount.PeriodFrom,
+									EndDate:         discount.PeriodTo,
+									BrandName:       dataBrand.BrandName,
+									ProductCode:     dataBrand.BrandCode,
+									DiscountPercent: dataBrand.DiscountPercent,
+									DiscountAmount:  discountAmount,
+									DiscountType:    RB7Name,
+								})
+							}
+
+						}
+
+					}
+
+					// наименование всех брендов
+					//brands := GeAllBrands(discountBrand.Brands)
+					// берем цикл из мапа
+
+					//				if discountBrand.PeriodFrom >= request.PeriodFrom && discountBrand.PeriodTo <= request.PeriodTo {
+					//					req := models.ReqBrand{
+					//						ClientBin:      request.BIN,
+					//						Beneficiary:    request.ContractorName,
+					//						DateStart:      request.PeriodFrom,
+					//						DateEnd:        request.PeriodTo,
+					//						Type:           "sales",
+					//						TypeValue:      "brands",
+					//						TypeParameters: GeAllBrands(discountBrand.Brands),
+					//					}
+					//
+					//					sales, err := GetBrandSales(req)
+					//					if err != nil {
+					//						return nil, err
+					//					}
+					//
+					//					for _, brand := range discountBrand.Brands {
+					//						totalAmount := GetTotalPurchasesForBrands(sales, brand.BrandName)
+					//						var discountAmount float32
+					//						if totalAmount >= brand.PurchaseAmount {
+					//							discountAmount = totalAmount * brand.DiscountPercent / 100
+					//						}
+					//
+					//						rbDTO = append(rbDTO, models.RbDTO{
+					//							ContractNumber:  contract.ContractParameters.ContractNumber,
+					//							StartDate:       discount.PeriodFrom,
+					//							EndDate:         discount.PeriodTo,
+					//							BrandName:       brand.BrandName,
+					//							ProductCode:     brand.BrandCode,
+					//							DiscountPercent: brand.DiscountPercent,
+					//							DiscountAmount:  discountAmount,
+					//							DiscountType:    RB7Name,
+					//						})
+					//					}
+					//
+				}
+			}
+		}
+	}
+
+	//}
+
+	return rbDTO, nil
+}
+
 func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.RbDTO, error) {
 	fmt.Println("====================вызов функции =========================================")
 	//totalbyCode := map[string]int{}
@@ -602,6 +700,19 @@ func CountPurchaseByCode(purchase models.Purchase) map[string]int {
 			totallyCode[value.ContractCode] += value.Total
 			//do something here
 		}
+
+	}
+	return totallyCode
+}
+
+//считываем итог по каждому контракт коду
+func CountSalesByBrand(sales models.Sales) map[string]float32 {
+	totallyCode := map[string]float32{}
+	for _, value := range sales.SalesArr {
+		//if _, ok := totallyCode[value.ContractCode]; !ok {
+		totallyCode[value.BrandName] += value.Total
+		//do something here
+		//}
 
 	}
 	return totallyCode
