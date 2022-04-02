@@ -18,7 +18,7 @@ func CreateContract(contractWithJson models.ContractWithJsonB) error {
 	}
 
 	err := db.GetDBConn().Table("contracts").Omit("created_at", "updated_at", "is_extend_contract", "extend_date", "brand_name", "brand_code", "discount_percent", "contract_id").Create(&contractWithJson).Error
-	fmt.Println(contractWithJson.ID, "ContractID")
+	fmt.Println(contractWithJson.ID, "ContractParam")
 
 	if err != nil {
 		log.Println("[repository.CreateContract]|[db.GetDBConn().Table(\"contracts\").Create(&contractWithJson).Error]| error is: ", err.Error())

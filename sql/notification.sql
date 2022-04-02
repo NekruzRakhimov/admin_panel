@@ -59,3 +59,10 @@ SELECT jsonb_extract_path('{"brand": "Honda", "sold": false}'::jsonb, 'brand');
 --SELECT contract_parameters ->> 'contract_number', id FROM contracts  WHERE requisites ->> 'bin' = '860418401075';
 
 SELECT discounts,id FROM contracts  WHERE contract_parameters ->> 'contract_number' = '90001';
+
+
+
+SELECT id, status,  contract_parameters ->> 'contract_number' AS contract_number FROM contracts WHERE status = 'в работе' AND requisites ->> 'bin' = '160140011654';
+SELECT brand AS brand_name, discount_percent, contract_id FROM  brands WHERE contract_id = 381; -- у этого есть бренды, но они не совпадают
+SELECT brand AS brand_name, discount_percent, contract_id FROM  brands WHERE contract_id = 383; -- вот что должно быть --
+SELECT brand AS brand_name, discount_percent, contract_id FROM  brands WHERE contract_id = 386; -- его не должно быть

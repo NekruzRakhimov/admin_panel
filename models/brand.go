@@ -133,14 +133,16 @@ type TotalBrandDiscount struct {
 	ContractNumber  string  `json:"contract_number"`
 }
 
-type ContractID struct {
+type ContractParam struct {
 	Id             int    `json:"id"`
+	Bin            string `json:"bin"`
 	ContractNumber string `json:"contract_number"`
 }
 
 type BrandAndPercent struct {
 	ContractID      string `json:"contract_id"`
-	BrandName       string `json:"brand_name"`
+	Brand           string `json:"brand"`
+	ContractNumber  string `json:"contract_number"`
 	BrandCode       string `json:"brand_code"`
 	DiscountPercent string `json:"discount_percent"`
 }

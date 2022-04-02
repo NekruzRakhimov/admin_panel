@@ -401,7 +401,7 @@ func GetBrandSales(reqBrand models.ReqBrand) (models.Sales, error) {
 //		BrandTotal.ContractNumber = contractNumber
 //		BrandTotal.BrandName = value.BrandName
 //		BrandTotal.DiscountPercent = floatPercent
-//		BrandTotal.Id, _ = strconv.Atoi(value.ContractID)
+//		BrandTotal.Id, _ = strconv.Atoi(value.ContractParam)
 //
 //		totalBrandsDiscount = append(totalBrandsDiscount, BrandTotal)
 //	}

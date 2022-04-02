@@ -1,16 +1,33 @@
 
 create table brands (
                         id bigserial primary key,
+                      --  contract_number  text not null,
                         brand text not null,
+                        brand_code text not null ,
                         discount_percent varchar not null,
                         contract_id integer references contracts(id)
 );
 
 
+SELECT id, bin, contract_parameters ->> 'contract_number' AS contract_number FROM contracts WHERE status = 'в работе' AND requisites ->> 'bin' = '160140011654';
+
+create table brands
+(
+    id               bigserial primary key,
+    brand            text    not null,
+    discount_percent varchar not null,
+    contract_id      integer references contracts (id)
+);
+
+
+drop table brands;
+
 SELECT c.id, b.contract_id, c.contract_parameters ->> 'contract_number' AS contract_number, b.discount_percent, b.brand
 FROM brands b
 JOIN contracts  c ON b.contract_id = c.id
-WHERE requisites ->> 'bin' = '080240011774';
+WHERE contract_id  = '390';
+--WHERE requisites ->> 'bin' = '080240011774';
+
 
 
 
@@ -23,7 +40,7 @@ SELECT brand, discount_percent FROM  brands WHERE contract_id = 207;
 
 
 SELECT c.id, b.contract_id, c.contract_parameters ->> 'contract_number' AS contract_number, b.discount_percent, b.brand FROM contracts c
-		JOIN brands  b ON b.contract_id = c.id WHERE c.requisites ->> 'bin' = '0909090989889';
+		JOIN brands  b ON b.contract_id = c.id WHERE c.requisites ->> 'bin' = '160140011654';
 
 --SELECT id, brand, discount_percent FROM  brands =  where   contract_id
 
@@ -51,13 +68,6 @@ SELECT * from contracts WHERE req
 
 
 
-create table brands
-(
-    id               bigserial primary key,
-    brand            text    not null,
-    discount_percent varchar not null,
-    contract_id      integer references contracts (id)
-);
 
 
 INSERT INTO brands(brand, discount_percent, contract_id) VALUES ($1, $2, $3);

@@ -106,39 +106,41 @@ func GetPurchaseTotalAmount(purchases models.Purchase) (totalAmount float32) {
 func GetRB2ndType(rbReq models.RBRequest) []models.RbDTO {
 	brandTotal := map[string]float32{}
 	var rbDtoSl []models.RbDTO
-	fmt.Println("запрос от тебя", rbReq)
+
 	rbBrand := models.ReqBrand{
 		ClientBin: rbReq.BIN,
 		DateStart: rbReq.PeriodFrom,
 		DateEnd:   rbReq.PeriodTo,
 	}
-	fmt.Println("rbBrand", rbBrand)
-	// берем бренды и их Total
+
+	// берем бренды и их Total // общую сумму не зависимо от договора
 	sales, _ := GetSales(rbBrand)
 
 	// тут считаем общую сумму каждого бренда
 	for _, sale := range sales.SalesArr {
+		// считаем общую сумму по брендам, и чтобы они не дублировались
 		brandTotal[sale.BrandName] += sale.Total
 	}
 
-	fmt.Println("MAP: ", brandTotal)
-
 	// берем скидки по брендам и название брендов
-	dataBrands, contractNumb := repository.GetIDByBIN(rbReq.BIN)
+	dataBrands, err := repository.GetIDByBIN(rbReq.BIN)
+	if err != nil {
+		return nil
+	}
 	fmt.Println("dataBrand", dataBrands)
-	fmt.Println("sales", sales.SalesArr)
 
-	for _, brand := range dataBrands {
-		for brandName, total := range brandTotal {
-			if brand.BrandName == brandName {
+	for brandName, total := range brandTotal {
+
+		for _, brand := range dataBrands {
+			// сравниваем бренды, то есть если бин - 160140011654- то у него всего 2 бренда
+			//[Sante:1579 Silver Care:19410]
+			if brand.Brand == brandName {
 				value, _ := strconv.ParseFloat(brand.DiscountPercent, 32)
 				dicsount := float32(value)
 				TotalPercent := (total * dicsount) / 100
-				fmt.Println("Сумма со скдикой", TotalPercent)
-				fmt.Println("Название бренда", brand)
 				rbdro := models.RbDTO{
 					ID:                   0,
-					ContractNumber:       contractNumb,
+					ContractNumber:       brand.ContractNumber,
 					StartDate:            rbReq.PeriodFrom,
 					EndDate:              rbReq.PeriodTo,
 					TypePeriod:           "",
@@ -156,6 +158,7 @@ func GetRB2ndType(rbReq models.RBRequest) []models.RbDTO {
 			}
 		}
 	}
+	//}
 
 	return rbDtoSl
 

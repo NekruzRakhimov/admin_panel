@@ -36,18 +36,31 @@ func GetBrandInfo(bin string) ([]models.BrandInfo, error) {
 	return brandsInfo, nil
 }
 
-func GetIDByBIN(bin string) ([]models.BrandAndPercent, string) {
+func GetIDByBIN(bin string) ([]models.BrandAndPercent, error) {
+	var BrandsAndDiscounts []models.BrandAndPercent
 	var BrandsAndDiscount []models.BrandAndPercent
-	var ContractsID models.ContractID
+	var ContractParams []models.ContractParam
 
 	// тут по БИНу получаю номер договора
 	// ID Договора я ему возвращаю тут получается
-	db.GetDBConn().Raw("SELECT id, contract_parameters ->> 'contract_number' AS contract_number FROM contracts WHERE requisites ->> 'bin' = $1", bin).Scan(&ContractsID)
+	db.GetDBConn().Raw("SELECT id,  contract_parameters ->> 'contract_number' AS contract_number FROM contracts WHERE status = 'в работе' AND requisites ->> 'bin' = $1", bin).Scan(&ContractParams)
 
-	log.Println("ID CONTRACT", ContractsID)
+	log.Println("ID CONTRACT", ContractParams)
 
-	db.GetDBConn().Raw("SELECT brand AS brand_name, discount_percent, contract_id FROM  brands WHERE contract_id = $1", ContractsID.Id).Scan(&BrandsAndDiscount)
+	for _, contractParam := range ContractParams {
+
+		err := db.GetDBConn().Raw("SELECT c.id, b.contract_id, c.contract_parameters ->> 'contract_number' AS contract_number, b.discount_percent, b.brand FROM contracts c JOIN brands  b ON b.contract_id = c.id WHERE contract_id  = $1", contractParam.Id).Scan(&BrandsAndDiscount).Error
+		if err != nil {
+			return nil, err
+		}
+		BrandsAndDiscounts = append(BrandsAndDiscounts, BrandsAndDiscount...)
+
+	}
+
+	fmt.Println("Массив брендов", BrandsAndDiscounts)
+	fmt.Println("Массив параметров", ContractParams)
 
 	//TODO: я тут не возвращаю ID договора
-	return BrandsAndDiscount, ContractsID.ContractNumber
+
+	return BrandsAndDiscounts, nil
 }
