@@ -18,7 +18,7 @@ const (
 	RB4Name  = "Скидка за представленность"
 	RB5Name  = "Скидка за фиксированную сумму рб за выполнение плана закупа по брендам"
 	RB6Name  = "Скидка на МТЗ"
-	RB7Name  = "Скидка на РБ за выполнение плана закупа по брендам %"
+	RB7Name  = "Скидка за выполнение плана продаж по бренду"
 	RB8Name  = "Скидка на РБ от закупа продукции %"
 	RB9Name  = "Скидка на РБ по филиалам"
 	RB10Name = "Скидка РБ по логистике"
@@ -529,35 +529,23 @@ func GetRB13thType(rb models.RBRequest, contracts []models.Contract) ([]models.R
 func GetRB7thType(rb models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
 	req := models.ReqBrand{
 		ClientBin: rb.BIN,
-
 		DateStart: rb.PeriodFrom,
 		DateEnd:   rb.PeriodTo,
 	}
-
 	sales, err := GetSales(req)
-
-	// тут взяли бренды и их сумму общуюю
 	mapBrands := CountSalesByBrand(sales)
 
-	// 3 договора - бренд есть только у одного
 	for _, contract := range contracts {
 		for _, discount := range contract.Discounts {
 			if discount.Code == RB7Code && discount.IsSelected == true {
-				log.Println("Запрос выполняется")
-				fmt.Println("Запрос выполняется")
+
 				for _, discountBrand := range discount.DiscountBrands {
 					if discountBrand.PeriodFrom >= rb.PeriodFrom && discountBrand.PeriodTo <= rb.PeriodTo {
 						for _, dataBrand := range discountBrand.Brands {
 							for brand, total := range mapBrands {
-								fmt.Println("TOTAL", total)
-								fmt.Println("Brand из бд", dataBrand.BrandName)
-								fmt.Println("Brand из 1С", brand)
 								if brand == dataBrand.BrandName {
-									//fmt.Println("Brand", dataBrand.BrandName)
-									fmt.Println("Amount", dataBrand.PurchaseAmount)
 									var discountAmount float32
 									if total >= dataBrand.PurchaseAmount {
-
 										discountAmount = total * dataBrand.DiscountPercent / 100
 									}
 									rbDTO = append(rbDTO, models.RbDTO{
@@ -575,51 +563,10 @@ func GetRB7thType(rb models.RBRequest, contracts []models.Contract) (rbDTO []mod
 							}
 
 						}
-
-						// наименование всех брендов
-						//brands := GeAllBrands(discountBrand.Brands)
-						// берем цикл из мапа
-
-						//				if discountBrand.PeriodFrom >= request.PeriodFrom && discountBrand.PeriodTo <= request.PeriodTo {
-						//					req := models.ReqBrand{
-						//						ClientBin:      request.BIN,
-						//						Beneficiary:    request.ContractorName,
-						//						DateStart:      request.PeriodFrom,
-						//						DateEnd:        request.PeriodTo,
-						//						Type:           "sales",
-						//						TypeValue:      "brands",
-						//						TypeParameters: GeAllBrands(discountBrand.Brands),
-						//					}
-						//
-						//					sales, err := GetBrandSales(req)
-						//					if err != nil {
-						//						return nil, err
-						//					}
-						//
-						//					for _, brand := range discountBrand.Brands {
-						//						totalAmount := GetTotalPurchasesForBrands(sales, brand.BrandName)
-						//						var discountAmount float32
-						//						if totalAmount >= brand.PurchaseAmount {
-						//							discountAmount = totalAmount * brand.DiscountPercent / 100
-						//						}
-						//
-						//						rbDTO = append(rbDTO, models.RbDTO{
-						//							ContractNumber:  contract.ContractParameters.ContractNumber,
-						//							StartDate:       discount.PeriodFrom,
-						//							EndDate:         discount.PeriodTo,
-						//							BrandName:       brand.BrandName,
-						//							ProductCode:     brand.BrandCode,
-						//							DiscountPercent: brand.DiscountPercent,
-						//							DiscountAmount:  discountAmount,
-						//							DiscountType:    RB7Name,
-						//						})
-						//					}
-						//
 					}
 				}
 			}
 		}
-
 	}
 
 	return rbDTO, nil
