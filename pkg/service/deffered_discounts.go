@@ -16,12 +16,12 @@ const (
 	DD6Name = "Отложенная скидка за выполнение годового  плана в виде кредит ноты"
 )
 const (
-	DD1Code = "deferred_discount_for_timely_payment"
-	DD2Code = "deferred_discount_for_timely_payment_in_credit_note_form"
-	DD3Code = "deferred_discount_for_timely_payment_in_pay_to_account_form"
-	DD4Code = "deferred_discount_for_timely_payment_in_goods_form"
-	DD5Code = "deferred_discount_for_implementation_of_quarterly_plan_in_credit_note_form"
-	DD6Code = "deferred_discount_for_implementation_of_annual_plan_in_credit_note_form"
+	DD1Code = "DEFERRED_DISCOUNT_FOR_TIMELY_PAYMENT"
+	DD2Code = "DEFERRED_DISCOUNT_FOR_TIMELY_PAYMENT_IN_CREDIT_NOTE_FORM"
+	DD3Code = "DEFERRED_DISCOUNT_FOR_TIMELY_PAYMENT_IN_PAY_TO_ACCOUNT_FORM"
+	DD4Code = "DEFERRED_DISCOUNT_FOR_TIMELY_PAYMENT_IN_GOODS_FORM"
+	DD5Code = "DEFERRED_DISCOUNT_FOR_IMPLEMENTATION_OF_QUARTERLY_PLAN_IN_CREDIT_NOTE_FORM"
+	DD6Code = "DEFERRED_DISCOUNT_FOR_IMPLEMENTATION_OF_ANNUAL_PLAN_IN_CREDIT_NOTE_FORM"
 )
 
 func GetAllDeferredDiscounts(request models.RBRequest) (RbDTO []models.RbDTO, err error) {

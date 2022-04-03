@@ -81,14 +81,12 @@ func AddOperationExternalService(login, password string) (response []byte, statu
 	return responseSTR, http.StatusOK, nil
 }
 
-
 func GetLogin(payload io.Reader) (authResponse models.AuthResponse, err error) {
 	fmt.Println("body", payload)
 	client := &http.Client{
 		Timeout:       60 * time.Second,
 		CheckRedirect: redirectPolicyFunc,
 	}
-
 
 	if err != nil {
 		log.Println("[repository.AddOperationExternalService]|[json.Marshal(&paymentRequest)] error is ", err.Error())
@@ -102,7 +100,7 @@ func GetLogin(payload io.Reader) (authResponse models.AuthResponse, err error) {
 	}
 	req.Header.Set("Content-Type", "application/json") // This makes it work
 	//req.Header.Add("Authorization", "Basic "+basicAuth("http_client", "123456"))
-	req.SetBasicAuth("http_client", "123456" )
+	req.SetBasicAuth("http_client", "123456")
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Println(err)
@@ -129,22 +127,8 @@ func GetLogin(payload io.Reader) (authResponse models.AuthResponse, err error) {
 		return authResponse, err
 	}
 
-	return authResponse,  nil
+	return authResponse, nil
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 func CounterpartyContract(binClient string) ([]models.Counterparty, error) {
 	var binOrganizationAKNIET = "060540001442"
@@ -408,7 +392,7 @@ func GetPriceType(bin string) ([]models.PriceTypeAndCode, error) {
 		log.Println(err)
 		return priceAndCodeSl, err
 	}
-	//log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
+	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
 
 	defer resp.Body.Close()
 	if err != nil {
@@ -457,7 +441,7 @@ func CreatePriceType(payload models.PriceTypeCreate) (models.PriceTypeResponse, 
 	//parm.Add("dateend", "01.01.2022 0:02:09")
 	client := &http.Client{}
 	log.Println(reqBodyBytes)
-	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration//create_pricetype"
+	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/create_pricetype"
 	req, err := http.NewRequest("POST", uri, reqBodyBytes)
 	req.Header.Set("Content-Type", "application/json") // This makes it work
 	req.SetBasicAuth("http_client", "123456")

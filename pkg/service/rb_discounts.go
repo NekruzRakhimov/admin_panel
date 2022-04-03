@@ -282,104 +282,7 @@ func GetRB4thType(request models.RBRequest, contracts []models.Contract) (rbDTO 
 		}
 	}
 
-	//rbDTO := []models.RbDTO{
-	//	{
-	//		ContractNumber:       "9898989211",
-	//		StartDate:            "01.01.2022",
-	//		EndDate:              "01.02.2022",
-	//		BrandName:            "Colgate",
-	//		ProductCode:          "00002313",
-	//		DiscountPercent:      5,
-	//		DiscountAmount:       500,
-	//		TotalWithoutDiscount: 100000,
-	//	},
-	//	{
-	//		ContractNumber:       "9898989211",
-	//		StartDate:            "01.01.2022",
-	//		EndDate:              "01.02.2022",
-	//		BrandName:            "Bella",
-	//		ProductCode:          "5545454",
-	//		DiscountPercent:      10,
-	//		DiscountAmount:       500_000,
-	//		TotalWithoutDiscount: 5_000_000,
-	//	},
-	//	{
-	//		ContractNumber:       "11255656565",
-	//		StartDate:            "01.02.2022",
-	//		EndDate:              "01.04.2022",
-	//		BrandName:            "Seni",
-	//		ProductCode:          "065655",
-	//		DiscountPercent:      7,
-	//		DiscountAmount:       70_000,
-	//		TotalWithoutDiscount: 1_000_000,
-	//	},
-	//}
 	return rbDTO, nil
-
-	//TODO: Доработать от сюда
-
-	////ID, contract_number, discount, bin
-	//infoPresentationDiscounts := repository.GetPurchase(rbReq.BIN)
-	//
-	//layoutISO := "02.1.2006"
-	//
-	//for _, value := range infoPresentationDiscounts {
-	//	if len(infoPresentationDiscounts) > 2 {
-	//		//  value.StartDate - эта дата, которую мы взяли из бд
-	//		// 01
-	//		// 21
-	//		// 10
-	//		timeDB, err := time.Parse(layoutISO, value.StartDate)
-	//		if err != nil {
-	//			fmt.Println(err)
-	//		}
-	//		timeReq, err := time.Parse(layoutISO, value.StartDate)
-	//		if err != nil {
-	//			fmt.Println(err)
-	//		}
-	//		if timeDB.Before(timeReq) {
-	//			//TODO: например были созданы договора за 21 и за за 25 - а ты берешь дату от 26 числа
-	//			//  то да, она будет считать за 21, после этого он будет считать за 25
-	//			// но есть нюансы, что сперва выпадает тебе 25 число, а не 21
-	//			// ты должен учесть этот момент
-	//		}
-	//
-	//	}
-	//}
-	//
-	////внутри него массив
-	//presentationDiscount, err := PresentationDiscount(rbReq)
-	//if err != nil {
-	//	log.Println(err)
-	//	return rbBrand
-	//}
-	//totalAmount := 0
-	//totalWithDiscount := 0
-	//
-	//for _, value := range presentationDiscount.PurchaseArr {
-	//	//rbBrand.ContractNumber = infoPresentationDiscounts.ContractNumber
-	//	//rbBrand.StartDate = rbReq.PeriodFrom
-	//	//rbBrand.EndDate = rbReq.PeriodTo
-	//	//rbBrand.BrandName = value.BrandName
-	//	//rbBrand.ProductCode = value.ProductCode
-	//	//rbBrand.DiscountPercent = 10
-	//
-	//	//TODO: подсчет общей суммы
-	//	totalAmount += value.Total
-	//
-	//}
-	//totalWithDiscount = (totalAmount * 10) / 100
-	//
-	////rbBrand.ContractNumber = infoPresentationDiscounts.ContractNumber
-	//rbBrand.StartDate = rbReq.PeriodFrom
-	//rbBrand.EndDate = rbReq.PeriodTo
-	////rbBrand.BrandName = value.BrandName
-	////rbBrand.ProductCode = value.ProductCode
-	//rbBrand.DiscountPercent = 10
-	//rbBrand.TotalWithoutDiscount = float32(totalAmount)
-	//rbBrand.DiscountAmount = float32(totalWithDiscount)
-
-	//return rbBrand
 
 }
 
@@ -540,6 +443,7 @@ func GetRB7thType(rb models.RBRequest, contracts []models.Contract) (rbDTO []mod
 			if discount.Code == RB7Code && discount.IsSelected == true {
 
 				for _, discountBrand := range discount.DiscountBrands {
+					//   01.01.2022                01.01.2022       31.03.2022                 <= 31.03.2022
 					if discountBrand.PeriodFrom >= rb.PeriodFrom && discountBrand.PeriodTo <= rb.PeriodTo {
 						for _, dataBrand := range discountBrand.Brands {
 							for brand, total := range mapBrands {
