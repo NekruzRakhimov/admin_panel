@@ -453,14 +453,15 @@ func GetRB7thType(rb models.RBRequest, contracts []models.Contract) (rbDTO []mod
 										discountAmount = total * dataBrand.DiscountPercent / 100
 									}
 									rbDTO = append(rbDTO, models.RbDTO{
-										ContractNumber:  contract.ContractParameters.ContractNumber,
-										StartDate:       discountBrand.PeriodFrom,
-										EndDate:         discountBrand.PeriodTo,
-										BrandName:       dataBrand.BrandName,
-										ProductCode:     dataBrand.BrandCode,
-										DiscountPercent: dataBrand.DiscountPercent,
-										DiscountAmount:  discountAmount,
-										DiscountType:    RB7Name,
+										ContractNumber:       contract.ContractParameters.ContractNumber,
+										StartDate:            discountBrand.PeriodFrom,
+										EndDate:              discountBrand.PeriodTo,
+										BrandName:            dataBrand.BrandName,
+										ProductCode:          dataBrand.BrandCode,
+										DiscountPercent:      dataBrand.DiscountPercent,
+										TotalWithoutDiscount: total,
+										DiscountAmount:       discountAmount,
+										DiscountType:         RB7Name,
 									})
 								}
 
