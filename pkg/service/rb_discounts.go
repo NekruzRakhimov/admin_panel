@@ -454,8 +454,8 @@ func GetRB7thType(rb models.RBRequest, contracts []models.Contract) (rbDTO []mod
 									}
 									rbDTO = append(rbDTO, models.RbDTO{
 										ContractNumber:  contract.ContractParameters.ContractNumber,
-										StartDate:       discount.PeriodFrom,
-										EndDate:         discount.PeriodTo,
+										StartDate:       discountBrand.PeriodFrom,
+										EndDate:         discountBrand.PeriodTo,
 										BrandName:       dataBrand.BrandName,
 										ProductCode:     dataBrand.BrandCode,
 										DiscountPercent: dataBrand.DiscountPercent,
