@@ -35,23 +35,41 @@ func GetAllDeferredDiscounts(request models.RBRequest) (RbDTO []models.RbDTO, er
 		return nil, err
 	}
 
-	totalAmount := float32(5000_000.0)
-
-	for _, contract := range contracts {
-		for _, discount := range contract.Discounts {
-			if (discount.Code == DD1Code || discount.Code == DD2Code || discount.Code == DD3Code ||
-				discount.Code == DD4Code || discount.Code == DD5Code || discount.Code == DD6Code) && discount.IsSelected == true {
-				RbDTO = append(RbDTO, models.RbDTO{
-					ContractNumber:  contract.ContractParameters.ContractNumber,
-					StartDate:       contract.ContractParameters.StartDate,
-					EndDate:         contract.ContractParameters.EndDate,
-					DiscountPercent: discount.DiscountPercent,
-					DiscountAmount:  totalAmount * discount.DiscountPercent / 100,
-					DiscountType:    discount.Name,
-				})
-			}
-		}
+	dd1st, err := GetDD1st(request, contracts)
+	if err != nil {
+		return nil, err
 	}
+	RbDTO = append(RbDTO, dd1st...)
+
+	dd2nd, err := GetDD2nd(request, contracts)
+	if err != nil {
+		return nil, err
+	}
+	RbDTO = append(RbDTO, dd2nd...)
+
+	dd3rd, err := GetDD3rd(request, contracts)
+	if err != nil {
+		return nil, err
+	}
+	RbDTO = append(RbDTO, dd3rd...)
+
+	dd4th, err := GetDD4th(request, contracts)
+	if err != nil {
+		return nil, err
+	}
+	RbDTO = append(RbDTO, dd4th...)
+
+	dd5th, err := GetDD5th(request, contracts)
+	if err != nil {
+		return nil, err
+	}
+	RbDTO = append(RbDTO, dd5th...)
+
+	dd6th, err := GetDD6th(request, contracts)
+	if err != nil {
+		return nil, err
+	}
+	RbDTO = append(RbDTO, dd6th...)
 
 	return RbDTO, nil
 }
