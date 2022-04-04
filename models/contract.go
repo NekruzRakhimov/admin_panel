@@ -20,6 +20,7 @@ type ContractWithJsonB struct {
 	IsExtendContract          bool            `json:"is_extend_contract"`
 	ExtendDate                string          `json:"extend_date"`
 	DiscountBrand             []DiscountBrand `json:"discount_brand"`
+	AdditionalAgreementNumber int             `json:"additional_agreement_number"`
 }
 
 type Contract struct {
@@ -40,8 +41,8 @@ type Contract struct {
 	UpdatedAt                 string                 `json:"updated_at,omitempty"`
 	IsExtendContract          bool                   `json:"is_extend_contract"`
 	ExtendDate                string                 `json:"extend_date"`
-
-	IsIndivid bool `json:"is_individ"`
+	AdditionalAgreementNumber int                    `json:"additional_agreement_number"`
+	IsIndivid                 bool                   `json:"is_individ"`
 	//	Brand           string `json:"brand"`
 	//	DiscountPercent string `json:"discount_percent"`
 	DiscountBrand []DiscountBrand `json:"discount_brand"`
@@ -74,22 +75,22 @@ type ContractDTOFor1C struct {
 }
 
 type ContractMiniInfo struct {
-	ID               int     `json:"id"`
-	PrevContractId   int     `json:"-" gorm:"-"`
-	ContractorName   string  `json:"contractor_name"`
-	Beneficiary      string  `json:"beneficiary,omitempty"`
-	ContractNumber   string  `json:"contract_number"`
-	ContractType     string  `json:"contract_type"`
-	Status           string  `json:"status"`
-	Author           string  `json:"author"`
-	Amount           float32 `json:"amount"`
-	CreatedAt        string  `json:"created_at,omitempty"`
-	UpdatedAt        string  `json:"updated_at,omitempty"`
-	IsExtendContract bool    `json:"is_extend_contract"`
-	ExtendDate       string  `json:"extend_date"`
-
-	EndDate   string `json:"end_date"`
-	StartDate string `json:"start_date"`
+	ID                        int     `json:"id"`
+	PrevContractId            int     `json:"-" gorm:"-"`
+	ContractorName            string  `json:"contractor_name"`
+	Beneficiary               string  `json:"beneficiary,omitempty"`
+	ContractNumber            string  `json:"contract_number"`
+	ContractType              string  `json:"contract_type"`
+	Status                    string  `json:"status"`
+	Author                    string  `json:"author"`
+	Amount                    float32 `json:"amount"`
+	CreatedAt                 string  `json:"created_at,omitempty"`
+	UpdatedAt                 string  `json:"updated_at,omitempty"`
+	IsExtendContract          bool    `json:"is_extend_contract"`
+	ExtendDate                string  `json:"extend_date"`
+	AdditionalAgreementNumber int     `json:"additional_agreement_number"`
+	EndDate                   string  `json:"end_date"`
+	StartDate                 string  `json:"start_date"`
 }
 
 // Requisites Ревезиты
@@ -267,31 +268,6 @@ type DiscountPeriod struct {
 //	Site                string  `json:"site,omitempty"`
 //	Other               string  `json:"other"`
 //	Comments            string  `json:"comments,omitempty"`
-//}
-
-//type ContractParameters struct {
-//		NumberOfContract          string    `json:"number_of_contract"`
-//AmountContract            int       `json:"amount_contract"`
-//CurrencyContract          string    `json:"currency_contract"`
-//Prepayment                int       `json:"prepayment"`
-//DateOfDelivery            time.Time `json:"date_of_delivery"`
-//FrequencyDeferredDiscount string    `json:"frequency_deferred_discount"`
-//DeliveryAddress           []string  `json:"delivery_address"`
-////интервал времени поставки после поступления денежгых средств
-//DeliveryTimeInterval string `json:"delivery_time_interval"`
-////время возврата при условии не поставки
-//ReturnTimeDelivery int `json:"return_time_delivery"`
-//
-//ProductNumber int    `json:"product_number"`
-//Tradename     string `json:"tradename"`
-//Price         int    `json:"price"`
-//Currency      string `json:"currency"`
-//}
-
-//type DiscountPercent struct {
-//	Name     string `json:"name"`
-//	Amount   int    `json:"amount"`
-//	IsActive bool   `json:"is_active"`
 //}
 
 type ContractsAttachments struct {

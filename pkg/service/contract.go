@@ -73,6 +73,8 @@ func AddAdditionalAgreement(contract models.Contract) error {
 
 	contractWithJson.Type = prevContractDetails.Type
 
+	contractWithJson.AdditionalAgreementNumber = prevContractDetails.AdditionalAgreementNumber + 1
+
 	requisites, err := json.Marshal(contract.Requisites)
 	if err != nil {
 		return err
@@ -310,6 +312,7 @@ func ConvertContractToContractMiniInfo(contract models.Contract) (contractMiniIn
 	contractMiniInfo.Author = contract.Manager
 	contractMiniInfo.CreatedAt = contract.CreatedAt
 	contractMiniInfo.UpdatedAt = contract.UpdatedAt
+	contractMiniInfo.AdditionalAgreementNumber = contract.AdditionalAgreementNumber
 	//contractMiniInfo.Status = contract.Status
 	contractMiniInfo.Beneficiary = contract.Requisites.Beneficiary
 	contractMiniInfo.IsExtendContract = contract.IsExtendContract
@@ -340,6 +343,7 @@ func ConvertContractFromJsonB(contractWithJson models.ContractWithJsonB) (contra
 	log.Println("ConvertContractFromJsonB=======================", contractWithJson.ID, contractWithJson.IsExtendContract, contractWithJson.ExtendDate)
 
 	contract.ID = contractWithJson.ID
+	contract.AdditionalAgreementNumber = contractWithJson.AdditionalAgreementNumber
 	contract.Type = contractWithJson.Type
 	contract.Comment = contractWithJson.Comment
 	contract.Manager = contractWithJson.Manager

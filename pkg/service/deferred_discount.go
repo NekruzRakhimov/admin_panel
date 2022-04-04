@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-func DD1st(request models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
+func GetDD1st(request models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
 	externalCodes := GetExternalCode(request.BIN)
 	contractsCode := JoinContractCode(externalCodes)
 	//var contractsCode []string
@@ -63,7 +63,7 @@ func DD1st(request models.RBRequest, contracts []models.Contract) (rbDTO []model
 
 }
 
-func DD2nd(request models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
+func GetDD2nd(request models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
 	externalCodes := GetExternalCode(request.BIN)
 	contractsCode := JoinContractCode(externalCodes)
 	//var contractsCode []string
@@ -119,7 +119,7 @@ func DD2nd(request models.RBRequest, contracts []models.Contract) (rbDTO []model
 
 }
 
-func DD3rd(request models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
+func GetDD3rd(request models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
 	externalCodes := GetExternalCode(request.BIN)
 	contractsCode := JoinContractCode(externalCodes)
 	//var contractsCode []string
@@ -176,7 +176,7 @@ func DD3rd(request models.RBRequest, contracts []models.Contract) (rbDTO []model
 
 }
 
-func DD4th(request models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
+func GetDD4th(request models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
 	externalCodes := GetExternalCode(request.BIN)
 	contractsCode := JoinContractCode(externalCodes)
 	//var contractsCode []string
@@ -232,7 +232,7 @@ func DD4th(request models.RBRequest, contracts []models.Contract) (rbDTO []model
 
 }
 
-func DD5th(request models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
+func GetDD5th(request models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
 	externalCodes := GetExternalCode(request.BIN)
 	contractsCode := JoinContractCode(externalCodes)
 	//var contractsCode []string
@@ -288,7 +288,7 @@ func DD5th(request models.RBRequest, contracts []models.Contract) (rbDTO []model
 
 }
 
-func DD6th(request models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
+func GetDD6th(request models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
 	externalCodes := GetExternalCode(request.BIN)
 	contractsCode := JoinContractCode(externalCodes)
 	//var contractsCode []string

@@ -21,6 +21,12 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		return err
 	}
 
+	for i, contract := range contracts {
+		if contract.AdditionalAgreementNumber != 0 {
+			contracts[i].ContractParameters.ContractNumber += fmt.Sprintf(" - ДС №%d", contract.AdditionalAgreementNumber)
+		}
+	}
+
 	//TODO: посмотри потом
 	//testBin := "060840003599"
 	//req := models.ReqBrand{
