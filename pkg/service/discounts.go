@@ -3,6 +3,7 @@ package service
 import (
 	"admin_panel/models"
 	"admin_panel/pkg/repository"
+	"fmt"
 	"log"
 	"strings"
 )
@@ -26,6 +27,12 @@ func GetAllRBByContractorBIN(request models.RBRequest) (rbDTOs []models.RbDTO, e
 	contracts, err := BulkConvertContractFromJsonB(contractsWithJson)
 	if err != nil {
 		return
+	}
+
+	for i, contract := range contracts {
+		if contract.AdditionalAgreementNumber != 0 {
+			contracts[i].ContractParameters.ContractNumber += fmt.Sprintf(" - ДС №%d", contract.AdditionalAgreementNumber)
+		}
 	}
 
 	// #1
