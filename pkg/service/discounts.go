@@ -43,7 +43,7 @@ func GetAllRBByContractorBIN(request models.RBRequest) (rbDTOs []models.RbDTO, e
 	rbDTOs = append(rbDTOs, RB1stType...)
 
 	// #2
-	rb2ndType := GetRB2ndType(request)
+	rb2ndType := GetRB2ndType(request, contracts)
 	if err != nil {
 		return
 	}

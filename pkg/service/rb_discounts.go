@@ -167,13 +167,13 @@ func GetPurchaseTotalAmount(purchases models.Purchase) (totalAmount float32) {
 //	brandTotal := map[string]float32{}
 //	var rbDtoSl []models.RbDTO
 
-func GetRB2ndType(rb models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
+func GetRB2ndType(rb models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO) {
 	req := models.ReqBrand{
 		ClientBin: rb.BIN,
 		DateStart: rb.PeriodFrom,
 		DateEnd:   rb.PeriodTo,
 	}
-	sales, err := GetSales(req)
+	sales, _ := GetSales(req)
 	mapBrands := CountSalesByBrand(sales)
 
 	for _, contract := range contracts {
@@ -212,7 +212,7 @@ func GetRB2ndType(rb models.RBRequest, contracts []models.Contract) (rbDTO []mod
 	}
 	//}
 
-	return rbDTO, nil
+	return rbDTO
 }
 
 func GetRB3rdType(request models.RBRequest, contracts []models.Contract) ([]models.RbDTO, error) {

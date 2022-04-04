@@ -227,7 +227,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 	}
 
 	if isRB2 {
-		rbSecondType := GetRB2ndType(request)
+		rbSecondType := GetRB2ndType(request, contracts)
 		if err != nil {
 			return err
 		}

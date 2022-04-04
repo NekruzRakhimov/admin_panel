@@ -6,7 +6,6 @@ import (
 	"admin_panel/pkg/service"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"log"
 	"net/http"
 )
 
@@ -160,17 +159,17 @@ func GenerateReportBrand(c *gin.Context) {
 }
 
 func GetExcelBrand(c *gin.Context) {
-	var req models.RBRequest
-	//var req models.ReqBrand
-
-	//c.ShouldBind(&req)
-	c.BindJSON(&req)
-
-	log.Println("запрос->>>: ", req)
-	discount := service.GetRB2ndType(req)
-	//discount, _ := service.GetSales(req)
-
-	c.JSON(200, gin.H{"discount": discount})
+	//var req models.RBRequest
+	////var req models.ReqBrand
+	//
+	////c.ShouldBind(&req)
+	//c.BindJSON(&req)
+	//
+	//log.Println("запрос->>>: ", req)
+	//discount, _ := service.GetRB2ndType(req)
+	////discount, _ := service.GetSales(req)
+	//
+	//c.JSON(200, gin.H{"discount": discount})
 
 }
 
