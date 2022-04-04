@@ -103,6 +103,7 @@ func GetContractDetails(contractId int) (contract models.ContractWithJsonB, err 
 	if err := db.GetDBConn().Table("contracts").Find(&contract).Error; err != nil {
 		return models.ContractWithJsonB{}, err
 	}
+
 	if err = db.GetDBConn().Raw("SELECT id, brand as brand_name, brand_code, discount_percent FROM  brands  WHERE  contract_id = ?", contract.ID).Scan(&brands).Error; err != nil {
 		return models.ContractWithJsonB{}, err
 	}
