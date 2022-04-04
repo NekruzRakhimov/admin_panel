@@ -6,7 +6,6 @@ import (
 	"admin_panel/utils"
 	"fmt"
 	"log"
-	"strconv"
 	"time"
 )
 
@@ -103,65 +102,113 @@ func GetPurchaseTotalAmount(purchases models.Purchase) (totalAmount float32) {
 	return totalAmount
 }
 
-func GetRB2ndType(rbReq models.RBRequest) []models.RbDTO {
-	brandTotal := map[string]float32{}
-	var rbDtoSl []models.RbDTO
+//func GetRB2ndType(rbReq models.RBRequest) []models.RbDTO {
+//	brandTotal := map[string]float32{}
+//	var rbDtoSl []models.RbDTO
+//
+//	rbBrand := models.ReqBrand{
+//		ClientBin: rbReq.BIN,
+//		DateStart: rbReq.PeriodFrom,
+//		DateEnd:   rbReq.PeriodTo,
+//	}
+//
+//	// берем бренды и их Total // общую сумму не зависимо от договора
+//	sales, _ := GetSales(rbBrand)
+//
+//	// тут считаем общую сумму каждого бренда
+//	for _, sale := range sales.SalesArr {
+//		// считаем общую сумму по брендам, и чтобы они не дублировались
+//		brandTotal[sale.BrandName] += sale.Total
+//	}
+//
+//	// берем скидки по брендам и название брендов
+//	dataBrands, err := repository.GetIDByBIN(rbReq.BIN)
+//	if err != nil {
+//		return nil
+//	}
+//	fmt.Println("dataBrand", dataBrands)
+//
+//	for brandName, total := range brandTotal {
+//
+//		for _, brand := range dataBrands {
+//			// сравниваем бренды, то есть если бин - 160140011654- то у него всего 2 бренда
+//			//[Sante:1579 Silver Care:19410]
+//			if brand.Brand == brandName {
+//				value, _ := strconv.ParseFloat(brand.DiscountPercent, 32)
+//				dicsount := float32(value)
+//				TotalPercent := (total * dicsount) / 100
+//				rbdro := models.RbDTO{
+//					ID:                   0,
+//					ContractNumber:       brand.ContractNumber,
+//					StartDate:            rbReq.PeriodFrom,
+//					EndDate:              rbReq.PeriodTo,
+//					TypePeriod:           "",
+//					BrandName:            brandName,
+//					ProductCode:          "",
+//					DiscountPercent:      dicsount,
+//					DiscountAmount:       TotalPercent,
+//					TotalWithoutDiscount: 0,
+//					LeasePlan:            0,
+//					RewardAmount:         0,
+//					DiscountType:         RB2Name,
+//				}
+//				rbDtoSl = append(rbDtoSl, rbdro)
+//
+//			}
+//		}
+//	}
+//	//}
+//
+//	return rbDtoSl
+//
+//}
 
-	rbBrand := models.ReqBrand{
-		ClientBin: rbReq.BIN,
-		DateStart: rbReq.PeriodFrom,
-		DateEnd:   rbReq.PeriodTo,
+func GetRB2ndType(rb models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
+	req := models.ReqBrand{
+		ClientBin: rb.BIN,
+		DateStart: rb.PeriodFrom,
+		DateEnd:   rb.PeriodTo,
 	}
+	sales, err := GetSales(req)
+	mapBrands := CountSalesByBrand(sales)
 
-	// берем бренды и их Total // общую сумму не зависимо от договора
-	sales, _ := GetSales(rbBrand)
+	for _, contract := range contracts {
+		for _, discount := range contract.Discounts {
+			if discount.Code == RB7Code && discount.IsSelected == true {
 
-	// тут считаем общую сумму каждого бренда
-	for _, sale := range sales.SalesArr {
-		// считаем общую сумму по брендам, и чтобы они не дублировались
-		brandTotal[sale.BrandName] += sale.Total
-	}
+				for _, discountBrand := range discount.DiscountBrands {
+					//   01.01.2022                01.01.2022       31.03.2022                 <= 31.03.2022
+					//if discountBrand.PeriodFrom >= rb.PeriodFrom && discountBrand.PeriodTo <= rb.PeriodTo {
+					for _, dataBrand := range discountBrand.Brands {
+						for brand, total := range mapBrands {
+							if brand == dataBrand.BrandName {
+								var discountAmount float32
+								//if total >= dataBrand.PurchaseAmount {
+								discountAmount = total * dataBrand.DiscountPercent / 100
 
-	// берем скидки по брендам и название брендов
-	dataBrands, err := repository.GetIDByBIN(rbReq.BIN)
-	if err != nil {
-		return nil
-	}
-	fmt.Println("dataBrand", dataBrands)
+								rbDTO = append(rbDTO, models.RbDTO{
+									ContractNumber:       contract.ContractParameters.ContractNumber,
+									StartDate:            discountBrand.PeriodFrom,
+									EndDate:              discountBrand.PeriodTo,
+									BrandName:            dataBrand.BrandName,
+									ProductCode:          dataBrand.BrandCode,
+									DiscountPercent:      dataBrand.DiscountPercent,
+									TotalWithoutDiscount: total,
+									DiscountAmount:       discountAmount,
+									DiscountType:         RB7Name,
+								})
+							}
 
-	for brandName, total := range brandTotal {
+						}
 
-		for _, brand := range dataBrands {
-			// сравниваем бренды, то есть если бин - 160140011654- то у него всего 2 бренда
-			//[Sante:1579 Silver Care:19410]
-			if brand.Brand == brandName {
-				value, _ := strconv.ParseFloat(brand.DiscountPercent, 32)
-				dicsount := float32(value)
-				TotalPercent := (total * dicsount) / 100
-				rbdro := models.RbDTO{
-					ID:                   0,
-					ContractNumber:       brand.ContractNumber,
-					StartDate:            rbReq.PeriodFrom,
-					EndDate:              rbReq.PeriodTo,
-					TypePeriod:           "",
-					BrandName:            brandName,
-					ProductCode:          "",
-					DiscountPercent:      dicsount,
-					DiscountAmount:       TotalPercent,
-					TotalWithoutDiscount: 0,
-					LeasePlan:            0,
-					RewardAmount:         0,
-					DiscountType:         RB2Name,
+					}
 				}
-				rbDtoSl = append(rbDtoSl, rbdro)
-
 			}
 		}
 	}
 	//}
 
-	return rbDtoSl
-
+	return rbDTO, nil
 }
 
 func GetRB3rdType(request models.RBRequest, contracts []models.Contract) ([]models.RbDTO, error) {
