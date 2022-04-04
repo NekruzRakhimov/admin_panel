@@ -352,3 +352,21 @@ type DataPurchase struct {
 	StartDate      string `json:"start_date"`
 	EndDate        string `json:"end_date"`
 }
+type ResponseContractFrom1C struct {
+	Bin         string `json:"bin"`
+	ContractArr []struct {
+		ContractName            string `json:"contract_name"`
+		ContractCode            string `json:"contract_code"`
+		ContractCurrencyName    string `json:"contract_currency_name"`
+		ContractCurrencyCode    string `json:"contract_currency_code"`
+		ContractPricetypeName   string `json:"contract_pricetype_name"`
+		ContractPricetypeCode   string `json:"contract_pricetype_code"`
+		ContractTotal           string `json:"contract_total"`
+		ContractDate            string `json:"contract_date"`
+		ContractNumber          string `json:"contract_number"`
+		ContractAddress         string `json:"contract_address"`
+		ContractDuration        string `json:"contract_duration"`
+		ContractAllowableAmount string `json:"contract_allowable_amount"`
+		ContractTimeLimit       string `json:"contract_time_limit"`
+	} `json:"contract_arr"`
+}

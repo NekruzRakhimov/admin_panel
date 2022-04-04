@@ -478,3 +478,76 @@ func CreatePriceType(payload models.PriceTypeCreate) (models.PriceTypeResponse, 
 	return responsePriceType, nil
 
 }
+
+func CheckContractIn1C(bin string) (models.ResponseContractFrom1C, error) {
+	var checkContractFrom1C models.ResponseContractFrom1C
+
+	clientBin := models.BinPriceType{
+		ClientBin: bin,
+	}
+	//date := models.ReqBrand{
+	//	ClientBin: bin,
+	//}
+	//for _, value := range brandInfo {
+	//	date.TypeParameters = append(date.TypeParameters, value.Brand)
+	//}
+
+	reqBodyBytes := new(bytes.Buffer)
+	json.NewEncoder(reqBodyBytes).Encode(&clientBin)
+	fmt.Println(">>> ", reqBodyBytes)
+
+	//parm.Add("datestart", "01.01.2022 0:02:09")
+	//parm.Add("dateend", "01.01.2022 0:02:09")
+	client := &http.Client{}
+	log.Println(reqBodyBytes)
+	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/getcontracts"
+	req, err := http.NewRequest("POST", uri, reqBodyBytes)
+	req.Header.Set("Content-Type", "application/json") // This makes it work
+	req.SetBasicAuth("http_client", "123456")
+
+	if err != nil {
+		log.Println(err)
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println(err)
+		return checkContractFrom1C, err
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Println(err)
+		return checkContractFrom1C, err
+	}
+	//log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
+
+	defer resp.Body.Close()
+	if err != nil {
+		log.Println(err)
+		return checkContractFrom1C, err
+	}
+	body = bytes.TrimPrefix(body, []byte("\xef\xbb\xbf")) // Or []byte{239, 187, 191}
+
+	err = json.Unmarshal(body, &checkContractFrom1C)
+	if err != nil {
+		log.Println(err)
+		return checkContractFrom1C, err
+	}
+
+	return checkContractFrom1C, nil
+
+}
+
+func CheckContractNumber(contract models.Contract) error {
+	resp1C, err := CheckContractIn1C(contract.Requisites.BIN)
+	if err != nil {
+		return err
+	}
+	for _, contractParam := range resp1C.ContractArr {
+		if contractParam.ContractNumber == contract.ContractParameters.ContractNumber {
+			return errors.New("данный договор уже существует в 1С")
+		}
+	}
+
+	return nil
+}

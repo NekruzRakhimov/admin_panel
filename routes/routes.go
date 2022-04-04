@@ -87,6 +87,8 @@ func routesFor1C(r *gin.Engine) {
 }
 
 func tempRoutes(r *gin.Engine) {
+
+	r.POST("check_contract", controller.CheckContractIn1C)
 	r.POST("/rb_brand/", controller.GetBrandInfo)
 	r.POST("/rb_brand/excel/", controller.GenerateReportBrand)
 

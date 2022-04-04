@@ -811,3 +811,20 @@ func GetCurrencies(c *gin.Context) {
 	c.JSON(http.StatusOK, currencies)
 
 }
+
+func CheckContractIn1C(c *gin.Context) {
+	var payload models.BinPriceType
+
+	err := c.ShouldBind(&payload)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err)
+		return
+	}
+	respContract1C, err := service.CheckContractIn1C(payload.ClientBin)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err)
+		return
+	}
+	c.JSON(200, respContract1C)
+
+}
