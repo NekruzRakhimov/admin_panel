@@ -135,24 +135,38 @@ func GetRB8thType(request models.RBRequest, contracts []models.Contract) ([]mode
 	//	return nil, err
 	//}
 
-	present := models.ReqBrand{
+	//present := models.ReqBrand{
+	//	ClientBin:      request.BIN,
+	//	Beneficiary:    "",
+	//	DateStart:      request.PeriodFrom,
+	//	DateEnd:        request.PeriodTo,
+	//	Type:           "",
+	//	TypeValue:      "",
+	//	TypeParameters: nil,
+	//	Contracts:      nil,
+	//}
+	//
+	//sales, err := GetSales1C(present, "sales_brand_only")
+	////sales, err := GetSales(req)
+	//if err != nil {
+	//	return nil, err
+	//}
+	//
+	//totalAmount := GetTotalAmount(sales)
+
+	externalCodes := GetExternalCode(request.BIN)
+	contractsCode := JoinContractCode(externalCodes)
+
+	reqBrand := models.ReqBrand{
 		ClientBin:      request.BIN,
-		Beneficiary:    "",
 		DateStart:      request.PeriodFrom,
 		DateEnd:        request.PeriodTo,
-		Type:           "",
 		TypeValue:      "",
 		TypeParameters: nil,
-		Contracts:      nil,
+		Contracts:      contractsCode, // необходимо получить коды контрактов
 	}
-
-	sales, err := GetSales1C(present, "sales_brand_only")
-	//sales, err := GetSales(req)
-	if err != nil {
-		return nil, err
-	}
-
-	totalAmount := GetTotalAmount(sales)
+	purchase, _ := GetPurchase(reqBrand)
+	totalAmount := GetPurchaseTotalAmount(purchase)
 
 	var RBs []models.RbDTO
 	fmt.Println("*********************************************")
@@ -172,7 +186,6 @@ func GetRB8thType(request models.RBRequest, contracts []models.Contract) ([]mode
 				RBs = append(RBs, rb)
 			}
 		}
-
 	}
 	fmt.Println("*********************************************")
 	return RBs, nil
