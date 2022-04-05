@@ -22,18 +22,20 @@ func GetDD1st(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 		Contracts:   contractsCode,
 	}
 
-	//sales, err := GetSales(req)
-	purchase, err := GetPurchase(req)
-	totalAmountPurchase := CountPurchaseByCode(purchase)
-
 	//totalAmountPurchase := GetTotalAmountPurchase(purchase)
 
-	log.Printf("[CHECK PRES SAlES: %+v\n", purchase)
-	log.Printf("[CHECK PRES TOTAL AMOUNT]: %f\n", totalAmountPurchase)
+	//	log.Printf("[CHECK PRES SAlES: %+v\n", purchase)
+	//log.Printf("[CHECK PRES TOTAL AMOUNT]: %f\n", totalAmountPurchase)
 
 	for _, contract := range contracts {
 		for _, discount := range contract.Discounts {
 			if discount.Code == DD1Code && discount.IsSelected == true {
+				//sales, err := GetSales(req)
+				purchase, err := GetPurchase(req)
+				if err != nil {
+					return nil, err
+				}
+				totalAmountPurchase := CountPurchaseByCode(purchase)
 				var discountAmount float32
 				for _, amount := range totalAmountPurchase {
 					discountAmount = float32(amount) * discount.DiscountPercent / 100
@@ -51,7 +53,7 @@ func GetDD1st(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 
 			}
 			log.Printf("[CHECK PRES DISCOUNT PERCENT]: %f\n", discount.DiscountPercent)
-			log.Printf("[CHECK PRES TOTAL AMOUNT]: %f\n", totalAmountPurchase)
+			//log.Printf("[CHECK PRES TOTAL AMOUNT]: %f\n", totalAmountPurchase)
 
 			log.Println("[CHECK PRES TRUE/FALSE]: ", repository.DoubtedDiscountExecutionCheck(request, contract.ContractParameters.ContractNumber, discount.Code))
 
