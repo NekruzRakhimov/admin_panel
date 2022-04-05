@@ -123,6 +123,7 @@ func ReportsRoutes(r *gin.Engine) {
 	reports.POST("/doubted_discounts", controller.GetDoubtedDiscounts)
 	//reports.PUT("/doubted_discounts", controller.SaveDoubtedDiscountsResults)
 	reports.POST("/rb", controller.GetAllRBByContractorBIN)
+	reports.POST("/rb/update", controller.GetAllRBByContractorBIN)
 	reports.POST("/rb/excel", controller.FormExcelForRB)
 	//reports.GET("/rb_brand/excel", controller.FormExcelForRBBrand)
 
