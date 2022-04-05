@@ -63,6 +63,8 @@ func runAllRoutes(r *gin.Engine) {
 	ReportsRoutes(r)
 	NotificationsRoutes(r)
 	routesFor1C(r)
+	// для отложенных скидок
+	DDRoutes(r)
 }
 
 func runServer(r *gin.Engine) {
@@ -85,6 +87,11 @@ func runServer(r *gin.Engine) {
 
 func routesFor1C(r *gin.Engine) {
 	r.POST("/1c/data", controller.SaveDataFrom1C)
+}
+
+func DDRoutes(r *gin.Engine) {
+	r.POST("/getddone", controller.DDOne)
+
 }
 
 func tempRoutes(r *gin.Engine) {

@@ -44,7 +44,7 @@ func GetDD1st(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 						DiscountPercent:      discount.DiscountPercent,
 						DiscountAmount:       discountAmount,
 						TotalWithoutDiscount: float32(amount),
-						DiscountType:         DD1Code,
+						DiscountType:         DD1Name,
 					})
 
 				}
