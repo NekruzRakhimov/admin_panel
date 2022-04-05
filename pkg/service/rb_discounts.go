@@ -663,11 +663,26 @@ func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.
 									DiscountPercent:      period.DiscountPercent,
 									DiscountAmount:       total,
 									TotalWithoutDiscount: float32(amount),
+									LeasePlan:            period.PurchaseAmount,
 									DiscountType:         RB12Name,
 								}
 								rbDTOsl = append(rbDTOsl, RbDTO)
 
+							} else {
+								RbDTO := models.RbDTO{
+									ContractNumber:       contract.ContractParameters.ContractNumber,
+									StartDate:            period.PeriodFrom,
+									EndDate:              period.PeriodTo,
+									TypePeriod:           period.Type,
+									DiscountPercent:      period.DiscountPercent,
+									DiscountAmount:       0,
+									TotalWithoutDiscount: float32(amount), // эта сумма, котору. мы получаем от 1С
+									LeasePlan:            period.PurchaseAmount,
+									DiscountType:         RB12Name,
+								}
+								rbDTOsl = append(rbDTOsl, RbDTO)
 							}
+
 						}
 
 					}
