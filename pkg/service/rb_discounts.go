@@ -301,38 +301,51 @@ func GetRB4thType(request models.RBRequest, contracts []models.Contract) (rbDTO 
 	//totalAmountPurchase := GetTotalAmountPurchase(purchase)
 
 	log.Printf("[CHECK PRES SAlES: %+v\n", purchase)
-	log.Printf("[CHECK PRES TOTAL AMOUNT]: %f\n", totalAmountPurchase)
+	log.Printf("[CHECK PRES TOTAL AMOUNT]: %v\n", totalAmountPurchase)
 
 	for _, contract := range contracts {
 		for _, discount := range contract.Discounts {
 			if discount.Code == RB4Code && discount.IsSelected == true {
+				fmt.Println("Условия прошли")
 				var discountAmount float32
 				if repository.DoubtedDiscountExecutionCheck(request, contract.ContractParameters.ContractNumber, discount.Code) {
 					for _, amount := range totalAmountPurchase {
-						discountAmount = float32(amount) * discount.DiscountPercent / 100
-						rbDTO = append(rbDTO, models.RbDTO{
-							ContractNumber:       contract.ContractParameters.ContractNumber,
-							StartDate:            request.PeriodTo,
-							EndDate:              request.PeriodFrom,
-							DiscountPercent:      discount.DiscountPercent,
-							DiscountAmount:       discountAmount,
-							TotalWithoutDiscount: float32(amount),
-							DiscountType:         RB4Name,
-						})
+						if amount > 0 {
+							discountAmount = float32(amount) * discount.DiscountPercent / 100
+							rbDTO = append(rbDTO, models.RbDTO{
+								ContractNumber:       contract.ContractParameters.ContractNumber,
+								StartDate:            request.PeriodTo,
+								EndDate:              request.PeriodFrom,
+								DiscountPercent:      discount.DiscountPercent,
+								DiscountAmount:       discountAmount,
+								TotalWithoutDiscount: float32(amount),
+								DiscountType:         RB4Name,
+							})
+
+						} else {
+							rbDTO = append(rbDTO, models.RbDTO{
+								ContractNumber:       contract.ContractParameters.ContractNumber,
+								StartDate:            request.PeriodTo,
+								EndDate:              request.PeriodFrom,
+								DiscountPercent:      discount.DiscountPercent,
+								DiscountAmount:       0,
+								TotalWithoutDiscount: float32(amount),
+								DiscountType:         RB4Name,
+							})
+						}
+						log.Printf("[CHECK PRES DISCOUNT AMOUNT]: %v\n", discountAmount)
 
 					}
+					log.Printf("[CHECK PRES DISCOUNT PERCENT]: %f\n", discount.DiscountPercent)
+					log.Printf("[CHECK PRES TOTAL AMOUNT]: %f\n", totalAmountPurchase)
 
+					log.Println("[CHECK PRES TRUE/FALSE]: ", repository.DoubtedDiscountExecutionCheck(request, contract.ContractParameters.ContractNumber, discount.Code))
+
+					log.Printf("CHECK PRES DISCOUNT rbDTO %+v\n", rbDTO)
 				}
-				log.Printf("[CHECK PRES DISCOUNT PERCENT]: %f\n", discount.DiscountPercent)
-				log.Printf("[CHECK PRES TOTAL AMOUNT]: %f\n", totalAmountPurchase)
-				log.Printf("[CHECK PRES DISCOUNT AMOUNT]: %f\n", discountAmount)
-				log.Println("[CHECK PRES TRUE/FALSE]: ", repository.DoubtedDiscountExecutionCheck(request, contract.ContractParameters.ContractNumber, discount.Code))
-
-				log.Printf("CHECK PRES DISCOUNT rbDTO %+v\n", rbDTO)
 			}
 		}
 	}
-
 	return rbDTO, nil
 
 }
