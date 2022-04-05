@@ -192,8 +192,8 @@ func GetRB2ndType(rb models.RBRequest, contracts []models.Contract) (rbDTO []mod
 
 								rbDTO = append(rbDTO, models.RbDTO{
 									ContractNumber:       contract.ContractParameters.ContractNumber,
-									StartDate:            discountBrand.PeriodFrom,
-									EndDate:              discountBrand.PeriodTo,
+									StartDate:            rb.PeriodFrom,
+									EndDate:              rb.PeriodTo,
 									BrandName:            dataBrand.BrandName,
 									ProductCode:          dataBrand.BrandCode,
 									DiscountPercent:      dataBrand.DiscountPercent,
