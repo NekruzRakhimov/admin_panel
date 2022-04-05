@@ -8,6 +8,10 @@ import (
 	"strings"
 )
 
+func SaveDataFrom1C(block models.Block) error {
+	return repository.SaveDataFrom1C(block)
+}
+
 func SaveDoubtedDiscounts(request models.RBRequest) error {
 	for _, discount := range request.DoubtedDiscounts {
 		if err := repository.SaveDoubtedDiscounts(request.BIN, request.PeriodFrom, request.PeriodTo, discount.ContractNumber, discount.Discounts); err != nil {

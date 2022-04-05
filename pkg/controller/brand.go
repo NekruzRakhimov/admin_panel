@@ -280,5 +280,16 @@ func SaveDataFrom1C(c *gin.Context) {
 	//c.Request.Body.Read()
 	//log.Printf("%s"))
 	//log.Println("###1C END##")
+	var block models.Block
+	if err := c.BindJSON(&block); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	if err := service.SaveDataFrom1C(block); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{"reason": "данные сохранены"})
 }

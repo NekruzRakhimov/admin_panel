@@ -3,8 +3,23 @@ package repository
 import (
 	"admin_panel/db"
 	"admin_panel/models"
+	"encoding/json"
 	"log"
 )
+
+func SaveDataFrom1C(block models.Block) error {
+	blockJson, err := json.Marshal(&block)
+	if err != nil {
+		return err
+	}
+
+	sqlQuery := "INSERT INTO sales_batch (content) VALUES($1)"
+	if err := db.GetDBConn().Exec(sqlQuery, blockJson).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
 
 func SaveDoubtedDiscounts(bin, periodFrom, periodTo, contractNumber string, discounts []models.DoubtedDiscountDetails) error {
 	for _, discount := range discounts {

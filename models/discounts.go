@@ -25,3 +25,24 @@ type RbDTO struct {
 	DiscountType         string  `json:"discount_type"`
 	Status               string  `json:"status"`
 }
+
+type Block struct {
+	TotalBlockNum string         `json:"total_block_num"`
+	StartDate     string         `json:"start_date"`
+	EndDate       string         `json:"end_date"`
+	ClientBin     string         `json:"client_bin"`
+	BlockNum      string         `json:"block_num"`
+	ReqBody       []BlockProduct `json:"req_body"`
+}
+type BlockProduct struct {
+	ProductName string `json:"product_name"`
+	ProductCode string `json:"product_code"`
+	Total       int    `json:"total"`
+	QntTotal    int    `json:"qnt_total"`
+	Date        string `json:"date"`
+	StoreCode   string `json:"store_code"`
+	StoreName   string `json:"store_name"`
+	BrandCode   string `json:"brand_code"`
+	BrandName   string `json:"brand_name"`
+	Control     string `json:"control"`
+}
