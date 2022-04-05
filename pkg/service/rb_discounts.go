@@ -675,7 +675,7 @@ func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.
 									EndDate:              period.PeriodTo,
 									TypePeriod:           period.Type,
 									DiscountPercent:      period.DiscountPercent,
-									DiscountAmount:       0,
+									DiscountAmount:       0.0,
 									TotalWithoutDiscount: float32(amount), // эта сумма, котору. мы получаем от 1С
 									LeasePlan:            period.PurchaseAmount,
 									DiscountType:         RB12Name,
