@@ -51,6 +51,7 @@ func runAllRoutes(r *gin.Engine) {
 	r.POST("/getdisper", controller.GetDisPer)
 	r.POST("/getdisp", controller.DiscountRBPeriodTime)
 	r.POST("/getrbseven", controller.DiscountRB7)
+	r.POST("/getrbfour", controller.DiscountRB4)
 	r.POST("/getcode", controller.GetContractCode)
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
@@ -62,6 +63,8 @@ func runAllRoutes(r *gin.Engine) {
 	ReportsRoutes(r)
 	NotificationsRoutes(r)
 	routesFor1C(r)
+	// для отложенных скидок
+	DDRoutes(r)
 }
 
 func runServer(r *gin.Engine) {
@@ -84,6 +87,11 @@ func runServer(r *gin.Engine) {
 
 func routesFor1C(r *gin.Engine) {
 	r.POST("/1c/data", controller.SaveDataFrom1C)
+}
+
+func DDRoutes(r *gin.Engine) {
+	r.POST("/getddone", controller.DDOne)
+
 }
 
 func tempRoutes(r *gin.Engine) {
