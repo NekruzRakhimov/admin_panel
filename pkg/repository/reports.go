@@ -57,7 +57,7 @@ func UpdateReport(report models.StoredReport) error {
 				set contract_amount               = ?,
 					discount_amount               = ?,
 					contract_amount_with_discount = ?,
-					contract_number = ?,
+					contract_number = ?
 				WHERE bin = ?
 				  AND contract_id = ?
 				  AND start_date = ?
