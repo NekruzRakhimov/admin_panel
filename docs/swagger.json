@@ -2333,6 +2333,53 @@
                 }
             }
         },
+        "/reports/rb/stored": {
+            "get": {
+                "description": "Gel All reports",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contracts"
+                ],
+                "summary": "Get All reports",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.StoredReport"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/rights/": {
             "get": {
                 "description": "Get All Rights by Admin",
@@ -3611,6 +3658,9 @@
         "models.Contract": {
             "type": "object",
             "properties": {
+                "additional_agreement_number": {
+                    "type": "integer"
+                },
                 "comment": {
                     "type": "string"
                 },
@@ -3697,6 +3747,9 @@
         "models.ContractMiniInfo": {
             "type": "object",
             "properties": {
+                "additional_agreement_number": {
+                    "type": "integer"
+                },
                 "amount": {
                     "type": "number"
                 },
@@ -4305,6 +4358,9 @@
                 "start_date": {
                     "type": "string"
                 },
+                "status": {
+                    "type": "string"
+                },
                 "type_period": {
                     "type": "string"
                 }
@@ -4533,6 +4589,38 @@
                     "type": "string"
                 },
                 "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.StoredReport": {
+            "type": "object",
+            "properties": {
+                "bin": {
+                    "type": "string"
+                },
+                "contract_amount": {
+                    "type": "number"
+                },
+                "contract_amount_with_discount": {
+                    "type": "number"
+                },
+                "contract_id": {
+                    "type": "integer"
+                },
+                "contract_number": {
+                    "type": "string"
+                },
+                "discount_amount": {
+                    "type": "number"
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "start_date": {
                     "type": "string"
                 }
             }

@@ -70,6 +70,8 @@ definitions:
     type: object
   models.Contract:
     properties:
+      additional_agreement_number:
+        type: integer
       comment:
         type: string
       contract_parameters:
@@ -128,6 +130,8 @@ definitions:
     type: object
   models.ContractMiniInfo:
     properties:
+      additional_agreement_number:
+        type: integer
       amount:
         type: number
       author:
@@ -526,6 +530,8 @@ definitions:
         type: number
       start_date:
         type: string
+      status:
+        type: string
       type_period:
         type: string
     type: object
@@ -675,6 +681,27 @@ definitions:
       status:
         type: string
       updated_at:
+        type: string
+    type: object
+  models.StoredReport:
+    properties:
+      bin:
+        type: string
+      contract_amount:
+        type: number
+      contract_amount_with_discount:
+        type: number
+      contract_id:
+        type: integer
+      contract_number:
+        type: string
+      discount_amount:
+        type: number
+      end_date:
+        type: string
+      id:
+        type: integer
+      start_date:
         type: string
     type: object
   models.SupplierCompanyManager:
@@ -2311,6 +2338,38 @@ paths:
       summary: Get Report RB
       tags:
       - reports
+  /reports/rb/stored:
+    get:
+      consumes:
+      - application/json
+      description: Gel All reports
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.StoredReport'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All reports
+      tags:
+      - contracts
   /rights/:
     get:
       consumes:
