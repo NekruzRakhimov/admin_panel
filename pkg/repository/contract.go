@@ -207,8 +207,8 @@ func SaveContractExternalCode(contractId int, contractCode string) error {
 	return nil
 }
 
-func SaveContractExternalCodeByBIN(contractFor1C models.ContractDTOFor1C) error {
-	if err := db.GetDBConn().Exec("UPDATE  contracts set ext_contract_code = $1  WHERE requisites ->> 'bin' = $1 AND contract_parameters ->> 'contract_number' = $2 ", contractFor1C.Requisites.BIN, contractFor1C.ContractParameters.ContractNumber).Error; err != nil {
+func SaveContractExternalCodeByBIN(contractFor1C models.ContractDTOFor1C, contractCode string) error {
+	if err := db.GetDBConn().Exec("UPDATE  contracts set ext_contract_code = $1  WHERE requisites ->> 'bin' = $2 AND contract_parameters ->> 'contract_number' = $3",  contractCode, contractFor1C.Requisites.BIN, contractFor1C.ContractParameters.ContractNumber).Error; err != nil {
 		return err
 	}
 
