@@ -188,7 +188,7 @@ func DictionariesRoutes(r *gin.Engine) {
 }
 
 func AdminRoutes(r *gin.Engine) {
-	r.POST("/client_search", controller.SearchBinClient)
+	r.POST("/client_search/client_search", controller.SearchBinClient)
 
 	users := r.Group("/users")
 	users.GET("/search/:user_number", controller.FindUserByTableName)

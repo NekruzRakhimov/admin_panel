@@ -207,6 +207,14 @@ func SaveContractExternalCode(contractId int, contractCode string) error {
 	return nil
 }
 
+func SaveContractExternalCodeByBIN(contractFor1C models.ContractDTOFor1C) error {
+	if err := db.GetDBConn().Exec("UPDATE  contracts set ext_contract_code = $1  WHERE requisites ->> 'bin' = $1 AND contract_parameters ->> 'contract_number' = $2 ", contractFor1C.Requisites.BIN, contractFor1C.ContractParameters.ContractNumber).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func SearchContractByNumber(param string, status string) ([]models.SearchContract, error) {
 	var search []models.SearchContract
 	query := fmt.Sprint("SELECT id, status, requisites ->> 'beneficiary' AS  beneficiary,  contract_parameters ->> 'contract_number' AS contract_number," +
