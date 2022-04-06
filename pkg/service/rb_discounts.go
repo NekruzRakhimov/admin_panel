@@ -580,7 +580,7 @@ func GetRB8thType(request models.RBRequest, contracts []models.Contract) ([]mode
 					StartDate:       contract.ContractParameters.StartDate,
 					EndDate:         contract.ContractParameters.EndDate,
 					DiscountPercent: discount.DiscountPercent,
-					DiscountAmount:  totalAmount * float32(discount.DiscountAmount) / 100,
+					DiscountAmount:  totalAmount * discount.DiscountPercent / 100,
 					DiscountType:    RB8Name,
 				}
 
