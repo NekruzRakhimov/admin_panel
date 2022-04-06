@@ -165,6 +165,7 @@ func DefiningRBReport(contracts []models.Contract, totalAmount float32, request 
 }
 
 func DiscountToReportRB(discount models.Discount, contract models.Contract, totalAmount float32, request models.RBRequest) (contractsRB []models.RbDTO) {
+	fmt.Println("<begin>")
 	var contractRB models.RbDTO
 
 	if len(discount.Periods) > 0 {
@@ -176,30 +177,40 @@ func DiscountToReportRB(discount models.Discount, contract models.Contract, tota
 			EndDate:        discount.Periods[0].PeriodTo,
 		}
 
-		var totalDiscountAmount float32
-		var totalDiscountRewardAmount int
-		var leasePlan float32
+		var (
+			maxDiscountAmount float32 // сумма закупа
+			maxRewardAmount   int     // Сумма вознаграждения
+			maxLeasePlan      float32 // план закупа
+			isCompleted       bool
+		)
 
 		for _, period := range discount.Periods {
 			if period.PeriodFrom >= request.PeriodFrom && period.PeriodTo <= request.PeriodTo {
 				if period.TotalAmount <= totalAmount {
-					if period.TotalAmount >= totalDiscountAmount {
+					if period.TotalAmount >= maxLeasePlan {
 						log.Printf("\n[CONTRACT_PERIODS][%s] %+v\n", contract.ContractParameters.ContractNumber, discount.Periods)
-						totalDiscountAmount = period.TotalAmount
-						leasePlan = period.TotalAmount
-						totalDiscountRewardAmount = period.RewardAmount
-						leasePlan = period.TotalAmount
+						maxDiscountAmount = float32(period.RewardAmount)
+						maxRewardAmount = period.RewardAmount
+						maxLeasePlan = period.TotalAmount
+						isCompleted = true
 					}
-				} else {
-					totalDiscountAmount = float32(period.RewardAmount)
-					leasePlan = period.TotalAmount
-				}
+				} /*else {
+					maxRewardAmount = period.RewardAmount
+					maxLeasePlan = period.TotalAmount
+				}*/
 			}
 		}
 
-		contractRB.RewardAmount = totalDiscountAmount
-		contractRB.LeasePlan = leasePlan
-		contractRB.DiscountAmount = float32(totalDiscountRewardAmount)
+		if !isCompleted && len(discount.Periods) > 0 {
+			maxRewardAmount = discount.Periods[0].RewardAmount
+			maxLeasePlan = discount.Periods[0].TotalAmount
+		}
+
+		// Сумма скидки	| Сумма вознаграждения	| План закупа
+
+		contractRB.RewardAmount = float32(maxRewardAmount)
+		contractRB.LeasePlan = maxLeasePlan
+		contractRB.DiscountAmount = maxDiscountAmount
 
 		//if len(discount.Periods) > 1 && totalAmount >= discount.Periods[1].TotalAmount && discount.Periods[1].RewardAmount > discount.Periods[0].RewardAmount {
 		//	fmt.Printf("worked [totalAmount = %d AND discount.Periods[0].TotalAmount = %d]\n", totalAmount, discount.Periods[0].TotalAmount)
@@ -211,6 +222,7 @@ func DiscountToReportRB(discount models.Discount, contract models.Contract, tota
 	}
 	contractsRB = append(contractsRB, contractRB)
 
+	fmt.Println("<end>")
 	return contractsRB
 }
 
