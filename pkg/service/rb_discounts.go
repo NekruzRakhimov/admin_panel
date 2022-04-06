@@ -592,6 +592,78 @@ func GetRB8thType(request models.RBRequest, contracts []models.Contract) ([]mode
 	return RBs, nil
 }
 
+func GetRB9thType(request models.RBRequest, contracts []models.Contract) ([]models.RbDTO, error) {
+	//req := models.ReqBrand{
+	//	ClientBin:      request.BIN,
+	//	Beneficiary:    request.ContractorName,
+	//	DateStart:      request.PeriodFrom,
+	//	DateEnd:        request.PeriodTo,
+	//	Type:           "sales",
+	//	TypeValue:      "",
+	//	TypeParameters: nil,
+	//}
+	//
+	//sales, err := GetBrandSales(req)
+	//if err != nil {
+	//	return nil, err
+	//}
+
+	//present := models.ReqBrand{
+	//	ClientBin:      request.BIN,
+	//	Beneficiary:    "",
+	//	DateStart:      request.PeriodFrom,
+	//	DateEnd:        request.PeriodTo,
+	//	Type:           "",
+	//	TypeValue:      "",
+	//	TypeParameters: nil,
+	//	Contracts:      nil,
+	//}
+	//
+	//sales, err := GetSales1C(present, "sales_brand_only")
+	////sales, err := GetSales(req)
+	//if err != nil {
+	//	return nil, err
+	//}
+	//
+	//totalAmount := GetTotalAmount(sales)
+
+	externalCodes := GetExternalCode(request.BIN)
+	contractsCode := JoinContractCode(externalCodes)
+
+	reqBrand := models.ReqBrand{
+		ClientBin:      request.BIN,
+		DateStart:      request.PeriodFrom,
+		DateEnd:        request.PeriodTo,
+		TypeValue:      "",
+		TypeParameters: nil,
+		Contracts:      contractsCode, // необходимо получить коды контрактов
+	}
+	purchase, _ := GetPurchase(reqBrand)
+	totalAmount := GetPurchaseTotalAmount(purchase)
+
+	var RBs []models.RbDTO
+	fmt.Println("*********************************************")
+	for _, contract := range contracts {
+		for _, discount := range contract.Discounts {
+			if discount.Code == RB9Code && discount.IsSelected == true {
+				rb := models.RbDTO{
+					ID:              contract.ID,
+					ContractNumber:  contract.ContractParameters.ContractNumber,
+					StartDate:       contract.ContractParameters.StartDate,
+					EndDate:         contract.ContractParameters.EndDate,
+					DiscountPercent: discount.DiscountPercent,
+					DiscountAmount:  totalAmount * discount.DiscountPercent / 100,
+					DiscountType:    RB9Name,
+				}
+
+				RBs = append(RBs, rb)
+			}
+		}
+	}
+	fmt.Println("*********************************************")
+	return RBs, nil
+}
+
 func GetRb10thType(request models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
 	req := models.ReqBrand{
 		ClientBin:   request.BIN,
