@@ -701,6 +701,64 @@ func GetRb10thType(request models.RBRequest, contracts []models.Contract) (rbDTO
 	return rbDTO, nil
 }
 
+func GetRB11thType(req models.RBRequest, contracts []models.Contract) ([]models.RbDTO, error) {
+	var rbDTOsl []models.RbDTO
+
+	// parsing string by TIME
+	//layoutISO := "02.1.2006"
+
+	// parsing string to Time
+	//reqPeriodFrom, _ := time.Parse(layoutISO, req.PeriodFrom)
+	//reqPeriodTo, _ := time.Parse(layoutISO, req.PeriodTo)
+
+	// get all contracts_code by BIN
+	externalCodes := GetExternalCode(req.BIN)
+	contractsCode := JoinContractCode(externalCodes)
+
+	for _, contract := range contracts {
+		fmt.Println("contract MESSAGE", contract.Discounts)
+		for _, discount := range contract.Discounts {
+			if discount.Code == RB11Code {
+				for _, period := range discount.Periods {
+					if period.PeriodFrom >= req.PeriodFrom && period.PeriodTo <= req.PeriodTo {
+						reqBrand := models.ReqBrand{
+							ClientBin:      req.BIN,
+							DateStart:      req.PeriodFrom,
+							DateEnd:        req.PeriodTo,
+							TypeValue:      "",
+							TypeParameters: nil,
+							Contracts:      contractsCode, // необходимо получить коды контрактов
+						}
+						purchase, _ := GetPurchase(reqBrand)
+
+						//totalPurchaseCode := CountPurchaseByCode(purchase)
+						totalPurchaseAmount := GetTotalAmountPurchase(purchase)
+
+						discountAmount := totalPurchaseAmount * period.DiscountPercent / 100
+
+						rbDTOsl = append(rbDTOsl, models.RbDTO{
+							ContractNumber:       contract.ContractParameters.ContractNumber,
+							StartDate:            period.PeriodFrom,
+							EndDate:              period.PeriodTo,
+							TypePeriod:           period.Type,
+							DiscountPercent:      period.DiscountPercent,
+							DiscountAmount:       discountAmount,
+							TotalWithoutDiscount: totalPurchaseAmount - discountAmount,
+							LeasePlan:            period.PurchaseAmount,
+							DiscountType:         RB11Name,
+						})
+					}
+
+				}
+
+			}
+
+		}
+	}
+
+	return rbDTOsl, nil
+}
+
 func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.RbDTO, error) {
 	fmt.Println("====================вызов функции =========================================")
 	//totalbyCode := map[string]int{}
@@ -720,7 +778,7 @@ func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.
 
 	for _, contract := range contracts {
 		fmt.Println("contract MESSAGE", contract.Discounts)
-		for _, discount := range contract.Discounts {
+		for _, discount := range contract.Discounts { // TODO: ты с кем разговариваешь ?
 			if discount.Code == "RB_DISCOUNT_FOR_PURCHASE_PERIOD" { // здесь сравниваешь тип скидки и берешь тот тип который тебе нужен
 				for _, period := range discount.Periods {
 					if period.PeriodFrom >= req.PeriodFrom && period.PeriodTo <= req.PeriodTo {
