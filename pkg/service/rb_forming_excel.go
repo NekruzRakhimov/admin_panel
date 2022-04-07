@@ -23,7 +23,21 @@ func FormExcelForRBReport(request models.RBRequest) error {
 
 	for i, contract := range contracts {
 		if contract.AdditionalAgreementNumber != 0 {
-			contracts[i].ContractParameters.ContractNumber += fmt.Sprintf(" - ДС №%d", contract.AdditionalAgreementNumber)
+			var contractType string
+			//ДС №1 к Договору маркетинговых услуг №1111 ИП  “Adal Trade“
+			//marketing_services
+			//supply
+			switch contract.Type {
+			case "marketing_services":
+				contractType = "маркетинговых услуг"
+			case "supply":
+				contractType = "поставок"
+			}
+
+			contracts[i].ContractParameters.ContractNumber = fmt.Sprintf("ДС №%d к Договору %s №%s %s",
+				contract.AdditionalAgreementNumber, contractType,
+				contract.ContractParameters.ContractNumber,
+				contract.Requisites.Beneficiary)
 		}
 	}
 
