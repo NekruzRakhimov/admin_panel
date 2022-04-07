@@ -53,3 +53,19 @@ func GetStoredReportDetails(c *gin.Context) {
 
 	c.JSON(http.StatusOK, rbDTO)
 }
+
+func GetExcelForStoredExcelReport(c *gin.Context) {
+	storedReportID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	if err = service.GetExcelForStoredExcelReport(storedReportID); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	c.File("files/reports/rb/rb_stored_reports.xlsx")
+}
