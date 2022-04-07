@@ -685,12 +685,16 @@ definitions:
     type: object
   models.StoredReport:
     properties:
+      beneficiary:
+        type: string
       bin:
         type: string
       contract_amount:
         type: number
       contract_amount_with_discount:
         type: number
+      contract_date:
+        type: string
       contract_id:
         type: integer
       contract_number:

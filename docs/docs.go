@@ -4607,6 +4607,9 @@ var doc = `{
         "models.StoredReport": {
             "type": "object",
             "properties": {
+                "beneficiary": {
+                    "type": "string"
+                },
                 "bin": {
                     "type": "string"
                 },
@@ -4615,6 +4618,9 @@ var doc = `{
                 },
                 "contract_amount_with_discount": {
                     "type": "number"
+                },
+                "contract_date": {
+                    "type": "string"
                 },
                 "contract_id": {
                     "type": "integer"
