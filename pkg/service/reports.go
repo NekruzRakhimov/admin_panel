@@ -57,6 +57,7 @@ func StoreReports(rbDTOs []models.RbDTO) error {
 			ContractAmount:             contract.ContractParameters.ContractAmount,
 			DiscountAmount:             totalDiscountAmount,
 			ContractNumber:             contract.ContractParameters.ContractNumber,
+			Beneficiary:                contract.Requisites.Beneficiary,
 			ContractAmountWithDiscount: contract.ContractParameters.ContractAmount - totalDiscountAmount,
 		}
 
@@ -73,5 +74,14 @@ func StoreReports(rbDTOs []models.RbDTO) error {
 }
 
 func GetAllStoredReports() (reports []models.StoredReport, err error) {
-	return repository.GetAllStoredReports()
+	reports, err = repository.GetAllStoredReports()
+	if err != nil {
+		return nil, err
+	}
+
+	for i := range reports {
+		reports[i].ContractDate = fmt.Sprintf("%s-%s", reports[i].StartDate, reports[i].EndDate)
+	}
+
+	return reports, nil
 }

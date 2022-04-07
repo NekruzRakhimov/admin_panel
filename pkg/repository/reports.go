@@ -34,9 +34,10 @@ func AddReport(report models.StoredReport) error {
 				start_date, 
 				end_date, 
 				discount_amount,
-				contract_id, 
+				contract_id,
+			    beneficiary,
 				contract_number,
-                contract_amount_with_discount) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+                contract_amount_with_discount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
 	if err := db.GetDBConn().Exec(sqlQuery,
 		report.Bin,
 		report.ContractAmount,
@@ -44,6 +45,7 @@ func AddReport(report models.StoredReport) error {
 		report.EndDate,
 		report.DiscountAmount,
 		report.ContractID,
+		report.Beneficiary,
 		report.ContractNumber,
 		report.ContractAmountWithDiscount).Error; err != nil {
 		return err
@@ -57,6 +59,7 @@ func UpdateReport(report models.StoredReport) error {
 				set contract_amount               = ?,
 					discount_amount               = ?,
 					contract_amount_with_discount = ?,
+					beneficiary = ?,
 					contract_number = ?
 				WHERE bin = ?
 				  AND contract_id = ?
@@ -66,6 +69,7 @@ func UpdateReport(report models.StoredReport) error {
 		report.ContractAmount,
 		report.DiscountAmount,
 		report.ContractAmountWithDiscount,
+		report.Beneficiary,
 		report.ContractNumber,
 		report.Bin,
 		report.ContractID,
