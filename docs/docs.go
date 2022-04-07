@@ -2391,6 +2391,62 @@ var doc = `{
                 }
             }
         },
+        "/reports/rb/stored/{id}/details": {
+            "get": {
+                "description": "Gel report Details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contracts"
+                ],
+                "summary": "Get report Details",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id of report",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.RbDTO"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/rights/": {
             "get": {
                 "description": "Get All Rights by Admin",
@@ -4612,6 +4668,12 @@ var doc = `{
                 },
                 "bin": {
                     "type": "string"
+                },
+                "content": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
                 },
                 "contract_amount": {
                     "type": "number"

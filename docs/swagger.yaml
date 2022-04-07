@@ -689,6 +689,10 @@ definitions:
         type: string
       bin:
         type: string
+      content:
+        items:
+          type: integer
+        type: array
       contract_amount:
         type: number
       contract_amount_with_discount:
@@ -2372,6 +2376,44 @@ paths:
             additionalProperties: true
             type: object
       summary: Get All reports
+      tags:
+      - contracts
+  /reports/rb/stored/{id}/details:
+    get:
+      consumes:
+      - application/json
+      description: Gel report Details
+      parameters:
+      - description: id of report
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.RbDTO'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get report Details
       tags:
       - contracts
   /rights/:

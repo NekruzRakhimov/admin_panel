@@ -3,6 +3,7 @@ package service
 import (
 	"admin_panel/models"
 	"admin_panel/pkg/repository"
+	"encoding/json"
 	"fmt"
 )
 
@@ -28,6 +29,7 @@ func GetRbDtoTotalAmount(RbDTOs []models.RbDTO, contractID int) (totalAmount flo
 func StoreReports(rbDTOs []models.RbDTO) error {
 	var (
 		checkedIDs []int
+		localRbDTO []models.RbDTO
 	)
 
 	for i := 0; i < len(rbDTOs); i++ {
@@ -41,6 +43,7 @@ func StoreReports(rbDTOs []models.RbDTO) error {
 			if rbDTOs[i].ID == rbDTOs[j].ID {
 				checkedIDs = append(checkedIDs, rbDTOs[i].ID)
 				totalDiscountAmount += rbDTOs[j].DiscountAmount
+				localRbDTO = append(localRbDTO, rbDTOs[i])
 			}
 		}
 
@@ -79,6 +82,13 @@ func StoreReports(rbDTOs []models.RbDTO) error {
 				contract.Requisites.Beneficiary)
 		}
 
+		contentJson, err := json.Marshal(localRbDTO)
+		if err != nil {
+			return err
+		}
+
+		report.Content = contentJson
+
 		if err = repository.AddOrUpdateReport(report); err != nil {
 			return err
 		}
@@ -98,4 +108,17 @@ func GetAllStoredReports() (reports []models.StoredReport, err error) {
 	}
 
 	return reports, nil
+}
+
+func GetStoredReportDetails(storedReportID int) (rbDTOs []models.RbDTO, err error) {
+	storedReport, err := repository.GetStoredReportDetails(storedReportID)
+	if err != nil {
+		return nil, err
+	}
+
+	if err = json.Unmarshal(storedReport.Content, &rbDTOs); err != nil {
+		return nil, err
+	}
+
+	return
 }
