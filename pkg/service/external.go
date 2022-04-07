@@ -2,6 +2,7 @@ package service
 
 import (
 	"admin_panel/models"
+	"admin_panel/pkg/repository"
 	"bytes"
 	"encoding/base64"
 	"encoding/json"
@@ -534,20 +535,29 @@ func CheckContractIn1C(bin string) (models.ResponseContractFrom1C, error) {
 		return checkContractFrom1C, err
 	}
 
+	if checkContractFrom1C.ContractArr == nil{
+		return models.ResponseContractFrom1C{}, errors.New("Договор с таким бином нет")
+	}
+
 	return checkContractFrom1C, nil
 
 }
 
-func CheckContractNumber(contract models.Contract) error {
-	resp1C, err := CheckContractIn1C(contract.Requisites.BIN)
+func CheckContractNumber(contractFor1C models.ContractDTOFor1C) (code int, err error) {
+	resp1C, err := CheckContractIn1C(contractFor1C.Requisites.BIN)
 	if err != nil {
-		return err
+		return 0, err
 	}
 	for _, contractParam := range resp1C.ContractArr {
-		if contractParam.ContractNumber == contract.ContractParameters.ContractNumber {
-			return errors.New("данный договор уже существует в 1С")
+		if contractParam.ContractNumber == contractFor1C.ContractParameters.ContractNumber {
+			err = repository.SaveContractExternalCodeByBIN(contractFor1C, contractParam.ContractCode)
+			if err != nil {
+				return 0, err
+			}
+
+			return 200, nil
 		}
 	}
 
-	return nil
+	return 0, err
 }
