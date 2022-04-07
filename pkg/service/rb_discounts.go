@@ -804,6 +804,7 @@ func GetRB13thType(rb models.RBRequest, contracts []models.Contract) ([]models.R
 		for _, discount := range contract.Discounts {
 			// после всех проверок логика начнется
 			if discount.Code == RB13Code && discount.IsSelected == true {
+
 				for _, period := range discount.Periods {
 					periodFrom, _ := time.Parse(layoutISO, period.PeriodFrom)
 					periodTo, _ := time.Parse(layoutISO, period.PeriodTo)
@@ -850,6 +851,7 @@ func GetRB13thType(rb models.RBRequest, contracts []models.Contract) ([]models.R
 						return nil, err
 					}
 					oldPeriod, err := GetSales1C(pastPeriod, "sales_brand_only")
+
 					fmt.Println("PAST ==================", oldPeriod)
 					if err != nil {
 						return nil, err

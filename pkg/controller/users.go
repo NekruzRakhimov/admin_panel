@@ -159,7 +159,7 @@ func Login(c *gin.Context) {
 	//})
 }
 
-func LoginNew(c *gin.Context)  {
+func LoginNew(c *gin.Context) {
 	var payload LoginData
 
 	err := c.ShouldBind(&payload)
@@ -190,37 +190,11 @@ func LoginNew(c *gin.Context)  {
 		return
 	}
 	login.Access = accessToken
-	login.Refresh =  refreshToken
-
+	login.Refresh = refreshToken
+	login.FullName = login.Name
 	c.JSON(http.StatusOK, login)
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // GetAllUsers Get All Users godoc
 // @Summary Get All Users
