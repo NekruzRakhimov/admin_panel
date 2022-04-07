@@ -34,9 +34,11 @@ func AddReport(report models.StoredReport) error {
 				start_date, 
 				end_date, 
 				discount_amount,
-				contract_id, 
+				contract_id,
+			    beneficiary,
 				contract_number,
-                contract_amount_with_discount) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+				content,
+                contract_amount_with_discount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
 	if err := db.GetDBConn().Exec(sqlQuery,
 		report.Bin,
 		report.ContractAmount,
@@ -44,7 +46,9 @@ func AddReport(report models.StoredReport) error {
 		report.EndDate,
 		report.DiscountAmount,
 		report.ContractID,
+		report.Beneficiary,
 		report.ContractNumber,
+		report.Content,
 		report.ContractAmountWithDiscount).Error; err != nil {
 		return err
 	}
@@ -57,7 +61,9 @@ func UpdateReport(report models.StoredReport) error {
 				set contract_amount               = ?,
 					discount_amount               = ?,
 					contract_amount_with_discount = ?,
-					contract_number = ?
+					beneficiary = ?,
+					contract_number = ?,
+					content = ?
 				WHERE bin = ?
 				  AND contract_id = ?
 				  AND start_date = ?
@@ -66,7 +72,9 @@ func UpdateReport(report models.StoredReport) error {
 		report.ContractAmount,
 		report.DiscountAmount,
 		report.ContractAmountWithDiscount,
+		report.Beneficiary,
 		report.ContractNumber,
+		report.Content,
 		report.Bin,
 		report.ContractID,
 		report.StartDate,
@@ -84,4 +92,13 @@ func GetAllStoredReports() (reports []models.StoredReport, err error) {
 	}
 
 	return reports, err
+}
+
+func GetStoredReportDetails(storedReportID int) (storedReport models.StoredReport, err error) {
+	sqlQuery := "SELECT * FROM stored_reports WHERE id = ?"
+	if err := db.GetDBConn().Raw(sqlQuery, storedReportID).Scan(&storedReport).Error; err != nil {
+		return models.StoredReport{}, err
+	}
+
+	return
 }

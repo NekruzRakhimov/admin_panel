@@ -35,7 +35,21 @@ func GetAllRBByContractorBIN(request models.RBRequest) (rbDTOs []models.RbDTO, e
 
 	for i, contract := range contracts {
 		if contract.AdditionalAgreementNumber != 0 {
-			contracts[i].ContractParameters.ContractNumber += fmt.Sprintf(" - ДС №%d", contract.AdditionalAgreementNumber)
+			var contractType string
+			//ДС №1 к Договору маркетинговых услуг №1111 ИП  “Adal Trade“
+			//marketing_services
+			//supply
+			switch contract.Type {
+			case "marketing_services":
+				contractType = "маркетинговых услуг"
+			case "supply":
+				contractType = "поставок"
+			}
+
+			contracts[i].ContractParameters.ContractNumber = fmt.Sprintf("ДС №%d к Договору %s №%s %s",
+				contract.AdditionalAgreementNumber, contractType,
+				contract.ContractParameters.ContractNumber,
+				contract.Requisites.Beneficiary)
 		}
 	}
 
@@ -108,6 +122,13 @@ func GetAllRBByContractorBIN(request models.RBRequest) (rbDTOs []models.RbDTO, e
 		return
 	}
 	rbDTOs = append(rbDTOs, rbTenthType...)
+
+	// #11
+	rb11thType, err := GetRB11thType(request, contracts)
+	if err != nil {
+		return
+	}
+	rbDTOs = append(rbDTOs, rb11thType...)
 
 	// #12
 	rb12thType, err := GetRB12thType(request, contracts)
