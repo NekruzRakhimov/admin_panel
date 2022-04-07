@@ -62,7 +62,21 @@ func StoreReports(rbDTOs []models.RbDTO) error {
 		}
 
 		if contract.AdditionalAgreementNumber != 0 {
-			report.ContractNumber += fmt.Sprintf(" - ДС №%d", contract.AdditionalAgreementNumber)
+			var contractType string
+			//ДС №1 к Договору маркетинговых услуг №1111 ИП  “Adal Trade“
+			//marketing_services
+			//supply
+			switch contract.Type {
+			case "marketing_services":
+				contractType = "маркетинговых услуг"
+			case "supply":
+				contractType = "поставок"
+			}
+
+			report.ContractNumber = fmt.Sprintf("ДС №%d к Договору %s №%s %s",
+				contract.AdditionalAgreementNumber, contractType,
+				contract.ContractParameters.ContractNumber,
+				contract.Requisites.Beneficiary)
 		}
 
 		if err = repository.AddOrUpdateReport(report); err != nil {
