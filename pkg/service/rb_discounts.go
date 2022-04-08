@@ -692,6 +692,7 @@ func GetRb10thType(request models.RBRequest, contracts []models.Contract) (rbDTO
 					DiscountAmount:  discountAmount,
 					DiscountType:    RB10Name,
 				})
+
 			}
 		}
 	}
