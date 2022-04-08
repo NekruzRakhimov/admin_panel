@@ -55,6 +55,9 @@ func runAllRoutes(r *gin.Engine) {
 	r.POST("/getcode", controller.GetContractCode)
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
+	r.POST("/file/upload", controller.UploadFile)
+	r.GET("/file/download", controller.DownloadFile)
+
 	tempRoutes(r)
 	Check1CRoutes(r)
 	ContractRoutes(r)
