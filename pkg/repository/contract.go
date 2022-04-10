@@ -12,7 +12,7 @@ import (
 )
 
 func CreateContract(contractWithJson models.ContractWithJsonB) error {
-	fmt.Printf(">>>> %+v", contractWithJson)
+	//fmt.Printf(">>>> %+v", contractWithJson)
 	if err := db.GetDBConn().Table("contracts").Exec("UPDATE contracts SET status = ? WHERE id = ?", "заверщённый", contractWithJson.PrevContractId).Error; err != nil {
 		return err
 	}
@@ -25,6 +25,7 @@ func CreateContract(contractWithJson models.ContractWithJsonB) error {
 		return err
 	}
 
+	//TODO: Нурсу сказать, чтобы он убрал
 	for _, value := range contractWithJson.DiscountBrand {
 		err := db.GetDBConn().Exec("INSERT INTO brands(brand, brand_code, discount_percent, contract_id) VALUES ($1, $2, $3, $4)", value.BrandName, value.BrandCode, value.DiscountPercent, contractWithJson.ID).Error
 		if err != nil {
@@ -208,7 +209,7 @@ func SaveContractExternalCode(contractId int, contractCode string) error {
 }
 
 func SaveContractExternalCodeByBIN(contractFor1C models.ContractDTOFor1C, contractCode string) error {
-	if err := db.GetDBConn().Exec("UPDATE  contracts set ext_contract_code = $1  WHERE requisites ->> 'bin' = $2 AND contract_parameters ->> 'contract_number' = $3",  contractCode, contractFor1C.Requisites.BIN, contractFor1C.ContractParameters.ContractNumber).Error; err != nil {
+	if err := db.GetDBConn().Exec("UPDATE  contracts set ext_contract_code = $1  WHERE requisites ->> 'bin' = $2 AND contract_parameters ->> 'contract_number' = $3", contractCode, contractFor1C.Requisites.BIN, contractFor1C.ContractParameters.ContractNumber).Error; err != nil {
 		return err
 	}
 
