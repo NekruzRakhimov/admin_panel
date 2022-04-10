@@ -50,6 +50,7 @@ func DownloadFile(c *gin.Context) {
 	//}
 
 	//c.File(fmt.Sprintf("./%s", filePath))
+	c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
 	c.File("files/contracts/edit-document.docx")
 }
 
