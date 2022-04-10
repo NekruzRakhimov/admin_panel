@@ -31,6 +31,7 @@ func UploadFile(c *gin.Context) {
 func DownloadFile(c *gin.Context) {
 	filePath := c.Query("file_path")
 
+	fmt.Println("<filepath>: ", filePath)
 	//c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
 
 	if strings.HasSuffix(filePath, "pdf") {
@@ -48,5 +49,7 @@ func DownloadFile(c *gin.Context) {
 		return
 	}
 
-	c.File(filePath)
+	c.File(fmt.Sprintf("./%s", filePath))
 }
+
+//reportRB_brand1.xlsx
