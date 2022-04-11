@@ -66,7 +66,7 @@ func GetAllContracts(contractStatus string) (contracts []models.ContractWithJson
 	fmt.Println("GetALlContract Calling---------------------------")
 
 	var contractStatusRus = ""
-	sqlQuery := "SELECT * FROM contracts WHERE id not in (select prev_contract_id from contracts) AND is_active = true "
+	sqlQuery := "SELECT * FROM contracts WHERE id not in (select prev_contract_id from contracts) AND is_active = true ORDER BY id"
 
 	if contractStatus != "" && contractStatus != "ACTIVE_AND_EXPIRED" {
 		switch contractStatus {
