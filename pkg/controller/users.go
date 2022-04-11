@@ -3,6 +3,7 @@ package controller
 import (
 	"admin_panel/models"
 	"admin_panel/pkg/service"
+	"admin_panel/token"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -176,24 +177,31 @@ func LoginNew(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
 		return
 	}
-	accessToken, err := service.GenerateToken(payload.Login, payload.Password)
+
+	//accessToken, err := service.GenerateToken(payload.Login, payload.Password)
+	//if err != nil {
+	//	log.Println("[controller.Login]|[service.GenerateToken]| error is: ", err.Error())
+	//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+	//	return
+	//}
+	//
+	//refreshToken, err := service.GenerateToken(payload.Login, accessToken)
+	//if err != nil {
+	//	log.Println("[controller.Login]|[service.GenerateToken]| error is: ", err.Error())
+	//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+	//	return
+	//}
+
+	tokens, err := token.GenerateTokenPair()
 	if err != nil {
-		log.Println("[controller.Login]|[service.GenerateToken]| error is: ", err.Error())
-		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
 		return
 	}
 
-	refreshToken, err := service.GenerateToken(payload.Login, accessToken)
-	if err != nil {
-		log.Println("[controller.Login]|[service.GenerateToken]| error is: ", err.Error())
-		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-		return
-	}
-	login.Access = accessToken
-	login.Refresh = refreshToken
+	login.Access = tokens["access_token"]
+	login.Refresh = tokens["refresh_token"]
 	login.FullName = login.Name
 	c.JSON(http.StatusOK, login)
-
 }
 
 // GetAllUsers Get All Users godoc

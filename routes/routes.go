@@ -2,6 +2,7 @@ package routes
 
 import (
 	"admin_panel/pkg/controller"
+	"admin_panel/token"
 	"admin_panel/utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -47,6 +48,7 @@ func runAllRoutes(r *gin.Engine) {
 	r.GET("/", HealthCheck)
 	//r.POST("/rbdiscountforsalesgrowth", controller.RbDiscountForSalesGrowth)
 	r.POST("/login", controller.LoginNew)
+	r.POST("/token", token.Token)
 	//r.POST("/loginnew", controller.LoginNew)
 	r.POST("/getdisper", controller.GetDisPer)
 	r.POST("/getdisp", controller.DiscountRBPeriodTime)
