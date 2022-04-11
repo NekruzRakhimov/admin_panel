@@ -66,7 +66,7 @@ func GetAllContracts(contractStatus string) (contracts []models.ContractWithJson
 	fmt.Println("GetALlContract Calling---------------------------")
 
 	var contractStatusRus = ""
-	sqlQuery := "SELECT * FROM contracts WHERE id not in (select prev_contract_id from contracts) AND is_active = true ORDER BY id"
+	sqlQuery := "SELECT * FROM contracts WHERE id not in (select prev_contract_id from contracts) AND is_active = true"
 
 	if contractStatus != "" && contractStatus != "ACTIVE_AND_EXPIRED" {
 		switch contractStatus {
@@ -89,6 +89,7 @@ func GetAllContracts(contractStatus string) (contracts []models.ContractWithJson
 	}
 
 	//sqlQuery += " ORDER BY created_at DESC"
+	sqlQuery += " ORDER BY id"
 
 	if err := db.GetDBConn().Raw(sqlQuery).Scan(&contracts).Error; err != nil {
 		log.Println("[repository.GetAllContracts]|[db.GetDBConn().Raw(sqlQuery).Scan(&contracts).Error]| error is: ", err.Error())
