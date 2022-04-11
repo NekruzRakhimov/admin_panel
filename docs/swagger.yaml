@@ -281,6 +281,8 @@ definitions:
     properties:
       author:
         type: string
+      has_file:
+        type: boolean
       id:
         type: integer
       last_update:
@@ -292,6 +294,10 @@ definitions:
     properties:
       dictionary_id:
         type: integer
+      file:
+        type: string
+      has_file:
+        type: boolean
       id:
         type: integer
       value:

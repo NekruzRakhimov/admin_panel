@@ -85,7 +85,7 @@ type Country struct {
 
 type PriceTypeCreate struct {
 	PricetypeName     string `json:"pricetype_name"`
-	PricetypeCurrency string `json:"pricetype_currency"`
+	PricetypeCurrency string `json:"pricetype_currency,omitempty"`
 	ClientBin         string `json:"client_bin"`
 }
 
