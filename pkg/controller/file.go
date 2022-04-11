@@ -21,7 +21,7 @@ func UploadFile(c *gin.Context) {
 	filePath := fmt.Sprintf("%s_%s", timeSign, file.Filename)
 	filePath = strings.Replace(filePath, " ", "", 111)
 
-	if err = c.SaveUploadedFile(file, fmt.Sprintf("./layouts/%s", filePath)); err != nil {
+	if err = c.SaveUploadedFile(file, fmt.Sprintf("../home/apps/files/layouts/%s", filePath)); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
 	}
@@ -32,7 +32,7 @@ func UploadFile(c *gin.Context) {
 func DownloadFile(c *gin.Context) {
 	filePath := c.Query("file_path")
 
-	filePath = fmt.Sprintf("./layouts/%s", filePath)
+	filePath = fmt.Sprintf("../home/apps/files/layouts/%s", filePath)
 	fmt.Println("<filepath>: ", filePath)
 	//c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
 
