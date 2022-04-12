@@ -111,8 +111,6 @@ func AddAdditionalAgreement(contract models.Contract) error {
 
 func CreateContract(contract models.Contract) (err error) {
 
-
-
 	contractsMiniInfo, err := GetAllContracts("")
 	if err != nil {
 		return err
@@ -526,6 +524,23 @@ func GetContractHistory(contractId int) (contractsMiniInfo []models.ContractMini
 	if err != nil {
 		return nil, err
 	}
+	if contract.AdditionalAgreementNumber != 0 {
+		var contractType string
+		//ДС №1 к Договору маркетинговых услуг №1111 ИП  “Adal Trade“
+		//marketing_services
+		//supply
+		switch contract.Type {
+		case "marketing_services":
+			contractType = "маркетинговых услуг"
+		case "supply":
+			contractType = "поставок"
+		}
+
+		contract.ContractParameters.ContractNumber = fmt.Sprintf("ДС №%d к Договору %s №%s %s",
+			contract.AdditionalAgreementNumber, contractType,
+			contract.ContractParameters.ContractNumber,
+			contract.Requisites.Beneficiary)
+	}
 
 	log.Printf("contract (outside the loop): %+v\n", contract)
 	contracts = append(contracts, contract)
@@ -563,6 +578,14 @@ func GetContractHistory(contractId int) (contractsMiniInfo []models.ContractMini
 	for _, info := range contractsMiniInfo {
 		if info.Status != "DRAFT" {
 			contractsMiniInfoWithoutDrafts = append(contractsMiniInfoWithoutDrafts, info)
+		}
+	}
+
+	for i := 0; i < len(contractsMiniInfoWithoutDrafts)-1; i++ {
+		if contractsMiniInfoWithoutDrafts[i].ID > contractsMiniInfoWithoutDrafts[i+1].ID {
+			temp := contractsMiniInfoWithoutDrafts[i]
+			contractsMiniInfoWithoutDrafts[i] = contractsMiniInfoWithoutDrafts[i+1]
+			contractsMiniInfoWithoutDrafts[i+1] = temp
 		}
 	}
 
