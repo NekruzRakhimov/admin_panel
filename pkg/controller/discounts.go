@@ -54,7 +54,7 @@ func GetAllRBByContractorBIN(c *gin.Context) {
 		RbDTOs[i].Status = "Завершено"
 	}
 
-	if err := service.StoreReports(RbDTOs); err != nil {
+	if err := service.StoreRbReports(RbDTOs); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
 	}

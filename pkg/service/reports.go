@@ -39,7 +39,7 @@ func GetRbDtoTotalAmount(RbDTOs []models.RbDTO, contractID int) (totalAmount flo
 	return totalAmount
 }
 
-func StoreReports(rbDTOs []models.RbDTO) error {
+func StoreRbReports(rbDTOs []models.RbDTO) error {
 	var (
 		checkedIDs []int
 		localRbDTO []models.RbDTO
