@@ -182,6 +182,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		fmt.Println(err)
 	}
 
+	f.NewSheet(sheet)
 	f.SetCellValue(sheet, "A1", "Номенклатура")
 	f.SetCellValue(sheet, "B1", "Номер продукта")
 	f.SetCellValue(sheet, "C1", "Стоимость")
@@ -719,6 +720,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		//err = f.SetCellStyle(RB2Name, fmt.Sprintf("%s%d", "G", lastRow), fmt.Sprintf("%s%d", "G", lastRow), style)
 	}
 
+	f.DeleteSheet("Sheet1")
 	f.SaveAs("files/reports/rb/rb_report.xlsx")
 	return nil
 }

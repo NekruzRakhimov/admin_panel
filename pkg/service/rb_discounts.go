@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	sheet    = "Sheet1"
+	sheet    = "Итог"
 	RB1Name  = "Скидка за объем закупа"
 	RB2Name  = "Скидка  на группы товаров"
 	RB3Name  = "Скидка за выполнение плана закупа по препаратам"
@@ -520,10 +520,6 @@ func GetRB6thType(rb models.RBRequest, contracts []models.Contract) (rbDTO []mod
 
 	return rbDTO, nil
 }
-
-
-
-
 
 func GetRB7thType(rb models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
 	req := models.ReqBrand{
