@@ -26,7 +26,6 @@ func main() {
 
 	utils.ReadSettings()
 
-
 	db.StartDbConnection()
 
 	go jobs.RunJobs()

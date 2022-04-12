@@ -2492,6 +2492,46 @@ paths:
       summary: Get report Details
       tags:
       - contracts
+  /reports/search_report_rb/:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: target
+        in: query
+        name: target
+        required: true
+        type: string
+      - description: param
+        in: query
+        name: param
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.StoredReport'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Search ReportRB
+      tags:
+      - search
   /rights/:
     get:
       consumes:
