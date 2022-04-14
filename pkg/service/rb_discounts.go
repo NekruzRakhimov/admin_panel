@@ -808,19 +808,6 @@ func GetRB11thType(req models.RBRequest, contracts []models.Contract) ([]models.
 }
 
 func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.RbDTO, error) {
-	allCodeContract := map[string]string{}
-
-	for _, contract := range contracts
-
-
-
-
-
-
-
-
-
-
 
 	//totalbyCode := map[string]int{}
 
@@ -857,7 +844,7 @@ func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.
 				for _, period := range discount.Periods {
 					if period.PeriodFrom >= req.PeriodFrom && period.PeriodTo <= req.PeriodTo {
 						amount, ok := totalPurchaseCode[contract.ExtContractCode]
-						if ok == true{
+						if ok == true {
 							if float32(amount) > period.PurchaseAmount {
 								total := float32(amount) * period.DiscountPercent / 100
 								RbDTO := models.RbDTO{
@@ -873,7 +860,7 @@ func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.
 								}
 								rbDTOsl = append(rbDTOsl, RbDTO)
 
-							}else {
+							} else {
 								RbDTO := models.RbDTO{
 									ContractNumber:       contract.ContractParameters.ContractNumber,
 									StartDate:            period.PeriodFrom,
@@ -887,63 +874,53 @@ func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.
 								}
 								rbDTOsl = append(rbDTOsl, RbDTO)
 							}
-						}else if ok == false {
+						} else if ok == false {
 							rbDTOsl, _ = CheckPeriodNullGrowth(contract, period, RB12Name)
 						}
 
-
-
-
-
-
-
-
-
-
-
 						//for code, amount := range totalPurchaseCode {
 
-							//if code == contract.ExtContractCode {
-							//	fmt.Println("period.PurchaseAmount", period.PurchaseAmount)
-							//	if float32(amount) > period.PurchaseAmount {
-							//		total := float32(amount) * period.DiscountPercent / 100
-							//		RbDTO := models.RbDTO{
-							//			ContractNumber:       contract.ContractParameters.ContractNumber,
-							//			StartDate:            period.PeriodFrom,
-							//			EndDate:              period.PeriodTo,
-							//			TypePeriod:           period.Name,
-							//			DiscountPercent:      period.DiscountPercent,
-							//			DiscountAmount:       total,
-							//			TotalWithoutDiscount: float32(amount),
-							//			LeasePlan:            period.PurchaseAmount,
-							//			DiscountType:         RB12Name,
-							//		}
-							//		rbDTOsl = append(rbDTOsl, RbDTO)
-							//
-							//	} else {
-							//		RbDTO := models.RbDTO{
-							//			ContractNumber:       contract.ContractParameters.ContractNumber,
-							//			StartDate:            period.PeriodFrom,
-							//			EndDate:              period.PeriodTo,
-							//			TypePeriod:           period.Name,
-							//			DiscountPercent:      period.DiscountPercent,
-							//			DiscountAmount:       0.0,
-							//			TotalWithoutDiscount: float32(amount), // эта сумма, котору. мы получаем от 1С
-							//			LeasePlan:            period.PurchaseAmount,
-							//			DiscountType:         RB12Name,
-							//		}
-							//		rbDTOsl = append(rbDTOsl, RbDTO)
-							//	}
-
-							}
-
-						}
+						//if code == contract.ExtContractCode {
+						//	fmt.Println("period.PurchaseAmount", period.PurchaseAmount)
+						//	if float32(amount) > period.PurchaseAmount {
+						//		total := float32(amount) * period.DiscountPercent / 100
+						//		RbDTO := models.RbDTO{
+						//			ContractNumber:       contract.ContractParameters.ContractNumber,
+						//			StartDate:            period.PeriodFrom,
+						//			EndDate:              period.PeriodTo,
+						//			TypePeriod:           period.Name,
+						//			DiscountPercent:      period.DiscountPercent,
+						//			DiscountAmount:       total,
+						//			TotalWithoutDiscount: float32(amount),
+						//			LeasePlan:            period.PurchaseAmount,
+						//			DiscountType:         RB12Name,
+						//		}
+						//		rbDTOsl = append(rbDTOsl, RbDTO)
+						//
+						//	} else {
+						//		RbDTO := models.RbDTO{
+						//			ContractNumber:       contract.ContractParameters.ContractNumber,
+						//			StartDate:            period.PeriodFrom,
+						//			EndDate:              period.PeriodTo,
+						//			TypePeriod:           period.Name,
+						//			DiscountPercent:      period.DiscountPercent,
+						//			DiscountAmount:       0.0,
+						//			TotalWithoutDiscount: float32(amount), // эта сумма, котору. мы получаем от 1С
+						//			LeasePlan:            period.PurchaseAmount,
+						//			DiscountType:         RB12Name,
+						//		}
+						//		rbDTOsl = append(rbDTOsl, RbDTO)
+						//	}
 
 					}
 
 				}
 
 			}
+
+		}
+
+	}
 
 	//	}
 	//}
