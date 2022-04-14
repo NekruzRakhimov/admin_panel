@@ -45,7 +45,8 @@ type Contract struct {
 	IsIndivid                 bool                   `json:"is_individ"`
 	//	Brand           string `json:"brand"`
 	//	DiscountPercent string `json:"discount_percent"`
-	DiscountBrand []DiscountBrand `json:"discount_brand"`
+	DiscountBrand   []DiscountBrand `json:"discount_brand"`
+	ExtContractCode string          `json:"ext_contract_code"`
 }
 
 type PriceType struct {

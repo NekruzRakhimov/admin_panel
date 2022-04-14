@@ -535,7 +535,7 @@ func CheckContractIn1C(bin string) (models.ResponseContractFrom1C, error) {
 		return checkContractFrom1C, err
 	}
 
-	if checkContractFrom1C.ContractArr == nil{
+	if checkContractFrom1C.ContractArr == nil {
 		return models.ResponseContractFrom1C{}, errors.New("Договор с таким бином нет")
 	}
 
@@ -549,7 +549,11 @@ func CheckContractNumber(contractFor1C models.ContractDTOFor1C) (code int, err e
 		return 0, err
 	}
 	for _, contractParam := range resp1C.ContractArr {
+
 		if contractParam.ContractNumber == contractFor1C.ContractParameters.ContractNumber || contractParam.ContractName == contractFor1C.ContractParameters.ContractNumber {
+			fmt.Println("TRUE")
+			fmt.Println("DATA FROM 1C", contractParam)
+			fmt.Println("OUR'RE BD", contractFor1C)
 			err = repository.SaveContractExternalCodeByBIN(contractFor1C, contractParam.ContractCode)
 			if err != nil {
 				return 0, err
