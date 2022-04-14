@@ -887,7 +887,7 @@ func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.
 								}
 								rbDTOsl = append(rbDTOsl, RbDTO)
 							}
-						}else {
+						}else if ok == false {
 							rbDTOsl, _ = CheckPeriodNullGrowth(contract, period, RB12Name)
 						}
 
