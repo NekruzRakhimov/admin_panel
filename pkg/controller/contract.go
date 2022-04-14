@@ -8,7 +8,6 @@ import (
 	"github.com/xuri/excelize/v2"
 	"log"
 	"net/http"
-	"os"
 	"strconv"
 )
 
@@ -524,12 +523,12 @@ func AddIndividualContract(c *gin.Context) {
 		return
 	}
 
-	_, err = os.Create("files/applications/products_template.xlsx")
-	if err != nil {
-		log.Println("[controller.ConvertExcelToStruct]|[os.Create]| error is: ", err.Error())
-		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-		return
-	}
+	//_, err = os.Contextreate("files/applications/products_template.xlsx")
+	//if err != nil {
+	//	log.Println("[controller.ConvertExcelToStruct]|[os.Create]| error is: ", err.Error())
+	//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+	//	return
+	//}
 
 	if err := c.SaveUploadedFile(img, "files/individ/individ.pdf"); err != nil {
 		log.Println("[controller.ConvertExcelToStruct]|[c.SaveUploadedFile]| error is: ", err.Error())
