@@ -181,7 +181,12 @@ func RevisionContract(contractId int, comment string) error {
 }
 
 func GetContractStatusChangesHistory(contractId int) (history []models.ContractStatusHistory, err error) {
-	sqlQuery := "SELECT * FROM status_changes_history WHERE contract_id = ?"
+	sqlQuery := `SELECT id,
+      		 contract_id,
+       		status,
+       		to_char(created_at::date, 'DD.MM.YYYY'),
+       		author
+		FROM status_changes_history WHERE contract_id = ?`
 	if err := db.GetDBConn().Raw(sqlQuery, contractId).Scan(&history).Error; err != nil {
 		return nil, err
 	}

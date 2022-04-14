@@ -9,7 +9,7 @@ import (
 func AddOrUpdateDdReport(report models.StoredReport) error {
 	var checker models.StoredReport
 	sqlQuery := `SELECT *
-				FROM stored_reports
+				FROM dd_stored_reports
 				WHERE bin = ?
 				  AND contract_id = ?
 				  AND start_date = ?
@@ -28,7 +28,7 @@ func AddOrUpdateDdReport(report models.StoredReport) error {
 }
 
 func AddDdReport(report models.StoredReport) error {
-	sqlQuery := `INSERT INTO stored_reports (
+	sqlQuery := `INSERT INTO dd_stored_reports (
 				bin, 
 				contract_amount, 
 				start_date, 
@@ -57,7 +57,7 @@ func AddDdReport(report models.StoredReport) error {
 }
 
 func UpdateDdReport(report models.StoredReport) error {
-	sqlQuery := `UPDATE stored_reports
+	sqlQuery := `UPDATE dd_stored_reports
 				set contract_amount               = ?,
 					discount_amount               = ?,
 					contract_amount_with_discount = ?,
@@ -86,7 +86,7 @@ func UpdateDdReport(report models.StoredReport) error {
 }
 
 func GetAllDdStoredReports() (reports []models.StoredReport, err error) {
-	sqlQuery := "SELECT * FROM stored_reports"
+	sqlQuery := "SELECT * FROM dd_stored_reports"
 	if err := db.GetDBConn().Raw(sqlQuery).Scan(&reports).Error; err != nil {
 		return nil, err
 	}
@@ -95,7 +95,7 @@ func GetAllDdStoredReports() (reports []models.StoredReport, err error) {
 }
 
 func GetDdStoredReportDetails(storedReportID int) (storedReport models.StoredReport, err error) {
-	sqlQuery := "SELECT * FROM stored_reports WHERE id = ?"
+	sqlQuery := "SELECT * FROM dd_stored_reports WHERE id = ?"
 	if err := db.GetDBConn().Raw(sqlQuery, storedReportID).Scan(&storedReport).Error; err != nil {
 		return models.StoredReport{}, err
 	}
