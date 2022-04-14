@@ -30,16 +30,18 @@ type SalesArr struct {
 }
 
 type Purchase struct {
-	PurchaseArr []struct {
-		ProductName  string  `json:"product_name"`
-		ProductCode  string  `json:"product_code"`
-		Total        float64 `json:"total"`
-		QntTotal     float64 `json:"qnt_total"`
-		Date         string  `json:"date"`
-		BrandCode    string  `json:"brand_code"`
-		BrandName    string  `json:"brand_name"`
-		ContractCode string  `json:"contract_code"`
-	} `json:"purchase_arr"`
+	PurchaseArr []PurchaseArr `json:"purchase_arr"`
+}
+
+type PurchaseArr struct {
+	ProductName  string  `json:"product_name"`
+	ProductCode  string  `json:"product_code"`
+	Total        float64 `json:"total"`
+	QntTotal     float64 `json:"qnt_total"`
+	Date         string  `json:"date"`
+	BrandCode    string  `json:"brand_code"`
+	BrandName    string  `json:"brand_name"`
+	ContractCode string  `json:"contract_code"`
 }
 
 type DateSales struct {

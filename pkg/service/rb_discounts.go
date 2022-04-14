@@ -94,9 +94,9 @@ func GetRB1stType(request models.RBRequest, contracts []models.Contract) ([]mode
 	return contractRB, nil
 }
 
-func GetPurchaseTotalAmount(purchases models.Purchase) (totalAmount float32) {
+func GetPurchaseTotalAmount(purchases models.Purchase) (totalAmount float64) {
 	for _, purchase := range purchases.PurchaseArr {
-		totalAmount += float32(purchase.Total)
+		totalAmount += purchase.Total
 	}
 
 	return totalAmount
@@ -264,8 +264,8 @@ func GetRB3rdType(request models.RBRequest, contracts []models.Contract) ([]mode
 				LeasePlan:       product.LeasePlan,
 				DiscountType:    RB3Name,
 			}
-			if totalAmount >= product.LeasePlan {
-				rb.DiscountAmount = totalAmount * rb.DiscountPercent / 100
+			if totalAmount >= float64(product.LeasePlan) {
+				rb.DiscountAmount = float32(totalAmount) * rb.DiscountPercent / 100
 			} else {
 				rb.DiscountAmount = 0
 			}
@@ -402,8 +402,8 @@ func RB5thTypeDetails(request models.RBRequest, contract models.Contract, discou
 
 				//totalAmount := GetTotalPurchasesForBrands(sales, brand.BrandName)
 				var discountAmount float32
-				if totalAmount >= brand.PurchaseAmount {
-					discountAmount = totalAmount * brand.DiscountPercent / 100
+				if totalAmount >= float64(brand.PurchaseAmount) {
+					discountAmount = float32(totalAmount) * brand.DiscountPercent / 100
 				}
 
 				rbDTO = append(rbDTO, models.RbDTO{
@@ -629,7 +629,7 @@ func GetRB8thType(request models.RBRequest, contracts []models.Contract) ([]mode
 					StartDate:       contract.ContractParameters.StartDate,
 					EndDate:         contract.ContractParameters.EndDate,
 					DiscountPercent: discount.DiscountPercent,
-					DiscountAmount:  totalAmount * discount.DiscountPercent / 100,
+					DiscountAmount:  float32(totalAmount) * discount.DiscountPercent / 100,
 					DiscountType:    RB8Name,
 				}
 
@@ -701,7 +701,7 @@ func GetRB9thType(request models.RBRequest, contracts []models.Contract) ([]mode
 					StartDate:       contract.ContractParameters.StartDate,
 					EndDate:         contract.ContractParameters.EndDate,
 					DiscountPercent: discount.DiscountPercent,
-					DiscountAmount:  totalAmount * discount.DiscountPercent / 100,
+					DiscountAmount:  float32(totalAmount) * discount.DiscountPercent / 100,
 					DiscountType:    RB9Name,
 				}
 
