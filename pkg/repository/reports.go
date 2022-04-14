@@ -3,6 +3,7 @@ package repository
 import (
 	"admin_panel/db"
 	"admin_panel/models"
+	"fmt"
 	"github.com/jinzhu/gorm"
 )
 
@@ -101,4 +102,14 @@ func GetStoredReportDetails(storedReportID int) (storedReport models.StoredRepor
 	}
 
 	return
+}
+
+func SearchReportRB(field string, param string) (reports []models.StoredReport, err error) {
+	//query := fmt.Sprint("SELECT *FROM stored_reports WHERE $1  Like $2")
+	query := fmt.Sprintf("SELECT *FROM stored_reports WHERE %s LIKE $1", field)
+	err = db.GetDBConn().Raw(query, "%"+param+"%").Scan(&reports).Error
+	if err != nil {
+		return nil, err
+	}
+	return reports, nil
 }

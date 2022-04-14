@@ -313,6 +313,7 @@ func FormExcelForDeferredDiscounts(request models.RBRequest) error {
 		err = f.SetCellStyle(DD6Name, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
 	}
 
+	f.DeleteSheet("Sheet1")
 	f.SaveAs("files/reports/dd/reportDD.xlsx")
 	return nil
 }
@@ -416,14 +417,15 @@ func GetStoredDdReportDetails(storedReportID int) (rbDTOs []models.RbDTO, err er
 
 func GetExcelForDdStoredExcelReport(storedReportID int) error {
 	filePath := "files/reports/dd/dd_stored_reports.xlsx"
-	sheetName := "Sheet1"
+	sheetName := "Итог"
+
 	rbDTOs, err := GetStoredReportDetails(storedReportID)
 	if err != nil {
 		return err
 	}
 
 	f := excelize.NewFile()
-
+	f.NewSheet(sheetName)
 	//var discount int
 	//if conTotalAmount <= totalAmount {
 	//	discount = rewardAmount
@@ -485,6 +487,7 @@ func GetExcelForDdStoredExcelReport(storedReportID int) error {
 	err = f.SetCellStyle(sheetName, fmt.Sprintf("%s%d", "H", lastRow), fmt.Sprintf("%s%d", "I", lastRow), style)
 	//err = f.SetCellStyle(sheetName, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
 
+	f.DeleteSheet("Sheet1")
 	f.SaveAs(filePath)
 	return nil
 }

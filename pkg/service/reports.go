@@ -138,14 +138,14 @@ func GetStoredReportDetails(storedReportID int) (rbDTOs []models.RbDTO, err erro
 
 func GetExcelForStoredExcelReport(storedReportID int) error {
 	filePath := "files/reports/rb/rb_stored_reports.xlsx"
-	sheetName := "Sheet1"
+	sheetName := "Итог"
 	rbDTOs, err := GetStoredReportDetails(storedReportID)
 	if err != nil {
 		return err
 	}
 
 	f := excelize.NewFile()
-
+	f.NewSheet(sheetName)
 	//var discount int
 	//if conTotalAmount <= totalAmount {
 	//	discount = rewardAmount
@@ -207,6 +207,7 @@ func GetExcelForStoredExcelReport(storedReportID int) error {
 	err = f.SetCellStyle(sheetName, fmt.Sprintf("%s%d", "H", lastRow), fmt.Sprintf("%s%d", "I", lastRow), style)
 	//err = f.SetCellStyle(sheetName, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
 
+	f.DeleteSheet("Sheet1")
 	f.SaveAs(filePath)
 	return nil
 }
@@ -249,4 +250,16 @@ func convertRbDtoToRbDtoFroStoredRbReport(dto models.RbDTO) (storedRbReport rbDt
 	storedRbReport.DiscountAmount = dto.DiscountAmount
 
 	return storedRbReport
+}
+
+func SearchReportRB(field, param string) (reports []models.StoredReport, err error) {
+	reports, err = repository.SearchReportRB(field, param)
+	if err != nil {
+		return nil, err
+	}
+	for i := range reports {
+		reports[i].ContractDate = fmt.Sprintf("%s-%s", reports[i].StartDate, reports[i].EndDate)
+	}
+
+	return reports, err
 }

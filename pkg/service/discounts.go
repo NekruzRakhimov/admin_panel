@@ -180,7 +180,7 @@ func GetTotalFromSalesByBrand(sales models.Sales, brand string) (totalAmount flo
 	return totalAmount
 }
 
-func DefiningRBReport(contracts []models.Contract, totalAmount float32, request models.RBRequest) (contractsRB []models.RbDTO) {
+func DefiningRBReport(contracts []models.Contract, totalAmount float64, request models.RBRequest) (contractsRB []models.RbDTO) {
 	for _, contract := range contracts {
 		var contractRB []models.RbDTO
 		for _, discount := range contract.Discounts {
@@ -195,7 +195,7 @@ func DefiningRBReport(contracts []models.Contract, totalAmount float32, request 
 	return contractsRB
 }
 
-func DiscountToReportRB(discount models.Discount, contract models.Contract, totalAmount float32, request models.RBRequest) (contractsRB []models.RbDTO) {
+func DiscountToReportRB(discount models.Discount, contract models.Contract, totalAmount float64, request models.RBRequest) (contractsRB []models.RbDTO) {
 	fmt.Println("<begin>")
 	var contractRB models.RbDTO
 
@@ -217,7 +217,7 @@ func DiscountToReportRB(discount models.Discount, contract models.Contract, tota
 
 		for _, period := range discount.Periods {
 			if period.PeriodFrom >= request.PeriodFrom && period.PeriodTo <= request.PeriodTo {
-				if period.TotalAmount <= totalAmount {
+				if float64(period.TotalAmount) <= totalAmount {
 					if period.TotalAmount >= maxLeasePlan {
 						log.Printf("\n[CONTRACT_PERIODS][%s] %+v\n", contract.ContractParameters.ContractNumber, discount.Periods)
 						maxDiscountAmount = float32(period.RewardAmount)
@@ -343,10 +343,10 @@ func GetDoubtedDiscounts(request models.RBRequest) (doubtedDiscounts []models.Do
 	return doubtedDiscounts, nil
 }
 
-func GetTotalPurchasesForBrands(sales models.Sales, brand string) (totalAmount float32) {
-	for _, s := range sales.SalesArr {
+func GetTotalPurchasesForBrands(sales models.Purchase, brand string) (totalAmount float32) {
+	for _, s := range sales.PurchaseArr {
 		if s.BrandCode == brand || s.BrandName == brand {
-			totalAmount += s.Total * s.QntTotal
+			totalAmount += float32(s.Total * s.QntTotal)
 		}
 	}
 
@@ -360,7 +360,6 @@ func GeAllBrands(brandsDTO []models.BrandDTO) (brands []string) {
 
 	return brands
 }
-
 
 //TODO: необходимо реализовать
 func SearchHistoryDiscount(field string, param string) ([]models.SearchContract, error) {
