@@ -134,6 +134,7 @@ func ReportsRoutes(r *gin.Engine) {
 	reports.POST("/rb/update", controller.GetAllRBByContractorBIN)
 	reports.POST("/rb/excel", controller.FormExcelForRB)
 	reports.GET("/search_report_rb/", controller.SearchReportRB)
+	reports.GET("/search_report_dd/", controller.SearchReportDD)
 
 	reports.GET("/rb/stored", controller.GetAllStoredReports)
 	reports.GET("/rb/stored/:id/details", controller.GetStoredReportDetails)
