@@ -808,7 +808,6 @@ func GetRB11thType(req models.RBRequest, contracts []models.Contract) ([]models.
 }
 
 func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.RbDTO, error) {
-
 	//totalbyCode := map[string]int{}
 
 	var rbDTOsl []models.RbDTO
@@ -878,40 +877,6 @@ func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.
 							rbDTOsl, _ = CheckPeriodNullGrowth(contract, period, RB12Name)
 						}
 
-						//for code, amount := range totalPurchaseCode {
-
-						//if code == contract.ExtContractCode {
-						//	fmt.Println("period.PurchaseAmount", period.PurchaseAmount)
-						//	if float32(amount) > period.PurchaseAmount {
-						//		total := float32(amount) * period.DiscountPercent / 100
-						//		RbDTO := models.RbDTO{
-						//			ContractNumber:       contract.ContractParameters.ContractNumber,
-						//			StartDate:            period.PeriodFrom,
-						//			EndDate:              period.PeriodTo,
-						//			TypePeriod:           period.Name,
-						//			DiscountPercent:      period.DiscountPercent,
-						//			DiscountAmount:       total,
-						//			TotalWithoutDiscount: float32(amount),
-						//			LeasePlan:            period.PurchaseAmount,
-						//			DiscountType:         RB12Name,
-						//		}
-						//		rbDTOsl = append(rbDTOsl, RbDTO)
-						//
-						//	} else {
-						//		RbDTO := models.RbDTO{
-						//			ContractNumber:       contract.ContractParameters.ContractNumber,
-						//			StartDate:            period.PeriodFrom,
-						//			EndDate:              period.PeriodTo,
-						//			TypePeriod:           period.Name,
-						//			DiscountPercent:      period.DiscountPercent,
-						//			DiscountAmount:       0.0,
-						//			TotalWithoutDiscount: float32(amount), // эта сумма, котору. мы получаем от 1С
-						//			LeasePlan:            period.PurchaseAmount,
-						//			DiscountType:         RB12Name,
-						//		}
-						//		rbDTOsl = append(rbDTOsl, RbDTO)
-						//	}
-
 					}
 
 				}
@@ -921,10 +886,6 @@ func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.
 		}
 
 	}
-
-	//	}
-	//}
-	//}
 
 	return rbDTOsl, nil
 }
@@ -1102,9 +1063,11 @@ func CheckPeriodNullGrowth(contract models.Contract, period models.DiscountPerio
 		ContractNumber:       contract.ContractParameters.ContractNumber,
 		StartDate:            period.PeriodFrom,
 		EndDate:              period.PeriodTo,
+		TypePeriod:           period.Name,
 		DiscountPercent:      period.DiscountPercent,
 		DiscountAmount:       0,
 		TotalWithoutDiscount: 0,
+		LeasePlan:            period.PurchaseAmount,
 		DiscountType:         discountType,
 	}
 	rbDTOsl = append(rbDTOsl, rbDTO)
