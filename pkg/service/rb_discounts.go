@@ -833,16 +833,19 @@ func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.
 	purchase, _ := GetPurchase(reqBrand)
 
 	totalPurchaseCode := CountPurchaseByCode(purchase)
-	fmt.Println("totalPurchaseCode", totalPurchaseCode)
 
 	for _, contract := range contracts {
-		fmt.Println(contract.ExtContractCode, "contract.ExtContractCode")
-		fmt.Println("contract MESSAGE", contract.Discounts)
+
 		for _, discount := range contract.Discounts {
 			if discount.Code == "RB_DISCOUNT_FOR_PURCHASE_PERIOD" && discount.IsSelected == true { // здесь сравниваешь тип скидки и берешь тот тип который тебе нужен
 				for _, period := range discount.Periods {
+
+					//fmt.Printf("TYPE %s period %s contract.ExtContractCode: %s", period.Type, period.PeriodFrom, contract.ExtContractCode)
 					if period.PeriodFrom >= req.PeriodFrom && period.PeriodTo <= req.PeriodTo {
+
 						amount, ok := totalPurchaseCode[contract.ExtContractCode]
+						fmt.Println("amount", amount)
+						fmt.Println("OK", ok)
 						if ok == true {
 							if float32(amount) > period.PurchaseAmount {
 								total := float32(amount) * period.DiscountPercent / 100
@@ -860,6 +863,7 @@ func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.
 								rbDTOsl = append(rbDTOsl, RbDTO)
 
 							} else {
+								fmt.Println()
 								RbDTO := models.RbDTO{
 									ContractNumber:       contract.ContractParameters.ContractNumber,
 									StartDate:            period.PeriodFrom,
@@ -873,8 +877,11 @@ func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.
 								}
 								rbDTOsl = append(rbDTOsl, RbDTO)
 							}
-						} else if ok == false {
-							rbDTOsl, _ = CheckPeriodNullGrowth(contract, period, RB12Name)
+						} else {
+							fmt.Println("FALSE===========================")
+
+							rbDTOsl, _ = GetNil12Rb(rbDTOsl, contract, period, RB12Name)
+
 						}
 
 					}
@@ -1058,6 +1065,25 @@ func GetRB13thType(rb models.RBRequest, contracts []models.Contract) ([]models.R
 
 func CheckPeriodNullGrowth(contract models.Contract, period models.DiscountPeriod, discountType string) ([]models.RbDTO, error) {
 	var rbDTOsl []models.RbDTO
+
+	rbDTO := models.RbDTO{
+		ContractNumber:       contract.ContractParameters.ContractNumber,
+		StartDate:            period.PeriodFrom,
+		EndDate:              period.PeriodTo,
+		TypePeriod:           period.Name,
+		DiscountPercent:      period.DiscountPercent,
+		DiscountAmount:       0,
+		TotalWithoutDiscount: 0,
+		LeasePlan:            period.PurchaseAmount,
+		DiscountType:         discountType,
+	}
+	rbDTOsl = append(rbDTOsl, rbDTO)
+	return rbDTOsl, nil
+
+}
+
+func GetNil12Rb(rbDTOsl []models.RbDTO, contract models.Contract, period models.DiscountPeriod, discountType string) ([]models.RbDTO, error) {
+	//var
 
 	rbDTO := models.RbDTO{
 		ContractNumber:       contract.ContractParameters.ContractNumber,
