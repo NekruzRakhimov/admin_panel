@@ -324,11 +324,13 @@ type Position struct {
 }
 
 type ContractStatusHistory struct {
-	ID        int    `json:"id"`
-	Author    string `json:"author"`
-	Status    string `json:"status"`
-	StartDate string `json:"start_date" gorm:"created_at"`
-	EndDate   string `json:"end_date"`
+	ID             int    `json:"id"`
+	ContractNumber string `json:"contract_number"`
+	ContractType   string `json:"contract_type"`
+	Author         string `json:"author"`
+	Status         string `json:"status"`
+	StartDate      string `json:"start_date" gorm:"created_at"`
+	EndDate        string `json:"end_date"`
 }
 
 type Client struct {

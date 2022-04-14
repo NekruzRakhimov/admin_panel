@@ -601,7 +601,35 @@ func RevisionContract(contractId int, comment string) error {
 }
 
 func GetContractStatusChangesHistory(contractId int) (history []models.ContractStatusHistory, err error) {
-	return repository.GetContractStatusChangesHistory(contractId)
+	history, err = repository.GetContractStatusChangesHistory(contractId)
+	for i, _ := range history {
+		contract, err := GetContractDetails(contractId)
+		if err != nil {
+			return nil, err
+		}
+
+		history[i].ContractNumber = contract.ContractParameters.ContractNumber
+		var contractType string
+		switch contract.Type {
+		case "marketing_services":
+			contractType = "маркетинговых услуг"
+		case "supply":
+			contractType = "поставок"
+		}
+
+		if contract.AdditionalAgreementNumber != 0 {
+			//ДС №1 к Договору маркетинговых услуг №1111 ИП  “Adal Trade“
+			//marketing_services
+			//supply
+			history[i].ContractNumber = fmt.Sprintf("ДС №%d к Договору %s №%s %s",
+				contract.AdditionalAgreementNumber, contractType,
+				contract.ContractParameters.ContractNumber,
+				contract.Requisites.Beneficiary)
+		}
+		history[i].ContractType = contract.Type
+	}
+
+	return history, nil
 }
 
 func SearchContractByNumber(contractNumber, status string) ([]models.SearchContract, error) {
