@@ -356,6 +356,7 @@ type DataPurchase struct {
 	StartDate      string `json:"start_date"`
 	EndDate        string `json:"end_date"`
 }
+
 type ResponseContractFrom1C struct {
 	Bin         string `json:"bin"`
 	ContractArr []struct {
@@ -372,5 +373,6 @@ type ResponseContractFrom1C struct {
 		ContractDuration        string `json:"contract_duration"`
 		ContractAllowableAmount string `json:"contract_allowable_amount"`
 		ContractTimeLimit       string `json:"contract_time_limit"`
+		ContractType            string `json:"contract_type"`
 	} `json:"contract_arr"`
 }

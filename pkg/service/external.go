@@ -482,7 +482,6 @@ func CreatePriceType(payload models.PriceTypeCreate) (models.PriceTypeResponse, 
 
 func CheckContractIn1C(bin string) (models.ResponseContractFrom1C, error) {
 	var checkContractFrom1C models.ResponseContractFrom1C
-
 	clientBin := models.BinPriceType{
 		ClientBin: bin,
 	}
@@ -549,8 +548,7 @@ func CheckContractNumber(contractFor1C models.ContractDTOFor1C) (code int, err e
 		return 0, err
 	}
 	for _, contractParam := range resp1C.ContractArr {
-
-		if contractParam.ContractNumber == contractFor1C.ContractParameters.ContractNumber || contractParam.ContractName == contractFor1C.ContractParameters.ContractNumber {
+		if contractParam.ContractNumber == contractFor1C.ContractParameters.ContractNumber && contractParam.ContractType == contractFor1C.Type|| contractParam.ContractName == contractFor1C.ContractParameters.ContractNumber && contractParam.ContractType == contractFor1C.Type {
 			fmt.Println("TRUE")
 			fmt.Println("DATA FROM 1C", contractParam)
 			fmt.Println("OUR'RE BD", contractFor1C)
