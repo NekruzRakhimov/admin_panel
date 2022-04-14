@@ -13,4 +13,5 @@ type StoredReport struct {
 	DiscountAmount             float32 `json:"discount_amount"`
 	Content                    []byte  `json:"content"`
 	ContractAmountWithDiscount float32 `json:"contract_amount_with_discount"`
+	CreatedAt                  string  `json:"created_at"`
 }
