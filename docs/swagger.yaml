@@ -208,6 +208,10 @@ definitions:
     properties:
       author:
         type: string
+      contract_number:
+        type: string
+      contract_type:
+        type: string
       end_date:
         type: string
       id:
@@ -691,6 +695,8 @@ definitions:
     type: object
   models.StoredReport:
     properties:
+      author:
+        type: string
       beneficiary:
         type: string
       bin:
@@ -708,6 +714,8 @@ definitions:
       contract_id:
         type: integer
       contract_number:
+        type: string
+      created_at:
         type: string
       discount_amount:
         type: number

@@ -21,6 +21,7 @@ type ContractWithJsonB struct {
 	ExtendDate                string          `json:"extend_date"`
 	DiscountBrand             []DiscountBrand `json:"discount_brand"`
 	AdditionalAgreementNumber int             `json:"additional_agreement_number"`
+	ExtContractCode           string          `json:"ext_contract_code"`
 }
 
 type Contract struct {

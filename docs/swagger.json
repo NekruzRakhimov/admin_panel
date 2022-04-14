@@ -4081,6 +4081,12 @@
                 "author": {
                     "type": "string"
                 },
+                "contract_number": {
+                    "type": "string"
+                },
+                "contract_type": {
+                    "type": "string"
+                },
                 "end_date": {
                     "type": "string"
                 },
@@ -4823,6 +4829,9 @@
         "models.StoredReport": {
             "type": "object",
             "properties": {
+                "author": {
+                    "type": "string"
+                },
                 "beneficiary": {
                     "type": "string"
                 },
@@ -4848,6 +4857,9 @@
                     "type": "integer"
                 },
                 "contract_number": {
+                    "type": "string"
+                },
+                "created_at": {
                     "type": "string"
                 },
                 "discount_amount": {
