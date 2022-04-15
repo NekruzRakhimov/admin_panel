@@ -427,25 +427,25 @@ func ConformContract(contractId int, status string) error {
 		contractFor1C.UpdatedAt = parts[0]
 	}
 
-	code, err := CheckContractNumber(contractFor1C)
+	_, err = CheckContractNumber(contractFor1C)
 	if err != nil {
 		return err
 	}
-	if code != 200 {
-
-		respFrom1C, err := SaveContract1C(contractFor1C)
-		if err != nil {
-			return err
-		}
-
-		if respFrom1C.Status != "success" {
-			return errors.New("не удалось сохранить договор в 1С. Повторите попытку позже")
-		}
-
-		if err = repository.SaveContractExternalCode(contractId, respFrom1C.ContractCode); err != nil {
-			return err
-		}
-	}
+	//if code != 200 {
+	//
+	//	respFrom1C, err := SaveContract1C(contractFor1C)
+	//	if err != nil {
+	//		return err
+	//	}
+	//
+	//	if respFrom1C.Status != "success" {
+	//		return errors.New("не удалось сохранить договор в 1С. Повторите попытку позже")
+	//	}
+	//
+	//	if err = repository.SaveContractExternalCode(contractId, respFrom1C.ContractCode); err != nil {
+	//		return err
+	//	}
+	//}
 
 	return nil
 

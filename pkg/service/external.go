@@ -543,12 +543,15 @@ func CheckContractIn1C(bin string) (models.ResponseContractFrom1C, error) {
 }
 
 func CheckContractNumber(contractFor1C models.ContractDTOFor1C) (code int, err error) {
+
+
+
 	resp1C, err := CheckContractIn1C(contractFor1C.Requisites.BIN)
 	if err != nil {
 		return 0, err
 	}
 	for _, contractParam := range resp1C.ContractArr {
-		if contractParam.ContractNumber == contractFor1C.ContractParameters.ContractNumber && contractParam.ContractType == contractFor1C.Type|| contractParam.ContractName == contractFor1C.ContractParameters.ContractNumber && contractParam.ContractType == contractFor1C.Type {
+		if contractParam.ContractNumber == contractFor1C.ContractParameters.ContractNumber || contractParam.ContractName == contractFor1C.ContractParameters.ContractNumber {
 			fmt.Println("TRUE")
 			fmt.Println("DATA FROM 1C", contractParam)
 			fmt.Println("OUR'RE BD", contractFor1C)
