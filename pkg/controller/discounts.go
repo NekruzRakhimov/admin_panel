@@ -205,6 +205,9 @@ func Check1CGetData(c *gin.Context) {
 func SearchReportRB(c *gin.Context) {
 	target := c.Query("target")
 	param := c.Query("param")
+
+
+
 	//id := c.Param("id")
 	//TODO: 1. давай реализуем поиск по номеру
 	//log.Println(id, "добавить потом ID  в аргументах")
