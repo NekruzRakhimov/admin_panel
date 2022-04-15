@@ -66,3 +66,6 @@ SELECT id, status,  contract_parameters ->> 'contract_number' AS contract_number
 SELECT brand AS brand_name, discount_percent, contract_id FROM  brands WHERE contract_id = 381; -- у этого есть бренды, но они не совпадают
 SELECT brand AS brand_name, discount_percent, contract_id FROM  brands WHERE contract_id = 383; -- вот что должно быть --
 SELECT brand AS brand_name, discount_percent, contract_id FROM  brands WHERE contract_id = 386; -- его не должно быть
+
+SELECT *FROM stored_reports WHERE bin LIKE '%86%';
+SELECT *FROM stored_reports WHERE id LIKE '%25%';
