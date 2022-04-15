@@ -106,7 +106,7 @@ func tempRoutes(r *gin.Engine) {
 }
 
 func Check1CRoutes(r *gin.Engine) {
-	r.GET("/check_contract/", controller.CheckContractIn1C)
+	r.GET("/contracts_from_1c/", controller.CheckContractIn1C)
 	r.GET("/counterparty/:client", controller.CounterpartyContract)
 
 	r.POST("/price_type", controller.GetPriceType)
