@@ -4039,6 +4039,9 @@
                 "beneficiary": {
                     "type": "string"
                 },
+                "contract_name": {
+                    "type": "string"
+                },
                 "contract_number": {
                     "type": "string"
                 },
@@ -4081,6 +4084,9 @@
                     "type": "number"
                 },
                 "contract_date": {
+                    "type": "string"
+                },
+                "contract_name": {
                     "type": "string"
                 },
                 "contract_number": {
