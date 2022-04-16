@@ -320,6 +320,7 @@ func ConvertContractToContractMiniInfo(contract models.Contract) (contractMiniIn
 	contractMiniInfo.ExtendDate = contract.ExtendDate
 	contractMiniInfo.StartDate = contract.ContractParameters.StartDate
 	contractMiniInfo.EndDate = contract.ContractParameters.EndDate
+	contractMiniInfo.ContractName = contract.ContractParameters.ContractName
 
 	return contractMiniInfo
 }
@@ -358,6 +359,7 @@ func ConvertContractFromJsonB(contractWithJson models.ContractWithJsonB) (contra
 	contract.ExtendDate = contractWithJson.ExtendDate
 	contract.DiscountBrand = contractWithJson.DiscountBrand
 	contract.ExtContractCode = contractWithJson.ExtContractCode
+
 	err = json.Unmarshal([]byte(contractWithJson.Requisites), &contract.Requisites)
 	if err != nil {
 		log.Println("[service][json.Unmarshal([]byte(contractWithJson.Requisites), &contract.Requisites)] error is: ", err.Error())
@@ -389,6 +391,7 @@ func ConvertContractFromJsonB(contractWithJson models.ContractWithJsonB) (contra
 	}
 
 	contract.IsExtendContract = contract.ContractParameters.IsExtendContract
+
 
 	contract.ExtendDate = contract.ContractParameters.ExtendDate
 	log.Println("ДАННЫЕ ПО КОНТРАКТУ", contract)
