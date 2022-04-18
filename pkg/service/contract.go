@@ -614,8 +614,10 @@ func GetContractStatusChangesHistory(contractId int) (history []models.ContractS
 		switch contract.Type {
 		case "marketing_services":
 			contractType = "маркетинговых услуг"
+			history[i].ContractType = contractType
 		case "supply":
 			contractType = "поставок"
+			history[i].ContractType = contractType
 		}
 
 		if contract.AdditionalAgreementNumber != 0 {
