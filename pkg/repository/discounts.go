@@ -60,7 +60,7 @@ func GetAllContractDetailByBIN(bin, PeriodFrom, PeriodTo string) (contracts []mo
 			return nil, err
 		}
 
-		log.Println("BRANDS", contracts[i].DiscountBrand)
+		//log.Println("BRANDS", contracts[i].DiscountBrand)
 	}
 
 	return contracts, nil

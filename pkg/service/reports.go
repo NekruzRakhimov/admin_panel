@@ -263,3 +263,15 @@ func SearchReportRB(field, param string) (reports []models.StoredReport, err err
 
 	return reports, err
 }
+
+func SearchReportDD(field, param string) (reports []models.StoredReport, err error) {
+	reports, err = repository.SearchReportDD(field, param)
+	if err != nil {
+		return nil, err
+	}
+	for i := range reports {
+		reports[i].ContractDate = fmt.Sprintf("%s-%s", reports[i].StartDate, reports[i].EndDate)
+	}
+
+	return reports, err
+}

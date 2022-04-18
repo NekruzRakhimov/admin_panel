@@ -320,6 +320,7 @@ func ConvertContractToContractMiniInfo(contract models.Contract) (contractMiniIn
 	contractMiniInfo.ExtendDate = contract.ExtendDate
 	contractMiniInfo.StartDate = contract.ContractParameters.StartDate
 	contractMiniInfo.EndDate = contract.ContractParameters.EndDate
+	contractMiniInfo.ContractName = contract.ContractParameters.ContractName
 
 	return contractMiniInfo
 }
@@ -341,7 +342,7 @@ func ConvertContractsFromJsonB(contractsWithJsonB []models.ContractWithJsonB) (c
 
 func ConvertContractFromJsonB(contractWithJson models.ContractWithJsonB) (contract models.Contract, err error) {
 
-	log.Println("ConvertContractFromJsonB=======================", contractWithJson.ID, contractWithJson.IsExtendContract, contractWithJson.ExtendDate)
+	//log.Println("ConvertContractFromJsonB=======================", contractWithJson.ID, contractWithJson.IsExtendContract, contractWithJson.ExtendDate)
 
 	contract.ID = contractWithJson.ID
 	contract.AdditionalAgreementNumber = contractWithJson.AdditionalAgreementNumber
@@ -358,6 +359,7 @@ func ConvertContractFromJsonB(contractWithJson models.ContractWithJsonB) (contra
 	contract.ExtendDate = contractWithJson.ExtendDate
 	contract.DiscountBrand = contractWithJson.DiscountBrand
 	contract.ExtContractCode = contractWithJson.ExtContractCode
+
 	err = json.Unmarshal([]byte(contractWithJson.Requisites), &contract.Requisites)
 	if err != nil {
 		log.Println("[service][json.Unmarshal([]byte(contractWithJson.Requisites), &contract.Requisites)] error is: ", err.Error())
@@ -389,6 +391,7 @@ func ConvertContractFromJsonB(contractWithJson models.ContractWithJsonB) (contra
 	}
 
 	contract.IsExtendContract = contract.ContractParameters.IsExtendContract
+
 
 	contract.ExtendDate = contract.ContractParameters.ExtendDate
 	log.Println("ДАННЫЕ ПО КОНТРАКТУ", contract)
@@ -431,20 +434,20 @@ func ConformContract(contractId int, status string) error {
 	if err != nil {
 		return err
 	}
-	//if code != 200{
+	//if code != 200 {
 	//
-	//respFrom1C, err := SaveContract1C(contractFor1C)
-	//if err != nil {
-	//	return err
-	//}
+	//	respFrom1C, err := SaveContract1C(contractFor1C)
+	//	if err != nil {
+	//		return err
+	//	}
 	//
-	//if respFrom1C.Status != "success" {
-	//	return errors.New("не удалось сохранить договор в 1С. Повторите попытку позже")
-	//}
+	//	if respFrom1C.Status != "success" {
+	//		return errors.New("не удалось сохранить договор в 1С. Повторите попытку позже")
+	//	}
 	//
-	//if err = repository.SaveContractExternalCode(contractId, respFrom1C.ContractCode); err != nil {
-	//	return err
-	//}
+	//	if err = repository.SaveContractExternalCode(contractId, respFrom1C.ContractCode); err != nil {
+	//		return err
+	//	}
 	//}
 
 	return nil
@@ -657,7 +660,7 @@ func ChangeDataContract(id int) error {
 
 func GetExternalCode(bin string) []models.ContractCode {
 	var ExtContractCode []models.ContractCode
-	db.GetDBConn().Raw("SELECT ext_contract_code FROM contracts WHERE requisites ->> 'bin' =  $1", bin).Scan(&ExtContractCode)
+	db.GetDBConn().Raw("SELECT ext_contract_code FROM contracts WHERE requisites ->> 'bin' =  $1 AND status = 'в работе'", bin).Scan(&ExtContractCode)
 
 	return ExtContractCode
 }

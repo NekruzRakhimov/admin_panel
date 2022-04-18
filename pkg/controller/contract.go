@@ -813,18 +813,29 @@ func GetCurrencies(c *gin.Context) {
 }
 
 func CheckContractIn1C(c *gin.Context) {
-	var payload models.BinPriceType
 
-	err := c.ShouldBind(&payload)
+	var contracts models.ResponseContractFrom1C
+
+	//var payload models.BinPriceType
+	bin := c.Query("bin")
+	contractType := c.Query("type")
+
+	//err := c.ShouldBind(&payload)
+	//if err != nil {
+	//	c.JSON(http.StatusBadRequest, err)
+	//	return
+	//}
+	respContract1C, err := service.CheckContractIn1C(bin)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err)
 		return
 	}
-	respContract1C, err := service.CheckContractIn1C(payload.ClientBin)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, err)
-		return
+	for _, value := range respContract1C.ContractArr {
+		if value.ContractType == contractType {
+			contracts.ContractArr = append(contracts.ContractArr, value)
+		}
 	}
-	c.JSON(200, respContract1C)
+
+	c.JSON(200, contracts)
 
 }

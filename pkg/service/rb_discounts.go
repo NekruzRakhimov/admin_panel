@@ -808,7 +808,6 @@ func GetRB11thType(req models.RBRequest, contracts []models.Contract) ([]models.
 }
 
 func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.RbDTO, error) {
-	fmt.Println("====================вызов функции =========================================")
 	//totalbyCode := map[string]int{}
 
 	var rbDTOsl []models.RbDTO
@@ -834,61 +833,57 @@ func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.
 	purchase, _ := GetPurchase(reqBrand)
 
 	totalPurchaseCode := CountPurchaseByCode(purchase)
-	fmt.Println("totalPurchaseCode", totalPurchaseCode)
 
 	for _, contract := range contracts {
-		fmt.Println(contract.ExtContractCode, "contract.ExtContractCode")
-		fmt.Println("contract MESSAGE", contract.Discounts)
+
 		for _, discount := range contract.Discounts {
 			if discount.Code == "RB_DISCOUNT_FOR_PURCHASE_PERIOD" && discount.IsSelected == true { // здесь сравниваешь тип скидки и берешь тот тип который тебе нужен
 				for _, period := range discount.Periods {
+
+					//fmt.Printf("TYPE %s period %s contract.ExtContractCode: %s", period.Type, period.PeriodFrom, contract.ExtContractCode)
 					if period.PeriodFrom >= req.PeriodFrom && period.PeriodTo <= req.PeriodTo {
 
-						fmt.Println("externalCodes", externalCodes)
-						//PeriodFrom, _ := time.Parse(layoutISO, period.PeriodFrom)
-						//PeriodTo, _ := time.Parse(layoutISO, period.PeriodTo)
-						//if PeriodFrom.After(reqPeriodFrom) || PeriodTo.Before(reqPeriodTo) {
-
-						for code, amount := range totalPurchaseCode {
-
-							if code == contract.ExtContractCode {
-								fmt.Println("period.PurchaseAmount", period.PurchaseAmount)
-								if float32(amount) > period.PurchaseAmount {
-									total := float32(amount) * period.DiscountPercent / 100
-									RbDTO := models.RbDTO{
-										ContractNumber:       contract.ContractParameters.ContractNumber,
-										StartDate:            period.PeriodFrom,
-										EndDate:              period.PeriodTo,
-										TypePeriod:           period.Name,
-										DiscountPercent:      period.DiscountPercent,
-										DiscountAmount:       total,
-										TotalWithoutDiscount: float32(amount),
-										LeasePlan:            period.PurchaseAmount,
-										DiscountType:         RB12Name,
-									}
-									rbDTOsl = append(rbDTOsl, RbDTO)
-
-								} else {
-									RbDTO := models.RbDTO{
-										ContractNumber:       contract.ContractParameters.ContractNumber,
-										StartDate:            period.PeriodFrom,
-										EndDate:              period.PeriodTo,
-										TypePeriod:           period.Name,
-										DiscountPercent:      period.DiscountPercent,
-										DiscountAmount:       0.0,
-										TotalWithoutDiscount: float32(amount), // эта сумма, котору. мы получаем от 1С
-										LeasePlan:            period.PurchaseAmount,
-										DiscountType:         RB12Name,
-									}
-									rbDTOsl = append(rbDTOsl, RbDTO)
+						amount, ok := totalPurchaseCode[contract.ExtContractCode]
+						fmt.Println("amount", amount)
+						fmt.Println("OK", ok)
+						if ok == true {
+							if float32(amount) > period.PurchaseAmount {
+								total := float32(amount) * period.DiscountPercent / 100
+								RbDTO := models.RbDTO{
+									ContractNumber:       contract.ContractParameters.ContractNumber,
+									StartDate:            period.PeriodFrom,
+									EndDate:              period.PeriodTo,
+									TypePeriod:           period.Name,
+									DiscountPercent:      period.DiscountPercent,
+									DiscountAmount:       total,
+									TotalWithoutDiscount: float32(amount),
+									LeasePlan:            period.PurchaseAmount,
+									DiscountType:         RB12Name,
 								}
+								rbDTOsl = append(rbDTOsl, RbDTO)
 
+							} else {
+								fmt.Println()
+								RbDTO := models.RbDTO{
+									ContractNumber:       contract.ContractParameters.ContractNumber,
+									StartDate:            period.PeriodFrom,
+									EndDate:              period.PeriodTo,
+									TypePeriod:           period.Name,
+									DiscountPercent:      period.DiscountPercent,
+									DiscountAmount:       0.0,
+									TotalWithoutDiscount: float32(amount), // эта сумма, котору. мы получаем от 1С
+									LeasePlan:            period.PurchaseAmount,
+									DiscountType:         RB12Name,
+								}
+								rbDTOsl = append(rbDTOsl, RbDTO)
 							}
+						} else {
+							fmt.Println("FALSE===========================")
+
+							rbDTOsl, _ = GetNil12Rb(rbDTOsl, contract, period, RB12Name)
 
 						}
 
-					} else {
-						rbDTOsl, _ = CheckPeriodNullGrowth(contract, period, RB12Name)
 					}
 
 				}
@@ -896,8 +891,8 @@ func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.
 			}
 
 		}
+
 	}
-	//}
 
 	return rbDTOsl, nil
 }
@@ -1075,9 +1070,30 @@ func CheckPeriodNullGrowth(contract models.Contract, period models.DiscountPerio
 		ContractNumber:       contract.ContractParameters.ContractNumber,
 		StartDate:            period.PeriodFrom,
 		EndDate:              period.PeriodTo,
+		TypePeriod:           period.Name,
 		DiscountPercent:      period.DiscountPercent,
 		DiscountAmount:       0,
 		TotalWithoutDiscount: 0,
+		LeasePlan:            period.PurchaseAmount,
+		DiscountType:         discountType,
+	}
+	rbDTOsl = append(rbDTOsl, rbDTO)
+	return rbDTOsl, nil
+
+}
+
+func GetNil12Rb(rbDTOsl []models.RbDTO, contract models.Contract, period models.DiscountPeriod, discountType string) ([]models.RbDTO, error) {
+	//var
+
+	rbDTO := models.RbDTO{
+		ContractNumber:       contract.ContractParameters.ContractNumber,
+		StartDate:            period.PeriodFrom,
+		EndDate:              period.PeriodTo,
+		TypePeriod:           period.Name,
+		DiscountPercent:      period.DiscountPercent,
+		DiscountAmount:       0,
+		TotalWithoutDiscount: 0,
+		LeasePlan:            period.PurchaseAmount,
 		DiscountType:         discountType,
 	}
 	rbDTOsl = append(rbDTOsl, rbDTO)

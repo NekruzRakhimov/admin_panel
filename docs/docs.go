@@ -2550,6 +2550,65 @@ var doc = `{
                 }
             }
         },
+        "/reports/search_report_dd/": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "search"
+                ],
+                "summary": "Search ReportRB",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "target",
+                        "name": "target",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "param",
+                        "name": "param",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.StoredReport"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/reports/search_report_rb/": {
             "get": {
                 "consumes": [
@@ -3912,6 +3971,9 @@ var doc = `{
                         "$ref": "#/definitions/models.Discount"
                     }
                 },
+                "ext_contract_code": {
+                    "type": "string"
+                },
                 "extend_date": {
                     "type": "string"
                 },
@@ -3988,6 +4050,9 @@ var doc = `{
                 "beneficiary": {
                     "type": "string"
                 },
+                "contract_name": {
+                    "type": "string"
+                },
                 "contract_number": {
                     "type": "string"
                 },
@@ -4030,6 +4095,9 @@ var doc = `{
                     "type": "number"
                 },
                 "contract_date": {
+                    "type": "string"
+                },
+                "contract_name": {
                     "type": "string"
                 },
                 "contract_number": {

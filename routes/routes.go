@@ -98,7 +98,7 @@ func tempRoutes(r *gin.Engine) {
 	r.POST("/getrbseven", controller.DiscountRB7)
 	r.POST("/getrbfour", controller.DiscountRB4)
 	r.POST("/getcode", controller.GetContractCode)
-	r.POST("check_contract", controller.CheckContractIn1C)
+
 	r.POST("/rb_brand/", controller.GetBrandInfo)
 	r.POST("/rb_brand/excel/", controller.GenerateReportBrand)
 	r.POST("/check_1c_get_data", controller.Check1CGetData)
@@ -106,6 +106,7 @@ func tempRoutes(r *gin.Engine) {
 }
 
 func Check1CRoutes(r *gin.Engine) {
+	r.GET("/contracts_from_1c/", controller.CheckContractIn1C)
 	r.GET("/counterparty/:client", controller.CounterpartyContract)
 
 	r.POST("/price_type", controller.GetPriceType)
@@ -134,6 +135,7 @@ func ReportsRoutes(r *gin.Engine) {
 	reports.POST("/rb/update", controller.GetAllRBByContractorBIN)
 	reports.POST("/rb/excel", controller.FormExcelForRB)
 	reports.GET("/search_report_rb/", controller.SearchReportRB)
+	reports.GET("/search_report_dd/", controller.SearchReportDD)
 
 	reports.GET("/rb/stored", controller.GetAllStoredReports)
 	reports.GET("/rb/stored/:id/details", controller.GetStoredReportDetails)

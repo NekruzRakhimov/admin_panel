@@ -205,11 +205,40 @@ func Check1CGetData(c *gin.Context) {
 func SearchReportRB(c *gin.Context) {
 	target := c.Query("target")
 	param := c.Query("param")
+
+
+
 	//id := c.Param("id")
 	//TODO: 1. давай реализуем поиск по номеру
 	//log.Println(id, "добавить потом ID  в аргументах")
 
 	result, err := service.SearchReportRB(target, param)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, result)
+
+}
+
+
+// SearchReportDD godoc
+// @Summary      Search ReportRB
+// @Tags         search
+// @Accept       json
+// @Produce      json
+// @Param        target   query     string  true  "target"
+// @Param        param    query     string  true  "param"
+// @Success      200      {object}  models.StoredReport
+// @Failure      400      {object}  map[string]interface{}
+// @Failure      404      {object}  map[string]interface{}
+// @Failure      500      {object}  map[string]interface{}
+// @Router       /reports/search_report_dd/ [get]
+func SearchReportDD(c *gin.Context) {
+	target := c.Query("target")
+	param := c.Query("param")
+
+	result, err := service.SearchReportDD(target, param)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 		return
