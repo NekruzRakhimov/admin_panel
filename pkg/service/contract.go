@@ -632,7 +632,6 @@ func GetContractStatusChangesHistory(contractId int) (history []models.ContractS
 				contract.ContractParameters.ContractNumber,
 				contract.Requisites.Beneficiary)
 		}
-		history[i].ContractType = contract.Type
 	}
 
 	return history, nil
