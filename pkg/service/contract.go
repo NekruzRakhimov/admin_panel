@@ -131,6 +131,7 @@ func CreateContract(contract models.Contract) (err error) {
 	contractWithJson.Manager = contract.Manager
 	contractWithJson.KAM = contract.KAM
 	contractWithJson.WithTemperatureConditions = contract.WithTemperatureConditions
+	contractWithJson.ExtContractCode = contract.ExtContractCode
 	//contractWithJson.DiscountBrand = contract.BrandName
 	contractWithJson.DiscountBrand = contract.DiscountBrand
 	//	contractWithJson.DiscountBrand = contract.DiscountBrand
@@ -392,7 +393,6 @@ func ConvertContractFromJsonB(contractWithJson models.ContractWithJsonB) (contra
 
 	contract.IsExtendContract = contract.ContractParameters.IsExtendContract
 
-
 	contract.ExtendDate = contract.ContractParameters.ExtendDate
 	log.Println("ДАННЫЕ ПО КОНТРАКТУ", contract)
 	return contract, nil
@@ -617,8 +617,10 @@ func GetContractStatusChangesHistory(contractId int) (history []models.ContractS
 		switch contract.Type {
 		case "marketing_services":
 			contractType = "маркетинговых услуг"
+			history[i].ContractType = contractType
 		case "supply":
 			contractType = "поставок"
+			history[i].ContractType = contractType
 		}
 
 		if contract.AdditionalAgreementNumber != 0 {

@@ -3,6 +3,7 @@ package service
 import (
 	"admin_panel/models"
 	"admin_panel/pkg/repository"
+	"admin_panel/utils"
 	"encoding/json"
 	"fmt"
 	"github.com/xuri/excelize/v2"
@@ -232,19 +233,19 @@ func convertRbDtoToRbDtoFroStoredRbReport(dto models.RbDTO) (storedRbReport rbDt
 	if dto.LeasePlan == 0 {
 		storedRbReport.LeasePlan = emptyPlaceholder
 	} else {
-		storedRbReport.LeasePlan = fmt.Sprintf("%2f", dto.LeasePlan)
+		storedRbReport.LeasePlan = utils.FloatToMoneyFormat(float64(dto.LeasePlan))
 	}
 
 	if dto.RewardAmount == 0 && dto.DiscountPercent > 0 {
 		storedRbReport.RewardAmount = emptyPlaceholder
 	} else {
-		storedRbReport.RewardAmount = fmt.Sprintf("%2f", dto.RewardAmount)
+		storedRbReport.RewardAmount = utils.FloatToMoneyFormat(float64(dto.RewardAmount))
 	}
 
 	if dto.DiscountPercent == 0 && dto.RewardAmount > 0 {
 		storedRbReport.DiscountPercent = emptyPlaceholder
 	} else {
-		storedRbReport.DiscountPercent = fmt.Sprintf("%2f", dto.DiscountPercent)
+		storedRbReport.DiscountPercent = utils.FloatToMoneyFormat(float64(dto.DiscountPercent))
 	}
 
 	storedRbReport.DiscountAmount = dto.DiscountAmount

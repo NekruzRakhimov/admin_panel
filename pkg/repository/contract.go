@@ -89,7 +89,7 @@ func GetAllContracts(contractStatus string) (contracts []models.ContractWithJson
 	}
 
 	//sqlQuery += " ORDER BY created_at DESC"
-	sqlQuery += " ORDER BY id"
+	sqlQuery += " ORDER BY id desc"
 
 	if err := db.GetDBConn().Raw(sqlQuery).Scan(&contracts).Error; err != nil {
 		log.Println("[repository.GetAllContracts]|[db.GetDBConn().Raw(sqlQuery).Scan(&contracts).Error]| error is: ", err.Error())
