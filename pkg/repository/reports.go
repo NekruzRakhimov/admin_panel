@@ -127,6 +127,17 @@ func SearchReportRB(field string, param string) (reports []models.StoredReport, 
 
 func SearchReportDD(field string, param string) (reports []models.StoredReport, err error) {
 	//query := fmt.Sprint("SELECT *FROM stored_reports WHERE $1  Like $2")
+	if field == "id" {
+		//		atoi, _ := strconv.Atoi(param)
+		query := fmt.Sprintf("SELECT *FROM dd_stored_reports WHERE %s = $1", field)
+		err = db.GetDBConn().Raw(query, param).Scan(&reports).Error
+		if err != nil {
+			return nil, err
+		}
+		return reports, nil
+
+	}
+
 	query := fmt.Sprintf("SELECT *FROM dd_stored_reports WHERE %s LIKE $1", field)
 	err = db.GetDBConn().Raw(query, "%"+param+"%").Scan(&reports).Error
 	if err != nil {
