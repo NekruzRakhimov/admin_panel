@@ -331,7 +331,6 @@ func GetRB3rdType(request models.RBRequest, contracts []models.Contract) ([]mode
 
 
 func GetRB14rdType(request models.RBRequest, contracts []models.Contract) ([]models.RbDTO, error) {
-
 	//externalCodes := GetExternalCode(request.BIN)
 	//contractsCode := JoinContractCode(externalCodes)
 	req := models.ReqBrand{
@@ -361,7 +360,7 @@ func GetRB14rdType(request models.RBRequest, contracts []models.Contract) ([]mod
 						LeasePlan:       product.Plan,
 						DiscountType:    RB14Name,
 					}
-					if totalAmount >= float64(product.Plan) {
+					if totalAmount >= product.Plan {
 						rb.DiscountAmount = float32(totalAmount) * rb.DiscountPercent / 100
 					} else {
 						rb.DiscountAmount = 0
@@ -1177,8 +1176,8 @@ func CountPurchaseByCode(purchase models.Purchase) map[string]float64 {
 
 }
 
-func CountSales(sales models.Sales) float64 {
-	var amount float64
+func CountSales(sales models.Sales) float32 {
+	var amount float32
 	for _, value := range sales.SalesArr {
 		amount += value.Total
 	}

@@ -20,13 +20,14 @@ type Sales struct {
 }
 
 type SalesArr struct {
-	Total      float64 `json:"total"`
-	QntTotal   int     `json:"qnt_total"`
-	Date       string  `json:"date"`
-	BrandCode  string  `json:"brand_code"`
-	BrandName  string  `json:"brand_name"`
+	ProductName string  `json:"product_name"`
+	ProductCode string  `json:"product_code"`
+	Total       float32 `json:"total"`
+	QntTotal    float32 `json:"qnt_total"`
+	Date        string  `json:"date"`
+	BrandCode   string  `json:"brand_code"`
+	BrandName   string  `json:"brand_name"`
 }
-
 
 type Purchase struct {
 	PurchaseArr []PurchaseArr `json:"purchase_arr"`
