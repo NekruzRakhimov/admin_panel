@@ -88,6 +88,7 @@ func runServer(r *gin.Engine) {
 
 func routesFor1C(r *gin.Engine) {
 	r.POST("/1c/data", controller.SaveDataFrom1C)
+	r.GET("/regions_from_1c", controller.GetRegions)
 }
 
 func DDRoutes(r *gin.Engine) {

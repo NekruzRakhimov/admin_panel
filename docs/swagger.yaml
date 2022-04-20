@@ -140,11 +140,15 @@ definitions:
         type: string
       beneficiary:
         type: string
+      bin:
+        type: string
       contract_name:
         type: string
       contract_number:
         type: string
       contract_type:
+        type: string
+      contract_type_eng:
         type: string
       contractor_name:
         type: string
@@ -341,6 +345,10 @@ definitions:
         items:
           $ref: '#/definitions/models.DiscountPeriod'
         type: array
+      products:
+        items:
+          $ref: '#/definitions/models.Product'
+        type: array
     type: object
   models.DiscountBrand:
     properties:
@@ -484,7 +492,7 @@ definitions:
         type: string
       discount_percent:
         type: number
-      lease_plan:
+      plan:
         type: number
       price:
         type: number
@@ -497,6 +505,8 @@ definitions:
       product_number:
         type: string
       sku:
+        type: string
+      sku_name:
         type: string
       storage_condition:
         type: string
@@ -549,6 +559,13 @@ definitions:
       status:
         type: string
       type_period:
+        type: string
+    type: object
+  models.Regions:
+    properties:
+      region_code:
+        type: string
+      region_name:
         type: string
     type: object
   models.Requisites:
@@ -2251,6 +2268,38 @@ paths:
       summary: get price type by BIN
       tags:
       - price_type
+  /regions_from_1c:
+    get:
+      consumes:
+      - application/json
+      description: Gel All regions
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Regions'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All regions
+      tags:
+      - contracts
   /reports/dd/stored:
     get:
       consumes:

@@ -544,8 +544,6 @@ func CheckContractIn1C(bin string) (models.ResponseContractFrom1C, error) {
 
 func CheckContractNumber(contractFor1C models.ContractDTOFor1C) (code int, err error) {
 
-
-
 	resp1C, err := CheckContractIn1C(contractFor1C.Requisites.BIN)
 	if err != nil {
 		return 0, err
@@ -565,4 +563,47 @@ func CheckContractNumber(contractFor1C models.ContractDTOFor1C) (code int, err e
 	}
 
 	return 0, err
+}
+
+func GetRegionsFrom1C() (regions []models.Regions, err error) {
+	regions1C := struct {
+		RegionArr []models.Regions `json:"region_arr"`
+	}{}
+
+	client := &http.Client{}
+	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/regions"
+	req, err := http.NewRequest("GET", uri, nil)
+	req.Header.Set("Content-Type", "application/json") // This makes it work
+	req.SetBasicAuth("http_client", "123456")
+
+	if err != nil {
+		log.Println(err)
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	body = bytes.TrimPrefix(body, []byte("\xef\xbb\xbf")) // Or []byte{239, 187, 191}
+
+	err = json.Unmarshal(body, &regions1C)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	fmt.Println(string(body))
+	return regions1C.RegionArr, nil
 }

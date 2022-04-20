@@ -2174,6 +2174,53 @@ var doc = `{
                 }
             }
         },
+        "/regions_from_1c": {
+            "get": {
+                "description": "Gel All regions",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contracts"
+                ],
+                "summary": "Get All regions",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Regions"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/reports/dd/stored": {
             "get": {
                 "description": "Gel All reports",
@@ -4050,6 +4097,9 @@ var doc = `{
                 "beneficiary": {
                     "type": "string"
                 },
+                "bin": {
+                    "type": "string"
+                },
                 "contract_name": {
                     "type": "string"
                 },
@@ -4057,6 +4107,9 @@ var doc = `{
                     "type": "string"
                 },
                 "contract_type": {
+                    "type": "string"
+                },
+                "contract_type_eng": {
                     "type": "string"
                 },
                 "contractor_name": {
@@ -4354,6 +4407,12 @@ var doc = `{
                     "items": {
                         "$ref": "#/definitions/models.DiscountPeriod"
                     }
+                },
+                "products": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Product"
+                    }
                 }
             }
         },
@@ -4576,7 +4635,7 @@ var doc = `{
                 "discount_percent": {
                     "type": "number"
                 },
-                "lease_plan": {
+                "plan": {
                     "type": "number"
                 },
                 "price": {
@@ -4595,6 +4654,9 @@ var doc = `{
                     "type": "string"
                 },
                 "sku": {
+                    "type": "string"
+                },
+                "sku_name": {
                     "type": "string"
                 },
                 "storage_condition": {
@@ -4674,6 +4736,17 @@ var doc = `{
                     "type": "string"
                 },
                 "type_period": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Regions": {
+            "type": "object",
+            "properties": {
+                "region_code": {
+                    "type": "string"
+                },
+                "region_name": {
                     "type": "string"
                 }
             }
