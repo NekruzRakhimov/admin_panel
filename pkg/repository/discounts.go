@@ -48,7 +48,7 @@ func AddOrUpdateDoubtedDiscount(bin, periodFrom, periodTo, contractNumber, disco
 func GetAllContractDetailByBIN(bin, PeriodFrom, PeriodTo string) (contracts []models.ContractWithJsonB, err error) {
 	if err = db.GetDBConn().Table("contracts").
 		Where(`requisites ->> 'bin' = ? 	
-					AND contract_parameters ->> 'start_date' >= ? AND contract_parameters ->> 'end_date' <= ? AND status = 'в работе'`, bin, PeriodFrom, PeriodTo).
+					AND contract_parameters ->> 'start_date' <= ? AND contract_parameters ->> 'end_date' >= ? AND status = 'в работе'`, bin, PeriodFrom, PeriodTo).
 		Find(&contracts).Error; err != nil {
 		log.Println("[repository][GetAllContractDetailByBIN] error is: ", err.Error())
 		return nil, err
