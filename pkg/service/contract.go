@@ -119,7 +119,9 @@ func CreateContract(contract models.Contract) (err error) {
 	fmt.Printf("contract: %+v\n", contract)
 
 	for _, contractMiniInfo := range contractsMiniInfo {
-		if contractMiniInfo.ContractNumber == contract.ContractParameters.ContractNumber {
+		if contractMiniInfo.ContractNumber == contract.ContractParameters.ContractNumber &&
+			contractMiniInfo.Bin == contract.Requisites.BIN &&
+			contractMiniInfo.ContractTypeEng == contract.Type {
 			return errors.New("договор с таким номером уже существует")
 		}
 	}
@@ -322,7 +324,8 @@ func ConvertContractToContractMiniInfo(contract models.Contract) (contractMiniIn
 	contractMiniInfo.StartDate = contract.ContractParameters.StartDate
 	contractMiniInfo.EndDate = contract.ContractParameters.EndDate
 	contractMiniInfo.ContractName = contract.ContractParameters.ContractName
-
+	contractMiniInfo.Bin = contract.Requisites.BIN
+	contractMiniInfo.ContractTypeEng = contract.Type
 	return contractMiniInfo
 }
 

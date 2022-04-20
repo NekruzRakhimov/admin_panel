@@ -192,14 +192,20 @@ func LoginNew(c *gin.Context) {
 	//	return
 	//}
 
-	tokens, err := token.GenerateTokenPair()
+	accessToken, err := token.GenerateToken(login)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
 		return
 	}
 
-	login.Access = tokens["access_token"]
-	login.Refresh = tokens["refresh_token"]
+	refreshToken, err := token.GenerateToken(login)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
+		return
+	}
+
+	login.Access = accessToken
+	login.Refresh = refreshToken
 	login.FullName = login.Name
 	c.JSON(http.StatusOK, login)
 }

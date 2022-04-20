@@ -48,6 +48,9 @@ func runAllRoutes(r *gin.Engine) {
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	r.POST("/login", controller.LoginNew)
+
+	//token.UserIdentity - это middleware для проверки токена
+
 	r.POST("/token", token.Token)
 	//r.POST("/loginnew", controller.LoginNew)
 

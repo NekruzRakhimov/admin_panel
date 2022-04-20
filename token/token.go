@@ -1,10 +1,13 @@
 package token
 
 import (
+	"admin_panel/models"
+	"errors"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -94,4 +97,91 @@ func Token(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, gin.H{"reason": "StatusUnauthorized"})
 		return
 	}
+}
+
+//func TokenNew(c *gin.Context) {
+//	var tokens struct{
+//		AccessToken string `json:"access_token"`
+//		RefreshToken string `json:"refresh_token"`
+//	}
+//
+//
+//}
+
+type tokenClaims struct {
+	jwt.StandardClaims
+	UId          string `json:"uid"`
+	UserFullName string `json:"user_full_name"`
+}
+
+const (
+	salt       = "hjqrhjqw124617ajfhajs"
+	signingKey = "qrkjk#4#%35FSFJlja#4353KSFjH"
+	tokenTTL   = 12 * time.Hour
+)
+
+func GenerateToken(login models.AuthResponse) (string, error) {
+	//user, err := s.repo.GetUser(username, generatePasswordHash(password))
+	//if err != nil {
+	//	return "", err
+	//}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &tokenClaims{
+		jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(tokenTTL).Unix(),
+			IssuedAt:  time.Now().Unix(),
+			Issuer:    "Server",
+		},
+		login.Uid,
+		login.FullName,
+	})
+
+	return token.SignedString([]byte(signingKey))
+}
+
+const (
+	accessHeader  = "access"
+	refreshHeader = "refresh"
+	UId           = "UId"
+	UserFullName  = "UserFullName"
+)
+
+func UserIdentity(c *gin.Context) {
+	header := c.GetHeader(accessHeader)
+	if header == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{"reason": "empty auth header"})
+		return
+	}
+
+	headerParts := strings.Split(header, " ")
+	if len(headerParts) != 2 {
+		c.JSON(http.StatusUnauthorized, gin.H{"reason": "invalid auth header"})
+		return
+	}
+
+	claims, err := ParseToken(headerParts[1])
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"reason": err.Error()})
+	}
+
+	c.Set(UId, claims.UId)
+	c.Set(UserFullName, claims.UserFullName)
+}
+
+func ParseToken(accessToken string) (*tokenClaims, error) {
+	token, err := jwt.ParseWithClaims(accessToken, &tokenClaims{}, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, errors.New("invalid signing method")
+		}
+		return []byte(signingKey), nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	claims, ok := token.Claims.(*tokenClaims)
+	if !ok {
+		return nil, errors.New("token claims are not type of *tokenClaims")
+	}
+
+	return claims, nil
 }

@@ -22,7 +22,6 @@ type ContractWithJsonB struct {
 	DiscountBrand             []DiscountBrand `json:"discount_brand"`
 	AdditionalAgreementNumber int             `json:"additional_agreement_number"`
 	ExtContractCode           string          `json:"ext_contract_code"`
-
 }
 
 type Contract struct {
@@ -83,8 +82,9 @@ type ContractMiniInfo struct {
 	ContractorName            string  `json:"contractor_name"`
 	Beneficiary               string  `json:"beneficiary,omitempty"`
 	ContractNumber            string  `json:"contract_number"`
-	ContractName  string  `json:"contract_name"`
+	ContractName              string  `json:"contract_name"`
 	ContractType              string  `json:"contract_type"`
+	ContractTypeEng           string  `json:"contract_type_eng"`
 	Status                    string  `json:"status"`
 	Author                    string  `json:"author"`
 	Amount                    float32 `json:"amount"`
@@ -95,6 +95,7 @@ type ContractMiniInfo struct {
 	AdditionalAgreementNumber int     `json:"additional_agreement_number"`
 	EndDate                   string  `json:"end_date"`
 	StartDate                 string  `json:"start_date"`
+	Bin                       string  `json:"bin"`
 }
 
 // Requisites Ревезиты
@@ -125,7 +126,7 @@ type SupplierCompanyManager struct {
 
 type ContractParameters struct {
 	ContractNumber string  `json:"contract_number"`
-	ContractName  string  `json:"contract_name"`
+	ContractName   string  `json:"contract_name"`
 	ContractAmount float32 `json:"contract_amount"`
 
 	// update fields
