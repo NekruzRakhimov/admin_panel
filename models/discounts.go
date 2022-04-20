@@ -9,6 +9,13 @@ type RBRequest struct {
 	DoubtedDiscounts []DoubtedDiscount `json:"doubted_discounts"`
 }
 
+type Region struct {
+	RegionArr []struct {
+		RegionName string `json:"region_name"`
+		RegionCode string `json:"region_code"`
+	} `json:"region_arr"`
+}
+
 type RbDTO struct {
 	ID                   int     `json:"id"`
 	ContractNumber       string  `json:"contract_number"`

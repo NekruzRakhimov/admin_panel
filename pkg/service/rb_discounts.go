@@ -24,12 +24,14 @@ const (
 	RB11Name = "Скидка  РБ за поддержание ассортимента"
 	RB12Name = "Скидка РБ объем за закупку в промежутке времени"
 	RB13Name = "Скидка  РБ за прирост продаж"
+	RB14Name = "Скидка за выполнение объема продаж по препаратам"
 )
 
 const (
 	RB1Code  = "TOTAL_AMOUNT_OF_SELLING"
 	RB2Code  = "DISCOUNT_BRAND"
 	RB3Code  = "DISCOUNT_PLAN_LEASE"
+	RB14Code  = "DISCOUNT_PLAN_SALE"
 	RB4Code  = "DISCOUNT_FOR_REPRESENTATION"
 	RB5Code  = "DISCOUNT_FOR_FIX_SUM_MTZ"
 	RB6Code  = "DISCOUNT_FOR_PLAN_MTZ"
@@ -325,6 +327,56 @@ func GetRB3rdType(request models.RBRequest, contracts []models.Contract) ([]mode
 
 	return RBs, nil
 }
+
+
+
+func GetRB14rdType(request models.RBRequest, contracts []models.Contract) ([]models.RbDTO, error) {
+
+	//externalCodes := GetExternalCode(request.BIN)
+	//contractsCode := JoinContractCode(externalCodes)
+	req := models.ReqBrand{
+		ClientBin:      request.BIN,
+		DateStart:      request.PeriodFrom,
+		DateEnd:        request.PeriodTo,
+		TypeValue:      "",
+		TypeParameters: nil,
+		//Contracts:      contractsCode, // необходимо получить коды контрактов
+	}
+	//purchase, _ := GetPurchase(req)
+	sales, _ := GetSales(req)
+	totalAmount := CountSales(sales)
+	var RBs []models.RbDTO
+	for _, contract := range contracts {
+		for _, discount := range contract.Discounts {
+			if discount.Code == RB14Code && discount.IsSelected == true {
+				for _, product := range discount.Products {
+					//total := GetTotalSalesForSku(sales, product.Sku)
+					rb := models.RbDTO{
+						ID:              contract.ID,
+						ContractNumber:  contract.ContractParameters.ContractNumber,
+						StartDate:       contract.ContractParameters.StartDate,
+						EndDate:         contract.ContractParameters.EndDate,
+						ProductCode:     product.Sku,
+						DiscountPercent: product.DiscountPercent,
+						LeasePlan:       product.Plan,
+						DiscountType:    RB14Name,
+					}
+					if totalAmount >= float64(product.Plan) {
+						rb.DiscountAmount = float32(totalAmount) * rb.DiscountPercent / 100
+					} else {
+						rb.DiscountAmount = 0
+					}
+
+					RBs = append(RBs, rb)
+
+				}
+			}
+		}
+	}
+
+	return RBs, nil
+}
+
 
 func GetRB4thType(request models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
 	//externalCodes := GetExternalCode(request.BIN)
@@ -910,8 +962,6 @@ func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.
 }
 
 func GetRB13thType(rb models.RBRequest, contracts []models.Contract) ([]models.RbDTO, error) {
-	log.Println("ФУНКЦИЯ ПО ПРИРОСТУ ВЫЗВАЛАСЬ===================================================================================================")
-	fmt.Println("ФУНКЦИЯ ПО ПРИРОСТУ ВЫЗВАЛАСЬ===================================================================================================")
 	var rbDTOsl []models.RbDTO
 
 	// чтобы преобразоват дату в ввиде День.Месяц.Год
@@ -1125,6 +1175,14 @@ func CountPurchaseByCode(purchase models.Purchase) map[string]float64 {
 	}
 	return totallyCode
 
+}
+
+func CountSales(sales models.Sales) float64 {
+	var amount float64
+	for _, value := range sales.SalesArr {
+		amount += value.Total
+	}
+	return amount
 }
 
 func CountPurchase(purchase models.Purchase) float64 {

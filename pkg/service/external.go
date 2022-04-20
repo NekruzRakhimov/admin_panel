@@ -570,6 +570,7 @@ func GetRegionsFrom1C() (regions []models.Regions, err error) {
 		RegionArr []models.Regions `json:"region_arr"`
 	}{}
 
+	//models.Region{}
 	client := &http.Client{}
 	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/regions"
 	req, err := http.NewRequest("GET", uri, nil)
