@@ -4045,6 +4045,9 @@ var doc = `{
                         "$ref": "#/definitions/models.Product"
                     }
                 },
+                "regions": {
+                    "$ref": "#/definitions/models.Regions"
+                },
                 "requisites": {
                     "$ref": "#/definitions/models.Requisites"
                 },
@@ -4058,6 +4061,9 @@ var doc = `{
                     "type": "string"
                 },
                 "updated_at": {
+                    "type": "string"
+                },
+                "view": {
                     "type": "string"
                 },
                 "with_temperature_conditions": {
@@ -4137,6 +4143,9 @@ var doc = `{
                     "type": "string"
                 },
                 "updated_at": {
+                    "type": "string"
+                },
+                "view": {
                     "type": "string"
                 }
             }
