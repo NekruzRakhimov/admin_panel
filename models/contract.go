@@ -176,7 +176,8 @@ type Product struct {
 	StorageCondition string    `json:"storage_condition"`
 	Producer         string    `json:"producer"`
 	Sku              string    `json:"sku"`
-	LeasePlan        float32   `json:"lease_plan"`
+	SkuName string `json:"sku_name"`
+	Plan        float32 `json:"plan"`
 	DiscountPercent  float32   `json:"discount_percent"`
 	PriceType        PriceType `json:"price_type"`
 }
@@ -209,6 +210,7 @@ type Discount struct {
 	GrowthPercent   float32          `json:"growth_percent"`
 	Periods         []DiscountPeriod `json:"periods,omitempty"`
 	DiscountBrands  []DiscountBrands `json:"discount_brands"`
+	Products         []Product `json:"products"`
 }
 
 type ResponseDiscount struct {
