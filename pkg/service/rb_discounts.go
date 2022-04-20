@@ -261,10 +261,10 @@ func GetRB3rdType(request models.RBRequest, contracts []models.Contract) ([]mode
 				EndDate:         contract.ContractParameters.EndDate,
 				ProductCode:     product.Sku,
 				DiscountPercent: product.DiscountPercent,
-				LeasePlan:       product.LeasePlan,
+				LeasePlan:       product.Plan,
 				DiscountType:    RB3Name,
 			}
-			if totalAmount >= float64(product.LeasePlan) {
+			if totalAmount >= float64(product.Plan) {
 				rb.DiscountAmount = float32(totalAmount) * rb.DiscountPercent / 100
 			} else {
 				rb.DiscountAmount = 0
