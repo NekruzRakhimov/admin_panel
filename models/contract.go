@@ -22,6 +22,8 @@ type ContractWithJsonB struct {
 	DiscountBrand             []DiscountBrand `json:"discount_brand"`
 	AdditionalAgreementNumber int             `json:"additional_agreement_number"`
 	ExtContractCode           string          `json:"ext_contract_code"`
+	View                      string          `json:"view"`
+	Regions                   string          `json:"regions"`
 }
 
 type Contract struct {
@@ -48,6 +50,8 @@ type Contract struct {
 	//	DiscountPercent string `json:"discount_percent"`
 	DiscountBrand   []DiscountBrand `json:"discount_brand"`
 	ExtContractCode string          `json:"ext_contract_code"`
+	View            string          `json:"view"`
+	Regions         Regions         `json:"regions"`
 }
 
 type PriceType struct {
@@ -96,6 +100,7 @@ type ContractMiniInfo struct {
 	EndDate                   string  `json:"end_date"`
 	StartDate                 string  `json:"start_date"`
 	Bin                       string  `json:"bin"`
+	View                      string  `json:"view"`
 }
 
 // Requisites Ревезиты
@@ -176,8 +181,8 @@ type Product struct {
 	StorageCondition string    `json:"storage_condition"`
 	Producer         string    `json:"producer"`
 	Sku              string    `json:"sku"`
-	SkuName string `json:"sku_name"`
-	Plan        float32 `json:"plan"`
+	SkuName          string    `json:"sku_name"`
+	Plan             float32   `json:"plan"`
 	DiscountPercent  float32   `json:"discount_percent"`
 	PriceType        PriceType `json:"price_type"`
 }
@@ -210,7 +215,7 @@ type Discount struct {
 	GrowthPercent   float32          `json:"growth_percent"`
 	Periods         []DiscountPeriod `json:"periods,omitempty"`
 	DiscountBrands  []DiscountBrands `json:"discount_brands"`
-	Products         []Product `json:"products"`
+	Products        []Product        `json:"products"`
 }
 
 type ResponseDiscount struct {
