@@ -244,7 +244,7 @@ func GetPurchase(reqBrand models.ReqBrand) (models.Purchase, error) {
 		Type:           "purchase_total",
 		TypeValue:      "",
 		TypeParameters: nil,
-		Contracts:      reqBrand.Contracts,
+		Contracts:      nil,
 	}
 	//for _, value := range brandInfo {
 	//	date.TypeParameters = append(date.TypeParameters, value.Brand)

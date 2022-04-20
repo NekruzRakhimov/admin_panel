@@ -215,72 +215,120 @@ func GetRB2ndType(rb models.RBRequest, contracts []models.Contract) (rbDTO []mod
 	return rbDTO
 }
 
+//func GetRB3rdType(request models.RBRequest, contracts []models.Contract) ([]models.RbDTO, error) {
+//
+//	//req := models.ReqBrand{
+//	//	ClientBin:      request.BIN,
+//	//	Beneficiary:    request.ContractorName,
+//	//	DateStart:      request.PeriodFrom,
+//	//	DateEnd:        request.PeriodTo,
+//	//	Type:           "sales",
+//	//	TypeValue:      "sku",
+//	//	TypeParameters: GetAllProductsSku(contracts),
+//	//}
+//	//
+//	//sales, err := GetBrandSales(req)
+//	//if err != nil {
+//	//	return nil, err
+//	//}
+//
+//	externalCodes := GetExternalCode(request.BIN)
+//	contractsCode := JoinContractCode(externalCodes)
+//
+//	req := models.ReqBrand{
+//		ClientBin:      request.BIN,
+//		DateStart:      request.PeriodFrom,
+//		DateEnd:        request.PeriodTo,
+//		TypeValue:      "",
+//		TypeParameters: nil,
+//		Contracts:      contractsCode, // необходимо получить коды контрактов
+//	}
+//	purchase, _ := GetPurchase(req)
+//	totalAmount := GetPurchaseTotalAmount(purchase)
+//
+//	//fmt.Printf("req \n\n%+v\n\n", req)
+//	//fmt.Printf("SALES \n\n%+v\n\n", sales)
+//
+//	var RBs []models.RbDTO
+//	fmt.Println("*********************************************")
+//	for _, contract := range contracts {
+//		for _, product := range contract.Products {
+//			//total := GetTotalSalesForSku(sales, product.Sku)
+//			rb := models.RbDTO{
+//				ID:              contract.ID,
+//				ContractNumber:  contract.ContractParameters.ContractNumber,
+//				StartDate:       contract.ContractParameters.StartDate,
+//				EndDate:         contract.ContractParameters.EndDate,
+//				ProductCode:     product.Sku,
+//				DiscountPercent: product.DiscountPercent,
+//				LeasePlan:       product.Plan,
+//				DiscountType:    RB3Name,
+//			}
+//			if totalAmount >= float64(product.Plan) {
+//				rb.DiscountAmount = float32(totalAmount) * rb.DiscountPercent / 100
+//			} else {
+//				rb.DiscountAmount = 0
+//			}
+//
+//			RBs = append(RBs, rb)
+//
+//		}
+//	}
+//	fmt.Println("*********************************************")
+//	return RBs, nil
+//}\
+
 func GetRB3rdType(request models.RBRequest, contracts []models.Contract) ([]models.RbDTO, error) {
 
-	//req := models.ReqBrand{
-	//	ClientBin:      request.BIN,
-	//	Beneficiary:    request.ContractorName,
-	//	DateStart:      request.PeriodFrom,
-	//	DateEnd:        request.PeriodTo,
-	//	Type:           "sales",
-	//	TypeValue:      "sku",
-	//	TypeParameters: GetAllProductsSku(contracts),
-	//}
-	//
-	//sales, err := GetBrandSales(req)
-	//if err != nil {
-	//	return nil, err
-	//}
-
-	externalCodes := GetExternalCode(request.BIN)
-	contractsCode := JoinContractCode(externalCodes)
-
+	//externalCodes := GetExternalCode(request.BIN)
+	//contractsCode := JoinContractCode(externalCodes)
 	req := models.ReqBrand{
 		ClientBin:      request.BIN,
 		DateStart:      request.PeriodFrom,
 		DateEnd:        request.PeriodTo,
 		TypeValue:      "",
 		TypeParameters: nil,
-		Contracts:      contractsCode, // необходимо получить коды контрактов
+		//Contracts:      contractsCode, // необходимо получить коды контрактов
 	}
 	purchase, _ := GetPurchase(req)
 	totalAmount := GetPurchaseTotalAmount(purchase)
 
-	//fmt.Printf("req \n\n%+v\n\n", req)
-	//fmt.Printf("SALES \n\n%+v\n\n", sales)
-
 	var RBs []models.RbDTO
-	fmt.Println("*********************************************")
+
 	for _, contract := range contracts {
-		for _, product := range contract.Products {
-			//total := GetTotalSalesForSku(sales, product.Sku)
-			rb := models.RbDTO{
-				ID:              contract.ID,
-				ContractNumber:  contract.ContractParameters.ContractNumber,
-				StartDate:       contract.ContractParameters.StartDate,
-				EndDate:         contract.ContractParameters.EndDate,
-				ProductCode:     product.Sku,
-				DiscountPercent: product.DiscountPercent,
-				LeasePlan:       product.Plan,
-				DiscountType:    RB3Name,
-			}
-			if totalAmount >= float64(product.Plan) {
-				rb.DiscountAmount = float32(totalAmount) * rb.DiscountPercent / 100
-			} else {
-				rb.DiscountAmount = 0
-			}
+		for _, discount := range contract.Discounts {
+			if discount.Code == RB3Code && discount.IsSelected == true {
+				for _, product := range discount.Products {
+					//total := GetTotalSalesForSku(sales, product.Sku)
+					rb := models.RbDTO{
+						ID:              contract.ID,
+						ContractNumber:  contract.ContractParameters.ContractNumber,
+						StartDate:       contract.ContractParameters.StartDate,
+						EndDate:         contract.ContractParameters.EndDate,
+						ProductCode:     product.Sku,
+						DiscountPercent: product.DiscountPercent,
+						LeasePlan:       product.Plan,
+						DiscountType:    RB3Name,
+					}
+					if totalAmount >= float64(product.Plan) {
+						rb.DiscountAmount = float32(totalAmount) * rb.DiscountPercent / 100
+					} else {
+						rb.DiscountAmount = 0
+					}
 
-			RBs = append(RBs, rb)
+					RBs = append(RBs, rb)
 
+				}
+			}
 		}
 	}
-	fmt.Println("*********************************************")
+
 	return RBs, nil
 }
 
 func GetRB4thType(request models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
-	externalCodes := GetExternalCode(request.BIN)
-	contractsCode := JoinContractCode(externalCodes)
+	//externalCodes := GetExternalCode(request.BIN)
+	//	contractsCode := JoinContractCode(externalCodes)
 	//var contractsCode []string
 	//for _, value := range externalCodes {
 	//	contractsCode = append(contractsCode, value.ExtContractCode)
@@ -291,61 +339,61 @@ func GetRB4thType(request models.RBRequest, contracts []models.Contract) (rbDTO 
 		Beneficiary: request.ContractorName,
 		DateStart:   request.PeriodFrom,
 		DateEnd:     request.PeriodTo,
-		Contracts:   contractsCode,
+		//Contracts:   contractsCode,
 	}
 
 	//sales, err := GetSales(req)
 	purchase, err := GetPurchase(req)
-	totalAmountPurchase := CountPurchaseByCode(purchase)
+	//totalAmountPurchase := CountPurchaseByCode(purchase)
+	amount := CountPurchase(purchase)
 
 	//totalAmountPurchase := GetTotalAmountPurchase(purchase)
 
 	log.Printf("[CHECK PRES SAlES: %+v\n", purchase)
-	log.Printf("[CHECK PRES TOTAL AMOUNT]: %v\n", totalAmountPurchase)
-
+	//log.Printf("[CHECK PRES TOTAL AMOUNT]: %v\n", totalAmountPurchase)
 	for _, contract := range contracts {
 		for _, discount := range contract.Discounts {
 			if discount.Code == RB4Code && discount.IsSelected == true {
 				fmt.Println("Условия прошли")
 				var discountAmount float32
 				if repository.DoubtedDiscountExecutionCheck(request, contract.ContractParameters.ContractNumber, discount.Code) {
-					for _, amount := range totalAmountPurchase {
-						if amount > 0 {
-							discountAmount = float32(amount) * discount.DiscountPercent / 100
-							rbDTO = append(rbDTO, models.RbDTO{
-								ContractNumber:       contract.ContractParameters.ContractNumber,
-								StartDate:            request.PeriodTo,
-								EndDate:              request.PeriodFrom,
-								DiscountPercent:      discount.DiscountPercent,
-								DiscountAmount:       discountAmount,
-								TotalWithoutDiscount: float32(amount),
-								DiscountType:         RB4Name,
-							})
+					//for _, amount := range totalAmountPurchase {
+					if amount > 0 {
+						discountAmount = float32(amount) * discount.DiscountPercent / 100
+						rbDTO = append(rbDTO, models.RbDTO{
+							ContractNumber:       contract.ContractParameters.ContractNumber,
+							StartDate:            contract.ContractParameters.StartDate,
+							EndDate:              contract.ContractParameters.EndDate,
+							DiscountPercent:      discount.DiscountPercent,
+							DiscountAmount:       discountAmount,
+							TotalWithoutDiscount: float32(amount),
+							DiscountType:         RB4Name,
+						})
 
-						} else {
-							rbDTO = append(rbDTO, models.RbDTO{
-								ContractNumber:       contract.ContractParameters.ContractNumber,
-								StartDate:            request.PeriodTo,
-								EndDate:              request.PeriodFrom,
-								DiscountPercent:      discount.DiscountPercent,
-								DiscountAmount:       0,
-								TotalWithoutDiscount: float32(amount),
-								DiscountType:         RB4Name,
-							})
-						}
-						log.Printf("[CHECK PRES DISCOUNT AMOUNT]: %v\n", discountAmount)
-
+					} else {
+						rbDTO = append(rbDTO, models.RbDTO{
+							ContractNumber:       contract.ContractParameters.ContractNumber,
+							StartDate:            contract.ContractParameters.StartDate,
+							EndDate:              contract.ContractParameters.EndDate,
+							DiscountPercent:      discount.DiscountPercent,
+							DiscountAmount:       0,
+							TotalWithoutDiscount: float32(amount),
+							DiscountType:         RB4Name,
+						})
 					}
-					log.Printf("[CHECK PRES DISCOUNT PERCENT]: %f\n", discount.DiscountPercent)
-					log.Printf("[CHECK PRES TOTAL AMOUNT]: %f\n", totalAmountPurchase)
+					log.Printf("[CHECK PRES DISCOUNT AMOUNT]: %v\n", discountAmount)
 
-					log.Println("[CHECK PRES TRUE/FALSE]: ", repository.DoubtedDiscountExecutionCheck(request, contract.ContractParameters.ContractNumber, discount.Code))
-
-					log.Printf("CHECK PRES DISCOUNT rbDTO %+v\n", rbDTO)
 				}
+				log.Printf("[CHECK PRES DISCOUNT PERCENT]: %f\n", discount.DiscountPercent)
+				//log.Printf("[CHECK PRES TOTAL AMOUNT]: %f\n", totalAmountPurchase)
+
+				log.Println("[CHECK PRES TRUE/FALSE]: ", repository.DoubtedDiscountExecutionCheck(request, contract.ContractParameters.ContractNumber, discount.Code))
+
+				log.Printf("CHECK PRES DISCOUNT rbDTO %+v\n", rbDTO)
 			}
 		}
 	}
+	//	}
 	return rbDTO, nil
 
 }
@@ -369,20 +417,6 @@ func RB5thTypeDetails(request models.RBRequest, contract models.Contract, discou
 	log.Printf("\n[DISCOUNT_DETAILS] %+v\n", discount)
 	for _, discountBrand := range discount.DiscountBrands {
 		if discountBrand.PeriodFrom >= request.PeriodFrom && discountBrand.PeriodTo <= request.PeriodTo {
-			//req := models.ReqBrand{
-			//	ClientBin:      request.BIN,
-			//	Beneficiary:    request.ContractorName,
-			//	DateStart:      request.PeriodFrom,
-			//	DateEnd:        request.PeriodTo,
-			//	Type:           "sales",
-			//	TypeValue:      "brands",
-			//	TypeParameters: GeAllBrands(discountBrand.Brands),
-			//}
-			//
-			//sales, err := GetBrandSales(req)
-			//if err != nil {
-			//	return nil, err
-			//}
 
 			externalCodes := GetExternalCode(request.BIN)
 			contractsCode := JoinContractCode(externalCodes)
@@ -820,69 +854,45 @@ func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.
 	//reqPeriodTo, _ := time.Parse(layoutISO, req.PeriodTo)
 
 	// get all contracts_code by BIN
-	externalCodes := GetExternalCode(req.BIN)
-	contractsCode := JoinContractCode(externalCodes)
+	//externalCodes := GetExternalCode(req.BIN)
+	//contractsCode := JoinContractCode(externalCodes)
 	reqBrand := models.ReqBrand{
 		ClientBin:      req.BIN,
 		DateStart:      req.PeriodFrom,
 		DateEnd:        req.PeriodTo,
 		TypeValue:      "",
 		TypeParameters: nil,
-		Contracts:      contractsCode, // необходимо получить коды контрактов
+		//Contracts:      contractsCode, // необходимо получить коды контрактов
 	}
 	purchase, _ := GetPurchase(reqBrand)
 
-	totalPurchaseCode := CountPurchaseByCode(purchase)
+	//	totalPurchaseCode := CountPurchaseByCode(purchase)
+	amount := CountPurchase(purchase)
 
 	for _, contract := range contracts {
-
 		for _, discount := range contract.Discounts {
 			if discount.Code == "RB_DISCOUNT_FOR_PURCHASE_PERIOD" && discount.IsSelected == true { // здесь сравниваешь тип скидки и берешь тот тип который тебе нужен
 				for _, period := range discount.Periods {
-
 					//fmt.Printf("TYPE %s period %s contract.ExtContractCode: %s", period.Type, period.PeriodFrom, contract.ExtContractCode)
 					if period.PeriodFrom >= req.PeriodFrom && period.PeriodTo <= req.PeriodTo {
-
-						amount, ok := totalPurchaseCode[contract.ExtContractCode]
-						fmt.Println("amount", amount)
-						fmt.Println("OK", ok)
-						if ok == true {
-							if float32(amount) > period.PurchaseAmount {
-								total := float32(amount) * period.DiscountPercent / 100
-								RbDTO := models.RbDTO{
-									ContractNumber:       contract.ContractParameters.ContractNumber,
-									StartDate:            period.PeriodFrom,
-									EndDate:              period.PeriodTo,
-									TypePeriod:           period.Name,
-									DiscountPercent:      period.DiscountPercent,
-									DiscountAmount:       total,
-									TotalWithoutDiscount: float32(amount),
-									LeasePlan:            period.PurchaseAmount,
-									DiscountType:         RB12Name,
-								}
-								rbDTOsl = append(rbDTOsl, RbDTO)
-
-							} else {
-								fmt.Println()
-								RbDTO := models.RbDTO{
-									ContractNumber:       contract.ContractParameters.ContractNumber,
-									StartDate:            period.PeriodFrom,
-									EndDate:              period.PeriodTo,
-									TypePeriod:           period.Name,
-									DiscountPercent:      period.DiscountPercent,
-									DiscountAmount:       0.0,
-									TotalWithoutDiscount: float32(amount), // эта сумма, котору. мы получаем от 1С
-									LeasePlan:            period.PurchaseAmount,
-									DiscountType:         RB12Name,
-								}
-								rbDTOsl = append(rbDTOsl, RbDTO)
+						if float32(amount) >= period.PurchaseAmount {
+							total := float32(amount) * period.DiscountPercent / 100
+							RbDTO := models.RbDTO{
+								ContractNumber:       contract.ContractParameters.ContractNumber,
+								StartDate:            period.PeriodFrom,
+								EndDate:              period.PeriodTo,
+								TypePeriod:           period.Name,
+								DiscountPercent:      period.DiscountPercent,
+								DiscountAmount:       total,
+								TotalWithoutDiscount: float32(amount),
+								LeasePlan:            period.PurchaseAmount,
+								DiscountType:         RB12Name,
 							}
-						} else {
-							fmt.Println("FALSE===========================")
+							rbDTOsl = append(rbDTOsl, RbDTO)
 
+						}else {
 							rbDTOsl, _ = GetNil12Rb(rbDTOsl, contract, period, RB12Name)
-
-						}
+					}
 
 					}
 
@@ -893,6 +903,8 @@ func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.
 		}
 
 	}
+
+
 
 	return rbDTOsl, nil
 }
@@ -1112,6 +1124,15 @@ func CountPurchaseByCode(purchase models.Purchase) map[string]float64 {
 
 	}
 	return totallyCode
+
+}
+
+func CountPurchase(purchase models.Purchase) float64 {
+	var amount float64
+	for _, value := range purchase.PurchaseArr {
+		amount += value.Total
+	}
+	return amount
 }
 
 // CountSalesByBrand считываем итог по каждому контракт коду
