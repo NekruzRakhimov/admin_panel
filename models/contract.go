@@ -51,7 +51,7 @@ type Contract struct {
 	DiscountBrand   []DiscountBrand `json:"discount_brand"`
 	ExtContractCode string          `json:"ext_contract_code"`
 	View            string          `json:"view"`
-	Regions         Regions         `json:"regions"`
+	Regions         []Regions       `json:"regions"`
 }
 
 type PriceType struct {
