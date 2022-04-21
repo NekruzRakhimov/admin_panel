@@ -14,7 +14,7 @@ func initDB() *gorm.DB {
 
 	settingParams := utils.AppSettings.PostgresParams
 
-	connString := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s ",
+	connString := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable",
 		settingParams.Host, settingParams.Port,
 		settingParams.User, settingParams.DataBase,
 		settingParams.Password)

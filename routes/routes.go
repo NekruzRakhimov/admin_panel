@@ -2,6 +2,7 @@ package routes
 
 import (
 	"admin_panel/pkg/controller"
+	"admin_panel/pkg/service"
 	"admin_panel/token"
 	"admin_panel/utils"
 	"fmt"
@@ -68,6 +69,9 @@ func runAllRoutes(r *gin.Engine) {
 	NotificationsRoutes(cr)
 	routesFor1C(cr)
 	DDRoutes(cr)
+
+	hyperstockServ := service.NewHyperstocksService()
+	controller.NewHyperstocksController(hyperstockServ).HandleRoutes(cr)
 }
 
 func runServer(r *gin.Engine) {
