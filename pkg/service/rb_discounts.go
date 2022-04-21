@@ -904,7 +904,7 @@ func GetRB11thType(req models.RBRequest, contracts []models.Contract) ([]models.
 		for _, discount := range contract.Discounts {
 			if discount.Code == RB11Code {
 				for _, period := range discount.Periods {
-					if period.PeriodFrom >= req.PeriodFrom && period.PeriodTo <= req.PeriodTo {
+					if period.PeriodFrom <= req.PeriodFrom && period.PeriodTo >= req.PeriodTo {
 						reqBrand := models.ReqBrand{
 							ClientBin:      req.BIN,
 							DateStart:      req.PeriodFrom,
@@ -973,11 +973,16 @@ func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.
 	amount := CountPurchase(purchase)
 
 	for _, contract := range contracts {
+		fmt.Println(contract.ContractParameters.ContractNumber, "номер договора")
+		fmt.Println(contract.Discounts, "скидки")
 		for _, discount := range contract.Discounts {
+			fmt.Println(contract.ContractParameters.ContractNumber, "номер договора")
 			if discount.Code == "RB_DISCOUNT_FOR_PURCHASE_PERIOD" && discount.IsSelected == true { // здесь сравниваешь тип скидки и берешь тот тип который тебе нужен
+				fmt.Println("Условия ТРУ")
 				for _, period := range discount.Periods {
 					//fmt.Printf("TYPE %s period %s contract.ExtContractCode: %s", period.Type, period.PeriodFrom, contract.ExtContractCode)
-					if period.PeriodFrom >= req.PeriodFrom && period.PeriodTo <= req.PeriodTo {
+					if period.PeriodFrom <= req.PeriodFrom && period.PeriodTo >= req.PeriodTo {
+						fmt.Println("AMOUNT", amount, period.PurchaseAmount)
 						if float32(amount) >= period.PurchaseAmount {
 							total := float32(amount) * period.DiscountPercent / 100
 							RbDTO := models.RbDTO{
