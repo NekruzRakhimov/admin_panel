@@ -92,7 +92,7 @@ func ConvertContractFromJsonB(contractWithJson models.ContractWithJsonB) (contra
 	contract.ExtContractCode = contractWithJson.ExtContractCode
 	contract.View = contractWithJson.View
 
-	contract.Regions = contractWithJson.Regions
+	//contract.Regions = contractWithJson.Regions
 
 	err = json.Unmarshal([]byte(contractWithJson.Requisites), &contract.Requisites)
 	if err != nil {

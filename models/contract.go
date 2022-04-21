@@ -23,8 +23,7 @@ type ContractWithJsonB struct {
 	AdditionalAgreementNumber int             `json:"additional_agreement_number"`
 	ExtContractCode           string          `json:"ext_contract_code"`
 	View                      string          `json:"view"`
-	//Regions                   string          `json:"regions"`
-	Regions                   []Regions          `json:"regions"`
+	Regions                   string          `json:"regions"`
 }
 
 type Contract struct {
