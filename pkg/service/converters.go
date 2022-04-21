@@ -75,7 +75,6 @@ func BulkConvertContractsFromJsonB(contractsWithJsonB []models.ContractWithJsonB
 func ConvertContractFromJsonB(contractWithJson models.ContractWithJsonB) (contract models.Contract, err error) {
 
 	//log.Println("ConvertContractFromJsonB=======================", contractWithJson.ID, contractWithJson.IsExtendContract, contractWithJson.ExtendDate)
-
 	contract.ID = contractWithJson.ID
 	contract.AdditionalAgreementNumber = contractWithJson.AdditionalAgreementNumber
 	contract.Type = contractWithJson.Type
@@ -92,6 +91,8 @@ func ConvertContractFromJsonB(contractWithJson models.ContractWithJsonB) (contra
 	contract.DiscountBrand = contractWithJson.DiscountBrand
 	contract.ExtContractCode = contractWithJson.ExtContractCode
 	contract.View = contractWithJson.View
+
+	//contract.Regions = contractWithJson.Regions
 
 	err = json.Unmarshal([]byte(contractWithJson.Requisites), &contract.Requisites)
 	if err != nil {
