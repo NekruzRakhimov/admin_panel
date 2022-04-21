@@ -162,6 +162,7 @@ func UserIdentity(c *gin.Context) {
 	claims, err := ParseToken(headerParts[1])
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"reason": err.Error()})
+		return
 	}
 
 	c.Set(UId, claims.UId)

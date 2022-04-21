@@ -49,23 +49,25 @@ func runAllRoutes(r *gin.Engine) {
 
 	r.POST("/login", controller.LoginNew)
 
+	cr := r.Group("/" /*, token.UserIdentity*/)
+	// cr - closed routes
 	//token.UserIdentity - это middleware для проверки токена
 
-	r.POST("/token", token.Token)
+	cr.POST("/token", token.Token)
 	//r.POST("/loginnew", controller.LoginNew)
 
-	r.POST("/file/upload", controller.UploadFile)
-	r.GET("/file/download", controller.DownloadFile)
+	cr.POST("/file/upload", controller.UploadFile)
+	cr.GET("/file/download", controller.DownloadFile)
 
-	tempRoutes(r)
-	Check1CRoutes(r)
-	ContractRoutes(r)
-	DictionariesRoutes(r)
-	AdminRoutes(r)
-	ReportsRoutes(r)
-	NotificationsRoutes(r)
-	routesFor1C(r)
-	DDRoutes(r)
+	tempRoutes(cr)
+	Check1CRoutes(cr)
+	ContractRoutes(cr)
+	DictionariesRoutes(cr)
+	AdminRoutes(cr)
+	ReportsRoutes(cr)
+	NotificationsRoutes(cr)
+	routesFor1C(cr)
+	DDRoutes(cr)
 }
 
 func runServer(r *gin.Engine) {
@@ -86,19 +88,17 @@ func runServer(r *gin.Engine) {
 	}
 }
 
-
-
-func routesFor1C(r *gin.Engine) {
+func routesFor1C(r *gin.RouterGroup) {
 	r.POST("/1c/data", controller.SaveDataFrom1C)
 	r.GET("/regions_from_1c", controller.GetRegions)
 }
 
-func DDRoutes(r *gin.Engine) {
+func DDRoutes(r *gin.RouterGroup) {
 	r.POST("/getddone", controller.DDOne)
 
 }
 
-func tempRoutes(r *gin.Engine) {
+func tempRoutes(r *gin.RouterGroup) {
 	r.POST("/getdisper", controller.GetDisPer)
 	r.POST("/getdisp", controller.DiscountRBPeriodTime)
 	r.POST("/getrbseven", controller.DiscountRB7)
@@ -111,7 +111,7 @@ func tempRoutes(r *gin.Engine) {
 	r.GET("/cars", controller.GetCarsBrand)
 }
 
-func Check1CRoutes(r *gin.Engine) {
+func Check1CRoutes(r *gin.RouterGroup) {
 	r.GET("/contracts_from_1c/", controller.CheckContractIn1C)
 	r.GET("/counterparty/:client", controller.CounterpartyContract)
 
@@ -133,7 +133,7 @@ func Check1CRoutes(r *gin.Engine) {
 	r.POST("/get_rb5", controller.GetRb5)
 }
 
-func ReportsRoutes(r *gin.Engine) {
+func ReportsRoutes(r *gin.RouterGroup) {
 	reports := r.Group("/reports")
 	reports.POST("/doubted_discounts", controller.GetDoubtedDiscounts)
 	//reports.PUT("/doubted_discounts", controller.SaveDoubtedDiscountsResults)
@@ -156,7 +156,7 @@ func ReportsRoutes(r *gin.Engine) {
 	reports.GET("/dd/stored/:id/details/excel", controller.GetExcelForDdStoredExcelReport)
 }
 
-func ContractRoutes(r *gin.Engine) {
+func ContractRoutes(r *gin.RouterGroup) {
 	r.GET("/search_history_ex/:id/", controller.SearchHistoryExecution)
 	r.GET("/change_date_contract/", controller.ChangeDataContract)
 	r.GET("/search_contract/", controller.SearchContractByNumber)
@@ -182,7 +182,7 @@ func ContractRoutes(r *gin.Engine) {
 	contract.POST("/form/:contract_type/:with_temp_conditions", controller.FormContract)
 }
 
-func DictionariesRoutes(r *gin.Engine) {
+func DictionariesRoutes(r *gin.RouterGroup) {
 	dictionary := r.Group("/dictionary")
 	dictionary.GET("", controller.GetAllDictionaries)
 	dictionary.GET("/:id", controller.GetAllDictionaryByID)
@@ -203,7 +203,7 @@ func DictionariesRoutes(r *gin.Engine) {
 
 }
 
-func AdminRoutes(r *gin.Engine) {
+func AdminRoutes(r *gin.RouterGroup) {
 	r.POST("/client_search", controller.SearchBinClient)
 
 	users := r.Group("/users")
@@ -236,7 +236,7 @@ func AdminRoutes(r *gin.Engine) {
 	r.DELETE("/detach_role/:user_id/:role_id", controller.DetachRoleFromUser)
 }
 
-func NotificationsRoutes(r *gin.Engine) {
+func NotificationsRoutes(r *gin.RouterGroup) {
 	//r.POST("/getcontractnumb", controller.SearchNotifications)
 	r.GET("/notifications", controller.GetNotifications)
 	r.GET("/search_notification/", controller.SearchNotification)

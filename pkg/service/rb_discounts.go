@@ -31,7 +31,7 @@ const (
 	RB1Code  = "TOTAL_AMOUNT_OF_SELLING"
 	RB2Code  = "DISCOUNT_BRAND"
 	RB3Code  = "DISCOUNT_PLAN_LEASE"
-	RB14Code  = "DISCOUNT_PLAN_SALE"
+	RB14Code = "DISCOUNT_PLAN_SALE"
 	RB4Code  = "DISCOUNT_FOR_REPRESENTATION"
 	RB5Code  = "DISCOUNT_FOR_FIX_SUM_MTZ"
 	RB6Code  = "DISCOUNT_FOR_PLAN_MTZ"
@@ -55,8 +55,8 @@ func GetRB1stType(request models.RBRequest, contracts []models.Contract) ([]mode
 	//	Type:        "sales",
 	//}
 
-	externalCodes := GetExternalCode(request.BIN)
-	contractsCode := JoinContractCode(externalCodes)
+	//externalCodes := GetExternalCode(request.BIN)
+	//contractsCode := JoinContractCode(externalCodes)
 
 	reqBrand := models.ReqBrand{
 		ClientBin:      request.BIN,
@@ -64,7 +64,7 @@ func GetRB1stType(request models.RBRequest, contracts []models.Contract) ([]mode
 		DateEnd:        request.PeriodTo,
 		TypeValue:      "",
 		TypeParameters: nil,
-		Contracts:      contractsCode, // необходимо получить коды контрактов
+		//Contracts:      contractsCode, // необходимо получить коды контрактов
 	}
 	purchase, _ := GetPurchase(reqBrand)
 	totalAmount := GetPurchaseTotalAmount(purchase)
@@ -328,8 +328,6 @@ func GetRB3rdType(request models.RBRequest, contracts []models.Contract) ([]mode
 	return RBs, nil
 }
 
-
-
 func GetRB14rdType(request models.RBRequest, contracts []models.Contract) ([]models.RbDTO, error) {
 	//externalCodes := GetExternalCode(request.BIN)
 	//contractsCode := JoinContractCode(externalCodes)
@@ -375,7 +373,6 @@ func GetRB14rdType(request models.RBRequest, contracts []models.Contract) ([]mod
 
 	return RBs, nil
 }
-
 
 func GetRB4thType(request models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
 	//externalCodes := GetExternalCode(request.BIN)
@@ -469,8 +466,8 @@ func RB5thTypeDetails(request models.RBRequest, contract models.Contract, discou
 	for _, discountBrand := range discount.DiscountBrands {
 		if discountBrand.PeriodFrom >= request.PeriodFrom && discountBrand.PeriodTo <= request.PeriodTo {
 
-			externalCodes := GetExternalCode(request.BIN)
-			contractsCode := JoinContractCode(externalCodes)
+			//externalCodes := GetExternalCode(request.BIN)
+			//contractsCode := JoinContractCode(externalCodes)
 
 			reqBrand := models.ReqBrand{
 				ClientBin:      request.BIN,
@@ -478,7 +475,7 @@ func RB5thTypeDetails(request models.RBRequest, contract models.Contract, discou
 				DateEnd:        request.PeriodTo,
 				TypeValue:      "",
 				TypeParameters: nil,
-				Contracts:      contractsCode, // необходимо получить коды контрактов
+				//Contracts:      contractsCode, // необходимо получить коды контрактов
 			}
 			purchase, _ := GetPurchase(reqBrand)
 			totalAmount := GetPurchaseTotalAmount(purchase)
@@ -689,8 +686,8 @@ func GetRB8thType(request models.RBRequest, contracts []models.Contract) ([]mode
 	//
 	//totalAmount := GetTotalAmount(sales)
 
-	externalCodes := GetExternalCode(request.BIN)
-	contractsCode := JoinContractCode(externalCodes)
+	//externalCodes := GetExternalCode(request.BIN)
+	//contractsCode := JoinContractCode(externalCodes)
 
 	reqBrand := models.ReqBrand{
 		ClientBin:      request.BIN,
@@ -698,7 +695,7 @@ func GetRB8thType(request models.RBRequest, contracts []models.Contract) ([]mode
 		DateEnd:        request.PeriodTo,
 		TypeValue:      "",
 		TypeParameters: nil,
-		Contracts:      contractsCode, // необходимо получить коды контрактов
+		//Contracts:      contractsCode, // необходимо получить коды контрактов
 	}
 	purchase, _ := GetPurchase(reqBrand)
 	totalAmount := GetPurchaseTotalAmount(purchase)
@@ -761,8 +758,8 @@ func GetRB9thType(request models.RBRequest, contracts []models.Contract) ([]mode
 	//
 	//totalAmount := GetTotalAmount(sales)
 
-	externalCodes := GetExternalCode(request.BIN)
-	contractsCode := JoinContractCode(externalCodes)
+	//externalCodes := GetExternalCode(request.BIN)
+	//contractsCode := JoinContractCode(externalCodes)
 
 	reqBrand := models.ReqBrand{
 		ClientBin:      request.BIN,
@@ -770,7 +767,7 @@ func GetRB9thType(request models.RBRequest, contracts []models.Contract) ([]mode
 		DateEnd:        request.PeriodTo,
 		TypeValue:      "",
 		TypeParameters: nil,
-		Contracts:      contractsCode, // необходимо получить коды контрактов
+		//Contracts:      contractsCode, // необходимо получить коды контрактов
 	}
 	purchase, _ := GetPurchase(reqBrand)
 	totalAmount := GetPurchaseTotalAmount(purchase)
@@ -844,8 +841,8 @@ func GetRB11thType(req models.RBRequest, contracts []models.Contract) ([]models.
 	//reqPeriodTo, _ := time.Parse(layoutISO, req.PeriodTo)
 
 	// get all contracts_code by BIN
-	externalCodes := GetExternalCode(req.BIN)
-	contractsCode := JoinContractCode(externalCodes)
+	//externalCodes := GetExternalCode(req.BIN)
+	//contractsCode := JoinContractCode(externalCodes)
 
 	for _, contract := range contracts {
 		fmt.Println("contract MESSAGE", contract.Discounts)
@@ -859,7 +856,7 @@ func GetRB11thType(req models.RBRequest, contracts []models.Contract) ([]models.
 							DateEnd:        req.PeriodTo,
 							TypeValue:      "",
 							TypeParameters: nil,
-							Contracts:      contractsCode, // необходимо получить коды контрактов
+							//Contracts:      contractsCode, // необходимо получить коды контрактов
 						}
 						purchase, _ := GetPurchase(reqBrand)
 
@@ -941,9 +938,9 @@ func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.
 							}
 							rbDTOsl = append(rbDTOsl, RbDTO)
 
-						}else {
+						} else {
 							rbDTOsl, _ = GetNil12Rb(rbDTOsl, contract, period, RB12Name)
-					}
+						}
 
 					}
 
@@ -954,8 +951,6 @@ func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.
 		}
 
 	}
-
-
 
 	return rbDTOsl, nil
 }
