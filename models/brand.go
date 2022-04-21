@@ -27,6 +27,8 @@ type SalesArr struct {
 	Date        string  `json:"date"`
 	BrandCode   string  `json:"brand_code"`
 	BrandName   string  `json:"brand_name"`
+	RegionCode  string  `json:"region_code"`
+	RegionName  string  `json:"region_name"`
 }
 
 type Purchase struct {

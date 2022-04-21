@@ -96,6 +96,18 @@ func GetRB1stType(request models.RBRequest, contracts []models.Contract) ([]mode
 	return contractRB, nil
 }
 
+func GetSalesRegionsTotalAmount(SalesArr models.Sales, regions []models.Regions) (totalAmount float64) {
+	for _, region := range regions {
+		for _, sale := range SalesArr.SalesArr {
+			if sale.RegionCode == region.RegionCode {
+				totalAmount += float64(sale.Total)
+			}
+		}
+	}
+
+	return totalAmount
+}
+
 func GetPurchaseTotalAmount(purchases models.Purchase) (totalAmount float64) {
 	for _, purchase := range purchases.PurchaseArr {
 		totalAmount += purchase.Total
@@ -169,6 +181,20 @@ func GetPurchaseTotalAmount(purchases models.Purchase) (totalAmount float64) {
 //	brandTotal := map[string]float32{}
 //	var rbDtoSl []models.RbDTO
 
+func GetRegionsSales(salesIn models.Sales, regions []models.Regions) (salesOut models.Sales) {
+	var sales []models.SalesArr
+	for _, region := range regions {
+		for _, sale := range salesIn.SalesArr {
+			if region.RegionCode == sale.RegionCode {
+				sales = append(sales, sale)
+			}
+		}
+	}
+
+	salesOut.SalesArr = sales
+	return salesOut
+}
+
 func GetRB2ndType(rb models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO) {
 	req := models.ReqBrand{
 		ClientBin: rb.BIN,
@@ -176,17 +202,25 @@ func GetRB2ndType(rb models.RBRequest, contracts []models.Contract) (rbDTO []mod
 		DateEnd:   rb.PeriodTo,
 	}
 	sales, _ := GetSales(req)
+
 	mapBrands := CountSalesByBrand(sales)
 
 	for _, contract := range contracts {
+		innerMapBrands := mapBrands
+		if contract.View == "PF" {
+			regionSales := GetRegionsSales(sales, contract.Regions)
+			innerMapBrands = CountSalesByBrand(regionSales)
+		}
+
 		for _, discount := range contract.Discounts {
 			if discount.Code == RB2Code && discount.IsSelected == true {
 
 				for _, discountBrand := range discount.DiscountBrands {
 					//   01.01.2022                01.01.2022       31.03.2022                 <= 31.03.2022
 					//if discountBrand.PeriodFrom >= rb.PeriodFrom && discountBrand.PeriodTo <= rb.PeriodTo {
+
 					for _, dataBrand := range discountBrand.Brands {
-						for brand, total := range mapBrands {
+						for brand, total := range innerMapBrands {
 							if brand == dataBrand.BrandName {
 								var discountAmount float32
 								//if total >= dataBrand.PurchaseAmount {
@@ -328,7 +362,7 @@ func GetRB3rdType(request models.RBRequest, contracts []models.Contract) ([]mode
 	return RBs, nil
 }
 
-func GetRB14rdType(request models.RBRequest, contracts []models.Contract) ([]models.RbDTO, error) {
+func GetRB14ThType(request models.RBRequest, contracts []models.Contract) ([]models.RbDTO, error) {
 	//externalCodes := GetExternalCode(request.BIN)
 	//contractsCode := JoinContractCode(externalCodes)
 	req := models.ReqBrand{
@@ -344,6 +378,11 @@ func GetRB14rdType(request models.RBRequest, contracts []models.Contract) ([]mod
 	totalAmount := CountSales(sales)
 	var RBs []models.RbDTO
 	for _, contract := range contracts {
+		innerSalesTotal := totalAmount
+
+		if contract.View == "PF" {
+			innerSalesTotal = float32(TotalRegionsSales(sales, contract.Regions))
+		}
 		for _, discount := range contract.Discounts {
 			if discount.Code == RB14Code && discount.IsSelected == true {
 				for _, product := range discount.Products {
@@ -358,8 +397,8 @@ func GetRB14rdType(request models.RBRequest, contracts []models.Contract) ([]mod
 						LeasePlan:       product.Plan,
 						DiscountType:    RB14Name,
 					}
-					if totalAmount >= product.Plan {
-						rb.DiscountAmount = float32(totalAmount) * rb.DiscountPercent / 100
+					if innerSalesTotal >= product.Plan {
+						rb.DiscountAmount = innerSalesTotal * rb.DiscountPercent / 100
 					} else {
 						rb.DiscountAmount = 0
 					}
@@ -565,6 +604,12 @@ func GetRB6thType(rb models.RBRequest, contracts []models.Contract) (rbDTO []mod
 	mapBrands := CountSalesByBrand(sales)
 
 	for _, contract := range contracts {
+		innerMapBrands := mapBrands
+		if contract.View == "PF" {
+			regionSales := GetRegionsSales(sales, contract.Regions)
+			innerMapBrands = CountSalesByBrand(regionSales)
+		}
+
 		for _, discount := range contract.Discounts {
 			if discount.Code == RB6Code && discount.IsSelected == true {
 
@@ -572,7 +617,7 @@ func GetRB6thType(rb models.RBRequest, contracts []models.Contract) (rbDTO []mod
 					//   01.01.2022                01.01.2022       31.03.2022                 <= 31.03.2022
 					if discountBrand.PeriodFrom >= rb.PeriodFrom && discountBrand.PeriodTo <= rb.PeriodTo {
 						for _, dataBrand := range discountBrand.Brands {
-							for brand, total := range mapBrands {
+							for brand, total := range innerMapBrands {
 								if brand == dataBrand.BrandName {
 									var discountAmount float32
 									if total >= dataBrand.PurchaseAmount {
@@ -613,6 +658,11 @@ func GetRB7thType(rb models.RBRequest, contracts []models.Contract) (rbDTO []mod
 	mapBrands := CountSalesByBrand(sales)
 
 	for _, contract := range contracts {
+		innerMapBrands := mapBrands
+		if contract.View == "PF" {
+			regionSales := GetRegionsSales(sales, contract.Regions)
+			innerMapBrands = CountSalesByBrand(regionSales)
+		}
 		for _, discount := range contract.Discounts {
 			if discount.Code == RB7Code && discount.IsSelected == true {
 
@@ -620,7 +670,7 @@ func GetRB7thType(rb models.RBRequest, contracts []models.Contract) (rbDTO []mod
 					//   01.01.2022                01.01.2022       31.03.2022                 <= 31.03.2022
 					if discountBrand.PeriodFrom >= rb.PeriodFrom && discountBrand.PeriodTo <= rb.PeriodTo {
 						for _, dataBrand := range discountBrand.Brands {
-							for brand, total := range mapBrands {
+							for brand, total := range innerMapBrands {
 								if brand == dataBrand.BrandName {
 									var discountAmount float32
 									if total >= dataBrand.PurchaseAmount {
@@ -809,11 +859,16 @@ func GetRb10thType(request models.RBRequest, contracts []models.Contract) (rbDTO
 	totalAmount := GetTotalAmount(sales)
 
 	for _, contract := range contracts {
+		innerSalesTotal := totalAmount
+
+		if contract.View == "PF" {
+			innerSalesTotal = float32(TotalRegionsSales(sales, contract.Regions))
+		}
 		for _, discount := range contract.Discounts {
 			if discount.Code == RB10Code && discount.IsSelected == true {
 				var discountAmount float32
 				if repository.DoubtedDiscountExecutionCheck(request, contract.ContractParameters.ContractNumber, discount.Code) {
-					discountAmount = totalAmount * discount.DiscountPercent / 100
+					discountAmount = innerSalesTotal * discount.DiscountPercent / 100
 				}
 				rbDTO = append(rbDTO, models.RbDTO{
 					ContractNumber:  contract.ContractParameters.ContractNumber,
@@ -1016,10 +1071,10 @@ func GetRB13thType(rb models.RBRequest, contracts []models.Contract) ([]models.R
 					// берем продажи за тек год и за 1 год меньше
 					presentPeriod, err := GetSales1C(present, "sales_brand_only")
 					fmt.Println("PRESENT", presentPeriod)
-
 					if err != nil {
 						return nil, err
 					}
+
 					oldPeriod, err := GetSales1C(pastPeriod, "sales_brand_only")
 
 					if presentPeriod.SalesArr == nil || oldPeriod.SalesArr == nil {
@@ -1052,20 +1107,29 @@ func GetRB13thType(rb models.RBRequest, contracts []models.Contract) ([]models.R
 					for _, present := range presentPeriod.SalesArr {
 						preCount += present.Total
 					}
+
 					// считаем за прошлый год
 					for _, past := range oldPeriod.SalesArr {
 						pastCount += past.Total
 
 					}
+
+					innerPreCount := preCount
+					innerPastCount := pastCount
 					fmt.Println("Сумма за настоящее", preCount)
 					fmt.Println("Сумма за прошлый год", pastCount)
+
+					if contract.View == "PF" {
+						innerPreCount = float32(TotalRegionsSales(presentPeriod, contract.Regions))
+						innerPastCount = float32(TotalRegionsSales(oldPeriod, contract.Regions))
+					}
 
 					// находим прирост в процентах
 					//growthPercent := (pastCount * 100 / preCount) - 100
 
 					// находим разницу за нынешний год
-					diff := preCount - pastCount
-					growthPercent := (100 * diff) / pastCount
+					diff := innerPreCount - innerPastCount
+					growthPercent := (100 * diff) / innerPastCount
 					fmt.Println("growthPercent", growthPercent)
 					// проверяем разницу с тек по прошлогодний год, если процент прироста выше, логика выполнится
 
@@ -1073,7 +1137,7 @@ func GetRB13thType(rb models.RBRequest, contracts []models.Contract) ([]models.R
 					fmt.Println("discount percent", period.DiscountPercent)
 					fmt.Println()
 					if growthPercent > period.GrowthPercent {
-						discountAmount := preCount * period.DiscountPercent / 100
+						discountAmount := innerPreCount * period.DiscountPercent / 100
 
 						fmt.Println("discountAmount", discountAmount)
 
@@ -1086,7 +1150,7 @@ func GetRB13thType(rb models.RBRequest, contracts []models.Contract) ([]models.R
 							ProductCode:          "",
 							DiscountPercent:      period.DiscountPercent,
 							DiscountAmount:       discountAmount,
-							TotalWithoutDiscount: preCount,
+							TotalWithoutDiscount: innerPreCount,
 							DiscountType:         RB13Name,
 						}
 						rbDTOsl = append(rbDTOsl, rbDTO)
@@ -1198,6 +1262,18 @@ func CountSalesByBrand(sales models.Sales) map[string]float32 {
 
 	}
 	return totallyCode
+}
+
+func TotalRegionsSales(sales models.Sales, regions []models.Regions) (totalAmount float64) {
+	for _, region := range regions {
+		for _, sale := range sales.SalesArr {
+			if region.RegionCode == sale.RegionCode {
+				totalAmount += float64(sale.Total)
+			}
+		}
+	}
+
+	return totalAmount
 }
 
 // JoinContractCode собираем все контракт коды в слайс

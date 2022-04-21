@@ -138,7 +138,7 @@ func ReportsRoutes(r *gin.RouterGroup) {
 	reports.POST("/doubted_discounts", controller.GetDoubtedDiscounts)
 	//reports.PUT("/doubted_discounts", controller.SaveDoubtedDiscountsResults)
 	reports.POST("/rb", controller.GetAllRBByContractorBIN)
-	reports.POST("/rb/update", controller.GetAllRBByContractorBIN)
+	reports.POST("/rb/update", controller.UpdateRbReports)
 	reports.POST("/rb/excel", controller.FormExcelForRB)
 	reports.GET("/search_report_rb/", controller.SearchReportRB)
 	reports.GET("/search_report_dd/", controller.SearchReportDD)

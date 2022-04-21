@@ -29,20 +29,65 @@ func GetAllRBByContractorBIN(c *gin.Context) {
 
 	log.Printf(">>+%v<<", request)
 
-	if request.BIN == "860418401075" && request.PeriodFrom == "01.01.2021" && request.PeriodTo == "10.01.2021" {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"reason": "Не оприходован товар:\n" +
-				"1. Aптека 'Маркет №2 Сарыагаш - Ф0000725', бренд '3 Желания - 000000938', товар '3 Желания масло сливочное Станичное 450 г - 00000083648', в количестве 1, за дату '2021-01-04'\n" +
-				"2. Aптека 'Маркет №2 Сарыагаш - Ф0000725', бренд '3 Желания - 000000938', товар '3 Желания масло Сливочные берега 60% 180 г  - 00000083650', в количестве 2, за дату '2021-01-01'\n" +
-				"3. Aптека 'Маркет №2 Сарыагаш - Ф0000725', бренд '3 Желания - 000000938', товар '3 Желания масло Сливочные берега 60% 180 г  - 00000083650', в количестве 2, за дату '2021-01-03'\n",
-		})
-		return
-	}
+	//if request.BIN == "860418401075" && request.PeriodFrom == "01.01.2021" && request.PeriodTo == "10.01.2021" {
+	//	c.JSON(http.StatusInternalServerError, gin.H{
+	//		"reason": "Не оприходован товар:\n" +
+	//			"1. Aптека 'Маркет №2 Сарыагаш - Ф0000725', бренд '3 Желания - 000000938', товар '3 Желания масло сливочное Станичное 450 г - 00000083648', в количестве 1, за дату '2021-01-04'\n" +
+	//			"2. Aптека 'Маркет №2 Сарыагаш - Ф0000725', бренд '3 Желания - 000000938', товар '3 Желания масло Сливочные берега 60% 180 г  - 00000083650', в количестве 2, за дату '2021-01-01'\n" +
+	//			"3. Aптека 'Маркет №2 Сарыагаш - Ф0000725', бренд '3 Желания - 000000938', товар '3 Желания масло Сливочные берега 60% 180 г  - 00000083650', в количестве 2, за дату '2021-01-03'\n",
+	//	})
+	//	return
+	//}
 
 	if err := service.SaveDoubtedDiscounts(request); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
 	}
+
+	RbDTOs, err := service.GetAllRBByContractorBIN(request)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	for i := range RbDTOs {
+		RbDTOs[i].Status = "Завершено"
+	}
+
+	if err := service.StoreRbReports(RbDTOs); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	//SortedContracts := []models.RbDTO{}
+	//for _, contract := range RbDTOs {
+	//	if contract.ID != 0 {
+	//		SortedContracts = append(SortedContracts, contract)
+	//	}
+	//}
+
+	c.JSON(http.StatusOK, RbDTOs)
+}
+
+func UpdateRbReports(c *gin.Context) {
+	var request models.RBRequest
+	if err := c.BindJSON(&request); err != nil {
+		log.Println("[controller][GetAllRBByContractorBIN] error is: ", err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	log.Printf(">>+%v<<", request)
+
+	//if request.BIN == "860418401075" && request.PeriodFrom == "01.01.2021" && request.PeriodTo == "10.01.2021" {
+	//	c.JSON(http.StatusInternalServerError, gin.H{
+	//		"reason": "Не оприходован товар:\n" +
+	//			"1. Aптека 'Маркет №2 Сарыагаш - Ф0000725', бренд '3 Желания - 000000938', товар '3 Желания масло сливочное Станичное 450 г - 00000083648', в количестве 1, за дату '2021-01-04'\n" +
+	//			"2. Aптека 'Маркет №2 Сарыагаш - Ф0000725', бренд '3 Желания - 000000938', товар '3 Желания масло Сливочные берега 60% 180 г  - 00000083650', в количестве 2, за дату '2021-01-01'\n" +
+	//			"3. Aптека 'Маркет №2 Сарыагаш - Ф0000725', бренд '3 Желания - 000000938', товар '3 Желания масло Сливочные берега 60% 180 г  - 00000083650', в количестве 2, за дату '2021-01-03'\n",
+	//	})
+	//	return
+	//}
 
 	RbDTOs, err := service.GetAllRBByContractorBIN(request)
 	if err != nil {
@@ -206,8 +251,6 @@ func SearchReportRB(c *gin.Context) {
 	target := c.Query("target")
 	param := c.Query("param")
 
-
-
 	//id := c.Param("id")
 	//TODO: 1. давай реализуем поиск по номеру
 	//log.Println(id, "добавить потом ID  в аргументах")
@@ -220,7 +263,6 @@ func SearchReportRB(c *gin.Context) {
 	c.JSON(http.StatusOK, result)
 
 }
-
 
 // SearchReportDD godoc
 // @Summary      Search ReportRB

@@ -776,7 +776,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 	}
 
 	if isRB14 {
-		rb14ThType, err := GetRB14rdType(request, contracts)
+		rb14ThType, err := GetRB14ThType(request, contracts)
 		if err != nil {
 			return err
 		}
