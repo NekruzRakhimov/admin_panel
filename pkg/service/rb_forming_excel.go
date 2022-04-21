@@ -103,8 +103,8 @@ func FormExcelForRBReport(request models.RBRequest) error {
 	//	return err
 	//}
 
-	externalCodes := GetExternalCode(request.BIN)
-	contractsCode := JoinContractCode(externalCodes)
+	//externalCodes := GetExternalCode(request.BIN)
+	//contractsCode := JoinContractCode(externalCodes)
 
 	req := models.ReqBrand{
 		ClientBin:      request.BIN,
@@ -112,7 +112,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		DateEnd:        request.PeriodTo,
 		TypeValue:      "purchase_brand_only",
 		TypeParameters: nil,
-		Contracts:      contractsCode, // необходимо получить коды контрактов
+		//Contracts:      contractsCode, // необходимо получить коды контрактов
 	}
 	tempPurchases, _ := GetPurchaseBrandOnly(req)
 

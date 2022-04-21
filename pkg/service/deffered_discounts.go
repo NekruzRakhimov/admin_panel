@@ -77,6 +77,69 @@ func GetAllDeferredDiscounts(request models.RBRequest) (RbDTO []models.RbDTO, er
 }
 
 func FormExcelForDeferredDiscounts(request models.RBRequest) error {
+
+	req := models.ReqBrand{
+		ClientBin:      request.BIN,
+		DateStart:      request.PeriodFrom,
+		DateEnd:        request.PeriodTo,
+		TypeValue:      "purchase_brand_only",
+		TypeParameters: nil,
+		//Contracts:      contractsCode, // необходимо получить коды контрактов
+	}
+	tempPurchases, _ := GetPurchaseBrandOnly(req)
+
+	purchases := UnifyPurchaseBrandOnlyResponse(tempPurchases)
+
+	totalAmount := GetPurchaseTotalAmount(purchases)
+
+	f := excelize.NewFile()
+
+	style, err := f.NewStyle(&excelize.Style{
+		Fill: excelize.Fill{Type: "pattern", Color: []string{"#F5DEB3"}, Pattern: 1},
+		Border: []excelize.Border{
+			{Type: "left", Color: "000000", Style: 1},
+			{Type: "right", Color: "000000", Style: 1},
+			{Type: "top", Color: "000000", Style: 1},
+			{Type: "bottom", Color: "000000", Style: 1},
+		},
+	})
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	const sheetAllPurchases = "итог"
+
+	f.NewSheet(sheetAllPurchases)
+	f.SetCellValue(sheetAllPurchases, "A1", "Бренд")
+	f.SetCellValue(sheetAllPurchases, "B1", "Номер бренда")
+	f.SetCellValue(sheetAllPurchases, "C1", "Период")
+	f.SetCellValue(sheetAllPurchases, "D1", "Стоимость")
+	f.SetCellValue(sheetAllPurchases, "E1", "Количество")
+	f.SetCellValue(sheetAllPurchases, "F1", "Итог:")
+
+	var lastRow int
+
+	period := fmt.Sprintf("%s-%s", request.PeriodFrom, request.PeriodTo)
+	fmt.Println("<request>: ", period)
+
+	for i, s := range purchases.PurchaseArr {
+		f.SetCellValue(sheetAllPurchases, fmt.Sprintf("%s%d", "A", i+2), s.BrandName)
+		f.SetCellValue(sheetAllPurchases, fmt.Sprintf("%s%d", "B", i+2), s.BrandCode)
+		f.SetCellValue(sheetAllPurchases, fmt.Sprintf("%s%d", "С", i+2), period)
+		f.SetCellValue(sheetAllPurchases, fmt.Sprintf("%s%d", "D", i+2), utils.FloatToMoneyFormat(s.Total/s.QntTotal))
+		f.SetCellValue(sheetAllPurchases, fmt.Sprintf("%s%d", "E", i+2), utils.FloatToMoneyFormat(s.QntTotal))
+		f.SetCellValue(sheetAllPurchases, fmt.Sprintf("%s%d", "F", i+2), utils.FloatToMoneyFormat(s.Total))
+		lastRow = i
+	}
+
+	lastRow += 3
+
+	f.SetCellValue(sheetAllPurchases, fmt.Sprintf("%s%d", "E", lastRow), "Итог:")
+	f.SetCellValue(sheetAllPurchases, fmt.Sprintf("%s%d", "F", lastRow), utils.FloatToMoneyFormat(totalAmount))
+	err = f.SetCellStyle(sheetAllPurchases, fmt.Sprintf("%s%d", "A", lastRow), fmt.Sprintf("%s%d", "F", lastRow), style)
+	err = f.SetCellStyle(sheetAllPurchases, fmt.Sprintf("%s%d", "A", 1), fmt.Sprintf("%s%d", "F", 1), style)
+	err = f.SetCellStyle(sheetAllPurchases, "A1", "D1", style)
+
 	contracts, err := GetAllDeferredDiscounts(request)
 	if err != nil {
 		return err
@@ -111,19 +174,6 @@ func FormExcelForDeferredDiscounts(request models.RBRequest) error {
 			isDD6 = true
 		}
 	}
-
-	//totalAmount := float32(5000_000.0)
-
-	f := excelize.NewFile()
-	style, err := f.NewStyle(&excelize.Style{
-		Fill: excelize.Fill{Type: "pattern", Color: []string{"#F5DEB3"}, Pattern: 1},
-		Border: []excelize.Border{
-			{Type: "left", Color: "000000", Style: 1},
-			{Type: "right", Color: "000000", Style: 1},
-			{Type: "top", Color: "000000", Style: 1},
-			{Type: "bottom", Color: "000000", Style: 1},
-		},
-	})
 	if err != nil {
 		fmt.Println(err)
 	}
