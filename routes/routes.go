@@ -71,7 +71,9 @@ func runAllRoutes(r *gin.Engine) {
 	DDRoutes(cr)
 
 	hyperstockServ := service.NewHyperstocksService()
+	defectServ := service.NewDefectsService()
 	controller.NewHyperstocksController(hyperstockServ).HandleRoutes(cr)
+	controller.NewDefectsController(defectServ).HandleRoutes(cr)
 }
 
 func runServer(r *gin.Engine) {
