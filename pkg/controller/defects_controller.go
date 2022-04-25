@@ -11,6 +11,10 @@ type DefectsController struct {
 	s service.DefectsService
 }
 
+const (
+	excelContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+)
+
 func NewDefectsController(s service.DefectsService) *DefectsController {
 	return &DefectsController{s}
 }
@@ -33,13 +37,13 @@ func (c *DefectsController) GetDefectsPharmacy(g *gin.Context) {
 		return
 	}
 
-	res, err := c.s.GetDefectsPharmacy(searchParams)
-	if err != nil {
+	if err = c.s.GetDefectsPharmacy(searchParams); err != nil {
 		g.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
 	}
 
-	g.JSON(http.StatusOK, res)
+	g.Writer.Header().Set("Content-Type", excelContentType)
+	g.File(service.DefectsPathData + service.DefectsPharmacyFileName)
 }
 
 func (c *DefectsController) GetDefectsStock(g *gin.Context) {
@@ -55,11 +59,11 @@ func (c *DefectsController) GetDefectsStock(g *gin.Context) {
 		return
 	}
 
-	res, err := c.s.GetDefectsStock(searchParams)
-	if err != nil {
+	if err = c.s.GetDefectsStock(searchParams); err != nil {
 		g.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
 	}
 
-	g.JSON(http.StatusOK, res)
+	g.Writer.Header().Set("Content-Type", excelContentType)
+	g.File(service.DefectsPathData + service.DefectsStockFileName)
 }

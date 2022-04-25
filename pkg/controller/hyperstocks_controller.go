@@ -33,13 +33,13 @@ func (c *HyperstocksController) GetHyperstocksPharmacy(g *gin.Context) {
 		return
 	}
 
-	res, err := c.s.GetHyperstocksPharmacy(searchParams)
-	if err != nil {
+	if err = c.s.GetHyperstocksPharmacy(searchParams); err != nil {
 		g.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
 	}
 
-	g.JSON(http.StatusOK, res)
+	g.Writer.Header().Set("Content-Type", excelContentType)
+	g.File(service.HyperstocksPathData + service.HyperstocksPharmacyFileName)
 }
 
 func (c *HyperstocksController) GetHyperstocksStock(g *gin.Context) {
@@ -55,11 +55,11 @@ func (c *HyperstocksController) GetHyperstocksStock(g *gin.Context) {
 		return
 	}
 
-	res, err := c.s.GetHyperstocksStock(searchParams)
-	if err != nil {
+	if err = c.s.GetHyperstocksStock(searchParams); err != nil {
 		g.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
 	}
 
-	g.JSON(http.StatusOK, res)
+	g.Writer.Header().Set("Content-Type", excelContentType)
+	g.File(service.HyperstocksPathData + service.HyperstocksStockFileName)
 }
