@@ -7,7 +7,7 @@ import (
 
 const (
 	HyperstocksPath             = "./files/hyperstocks/"
-	HyperstocksPathData         = "./files/hyperstocks/data"
+	HyperstocksPathData         = "./files/hyperstocks/data/"
 	HyperstocksPharmacyFileName = "hyperstocks_pharmacy.xlsx"
 	HyperstocksStockFileName    = "hyperstocks_stock.xlsx"
 )
