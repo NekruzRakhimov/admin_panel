@@ -9,7 +9,6 @@ type RBRequest struct {
 	DoubtedDiscounts []DoubtedDiscount `json:"doubted_discounts"`
 }
 
-
 type RbDTO struct {
 	ID                   int     `json:"id"`
 	ContractNumber       string  `json:"contract_number"`
@@ -25,6 +24,8 @@ type RbDTO struct {
 	RewardAmount         float32 `json:"reward_amount"`
 	DiscountType         string  `json:"discount_type"`
 	Status               string  `json:"status"`
+	RegionName           string  `json:"region_name"`
+	RegionCode           string  `json:"region_code"`
 }
 
 type Block struct {

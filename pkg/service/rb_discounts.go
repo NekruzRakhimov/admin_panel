@@ -196,16 +196,25 @@ func GetRegionsSales(salesIn models.Sales, regions []models.Regions) (salesOut m
 }
 
 func GetRB2ndType(rb models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO) {
-	req := models.ReqBrand{
-		ClientBin: rb.BIN,
-		DateStart: rb.PeriodFrom,
-		DateEnd:   rb.PeriodTo,
-	}
-	sales, _ := GetSales(req)
-
-	mapBrands := CountSalesByBrand(sales)
+	var schema []string
 
 	for _, contract := range contracts {
+		for _, regionCode  := range contract.Regions{
+			schema = append(schema, regionCode.RegionCode)
+		}
+
+
+
+		req := models.ReqBrand{
+			ClientBin: rb.BIN,
+			DateStart: rb.PeriodFrom,
+			DateEnd:   rb.PeriodTo,
+			SchemeType: contract.View,
+		}
+		sales, _ := GetSales(req)
+
+		mapBrands := CountSalesByBrand(sales)
+
 		innerMapBrands := mapBrands
 		if contract.View == "PF" {
 			regionSales := GetRegionsSales(sales, contract.Regions)
@@ -365,19 +374,21 @@ func GetRB3rdType(request models.RBRequest, contracts []models.Contract) ([]mode
 func GetRB14ThType(request models.RBRequest, contracts []models.Contract) ([]models.RbDTO, error) {
 	//externalCodes := GetExternalCode(request.BIN)
 	//contractsCode := JoinContractCode(externalCodes)
-	req := models.ReqBrand{
-		ClientBin:      request.BIN,
-		DateStart:      request.PeriodFrom,
-		DateEnd:        request.PeriodTo,
-		TypeValue:      "",
-		TypeParameters: nil,
-		//Contracts:      contractsCode, // необходимо получить коды контрактов
-	}
-	//purchase, _ := GetPurchase(req)
-	sales, _ := GetSales(req)
-	totalAmount := CountSales(sales)
+
 	var RBs []models.RbDTO
 	for _, contract := range contracts {
+		req := models.ReqBrand{
+			ClientBin:      request.BIN,
+			DateStart:      request.PeriodFrom,
+			DateEnd:        request.PeriodTo,
+			TypeValue:      "",
+			TypeParameters: nil,
+			SchemeType: contract.View,
+			//Contracts:      contractsCode, // необходимо получить коды контрактов
+		}
+		//purchase, _ := GetPurchase(req)
+		sales, _ := GetSales(req)
+		totalAmount := CountSales(sales)
 		innerSalesTotal := totalAmount
 
 		if contract.View == "PF" {
@@ -649,15 +660,16 @@ func GetRB6thType(rb models.RBRequest, contracts []models.Contract) (rbDTO []mod
 }
 
 func GetRB7thType(rb models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
-	req := models.ReqBrand{
-		ClientBin: rb.BIN,
-		DateStart: rb.PeriodFrom,
-		DateEnd:   rb.PeriodTo,
-	}
-	sales, err := GetSales(req)
-	mapBrands := CountSalesByBrand(sales)
 
 	for _, contract := range contracts {
+		req := models.ReqBrand{
+			ClientBin: rb.BIN,
+			DateStart: rb.PeriodFrom,
+			DateEnd:   rb.PeriodTo,
+			SchemeType: contract.View,
+		}
+		sales, _ := GetSales(req)
+		mapBrands := CountSalesByBrand(sales)
 		innerMapBrands := mapBrands
 		if contract.View == "PF" {
 			regionSales := GetRegionsSales(sales, contract.Regions)
@@ -846,19 +858,26 @@ func GetRB9thType(request models.RBRequest, contracts []models.Contract) ([]mode
 }
 
 func GetRb10thType(request models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
-	req := models.ReqBrand{
-		ClientBin:   request.BIN,
-		Beneficiary: request.ContractorName,
-		DateStart:   request.PeriodFrom,
-		DateEnd:     request.PeriodTo,
-		Type:        "sales",
-	}
 
-	sales, err := GetSales(req)
-
-	totalAmount := GetTotalAmount(sales)
 
 	for _, contract := range contracts {
+		req := models.ReqBrand{
+			ClientBin:   request.BIN,
+			Beneficiary: request.ContractorName,
+			DateStart:   request.PeriodFrom,
+			DateEnd:     request.PeriodTo,
+			Type:        "sales",
+			SchemeType: contract.View,
+		}
+
+		sales, err := GetSales(req)
+		if err != nil {
+			return nil, err
+		}
+
+		totalAmount := GetTotalAmount(sales)
+
+
 		innerSalesTotal := totalAmount
 
 		if contract.View == "PF" {
@@ -1060,6 +1079,7 @@ func GetRB13thType(rb models.RBRequest, contracts []models.Contract) ([]models.R
 						TypeValue:      "",
 						TypeParameters: nil,
 						Contracts:      nil,
+						SchemeType: contract.View,
 					}
 
 					// Это необходимо, чтобы получить продажи за тек период
@@ -1072,6 +1092,7 @@ func GetRB13thType(rb models.RBRequest, contracts []models.Contract) ([]models.R
 						TypeValue:      "",
 						TypeParameters: nil,
 						Contracts:      nil,
+						SchemeType: contract.View,
 					}
 					// берем продажи за тек год и за 1 год меньше
 					presentPeriod, err := GetSales1C(present, "sales_brand_only")

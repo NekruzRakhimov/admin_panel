@@ -69,6 +69,7 @@ func GetSales(reqBrand models.ReqBrand) (models.Sales, error) {
 		Type:           "sales_brand_only",
 		TypeValue:      "",
 		TypeParameters: nil,
+		SchemeType: reqBrand.SchemeType,
 	}
 	//for _, value := range brandInfo {
 	//	date.TypeParameters = append(date.TypeParameters, value.Brand)
