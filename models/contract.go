@@ -261,6 +261,7 @@ type DiscountPeriod struct {
 	Type            string  `json:"type,omitempty"`
 	Name            string  `json:"name,omitempty"`
 	PurchaseAmount  float32 `json:"purchase_amount,omitempty"`
+	SalesAmount  	float32 `json:"sales_amount,omitempty"`
 	GrowthPercent   float32 `json:"growth_percent,omitempty"`
 	//DiscountAmount      float32 `json:"discount_amount,omitempty"`
 	//GraceDays           string  `json:"grace_days,omitempty"`
