@@ -522,3 +522,4 @@ func GetExternalCode(bin string) []models.ContractCode {
 
 	return ExtContractCode
 }
+

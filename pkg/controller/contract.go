@@ -839,3 +839,14 @@ func CheckContractIn1C(c *gin.Context) {
 	c.JSON(200, contracts)
 
 }
+
+func GetSuppliers(c *gin.Context)  {
+
+	suppliers, err := service.GetListSuppliers()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
+		return
+	}
+	c.JSON(http.StatusOK, suppliers)
+
+}

@@ -388,3 +388,13 @@ type ResponseContractFrom1C struct {
 		ContractType            string `json:"contract_type"`
 	} `json:"contract_arr"`
 }
+
+type RespSupplier struct {
+	DataClient []DataClient `json:"client_arr"`
+}
+
+type DataClient struct {
+	ClientName string `json:"client_name"`
+	ClientCode string `json:"client_code"`
+	ClientBin  string `json:"client_bin"`
+}

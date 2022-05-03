@@ -608,3 +608,65 @@ func GetRegionsFrom1C() (regions []models.Regions, err error) {
 	fmt.Println(string(body))
 	return regions1C.RegionArr, nil
 }
+
+
+func GetListSuppliers() ([]models.DataClient, error)   {
+	suppliers := struct {
+		RegionArr []models.DataClient `json:"client_arr"`
+	}{}
+	//var respSupplier models.RespSupplier
+	//var suppliers []models.DataClient
+
+
+	//reqBodyBytes := new(bytes.Buffer)
+	//json.NewEncoder(reqBodyBytes).Encode(&clientBin)
+	//fmt.Println(">>> ", reqBodyBytes)
+
+	//parm.Add("datestart", "01.01.2022 0:02:09")
+	//parm.Add("dateend", "01.01.2022 0:02:09")
+	client := &http.Client{
+
+	}
+	//log.Println(reqBodyBytes)
+	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/getsuppliers"
+	req, err := http.NewRequest("GET", uri, nil)
+	req.Header.Set("Content-Type", "application/json") // This makes it work
+	req.SetBasicAuth("http_client", "123456")
+
+	if err != nil {
+		log.Println(err)
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	//log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
+
+	defer resp.Body.Close()
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	body = bytes.TrimPrefix(body, []byte("\xef\xbb\xbf")) // Or []byte{239, 187, 191}
+
+	err = json.Unmarshal(body, &suppliers)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	//
+
+
+
+	return suppliers.RegionArr, nil
+}
+
+
