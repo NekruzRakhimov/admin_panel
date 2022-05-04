@@ -15,7 +15,7 @@ func GetDD1st(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 	//}
 
 	req := models.ReqBrand{
-		ClientBin:   request.BIN,
+		ClientCode:  request.BIN,
 		Beneficiary: request.ContractorName,
 		DateStart:   request.PeriodFrom,
 		DateEnd:     request.PeriodTo,
@@ -72,7 +72,7 @@ func GetDD2nd(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 	//}
 
 	req := models.ReqBrand{
-		ClientBin:   request.BIN,
+		ClientCode:  request.BIN,
 		Beneficiary: request.ContractorName,
 		DateStart:   request.PeriodFrom,
 		DateEnd:     request.PeriodTo,
@@ -128,7 +128,7 @@ func GetDD3rd(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 	//}
 
 	req := models.ReqBrand{
-		ClientBin:   request.BIN,
+		ClientCode:  request.BIN,
 		Beneficiary: request.ContractorName,
 		DateStart:   request.PeriodFrom,
 		DateEnd:     request.PeriodTo,
@@ -185,7 +185,7 @@ func GetDD4th(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 	//}
 
 	req := models.ReqBrand{
-		ClientBin:   request.BIN,
+		ClientCode:  request.BIN,
 		Beneficiary: request.ContractorName,
 		DateStart:   request.PeriodFrom,
 		DateEnd:     request.PeriodTo,
@@ -241,7 +241,7 @@ func GetDD5th(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 	//}
 
 	req := models.ReqBrand{
-		ClientBin:   request.BIN,
+		ClientCode:  request.BIN,
 		Beneficiary: request.ContractorName,
 		DateStart:   request.PeriodFrom,
 		DateEnd:     request.PeriodTo,
@@ -297,7 +297,7 @@ func GetDD6th(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 	//}
 
 	req := models.ReqBrand{
-		ClientBin:   request.BIN,
+		ClientCode:  request.BIN,
 		Beneficiary: request.ContractorName,
 		DateStart:   request.PeriodFrom,
 		DateEnd:     request.PeriodTo,

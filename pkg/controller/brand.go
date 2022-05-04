@@ -67,7 +67,7 @@ func GetSales(c *gin.Context) {
 
 	//var brandInfo []models.BrandInfo
 	req := models.ReqBrand{
-		ClientBin:   payload.BIN,
+		ClientCode:  payload.BIN,
 		Beneficiary: payload.ContractorName,
 		DateStart:   payload.PeriodFrom,
 		DateEnd:     payload.PeriodTo,
@@ -129,7 +129,7 @@ func GetBrandInfo(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": req})
 		return
 	}
-	brandInfo, _ := service.GetBrandInfo(req.ClientBin)
+	brandInfo, _ := service.GetBrandInfo(req.ClientCode)
 
 	c.JSON(http.StatusOK, brandInfo)
 
@@ -143,7 +143,7 @@ func GenerateReportBrand(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": req})
 		return
 	}
-	brandInfo, _ := service.GetBrandInfo(req.ClientBin)
+	brandInfo, _ := service.GetBrandInfo(req.ClientCode)
 
 	brand, _ := service.GetSalesBrand(req, brandInfo)
 

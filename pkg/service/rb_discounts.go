@@ -33,11 +33,11 @@ const (
 
 const (
 	RB1Code  = "TOTAL_AMOUNT_OF_SELLING"
-	RB15Code = "DISCOUNT_PLAN_SALE_REWARD"
-	RB16Code = "DISCOUNT_PLAN_SALE_PERCENT"
+
+
 	RB2Code  = "DISCOUNT_BRAND"
 	RB3Code  = "DISCOUNT_PLAN_LEASE"
-	RB14Code = "DISCOUNT_PLAN_SALE"
+
 	RB4Code  = "DISCOUNT_FOR_REPRESENTATION"
 	RB5Code  = "DISCOUNT_FOR_FIX_SUM_MTZ"
 	RB6Code  = "DISCOUNT_FOR_PLAN_MTZ"
@@ -48,6 +48,10 @@ const (
 	RB11Code = "DISCOUNT_FOR_ASSORTMENT"
 	RB12Code = "RB_DISCOUNT_FOR_PURCHASE_PERIOD"
 	RB13Code = "RB_DISCOUNT_FOR_SALES_GROWTH"
+	RB14Code = "DISCOUNT_PLAN_SALE"
+
+	RB15Code = "DISCOUNT_PLAN_SALE_REWARD"
+	RB16Code = "DISCOUNT_PLAN_SALE_PERCENT"
 	RB17Code = "RB_DISCOUNT_ACTUAL_SALES"
 )
 
@@ -55,7 +59,7 @@ func GetRB1stType(request models.RBRequest, contracts []models.Contract) ([]mode
 	//TODO: посмотри потом
 	//testBin := "060840003599"
 	//req := models.ReqBrand{
-	//	ClientBin:   request.BIN,
+	//	ClientCode:   request.BIN,
 	//	Beneficiary: request.ContractorName,
 	//	DateStart:   request.PeriodFrom,
 	//	DateEnd:     request.PeriodTo,
@@ -66,7 +70,7 @@ func GetRB1stType(request models.RBRequest, contracts []models.Contract) ([]mode
 	//contractsCode := JoinContractCode(externalCodes)
 
 	reqBrand := models.ReqBrand{
-		ClientBin:      request.BIN,
+		ClientCode:     request.ClientCode,
 		DateStart:      request.PeriodFrom,
 		DateEnd:        request.PeriodTo,
 		TypeValue:      "",
@@ -79,7 +83,7 @@ func GetRB1stType(request models.RBRequest, contracts []models.Contract) ([]mode
 	//totalPurchaseCode := CountPurchaseByCode(purchase)
 	//
 	//present := models.ReqBrand{
-	//	ClientBin:      request.BIN,
+	//	ClientCode:      request.BIN,
 	//	Beneficiary:    "",
 	//	DateStart:      request.PeriodFrom,
 	//	DateEnd:        request.PeriodTo,
@@ -108,7 +112,7 @@ func GetRB15ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 
 	for _, contract := range contracts {
 		reqBrand := models.ReqBrand{
-			ClientBin:      req.BIN,
+			ClientCode:     req.ClientCode,
 			DateStart:      req.PeriodFrom,
 			DateEnd:        req.PeriodTo,
 			TypeValue:      "",
@@ -169,7 +173,7 @@ func GetRB16ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 
 	for _, contract := range contracts {
 		reqBrand := models.ReqBrand{
-			ClientBin:      req.BIN,
+			ClientCode:     req.ClientCode,
 			DateStart:      req.PeriodFrom,
 			DateEnd:        req.PeriodTo,
 			TypeValue:      "",
@@ -229,7 +233,7 @@ func GetRB17ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 
 	for _, contract := range contracts {
 		reqBrand := models.ReqBrand{
-			ClientBin:      req.BIN,
+			ClientCode:     req.ClientCode,
 			DateStart:      req.PeriodFrom,
 			DateEnd:        req.PeriodTo,
 			TypeValue:      "",
@@ -315,7 +319,7 @@ func GetPurchaseTotalAmount(purchases models.Purchase) (totalAmount float64) {
 //	var rbDtoSl []models.RbDTO
 //
 //	rbBrand := models.ReqBrand{
-//		ClientBin: rbReq.BIN,
+//		ClientCode: rbReq.BIN,
 //		DateStart: rbReq.PeriodFrom,
 //		DateEnd:   rbReq.PeriodTo,
 //	}
@@ -398,7 +402,7 @@ func GetRB2ndType(rb models.RBRequest, contracts []models.Contract) (rbDTO []mod
 		}
 
 		req := models.ReqBrand{
-			ClientBin:  rb.BIN,
+			ClientCode: rb.ClientCode,
 			DateStart:  rb.PeriodFrom,
 			DateEnd:    rb.PeriodTo,
 			SchemeType: contract.View,
@@ -455,7 +459,7 @@ func GetRB2ndType(rb models.RBRequest, contracts []models.Contract) (rbDTO []mod
 //func GetRB3rdType(request models.RBRequest, contracts []models.Contract) ([]models.RbDTO, error) {
 //
 //	//req := models.ReqBrand{
-//	//	ClientBin:      request.BIN,
+//	//	ClientCode:      request.BIN,
 //	//	Beneficiary:    request.ContractorName,
 //	//	DateStart:      request.PeriodFrom,
 //	//	DateEnd:        request.PeriodTo,
@@ -473,7 +477,7 @@ func GetRB2ndType(rb models.RBRequest, contracts []models.Contract) (rbDTO []mod
 //	contractsCode := JoinContractCode(externalCodes)
 //
 //	req := models.ReqBrand{
-//		ClientBin:      request.BIN,
+//		ClientCode:      request.BIN,
 //		DateStart:      request.PeriodFrom,
 //		DateEnd:        request.PeriodTo,
 //		TypeValue:      "",
@@ -520,7 +524,7 @@ func GetRB3rdType(request models.RBRequest, contracts []models.Contract) ([]mode
 	//externalCodes := GetExternalCode(request.BIN)
 	//contractsCode := JoinContractCode(externalCodes)
 	req := models.ReqBrand{
-		ClientBin:      request.BIN,
+		ClientCode:     request.ClientCode,
 		DateStart:      request.PeriodFrom,
 		DateEnd:        request.PeriodTo,
 		TypeValue:      "",
@@ -570,7 +574,7 @@ func GetRB14ThType(request models.RBRequest, contracts []models.Contract) ([]mod
 	var RBs []models.RbDTO
 	for _, contract := range contracts {
 		req := models.ReqBrand{
-			ClientBin:      request.BIN,
+			ClientCode:     request.ClientCode,
 			DateStart:      request.PeriodFrom,
 			DateEnd:        request.PeriodTo,
 			TypeValue:      "",
@@ -625,7 +629,7 @@ func GetRB4thType(request models.RBRequest, contracts []models.Contract) (rbDTO 
 	//}
 
 	req := models.ReqBrand{
-		ClientBin:   request.BIN,
+		ClientCode:  request.ClientCode,
 		Beneficiary: request.ContractorName,
 		DateStart:   request.PeriodFrom,
 		DateEnd:     request.PeriodTo,
@@ -712,7 +716,7 @@ func RB5thTypeDetails(request models.RBRequest, contract models.Contract, discou
 			//contractsCode := JoinContractCode(externalCodes)
 
 			reqBrand := models.ReqBrand{
-				ClientBin:      request.BIN,
+				ClientCode:     request.ClientCode,
 				DateStart:      request.PeriodFrom,
 				DateEnd:        request.PeriodTo,
 				TypeValue:      "",
@@ -749,7 +753,7 @@ func RB5thTypeDetails(request models.RBRequest, contract models.Contract, discou
 
 //func GetRB6thType(request models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
 //	req := models.ReqBrand{
-//		ClientBin:      request.BIN,
+//		ClientCode:      request.BIN,
 //		Beneficiary:    request.ContractorName,
 //		DateStart:      request.PeriodFrom,
 //		DateEnd:        request.PeriodTo,
@@ -799,9 +803,9 @@ func RB5thTypeDetails(request models.RBRequest, contract models.Contract, discou
 
 func GetRB6thType(rb models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
 	req := models.ReqBrand{
-		ClientBin: rb.BIN,
-		DateStart: rb.PeriodFrom,
-		DateEnd:   rb.PeriodTo,
+		ClientCode: rb.ClientCode,
+		DateStart:  rb.PeriodFrom,
+		DateEnd:    rb.PeriodTo,
 	}
 	sales, err := GetSales(req)
 	mapBrands := CountSalesByBrand(sales)
@@ -855,7 +859,7 @@ func GetRB7thType(rb models.RBRequest, contracts []models.Contract) (rbDTO []mod
 
 	for _, contract := range contracts {
 		req := models.ReqBrand{
-			ClientBin:  rb.BIN,
+			ClientCode: rb.ClientCode,
 			DateStart:  rb.PeriodFrom,
 			DateEnd:    rb.PeriodTo,
 			SchemeType: contract.View,
@@ -907,7 +911,7 @@ func GetRB7thType(rb models.RBRequest, contracts []models.Contract) (rbDTO []mod
 
 func GetRB8thType(request models.RBRequest, contracts []models.Contract) ([]models.RbDTO, error) {
 	//req := models.ReqBrand{
-	//	ClientBin:      request.BIN,
+	//	ClientCode:      request.BIN,
 	//	Beneficiary:    request.ContractorName,
 	//	DateStart:      request.PeriodFrom,
 	//	DateEnd:        request.PeriodTo,
@@ -922,7 +926,7 @@ func GetRB8thType(request models.RBRequest, contracts []models.Contract) ([]mode
 	//}
 
 	//present := models.ReqBrand{
-	//	ClientBin:      request.BIN,
+	//	ClientCode:      request.BIN,
 	//	Beneficiary:    "",
 	//	DateStart:      request.PeriodFrom,
 	//	DateEnd:        request.PeriodTo,
@@ -944,7 +948,7 @@ func GetRB8thType(request models.RBRequest, contracts []models.Contract) ([]mode
 	//contractsCode := JoinContractCode(externalCodes)
 
 	reqBrand := models.ReqBrand{
-		ClientBin:      request.BIN,
+		ClientCode:     request.ClientCode,
 		DateStart:      request.PeriodFrom,
 		DateEnd:        request.PeriodTo,
 		TypeValue:      "",
@@ -979,7 +983,7 @@ func GetRB8thType(request models.RBRequest, contracts []models.Contract) ([]mode
 
 func GetRB9thType(request models.RBRequest, contracts []models.Contract) ([]models.RbDTO, error) {
 	//req := models.ReqBrand{
-	//	ClientBin:      request.BIN,
+	//	ClientCode:      request.BIN,
 	//	Beneficiary:    request.ContractorName,
 	//	DateStart:      request.PeriodFrom,
 	//	DateEnd:        request.PeriodTo,
@@ -994,7 +998,7 @@ func GetRB9thType(request models.RBRequest, contracts []models.Contract) ([]mode
 	//}
 
 	//present := models.ReqBrand{
-	//	ClientBin:      request.BIN,
+	//	ClientCode:      request.BIN,
 	//	Beneficiary:    "",
 	//	DateStart:      request.PeriodFrom,
 	//	DateEnd:        request.PeriodTo,
@@ -1016,7 +1020,7 @@ func GetRB9thType(request models.RBRequest, contracts []models.Contract) ([]mode
 	//contractsCode := JoinContractCode(externalCodes)
 
 	reqBrand := models.ReqBrand{
-		ClientBin:      request.BIN,
+		ClientCode:     request.ClientCode,
 		DateStart:      request.PeriodFrom,
 		DateEnd:        request.PeriodTo,
 		TypeValue:      "",
@@ -1053,7 +1057,7 @@ func GetRb10thType(request models.RBRequest, contracts []models.Contract) (rbDTO
 
 	for _, contract := range contracts {
 		req := models.ReqBrand{
-			ClientBin:   request.BIN,
+			ClientCode:  request.ClientCode,
 			Beneficiary: request.ContractorName,
 			DateStart:   request.PeriodFrom,
 			DateEnd:     request.PeriodTo,
@@ -1115,7 +1119,7 @@ func GetRB11thType(req models.RBRequest, contracts []models.Contract) ([]models.
 				for _, period := range discount.Periods {
 					if period.PeriodFrom <= req.PeriodFrom && period.PeriodTo >= req.PeriodTo {
 						reqBrand := models.ReqBrand{
-							ClientBin:      req.BIN,
+							ClientCode:     req.ClientCode,
 							DateStart:      req.PeriodFrom,
 							DateEnd:        req.PeriodTo,
 							TypeValue:      "",
@@ -1169,7 +1173,7 @@ func GetRB12thType(req models.RBRequest, contracts []models.Contract) ([]models.
 	//externalCodes := GetExternalCode(req.BIN)
 	//contractsCode := JoinContractCode(externalCodes)
 	reqBrand := models.ReqBrand{
-		ClientBin:      req.BIN,
+		ClientCode:     req.ClientCode,
 		DateStart:      req.PeriodFrom,
 		DateEnd:        req.PeriodTo,
 		TypeValue:      "",
@@ -1262,7 +1266,7 @@ func GetRB13thType(rb models.RBRequest, contracts []models.Contract) ([]models.R
 
 					// это чтобы брали на 1 год меньше
 					pastPeriod := models.ReqBrand{
-						ClientBin:      rb.BIN,
+						ClientCode:     rb.ClientCode,
 						DateStart:      pastTimeFrom,
 						DateEnd:        pastTimeTo,
 						Type:           "",
@@ -1274,7 +1278,7 @@ func GetRB13thType(rb models.RBRequest, contracts []models.Contract) ([]models.R
 
 					// Это необходимо, чтобы получить продажи за тек период
 					present := models.ReqBrand{
-						ClientBin:      rb.BIN,
+						ClientCode:     rb.ClientCode,
 						Beneficiary:    "",
 						DateStart:      rb.PeriodFrom,
 						DateEnd:        rb.PeriodTo,

@@ -88,7 +88,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 	//TODO: посмотри потом
 	//testBin := "060840003599"
 	//req := models.ReqBrand{
-	//	ClientBin:   request.BIN,
+	//	ClientCode:   request.BIN,
 	//	Beneficiary: request.ContractorName,
 	//	DateStart:   request.PeriodFrom,
 	//	DateEnd:     request.PeriodTo,
@@ -107,7 +107,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 	//contractsCode := JoinContractCode(externalCodes)
 
 	req := models.ReqBrand{
-		ClientBin:      request.BIN,
+		ClientCode:     request.BIN,
 		DateStart:      request.PeriodFrom,
 		DateEnd:        request.PeriodTo,
 		TypeValue:      "purchase_brand_only",
@@ -120,7 +120,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 	//totalPurchaseCode := CountPurchaseByCode(purchase)
 	//
 	//present := models.ReqBrand{
-	//	ClientBin:      request.BIN,
+	//	ClientCode:      request.BIN,
 	//	Beneficiary:    "",
 	//	DateStart:      request.PeriodFrom,
 	//	DateEnd:        request.PeriodTo,

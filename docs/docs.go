@@ -407,7 +407,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.ClientBin"
+                            "$ref": "#/definitions/models.ClientCode"
                         }
                     }
                 ],
@@ -3982,7 +3982,7 @@ var doc = `{
                 }
             }
         },
-        "models.ClientBin": {
+        "models.ClientCode": {
             "type": "object",
             "properties": {
                 "bin": {

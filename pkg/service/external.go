@@ -360,7 +360,7 @@ func GetPriceType(bin string) ([]models.PriceTypeAndCode, error) {
 	var priceAndCodeSl []models.PriceTypeAndCode
 
 	date := models.ReqBrand{
-		ClientBin: bin,
+		ClientCode: bin,
 	}
 	//for _, value := range brandInfo {
 	//	date.TypeParameters = append(date.TypeParameters, value.Brand)
@@ -428,7 +428,7 @@ func CreatePriceType(payload models.PriceTypeCreate) (models.PriceTypeResponse, 
 	var responsePriceType models.PriceTypeResponse
 
 	//date := models.ReqBrand{
-	//	ClientBin: bin,
+	//	ClientCode: bin,
 	//}
 	//for _, value := range brandInfo {
 	//	date.TypeParameters = append(date.TypeParameters, value.Brand)
@@ -486,7 +486,7 @@ func CheckContractIn1C(bin string) (models.ResponseContractFrom1C, error) {
 		ClientBin: bin,
 	}
 	//date := models.ReqBrand{
-	//	ClientBin: bin,
+	//	ClientCode: bin,
 	//}
 	//for _, value := range brandInfo {
 	//	date.TypeParameters = append(date.TypeParameters, value.Brand)

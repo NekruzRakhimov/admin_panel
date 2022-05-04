@@ -79,7 +79,7 @@ func GetAllDeferredDiscounts(request models.RBRequest) (RbDTO []models.RbDTO, er
 func FormExcelForDeferredDiscounts(request models.RBRequest) error {
 
 	req := models.ReqBrand{
-		ClientBin:      request.BIN,
+		ClientCode:     request.BIN,
 		DateStart:      request.PeriodFrom,
 		DateEnd:        request.PeriodTo,
 		TypeValue:      "purchase_brand_only",

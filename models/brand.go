@@ -79,8 +79,8 @@ type BrandInfo struct {
 }
 
 type ReqBrand struct {
-	ClientBin      string   `json:"client_bin"`
-	Beneficiary    string   `json:"beneficiary"`
+	ClientCode  string `json:"client_bin"`
+	Beneficiary string `json:"beneficiary"`
 	DateStart      string   `json:"datestart"`
 	DateEnd        string   `json:"dateend"`
 	Type           string   `json:"type"`

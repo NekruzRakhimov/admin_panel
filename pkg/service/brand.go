@@ -63,13 +63,13 @@ func GetSales(reqBrand models.ReqBrand) (models.Sales, error) {
 	var sales models.Sales
 
 	date := models.ReqBrand{
-		ClientBin:      reqBrand.ClientBin,
+		ClientCode:     reqBrand.ClientCode,
 		DateStart:      reqBrand.DateStart + TempDateCompleter,
 		DateEnd:        reqBrand.DateEnd + TempDateEnd,
 		Type:           "sales_brand_only",
 		TypeValue:      "",
 		TypeParameters: nil,
-		SchemeType: reqBrand.SchemeType,
+		SchemeType:     reqBrand.SchemeType,
 	}
 	//for _, value := range brandInfo {
 	//	date.TypeParameters = append(date.TypeParameters, value.Brand)
@@ -176,7 +176,7 @@ func GetSalesBrand(reqBrand models.ReqBrand, brandInfo []models.BrandInfo) (mode
 	var sales models.Sales
 
 	date := models.ReqBrand{
-		ClientBin:      reqBrand.ClientBin,
+		ClientCode:     reqBrand.ClientCode,
 		DateStart:      reqBrand.DateStart + TempDateCompleter,
 		DateEnd:        reqBrand.DateEnd + TempDateEnd,
 		Type:           "sales_brand_only",
@@ -239,7 +239,7 @@ func GetPurchase(reqBrand models.ReqBrand) (models.Purchase, error) {
 	var purchase models.Purchase
 
 	date := models.ReqBrand{
-		ClientBin:      reqBrand.ClientBin,
+		ClientCode:     reqBrand.ClientCode,
 		DateStart:      reqBrand.DateStart + TempDateCompleter,
 		DateEnd:        reqBrand.DateEnd + TempDateEnd,
 		Type:           "purchase_total",
@@ -303,7 +303,7 @@ func GetPurchaseBrandOnly(reqBrand models.ReqBrand) (models.Purchase, error) {
 	var purchase models.Purchase
 
 	date := models.ReqBrand{
-		ClientBin:      reqBrand.ClientBin,
+		ClientCode:     reqBrand.ClientCode,
 		DateStart:      reqBrand.DateStart + TempDateCompleter,
 		DateEnd:        reqBrand.DateEnd + TempDateEnd,
 		Type:           "purchase_brand_only",
@@ -367,7 +367,7 @@ func GetBrandSales(reqBrand models.ReqBrand) (models.Sales, error) {
 	var sales models.Sales
 
 	date := models.ReqBrand{
-		ClientBin:      reqBrand.ClientBin,
+		ClientCode:     reqBrand.ClientCode,
 		DateStart:      reqBrand.DateStart + TempDateCompleter,
 		DateEnd:        reqBrand.DateEnd + TempDateEnd,
 		Type:           "sales_brand_only",
@@ -619,7 +619,7 @@ func GetSalesSKU(reqBrand models.ReqBrand) (models.Sales, error) {
 	var sales models.Sales
 
 	date := models.ReqBrand{
-		ClientBin:      reqBrand.ClientBin,
+		ClientCode:     reqBrand.ClientCode,
 		DateStart:      reqBrand.DateStart + TempDateCompleter,
 		DateEnd:        reqBrand.DateEnd + TempDateEnd,
 		Type:           "sales_brand_only",
@@ -682,7 +682,7 @@ func PresentationDiscount(rbReq models.RBRequest) (models.Purchase, error) {
 	var purchase models.Purchase
 
 	date := models.ReqBrand{
-		ClientBin:      rbReq.BIN,
+		ClientCode:     rbReq.BIN,
 		DateStart:      rbReq.PeriodFrom + TempDateCompleter,
 		DateEnd:        rbReq.PeriodTo + TempDateEnd,
 		Type:           "purchase",
@@ -745,7 +745,7 @@ func GetSales1C(rb models.ReqBrand, typeData string) (models.Sales, error) {
 	var sales models.Sales
 
 	date := models.ReqBrand{
-		ClientBin:      rb.ClientBin,
+		ClientCode:     rb.ClientCode,
 		DateStart:      rb.DateStart + TempDateCompleter,
 		DateEnd:        rb.DateEnd + TempDateEnd,
 		Type:           typeData,
