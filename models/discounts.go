@@ -6,7 +6,7 @@ type RBRequest struct {
 	ContractorName   string            `json:"contractor_name"`
 	PeriodFrom       string            `json:"period_from"`
 	PeriodTo         string            `json:"period_to"`
-	ClientCode     string `json:"client_code"`
+	ClientCode       string            `json:"client_code"`
 	DoubtedDiscounts []DoubtedDiscount `json:"doubted_discounts"`
 }
 
