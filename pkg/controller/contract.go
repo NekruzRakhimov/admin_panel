@@ -840,13 +840,21 @@ func CheckContractIn1C(c *gin.Context) {
 
 }
 
-func GetSuppliers(c *gin.Context)  {
+func GetSuppliers(c *gin.Context) {
 
-	suppliers, err := service.GetListSuppliers()
+	suppliers, err := service.GetListSuppliersFrom1C()
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
 		return
 	}
 	c.JSON(http.StatusOK, suppliers)
+}
 
+func SaveSuppliers(c *gin.Context) {
+	suppliers, err := service.GetSuppliers()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
+		return
+	}
+	c.JSON(http.StatusOK, suppliers)
 }

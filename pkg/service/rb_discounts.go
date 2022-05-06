@@ -122,7 +122,6 @@ func GetRB15ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 
 		//	totalPurchaseCode := CountPurchaseByCode(purchase)
 		amount := CountSales(sales)
-
 		for _, discount := range contract.Discounts {
 			fmt.Println(contract.ContractParameters.ContractNumber, "номер договора")
 			if discount.Code == RB15Code && discount.IsSelected == true { // здесь сравниваешь тип скидки и берешь тот тип который тебе нужен
@@ -132,7 +131,7 @@ func GetRB15ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 					if period.PeriodFrom <= req.PeriodFrom && period.PeriodTo >= req.PeriodTo {
 						fmt.Println("AMOUNT", amount, period.SalesAmount)
 						if float32(amount) >= period.TotalAmount {
-							reward := float32(amount) * period.DiscountPercent / 100
+
 							RbDTO := models.RbDTO{
 								ContractNumber:  contract.ContractParameters.ContractNumber,
 								StartDate:       period.PeriodFrom,
@@ -140,7 +139,7 @@ func GetRB15ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 								TypePeriod:      period.Name,
 								DiscountPercent: period.DiscountPercent,
 								//DiscountAmount:       total,
-								RewardAmount:         reward,
+								RewardAmount: float32(period.RewardAmount),
 								TotalWithoutDiscount: float32(amount),
 								LeasePlan:            period.TotalAmount,
 								DiscountType:         RB15Name,

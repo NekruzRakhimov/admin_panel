@@ -44,8 +44,12 @@ func RunAllRoutes() {
 
 }
 
+func Check(c *gin.Context) {
+	service.CreateNecessity()
+}
+
 func runAllRoutes(r *gin.Engine) {
-	r.GET("/", HealthCheck)
+	r.GET("/", Check)
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	r.POST("/login", controller.LoginNew)
@@ -138,29 +142,31 @@ func Check1CRoutes(r *gin.RouterGroup) {
 	r.POST("/get_rb1", controller.GetRb1)
 	r.POST("/get_rb3", controller.GetRb3)
 	r.POST("/get_rb5", controller.GetRb5)
+	r.GET("/store_regions", controller.GetStoreRegions)
+	r.GET("/matrix/:store_code", controller.GetMatrix)
+
 }
 
 func ReportsRoutes(r *gin.RouterGroup) {
 	reports := r.Group("/reports")
 	reports.POST("/doubted_discounts", controller.GetDoubtedDiscounts)
 	//reports.PUT("/doubted_discounts", controller.SaveDoubtedDiscountsResults)
+
 	reports.POST("/rb", controller.GetAllRBByContractorBIN)
 	reports.POST("/rb/update", controller.UpdateRbReports)
 	reports.POST("/rb/excel", controller.FormExcelForRB)
-	reports.GET("/search_report_rb/", controller.SearchReportRB)
-	reports.GET("/search_report_dd/", controller.SearchReportDD)
-
 	reports.GET("/rb/stored", controller.GetAllStoredReports)
 	reports.GET("/rb/stored/:id/details", controller.GetStoredReportDetails)
 	reports.GET("/rb/stored/:id/details/excel", controller.GetExcelForStoredExcelReport)
+	reports.GET("/search_report_rb/", controller.SearchReportRB)
 	//reports.GET("/rb_brand/excel", controller.FormExcelForRBBrand)
 
 	reports.POST("/dd", controller.GetAllDeferredDiscounts)
 	reports.POST("/dd/excel", controller.FormExcelForDeferredDiscounts)
-
 	reports.GET("/dd/stored", controller.GetAllDdStoredReports)
 	reports.GET("/dd/stored/:id/details", controller.GetStoredDdReportDetails)
 	reports.GET("/dd/stored/:id/details/excel", controller.GetExcelForDdStoredExcelReport)
+	reports.GET("/search_report_dd/", controller.SearchReportDD)
 }
 
 func ContractRoutes(r *gin.RouterGroup) {
@@ -169,6 +175,7 @@ func ContractRoutes(r *gin.RouterGroup) {
 	r.GET("/search_contract/", controller.SearchContractByNumber)
 	r.GET("/search_history/:id", controller.SearchContractDC) // TODO: тут нам нужен ID договора (я тебе об этом говорил)
 	r.GET("/suppliers", controller.GetSuppliers)
+	r.POST("/suppliers", controller.SaveSuppliers)
 	contract := r.Group("/contract")
 	contract.GET("", controller.GetAllContracts)
 	contract.GET("/products_template", controller.GetProductsTemplate)

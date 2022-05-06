@@ -154,6 +154,27 @@ func GetAllRBByContractorBIN(request models.RBRequest) (rbDTOs []models.RbDTO, e
 	}
 	rbDTOs = append(rbDTOs, rb14ThType...)
 
+	// #15
+	rb15ThType, err := GetRB15ThType(request, contracts)
+	if err != nil {
+		return
+	}
+	rbDTOs = append(rbDTOs, rb15ThType...)
+
+	// #16
+	rb16ThType, err := GetRB16ThType(request, contracts)
+	if err != nil {
+		return
+	}
+	rbDTOs = append(rbDTOs, rb16ThType...)
+
+	// #17
+	rb17ThType, err := GetRB17ThType(request, contracts)
+	if err != nil {
+		return
+	}
+	rbDTOs = append(rbDTOs, rb17ThType...)
+
 	return
 }
 

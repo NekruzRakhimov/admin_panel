@@ -22,7 +22,6 @@ import (
 // @BasePath /
 // @schemes http
 func main() {
-
 	utils.ReadSettings()
 	db.StartDbConnection()
 
