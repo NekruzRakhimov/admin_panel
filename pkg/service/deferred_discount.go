@@ -198,7 +198,7 @@ func GetDD4th(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 
 	//totalAmountPurchase := GetTotalAmountPurchase(purchase)
 
-	log.Printf("[CHECK PRES SAlES: %+v\n", purchase)
+	//log.Printf("[CHECK PRES SAlES: %+v\n", purchase)
 	log.Printf("[CHECK PRES TOTAL AMOUNT]: %f\n", totalAmountPurchase)
 
 	for _, contract := range contracts {

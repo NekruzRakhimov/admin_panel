@@ -281,7 +281,7 @@ func GetPurchase(reqBrand models.ReqBrand) (models.Purchase, error) {
 		log.Println(err)
 		return purchase, err
 	}
-	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
+	//log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
 
 	defer resp.Body.Close()
 	if err != nil {
