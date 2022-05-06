@@ -122,6 +122,7 @@ func GetRB15ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 
 		//	totalPurchaseCode := CountPurchaseByCode(purchase)
 		amount := CountSales(sales)
+
 		for _, discount := range contract.Discounts {
 			fmt.Println(contract.ContractParameters.ContractNumber, "номер договора")
 			if discount.Code == RB15Code && discount.IsSelected == true { // здесь сравниваешь тип скидки и берешь тот тип который тебе нужен
@@ -131,7 +132,7 @@ func GetRB15ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 					if period.PeriodFrom <= req.PeriodFrom && period.PeriodTo >= req.PeriodTo {
 						fmt.Println("AMOUNT", amount, period.SalesAmount)
 						if float32(amount) >= period.TotalAmount {
-
+							reward := float32(amount) * period.DiscountPercent / 100
 							RbDTO := models.RbDTO{
 								ContractNumber:  contract.ContractParameters.ContractNumber,
 								StartDate:       period.PeriodFrom,
@@ -139,7 +140,7 @@ func GetRB15ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 								TypePeriod:      period.Name,
 								DiscountPercent: period.DiscountPercent,
 								//DiscountAmount:       total,
-								RewardAmount: float32(period.RewardAmount),
+								RewardAmount:         reward,
 								TotalWithoutDiscount: float32(amount),
 								LeasePlan:            period.TotalAmount,
 								DiscountType:         RB15Name,
@@ -619,9 +620,7 @@ func GetRB4thType(request models.RBRequest, contracts []models.Contract) (rbDTO 
 
 	//log.Printf("[CHECK PRES TOTAL AMOUNT]: %v\n", totalAmountPurchase)
 	for _, contract := range contracts {
-		fmt.Println("НОМЕР ДОГОВОРА", contract.ContractParameters.ContractNumber)
-		log.Println("НОМЕР ДОГОВОРА", contract.ContractParameters.ContractNumber)
-		fmt.Println(contract.ContractParameters.ContractNumber, "номер договора")
+
 		for _, discount := range contract.Discounts {
 			if discount.Code == RB4Code && discount.IsSelected == true {
 				req := models.ReqBrand{
@@ -1122,6 +1121,7 @@ func GetRB11thType(req models.RBRequest, contracts []models.Contract) ([]models.
 							TypeValue:      "",
 							TypeParameters: nil,
 							//Contracts:      contractsCode, // необходимо получить коды контрактов
+							SchemeType: contract.View,
 						}
 						purchase, _ := GetPurchase(reqBrand)
 
