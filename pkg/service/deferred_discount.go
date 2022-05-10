@@ -7,7 +7,7 @@ import (
 
 func Fill(request models.RBRequest, contract models.Contract) (float64, error) {
 	req := models.ReqBrand{
-		ClientCode:  request.BIN,
+		ClientCode:  request.ClientCode,
 		Beneficiary: request.ContractorName,
 		DateStart:   request.PeriodFrom,
 		DateEnd:     request.PeriodTo,

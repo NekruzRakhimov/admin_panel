@@ -110,6 +110,7 @@ func DDRoutes(r *gin.RouterGroup) {
 
 func tempRoutes(r *gin.RouterGroup) {
 	r.POST("/getdisper", controller.GetDisPer)
+	r.POST("/getpurchase", controller.GetPurchase)
 	r.POST("/getdisp", controller.DiscountRBPeriodTime)
 	r.POST("/getrbseven", controller.DiscountRB7)
 	r.POST("/getrbfour", controller.DiscountRB4)

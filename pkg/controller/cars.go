@@ -33,6 +33,19 @@ func GetDisPer(c *gin.Context) {
 
 }
 
+
+func GetPurchase(c *gin.Context) {
+	var brand models.ReqBrand
+	c.ShouldBind(&brand)
+
+	period, err := service.GetPurchase(brand)
+	if err != nil {
+		c.JSON(400, err)
+	}
+	c.JSON(200, period)
+
+}
+
 func DiscountRBPeriodTime(c *gin.Context) {
 	var request models.RBRequest
 	c.ShouldBind(&request)
