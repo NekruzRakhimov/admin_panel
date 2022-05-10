@@ -609,14 +609,30 @@ func GetRegionsFrom1C() (regions []models.Regions, err error) {
 	return regions1C.RegionArr, nil
 }
 
+func GetSuppliers() ([]models.DataClient, error) {
+	suppliers, err := GetListSuppliersFrom1C()
+	if err != nil {
+		return nil, err
+	}
 
-func GetListSuppliers() ([]models.DataClient, error)   {
+	if err = repository.SaveSuppliers(suppliers); err != nil {
+		return nil, err
+	}
+
+	suppliers, err = repository.GetSuppliers()
+	if err != nil {
+		return nil, err
+	}
+
+	return suppliers, nil
+}
+
+func GetListSuppliersFrom1C() ([]models.DataClient, error) {
 	suppliers := struct {
 		RegionArr []models.DataClient `json:"client_arr"`
 	}{}
 	//var respSupplier models.RespSupplier
 	//var suppliers []models.DataClient
-
 
 	//reqBodyBytes := new(bytes.Buffer)
 	//json.NewEncoder(reqBodyBytes).Encode(&clientBin)
@@ -624,9 +640,7 @@ func GetListSuppliers() ([]models.DataClient, error)   {
 
 	//parm.Add("datestart", "01.01.2022 0:02:09")
 	//parm.Add("dateend", "01.01.2022 0:02:09")
-	client := &http.Client{
-
-	}
+	client := &http.Client{}
 	//log.Println(reqBodyBytes)
 	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/getsuppliers"
 	req, err := http.NewRequest("GET", uri, nil)
@@ -664,12 +678,11 @@ func GetListSuppliers() ([]models.DataClient, error)   {
 
 	//
 
-
-
 	return suppliers.RegionArr, nil
 }
 
-func GetListProducts() ([]models.ProductsData, error)   {
+
+func GetListProductsFrom1C() ([]models.ProductsData, error)   {
 	products := struct {
 		Data []models.ProductsData `json:"product_arr"`
 	}{}
@@ -717,5 +730,3 @@ func GetListProducts() ([]models.ProductsData, error)   {
 
 	return products.Data, nil
 }
-
-

@@ -358,3 +358,23 @@ func SearchHistoryExecution(field string, param string) ([]models.SearchContract
 	return search, nil
 
 }
+
+func SaveSuppliers(suppliers []models.DataClient) error {
+	for _, supplier := range suppliers {
+		if err := db.GetDBConn().Table("suppliers").Create(&supplier).Error; err != nil {
+			return err
+		}
+
+	}
+
+	return nil
+}
+
+func GetSuppliers() (suppliers []models.DataClient, err error) {
+	sqlQuery := "SELECT * FROM suppliers"
+	if err = db.GetDBConn().Raw(sqlQuery).Scan(&suppliers).Error; err != nil {
+		return nil, err
+	}
+
+	return suppliers, nil
+}
