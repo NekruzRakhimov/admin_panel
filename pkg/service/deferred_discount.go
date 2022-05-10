@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-func GetDD1st(request models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
+func Fill(request models.RBRequest, contract models.Contract) map[string]float64  {
 	externalCodes := GetExternalCode(request.BIN)
 	contractsCode := JoinContractCode(externalCodes)
 	//var contractsCode []string
@@ -20,20 +20,53 @@ func GetDD1st(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 		DateStart:   request.PeriodFrom,
 		DateEnd:     request.PeriodTo,
 		Contracts:   contractsCode,
+		SchemeType: contract.View,
 	}
 
 	//sales, err := GetSales(req)
-	purchase, err := GetPurchase(req)
+	purchase, _ := GetPurchase(req)
 	totalAmountPurchase := CountPurchaseByCode(purchase)
+
+	return totalAmountPurchase
+
+}
+
+
+func GetDD1st(request models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
 
 	//totalAmountPurchase := GetTotalAmountPurchase(purchase)
 
-	log.Printf("[CHECK PRES SAlES: %+v\n", purchase)
-	log.Printf("[CHECK PRES TOTAL AMOUNT]: %f\n", totalAmountPurchase)
+	//log.Printf("[CHECK PRES SAlES: %+v\n", purchase)
+	//log.Printf("[CHECK PRES TOTAL AMOUNT]: %f\n", totalAmountPurchase)
 
 	for _, contract := range contracts {
 		for _, discount := range contract.Discounts {
 			if discount.Code == DD1Code && discount.IsSelected == true {
+				externalCodes := GetExternalCode(request.BIN)
+				contractsCode := JoinContractCode(externalCodes)
+				//var contractsCode []string
+				//for _, value := range externalCodes {
+				//	contractsCode = append(contractsCode, value.ExtContractCode)
+				//}
+
+				req := models.ReqBrand{
+					ClientCode:  request.BIN,
+					Beneficiary: request.ContractorName,
+					DateStart:   request.PeriodFrom,
+					DateEnd:     request.PeriodTo,
+					Contracts:   contractsCode,
+					SchemeType: contract.View,
+				}
+
+				//sales, err := GetSales(req)
+				purchase, _ := GetPurchase(req)
+				totalAmountPurchase := CountPurchaseByCode(purchase)
+
+
+
+
+
+
 				var discountAmount float32
 				for _, amount := range totalAmountPurchase {
 					discountAmount = float32(amount) * discount.DiscountPercent / 100
@@ -51,7 +84,7 @@ func GetDD1st(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 
 			}
 			log.Printf("[CHECK PRES DISCOUNT PERCENT]: %f\n", discount.DiscountPercent)
-			log.Printf("[CHECK PRES TOTAL AMOUNT]: %f\n", totalAmountPurchase)
+			//log.Printf("[CHECK PRES TOTAL AMOUNT]: %f\n", totalAmountPurchase)
 
 			log.Println("[CHECK PRES TRUE/FALSE]: ", repository.DoubtedDiscountExecutionCheck(request, contract.ContractParameters.ContractNumber, discount.Code))
 
@@ -64,33 +97,42 @@ func GetDD1st(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 }
 
 func GetDD2nd(request models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
-	externalCodes := GetExternalCode(request.BIN)
-	contractsCode := JoinContractCode(externalCodes)
-	//var contractsCode []string
-	//for _, value := range externalCodes {
-	//	contractsCode = append(contractsCode, value.ExtContractCode)
-	//}
 
-	req := models.ReqBrand{
-		ClientCode:  request.BIN,
-		Beneficiary: request.ContractorName,
-		DateStart:   request.PeriodFrom,
-		DateEnd:     request.PeriodTo,
-		Contracts:   contractsCode,
-	}
 
-	//sales, err := GetSales(req)
-	purchase, err := GetPurchase(req)
-	totalAmountPurchase := CountPurchaseByCode(purchase)
+
+
 
 	//totalAmountPurchase := GetTotalAmountPurchase(purchase)
-
-	log.Printf("[CHECK PRES SAlES: %+v\n", purchase)
-	log.Printf("[CHECK PRES TOTAL AMOUNT]: %f\n", totalAmountPurchase)
+	//
+	//log.Printf("[CHECK PRES SAlES: %+v\n", purchase)
+	//log.Printf("[CHECK PRES TOTAL AMOUNT]: %f\n", totalAmountPurchase)
 
 	for _, contract := range contracts {
 		for _, discount := range contract.Discounts {
 			if discount.Code == DD2Code && discount.IsSelected == true {
+				externalCodes := GetExternalCode(request.BIN)
+				contractsCode := JoinContractCode(externalCodes)
+				//var contractsCode []string
+				//for _, value := range externalCodes {
+				//	contractsCode = append(contractsCode, value.ExtContractCode)
+				//}
+
+				req := models.ReqBrand{
+					ClientCode:  request.BIN,
+					Beneficiary: request.ContractorName,
+					DateStart:   request.PeriodFrom,
+					DateEnd:     request.PeriodTo,
+					Contracts:   contractsCode,
+					SchemeType: contract.View,
+				}
+
+				//sales, err := GetSales(req)
+				purchase, _ := GetPurchase(req)
+				totalAmountPurchase := CountPurchaseByCode(purchase)
+
+
+
+
 				var discountAmount float32
 				for _, amount := range totalAmountPurchase {
 					discountAmount = float32(amount) * discount.DiscountPercent / 100
@@ -108,7 +150,7 @@ func GetDD2nd(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 
 			}
 			log.Printf("[CHECK PRES DISCOUNT PERCENT]: %f\n", discount.DiscountPercent)
-			log.Printf("[CHECK PRES TOTAL AMOUNT]: %f\n", totalAmountPurchase)
+			//log.Printf("[CHECK PRES TOTAL AMOUNT]: %f\n", totalAmountPurchase)
 			log.Println("[CHECK PRES TRUE/FALSE]: ", repository.DoubtedDiscountExecutionCheck(request, contract.ContractParameters.ContractNumber, discount.Code))
 
 			log.Printf("CHECK PRES DISCOUNT rbDTO %+v\n", rbDTO)

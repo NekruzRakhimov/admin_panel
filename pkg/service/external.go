@@ -669,4 +669,53 @@ func GetListSuppliers() ([]models.DataClient, error)   {
 	return suppliers.RegionArr, nil
 }
 
+func GetListProducts() ([]models.ProductsData, error)   {
+	products := struct {
+		Data []models.ProductsData `json:"product_arr"`
+	}{}
+
+	//products := models.RespProducts{}
+	client := &http.Client{
+
+	}
+	//log.Println(reqBodyBytes)
+	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/getproduct"
+	req, err := http.NewRequest("GET", uri, nil)
+	req.Header.Set("Content-Type", "application/json") // This makes it work
+	req.SetBasicAuth("http_client", "123456")
+
+	if err != nil {
+		log.Println(err)
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	defer resp.Body.Close()
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	body = bytes.TrimPrefix(body, []byte("\xef\xbb\xbf")) // Or []byte{239, 187, 191}
+
+	err = json.Unmarshal(body, &products)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	//
+
+
+
+	return products.Data, nil
+}
+
 
