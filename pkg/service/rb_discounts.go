@@ -717,7 +717,8 @@ func RB5thTypeDetails(request models.RBRequest, contract models.Contract, discou
 				//Contracts:      contractsCode, // необходимо получить коды контрактов
 				SchemeType: contract.View,
 			}
-			purchase, _ := GetPurchase(reqBrand)
+			 //GetPurchase(reqBrand)
+			purchase, _ := GetPurchaseBrandOnly(reqBrand)
 			totalAmount := GetPurchaseTotalAmount(purchase)
 
 			for _, brand := range discountBrand.Brands {

@@ -190,7 +190,6 @@ func GetDD5th(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 }
 
 func GetDD6th(request models.RBRequest, contracts []models.Contract) (rbDTO []models.RbDTO, err error) {
-
 	for _, contract := range contracts {
 		for _, discount := range contract.Discounts {
 			if discount.Code == DD6Code && discount.IsSelected == true {
