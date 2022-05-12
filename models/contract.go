@@ -394,9 +394,16 @@ type RespSupplier struct {
 	DataClient []DataClient `json:"client_arr"`
 }
 
+
 type DataClient struct {
 	ID         int    `json:"id,omitempty"`
 	ClientName string `json:"client_name"`
 	ClientCode string `json:"client_code"`
 	ClientBin  string `json:"client_bin"`
 }
+
+type ProductsData struct {
+	ProductCode string `json:"product_code"`
+	ProductName string `json:"product_name"`
+}
+

@@ -133,7 +133,7 @@ func ConvertContractFromJsonB(contractWithJson models.ContractWithJsonB) (contra
 	contract.IsExtendContract = contract.ContractParameters.IsExtendContract
 
 	contract.ExtendDate = contract.ContractParameters.ExtendDate
-	log.Println("ДАННЫЕ ПО КОНТРАКТУ", contract)
+	//log.Println("ДАННЫЕ ПО КОНТРАКТУ", contract)
 	return contract, nil
 }
 

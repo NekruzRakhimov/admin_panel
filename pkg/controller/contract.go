@@ -850,11 +850,33 @@ func GetSuppliers(c *gin.Context) {
 	c.JSON(http.StatusOK, suppliers)
 }
 
+
+
+
+func GetProducts(c *gin.Context) {
+	//TODO: add two key
+	//typeProduct := c.Query("type")
+	//paramProduct := c.Query("param")
+
+	products, err := service.GetListProductsFrom1C()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
+		return
+	}
+
+	c.JSON(http.StatusOK, products)
+
+}
+
+
 func SaveSuppliers(c *gin.Context) {
 	suppliers, err := service.GetSuppliers()
+
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
 		return
 	}
 	c.JSON(http.StatusOK, suppliers)
 }
+
+
