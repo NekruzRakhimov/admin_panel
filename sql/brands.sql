@@ -136,3 +136,7 @@ ALTER TABLE dictionary_values
 
 ALTER TABLE dictionary_values
     DROP COLUMN  has_file ;
+
+
+SELECT * FROM "contracts"  WHERE requisites ->> 'bin' = '160640027817' AND contract_parameters ->> 'start_date' = '01.01.2022' AND contract_parameters ->> 'end_date' = '31.01.2022' AND status = 'в работе' ;
+

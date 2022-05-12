@@ -139,7 +139,7 @@ func GetRB15ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 								TypePeriod:      period.Name,
 								DiscountPercent: period.DiscountPercent,
 								//DiscountAmount:       total,
-								RewardAmount: float32(period.RewardAmount),
+								RewardAmount:         float32(period.RewardAmount),
 								TotalWithoutDiscount: float32(amount),
 								LeasePlan:            period.TotalAmount,
 								DiscountType:         RB15Name,
@@ -700,6 +700,8 @@ func GetRB5thType(request models.RBRequest, contracts []models.Contract) (rbDTO 
 func RB5thTypeDetails(request models.RBRequest, contract models.Contract, discount models.Discount) (rbDTO []models.RbDTO, err error) {
 	log.Printf("\n[DISCOUNT_DETAILS] %+v\n", discount)
 	for _, discountBrand := range discount.DiscountBrands {
+		fmt.Println("data brands", discountBrand)
+
 		if discountBrand.PeriodFrom >= request.PeriodFrom && discountBrand.PeriodTo <= request.PeriodTo {
 
 			//externalCodes := GetExternalCode(request.BIN)
@@ -715,6 +717,8 @@ func RB5thTypeDetails(request models.RBRequest, contract models.Contract, discou
 			}
 			purchase, _ := GetPurchase(reqBrand)
 			totalAmount := GetPurchaseTotalAmount(purchase)
+			fmt.Println("SUMMA PURCHASE", purchase)
+			fmt.Println("OTOTAL", totalAmount)
 
 			for _, brand := range discountBrand.Brands {
 
@@ -725,14 +729,15 @@ func RB5thTypeDetails(request models.RBRequest, contract models.Contract, discou
 				}
 
 				rbDTO = append(rbDTO, models.RbDTO{
-					ContractNumber:  contract.ContractParameters.ContractNumber,
-					StartDate:       discountBrand.PeriodFrom,
-					EndDate:         discountBrand.PeriodTo,
-					BrandName:       brand.BrandName,
-					ProductCode:     brand.BrandCode,
-					DiscountPercent: brand.DiscountPercent,
-					DiscountAmount:  discountAmount,
-					DiscountType:    RB5Name,
+					ContractNumber:       contract.ContractParameters.ContractNumber,
+					StartDate:            discountBrand.PeriodFrom,
+					EndDate:              discountBrand.PeriodTo,
+					BrandName:            brand.BrandName,
+					ProductCode:          brand.BrandCode,
+					DiscountPercent:      brand.DiscountPercent,
+					DiscountAmount:       discountAmount,
+					DiscountType:         RB5Name,
+					TotalWithoutDiscount: float32(totalAmount),
 				})
 			}
 		}
