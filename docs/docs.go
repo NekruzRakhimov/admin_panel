@@ -407,7 +407,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.ClientCode"
+                            "$ref": "#/definitions/models.ClientBin"
                         }
                     }
                 ],
@@ -2148,6 +2148,64 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.RespPriceType"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/products": {
+            "post": {
+                "description": "get products by key\nпример (typeValue=selectByPartName, typeParameters=аспири)\nпример (typeValue=selectByProductArrCode, typeParameters=00000026167)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products"
+                ],
+                "summary": "get products by key",
+                "parameters": [
+                    {
+                        "description": "payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.PayloadProduct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.ProductsData"
+                            }
                         }
                     },
                     "400": {
@@ -3982,7 +4040,7 @@ var doc = `{
                 }
             }
         },
-        "models.ClientCode": {
+        "models.ClientBin": {
             "type": "object",
             "properties": {
                 "bin": {
@@ -4046,7 +4104,10 @@ var doc = `{
                     }
                 },
                 "regions": {
-                    "$ref": "#/definitions/models.Regions"
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Regions"
+                    }
                 },
                 "requisites": {
                     "$ref": "#/definitions/models.Requisites"
@@ -4486,6 +4547,9 @@ var doc = `{
                 "reward_amount": {
                     "type": "integer"
                 },
+                "sales_amount": {
+                    "type": "number"
+                },
                 "total_amount": {
                     "type": "number"
                 },
@@ -4572,6 +4636,17 @@ var doc = `{
                     "type": "boolean"
                 },
                 "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.PayloadProduct": {
+            "type": "object",
+            "properties": {
+                "typeParameters": {
+                    "type": "string"
+                },
+                "typeValue": {
                     "type": "string"
                 }
             }
@@ -4676,10 +4751,24 @@ var doc = `{
                 }
             }
         },
+        "models.ProductsData": {
+            "type": "object",
+            "properties": {
+                "product_code": {
+                    "type": "string"
+                },
+                "product_name": {
+                    "type": "string"
+                }
+            }
+        },
         "models.RBRequest": {
             "type": "object",
             "properties": {
                 "bin": {
+                    "type": "string"
+                },
+                "client_code": {
                     "type": "string"
                 },
                 "contractor_name": {
@@ -4735,6 +4824,12 @@ var doc = `{
                 "product_code": {
                     "type": "string"
                 },
+                "region_code": {
+                    "type": "string"
+                },
+                "region_name": {
+                    "type": "string"
+                },
                 "reward_amount": {
                     "type": "number"
                 },
@@ -4776,6 +4871,9 @@ var doc = `{
                     "type": "string"
                 },
                 "bin": {
+                    "type": "string"
+                },
+                "client_code": {
                     "type": "string"
                 },
                 "contractor_name": {
@@ -4943,6 +5041,12 @@ var doc = `{
                 },
                 "qnt_total": {
                     "type": "number"
+                },
+                "region_code": {
+                    "type": "string"
+                },
+                "region_name": {
+                    "type": "string"
                 },
                 "total": {
                     "type": "number"

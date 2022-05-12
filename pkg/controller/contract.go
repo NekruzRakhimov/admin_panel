@@ -852,13 +852,31 @@ func GetSuppliers(c *gin.Context) {
 
 
 
-
+// GetProducts godoc
+// @Summary     get products by key
+// @Description  get products by key
+// @Description   пример (typeValue=selectByPartName, typeParameters=аспири)
+// @Description   пример (typeValue=selectByProductArrCode, typeParameters=00000026167)
+// @Tags         products
+// @Accept       json
+// @Produce      json
+// @Param        payload  body     models.PayloadProduct  true  "payload"
+// @Success      200      {object}  []models.ProductsData
+// @Failure      400      {object}  map[string]interface{}
+// @Failure      404      {object}  map[string]interface{}
+// @Failure      500      {object}  map[string]interface{}
+// @Router       /products [post]
 func GetProducts(c *gin.Context) {
 	//TODO: add two key
-	//typeProduct := c.Query("type")
-	//paramProduct := c.Query("param")
+	var payload models.PayloadProduct
+	err := c.ShouldBind(&payload)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+	fmt.Println("REQUEST", payload)
 
-	products, err := service.GetListProductsFrom1C()
+	products, err := service.GetListProductsFrom1C(payload)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
 		return

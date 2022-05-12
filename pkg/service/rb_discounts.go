@@ -704,7 +704,6 @@ func RB5thTypeDetails(request models.RBRequest, contract models.Contract, discou
 	log.Printf("\n[DISCOUNT_DETAILS] %+v\n", discount)
 	for _, discountBrand := range discount.DiscountBrands {
 		if discountBrand.PeriodFrom >= request.PeriodFrom && discountBrand.PeriodTo <= request.PeriodTo {
-
 			//externalCodes := GetExternalCode(request.BIN)
 			//contractsCode := JoinContractCode(externalCodes)
 
@@ -738,6 +737,7 @@ func RB5thTypeDetails(request models.RBRequest, contract models.Contract, discou
 					DiscountPercent: brand.DiscountPercent,
 					DiscountAmount:  discountAmount,
 					DiscountType:    RB5Name,
+
 				})
 			}
 		}

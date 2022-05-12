@@ -681,19 +681,21 @@ func GetListSuppliersFrom1C() ([]models.DataClient, error) {
 	return suppliers.RegionArr, nil
 }
 
-
-func GetListProductsFrom1C() ([]models.ProductsData, error)   {
+func GetListProductsFrom1C(payload models.PayloadProduct) ([]models.ProductsData, error) {
 	products := struct {
 		Data []models.ProductsData `json:"product_arr"`
 	}{}
 
-	//products := models.RespProducts{}
-	client := &http.Client{
-
+	client := &http.Client{}
+	reqBodyBytes := new(bytes.Buffer)
+	err := json.NewEncoder(reqBodyBytes).Encode(&payload)
+	if err != nil {
+		return nil, err
 	}
+
 	//log.Println(reqBodyBytes)
 	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/getproduct"
-	req, err := http.NewRequest("GET", uri, nil)
+	req, err := http.NewRequest("POST", uri, reqBodyBytes)
 	req.Header.Set("Content-Type", "application/json") // This makes it work
 	req.SetBasicAuth("http_client", "123456")
 
@@ -725,8 +727,6 @@ func GetListProductsFrom1C() ([]models.ProductsData, error)   {
 	}
 
 	//
-
-
 
 	return products.Data, nil
 }
