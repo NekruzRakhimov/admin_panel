@@ -407,7 +407,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.ClientCode"
+                            "$ref": "#/definitions/models.ClientBin"
                         }
                     }
                 ],
@@ -2011,6 +2011,231 @@ var doc = `{
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/graphic": {
+            "get": {
+                "description": "Gel All Graphics",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contracts"
+                ],
+                "summary": "Get All Graphics",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "param for searching",
+                        "name": "q",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Graphic"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create Graphic",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contracts"
+                ],
+                "summary": "Create Graphic",
+                "parameters": [
+                    {
+                        "description": "creating Graphic",
+                        "name": "contract",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Graphic"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/graphic/{id}": {
+            "put": {
+                "description": "Editing Graphic",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contracts"
+                ],
+                "summary": "Editing Graphic",
+                "parameters": [
+                    {
+                        "description": "editing Graphic",
+                        "name": "contract",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Graphic"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of Graphic",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/graphic/{id}/details": {
+            "get": {
+                "description": "Gel Graphic Details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contracts"
+                ],
+                "summary": "Get Graphic Details",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id of Graphic",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Graphic"
                         }
                     },
                     "400": {
@@ -3982,7 +4207,7 @@ var doc = `{
                 }
             }
         },
-        "models.ClientCode": {
+        "models.ClientBin": {
             "type": "object",
             "properties": {
                 "bin": {
@@ -4046,7 +4271,10 @@ var doc = `{
                     }
                 },
                 "regions": {
-                    "$ref": "#/definitions/models.Regions"
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Regions"
+                    }
                 },
                 "requisites": {
                     "$ref": "#/definitions/models.Requisites"
@@ -4486,6 +4714,9 @@ var doc = `{
                 "reward_amount": {
                     "type": "integer"
                 },
+                "sales_amount": {
+                    "type": "number"
+                },
                 "total_amount": {
                     "type": "number"
                 },
@@ -4547,6 +4778,41 @@ var doc = `{
                 },
                 "id": {
                     "type": "integer"
+                }
+            }
+        },
+        "models.Graphic": {
+            "type": "object",
+            "properties": {
+                "author": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "nomenclature_date": {
+                    "type": "string"
+                },
+                "number": {
+                    "type": "string"
+                },
+                "region_code": {
+                    "type": "string"
+                },
+                "region_name": {
+                    "type": "string"
+                },
+                "store_code": {
+                    "type": "string"
+                },
+                "store_name": {
+                    "type": "string"
+                },
+                "supplier_code": {
+                    "type": "string"
+                },
+                "supplier_name": {
+                    "type": "string"
                 }
             }
         },
@@ -4682,6 +4948,9 @@ var doc = `{
                 "bin": {
                     "type": "string"
                 },
+                "client_code": {
+                    "type": "string"
+                },
                 "contractor_name": {
                     "type": "string"
                 },
@@ -4735,6 +5004,12 @@ var doc = `{
                 "product_code": {
                     "type": "string"
                 },
+                "region_code": {
+                    "type": "string"
+                },
+                "region_name": {
+                    "type": "string"
+                },
                 "reward_amount": {
                     "type": "number"
                 },
@@ -4776,6 +5051,9 @@ var doc = `{
                     "type": "string"
                 },
                 "bin": {
+                    "type": "string"
+                },
+                "client_code": {
                     "type": "string"
                 },
                 "contractor_name": {
@@ -4943,6 +5221,12 @@ var doc = `{
                 },
                 "qnt_total": {
                     "type": "number"
+                },
+                "region_code": {
+                    "type": "string"
+                },
+                "region_name": {
+                    "type": "string"
                 },
                 "total": {
                     "type": "number"
