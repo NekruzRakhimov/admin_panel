@@ -571,8 +571,6 @@ func GetRB14ThType(request models.RBRequest, contracts []models.Contract) ([]mod
 		//purchase, _ := GetPurchase(req)
 		sales, _ := GetSales(req)
 		totalAmount := CountSales(sales)
-		s := fmt.Sprintf("%.2f", totalAmount)
-		fmt.Println("Сумма", s)
 		innerSalesTotal := totalAmount
 
 		if contract.View == "PF" {
@@ -703,6 +701,8 @@ func GetRB5thType(request models.RBRequest, contracts []models.Contract) (rbDTO 
 func RB5thTypeDetails(request models.RBRequest, contract models.Contract, discount models.Discount) (rbDTO []models.RbDTO, err error) {
 	log.Printf("\n[DISCOUNT_DETAILS] %+v\n", discount)
 	for _, discountBrand := range discount.DiscountBrands {
+		fmt.Println("data brands", discountBrand)
+
 		if discountBrand.PeriodFrom >= request.PeriodFrom && discountBrand.PeriodTo <= request.PeriodTo {
 			//externalCodes := GetExternalCode(request.BIN)
 			//contractsCode := JoinContractCode(externalCodes)
@@ -719,6 +719,8 @@ func RB5thTypeDetails(request models.RBRequest, contract models.Contract, discou
 			 //GetPurchase(reqBrand)
 			purchase, _ := GetPurchaseBrandOnly(reqBrand)
 			totalAmount := GetPurchaseTotalAmount(purchase)
+			fmt.Println("SUMMA PURCHASE", purchase)
+			fmt.Println("OTOTAL", totalAmount)
 
 			for _, brand := range discountBrand.Brands {
 
@@ -729,14 +731,15 @@ func RB5thTypeDetails(request models.RBRequest, contract models.Contract, discou
 				}
 
 				rbDTO = append(rbDTO, models.RbDTO{
-					ContractNumber:  contract.ContractParameters.ContractNumber,
-					StartDate:       discountBrand.PeriodFrom,
-					EndDate:         discountBrand.PeriodTo,
-					BrandName:       brand.BrandName,
-					ProductCode:     brand.BrandCode,
-					DiscountPercent: brand.DiscountPercent,
-					DiscountAmount:  discountAmount,
-					DiscountType:    RB5Name,
+
+					ContractNumber:       contract.ContractParameters.ContractNumber,
+					StartDate:            discountBrand.PeriodFrom,
+					EndDate:              discountBrand.PeriodTo,
+					BrandName:            brand.BrandName,
+					ProductCode:          brand.BrandCode,
+					DiscountPercent:      brand.DiscountPercent,
+					DiscountAmount:       discountAmount,
+					DiscountType:         RB5Name,
 
 				})
 			}
@@ -1122,7 +1125,6 @@ func GetRB11thType(req models.RBRequest, contracts []models.Contract) ([]models.
 							TypeValue:      "",
 							TypeParameters: nil,
 							//Contracts:      contractsCode, // необходимо получить коды контрактов
-							SchemeType: contract.View,
 						}
 						purchase, _ := GetPurchase(reqBrand)
 
@@ -1471,7 +1473,6 @@ func CountPurchase(purchase models.Purchase) float64 {
 	for _, value := range purchase.PurchaseArr {
 		amount += value.Total
 	}
-
 	return amount
 }
 

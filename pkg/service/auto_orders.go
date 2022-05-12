@@ -2,6 +2,7 @@ package service
 
 import (
 	"admin_panel/models"
+	"admin_panel/pkg/repository"
 	"bytes"
 	"encoding/json"
 	"errors"
@@ -1800,4 +1801,20 @@ func CreateNecessity() {
 	log.Println("|Аптека № 2, Шымкент, (Городской Акимат)|", "A0000120  |", "Huggies трусики Elite Soft 5 (12-17 кг) №38    |", "00000067266     |", "200        |")
 	log.Println("|---------------------------------------|", "----------|", "-----------------------------------------------|", "----------------|", "-----------|")
 
+}
+
+func CreateGraphic(graphic models.Graphic) error {
+	return repository.CreateGraphic(graphic)
+}
+
+func GetAllGraphics() (graphics []models.Graphic, err error) {
+	return repository.GetAllGraphics()
+}
+
+func GetGraphicByID(id int) (graphic models.Graphic, err error) {
+	return repository.GetGraphicByID(id)
+}
+
+func EditGraphic(graphic models.Graphic) error {
+	return repository.EditGraphic(graphic)
 }

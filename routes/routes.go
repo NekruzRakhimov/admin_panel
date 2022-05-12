@@ -74,6 +74,11 @@ func runAllRoutes(r *gin.Engine) {
 	routesFor1C(cr)
 	DDRoutes(cr)
 
+	cr.GET("/graphic", controller.GetAllGraphics)
+	cr.GET("/graphic/:id/details", controller.GetGraphicByID)
+	cr.POST("/graphic", controller.CreateGraphic)
+	cr.PUT("/graphic/:id", controller.EditGraphic)
+
 	hyperstockServ := service.NewHyperstocksService()
 	defectServ := service.NewDefectsService()
 	controller.NewHyperstocksController(hyperstockServ).HandleRoutes(cr)
