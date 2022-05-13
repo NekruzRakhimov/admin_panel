@@ -2,6 +2,7 @@ package controller
 
 import (
 	"admin_panel/models"
+	"admin_panel/pkg/repository"
 	"admin_panel/pkg/service"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -843,12 +844,15 @@ func CheckContractIn1C(c *gin.Context) {
 }
 
 func GetSuppliers(c *gin.Context) {
-
-	suppliers, err := service.GetListSuppliersFrom1C()
+	field := c.Query("field")
+	value := c.Query("value")
+	suppliers, err := repository.GetSuppliersByParameter(field, value)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
 		return
 	}
+	//suppliers, err := service.GetListSuppliersFrom1C()
+
 	c.JSON(http.StatusOK, suppliers)
 }
 

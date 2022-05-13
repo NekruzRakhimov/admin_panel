@@ -180,7 +180,7 @@ func ContractRoutes(r *gin.RouterGroup) {
 	r.GET("/change_date_contract/", controller.ChangeDataContract)
 	r.GET("/search_contract/", controller.SearchContractByNumber)
 	r.GET("/search_history/:id", controller.SearchContractDC) // TODO: тут нам нужен ID договора (я тебе об этом говорил)
-	r.GET("/suppliers", controller.GetSuppliers)
+	r.GET("/suppliers/", controller.GetSuppliers)
 
 	r.POST("/suppliers", controller.SaveSuppliers)
 	r.POST("/products", controller.GetProducts)
