@@ -391,7 +391,7 @@ func ConvertExcelToStruct(c *gin.Context) {
 	}
 
 	var products []models.Product
-	counter := 2
+	counter := 1
 	for {
 		var product models.Product
 		product.ProductNumber, err = f.GetCellValue("page1", fmt.Sprintf("A%d", counter))
