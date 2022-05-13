@@ -412,19 +412,21 @@ func ConvertExcelToStruct(c *gin.Context) {
 			return
 		}
 
-		priceStr, err := f.GetCellValue("page1", fmt.Sprintf("C%d", counter))
-		if err != nil {
-			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
-			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-			return
-		}
+		//priceStr, err := f.GetCellValue("page1", fmt.Sprintf("C%d", counter))
+		//if err != nil {
+		//	log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
+		//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		//	return
+		//}
 
-		product.Price, err = strconv.ParseFloat(priceStr, 2)
-		if err != nil {
-			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
-			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-			return
-		}
+
+
+		//product.Price, err = strconv.ParseFloat(priceStr, 2)
+		//if err != nil {
+		//	log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
+		//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		//	return
+		//}
 
 		product.Currency, err = f.GetCellValue("page1", fmt.Sprintf("D%d", counter))
 		if err != nil {
