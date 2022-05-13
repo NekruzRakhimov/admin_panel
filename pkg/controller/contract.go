@@ -391,7 +391,7 @@ func ConvertExcelToStruct(c *gin.Context) {
 	}
 
 	var products []models.Product
-	counter := 1
+	counter := 2
 	for {
 		var product models.Product
 		product.ProductNumber, err = f.GetCellValue("page1", fmt.Sprintf("A%d", counter))
@@ -412,21 +412,21 @@ func ConvertExcelToStruct(c *gin.Context) {
 			return
 		}
 
-		//priceStr, err := f.GetCellValue("page1", fmt.Sprintf("C%d", counter))
-		//if err != nil {
-		//	log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
-		//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-		//	return
-		//}
-		//
+		priceStr, err := f.GetCellValue("page1", fmt.Sprintf("C%d", counter))
+		if err != nil {
+			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+			return
+		}
 
-
-		//product.Price, err = strconv.ParseFloat(priceStr, 64)
-		//if err != nil {
-		//	log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
-		//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-		//	return
-		//}
+		if priceStr != "" {
+			product.Price, err = strconv.ParseFloat(priceStr, 64)
+			if err != nil {
+				log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
+				c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+				return
+			}
+		}
 
 		product.Currency, err = f.GetCellValue("page1", fmt.Sprintf("D%d", counter))
 		if err != nil {
@@ -852,8 +852,6 @@ func GetSuppliers(c *gin.Context) {
 	c.JSON(http.StatusOK, suppliers)
 }
 
-
-
 // GetProducts godoc
 // @Summary     get products by key
 // @Description  get products by key
@@ -888,7 +886,6 @@ func GetProducts(c *gin.Context) {
 
 }
 
-
 func SaveSuppliers(c *gin.Context) {
 	suppliers, err := service.GetSuppliers()
 
@@ -898,5 +895,3 @@ func SaveSuppliers(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, suppliers)
 }
-
-
