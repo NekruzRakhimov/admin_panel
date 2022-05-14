@@ -381,7 +381,7 @@ func GetSuppliers() (suppliers []models.DataClient, err error) {
 
 func GetSuppliersByParameter(filed string, value string) (suppliers []models.DataClient, err error) {
 	//query := fmt.Sprintf("SELECT *FROM stored_reports WHERE %s LIKE $1", field)
-	sqlQuery := fmt.Sprintf("SELECT * FROM suppliers WHERE  %s  LIKE ?", filed)
+	sqlQuery := fmt.Sprintf("SELECT * FROM suppliers WHERE  %s  ILIKE ?", filed)
 	//sqlQuery := "SELECT * FROM suppliers WHERE  client_name $1"
 
 	//err  = db.GetDBConn().Raw(sqlQuery, "%"+value+"%").Scan(&suppliers).Error
