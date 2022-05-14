@@ -846,6 +846,7 @@ func CheckContractIn1C(c *gin.Context) {
 func GetSuppliers(c *gin.Context) {
 	field := c.Query("field")
 	value := c.Query("value")
+
 	suppliers, err := repository.GetSuppliersByParameter(field, value)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
