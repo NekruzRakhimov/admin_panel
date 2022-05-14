@@ -420,11 +420,11 @@ func ConvertExcelToStruct(c *gin.Context) {
 			return
 		}
 
-		if priceStr != "" {
-			c.JSON(http.StatusBadRequest, gin.H{"reason": "не все цены заполнены, пожалуйста проверьте"})
-			return
-
-		}
+		//if priceStr != "" {
+		//	c.JSON(http.StatusBadRequest, gin.H{"reason": "не все цены заполнены, пожалуйста проверьте"})
+		//	return
+		//
+		//}
 		product.Price, err = strconv.ParseFloat(priceStr, 64)
 		if err != nil {
 			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
