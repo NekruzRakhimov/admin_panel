@@ -395,16 +395,16 @@ func ConvertExcelToStruct(c *gin.Context) {
 	counter := 2
 	for {
 		var product models.Product
-		product.ProductNumber, err = f.GetCellValue("page1", fmt.Sprintf("A%d", counter))
+		product.Sku, err = f.GetCellValue("page1", fmt.Sprintf("A%d", counter))
 		if err != nil {
 			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
 			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 			return
 		}
 
-		if product.ProductNumber == "" {
-			break
-		}
+		//if product.ProductNumber == "" {
+		//	break
+		//}
 
 		product.ProductName, err = f.GetCellValue("page1", fmt.Sprintf("B%d", counter))
 		if err != nil {
