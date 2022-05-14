@@ -425,11 +425,13 @@ func ConvertExcelToStruct(c *gin.Context) {
 		//	return
 		//
 		//}
-		product.Price, err = strconv.ParseFloat(priceStr, 64)
-		if err != nil {
-			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
-			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-			return
+		if priceStr != "" {
+			product.Price, err = strconv.ParseFloat(priceStr, 64)
+			if err != nil {
+				log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
+				c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+				return
+			}
 		}
 
 		product.Currency, err = f.GetCellValue("page1", fmt.Sprintf("D%d", counter))
