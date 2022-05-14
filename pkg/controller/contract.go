@@ -395,16 +395,16 @@ func ConvertExcelToStruct(c *gin.Context) {
 	counter := 2
 	for {
 		var product models.Product
-		product.Sku, err = f.GetCellValue("page1", fmt.Sprintf("A%d", counter))
+		product.ProductNumber, err = f.GetCellValue("page1", fmt.Sprintf("A%d", counter))
 		if err != nil {
 			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
 			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 			return
 		}
 
-		//if product.ProductNumber == "" {
-		//	break
-		//}
+		if product.ProductNumber == "" {
+			break
+		}
 
 		product.ProductName, err = f.GetCellValue("page1", fmt.Sprintf("B%d", counter))
 		if err != nil {
@@ -420,18 +420,16 @@ func ConvertExcelToStruct(c *gin.Context) {
 			return
 		}
 
-		//if priceStr != "" {
-		//	c.JSON(http.StatusBadRequest, gin.H{"reason": "не все цены заполнены, пожалуйста проверьте"})
-		//	return
-		//
-		//}
 		if priceStr != "" {
-			product.Price, err = strconv.ParseFloat(priceStr, 64)
-			if err != nil {
-				log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
-				c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-				return
-			}
+			c.JSON(http.StatusBadRequest, gin.H{"reason": "не все цены заполнены, проверьте заполненость полей"})
+			return
+
+		}
+		product.Price, err = strconv.ParseFloat(priceStr, 64)
+		if err != nil {
+			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+			return
 		}
 
 		product.Currency, err = f.GetCellValue("page1", fmt.Sprintf("D%d", counter))
