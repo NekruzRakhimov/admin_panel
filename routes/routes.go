@@ -187,7 +187,6 @@ func ContractRoutes(r *gin.RouterGroup) {
 
 	contract := r.Group("/contract")
 	contract.GET("", controller.GetAllContracts)
-	contract.GET("/products_template", controller.GetProductsTemplate)
 	contract.POST("/:type", controller.CreateContract)
 	contract.POST("/additional_agreement/:id", controller.AddAdditionalAgreement)
 	contract.POST("/individual_contract", controller.AddIndividualContract) //TODO: PutBack Id
@@ -198,6 +197,7 @@ func ContractRoutes(r *gin.RouterGroup) {
 	contract.PUT("/cancel/:id", controller.CancelContract)
 	contract.PUT("/finish/:id", controller.FinishContract)
 	contract.PUT("/revision/:id", controller.RevisionContract)
+	contract.GET("/products_template", controller.GetProductsTemplate)
 	contract.POST("/products", controller.ConvertExcelToStruct)
 	contract.GET("/history/:id", controller.GetContractHistory)
 	contract.GET("/status_history/:id", controller.GetContractStatusChangesHistory)

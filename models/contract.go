@@ -134,7 +134,7 @@ type ContractParameters struct {
 	ContractNumber string  `json:"contract_number"`
 	ContractName   string  `json:"contract_name"`
 	ContractAmount float32 `json:"contract_amount"`
-
+	IsNewContract  bool    `json:"is_new_contract"`
 	// update fields
 	CurrencyName  string `json:"currency_name,omitempty"`
 	CurrencyCode  string `json:"currency_code,omitempty"`
@@ -394,7 +394,6 @@ type RespSupplier struct {
 	DataClient []DataClient `json:"client_arr"`
 }
 
-
 type DataClient struct {
 	ID         int    `json:"id,omitempty"`
 	ClientName string `json:"client_name"`
@@ -406,4 +405,3 @@ type ProductsData struct {
 	ProductCode string `json:"product_code"`
 	ProductName string `json:"product_name"`
 }
-
