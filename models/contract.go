@@ -55,10 +55,10 @@ type Contract struct {
 }
 
 type PriceType struct {
-	PriceTypeName     string `json:"pricetype_name"`
-	PriceTypeCode     string `json:"pricetype_code"`
-	PriceTypeCurrency string `json:"pricetype_currency"`
-	ClientBin         string `json:"client_bin"`
+	PriceTypeName     string `json:"pricetype_name,omitempty"`
+	PriceTypeCode     string `json:"pricetype_code,omitempty"`
+	PriceTypeCurrency string `json:"pricetype_currency,omitempty"`
+	ClientBin         string `json:"client_bin,omitempty"`
 }
 
 type ContractDTOFor1C struct {
@@ -174,18 +174,18 @@ type ContractParametersDTOFor1C struct {
 }
 
 type Product struct {
-	ProductNumber    string    `json:"product_number,omitempty"`
-	ProductName      string    `json:"product_name"`
-	Price            float64   `json:"price,omitempty"`
-	Currency         string    `json:"currency,omitempty"`
-	Substance        string    `json:"substance"`
-	StorageCondition string    `json:"storage_condition"`
-	Producer         string    `json:"producer"`
-	Sku              string    `json:"sku"`
-	SkuName          string    `json:"sku_name"`
-	Plan             float32   `json:"plan"`
-	DiscountPercent  float32   `json:"discount_percent"`
-	PriceType        PriceType `json:"price_type"`
+	ProductNumber    string     `json:"product_number,omitempty"`
+	ProductName      string     `json:"product_name"`
+	Price            float64    `json:"price"`
+	Currency         string     `json:"currency"`
+	Substance        string     `json:"substance,omitempty"`
+	StorageCondition string     `json:"storage_condition,omitempty"`
+	Producer         string     `json:"producer,omitempty"`
+	Sku              string     `json:"sku,omitempty"`
+	SkuName          string     `json:"sku_name,omitempty"`
+	Plan             float32    `json:"plan,omitempty"`
+	DiscountPercent  float32    `json:"discount_percent,omitempty"`
+	PriceType        *PriceType `json:"price_type,omitempty"`
 }
 
 type DoubtedDiscountResponse struct {

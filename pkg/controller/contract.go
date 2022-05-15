@@ -402,10 +402,6 @@ func ConvertExcelToStruct(c *gin.Context) {
 			return
 		}
 
-		if product.ProductNumber == "" {
-			break
-		}
-
 		product.ProductName, err = f.GetCellValue("page1", fmt.Sprintf("B%d", counter))
 		if err != nil {
 			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
@@ -420,18 +416,6 @@ func ConvertExcelToStruct(c *gin.Context) {
 			return
 		}
 
-		if priceStr != "" {
-			c.JSON(http.StatusBadRequest, gin.H{"reason": "не все цены заполнены, проверьте заполненость полей"})
-			return
-
-		}
-		product.Price, err = strconv.ParseFloat(priceStr, 64)
-		if err != nil {
-			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
-			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-			return
-		}
-
 		product.Currency, err = f.GetCellValue("page1", fmt.Sprintf("D%d", counter))
 		if err != nil {
 			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
@@ -439,24 +423,56 @@ func ConvertExcelToStruct(c *gin.Context) {
 			return
 		}
 
-		product.Substance, err = f.GetCellValue("page1", fmt.Sprintf("E%d", counter))
+		//product.Substance, err = f.GetCellValue("page1", fmt.Sprintf("E%d", counter))
+		//if err != nil {
+		//	log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
+		//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		//	return
+		//}
+
+		//product.StorageCondition, err = f.GetCellValue("page1", fmt.Sprintf("F%d", counter))
+		//if err != nil {
+		//	log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
+		//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		//	return
+		//}
+
+		//product.Producer, err = f.GetCellValue("page1", fmt.Sprintf("G%d", counter))
+		//if err != nil {
+		//	log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
+		//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		//	return
+		//}
+
+		if product.ProductNumber == "" && product.ProductName == "" && priceStr == "" && product.Currency == "" {
+			break
+		}
+
+		if product.ProductNumber == "" {
+			c.JSON(http.StatusBadRequest, gin.H{"reason": "не все номера товаров были заполнены, проверьте заполненность полей"})
+			return
+		}
+
+		if product.ProductName == "" {
+			c.JSON(http.StatusBadRequest, gin.H{"reason": "не все торговые названия были заполнены, проверьте заполненность полей"})
+			return
+		}
+
+		if priceStr == "" {
+			c.JSON(http.StatusBadRequest, gin.H{"reason": "не все цены заполнены, проверьте заполненность полей"})
+			return
+		}
+
+		product.Price, err = strconv.ParseFloat(priceStr, 64)
 		if err != nil {
+			log.Println("test: ", priceStr)
 			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
 			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 			return
 		}
 
-		product.StorageCondition, err = f.GetCellValue("page1", fmt.Sprintf("F%d", counter))
-		if err != nil {
-			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
-			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-			return
-		}
-
-		product.Producer, err = f.GetCellValue("page1", fmt.Sprintf("G%d", counter))
-		if err != nil {
-			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
-			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		if product.Currency == "" {
+			c.JSON(http.StatusBadRequest, gin.H{"reason": "не все валюты заполнены, проверьте заполненность полей"})
 			return
 		}
 
