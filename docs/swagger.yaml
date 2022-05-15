@@ -210,6 +210,8 @@ definitions:
         type: string
       is_extend_contract:
         type: boolean
+      is_new_contract:
+        type: boolean
       prepayment:
         type: number
       pricetype_code:
@@ -443,14 +445,24 @@ definitions:
     type: object
   models.Graphic:
     properties:
+      application_day:
+        type: string
       author:
+        type: string
+      auto_order_date:
+        type: string
+      execution_period:
         type: string
       id:
         type: integer
-      nomenclature_date:
+      is_on:
+        type: boolean
+      nomenclature_group:
         type: string
       number:
         type: string
+      once_a_month:
+        type: boolean
       region_code:
         type: string
       region_name:
@@ -463,6 +475,8 @@ definitions:
         type: string
       supplier_name:
         type: string
+      twice_a_month:
+        type: boolean
     type: object
   models.Notification:
     properties:
