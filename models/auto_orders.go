@@ -24,14 +24,16 @@ type Matrix struct {
 }
 
 type Graphic struct {
-	ID               int    `json:"id"`
-	Number           string `json:"number"`
-	Author           string `json:"author"`
-	SupplierName     string `json:"supplier_name"`
-	SupplierCode     string `json:"supplier_code"`
-	RegionName       string `json:"region_name"`
-	RegionCode       string `json:"region_code"`
-	StoreName        string `json:"store_name"`
-	StoreCode        string `json:"store_code"`
-	NomenclatureDate string `json:"nomenclature_date"`
+	ID              int    `json:"id"`
+	Number          string `json:"number"`
+	Author          string `json:"author"`
+	SupplierName    string `json:"supplier_name"`
+	SupplierCode    string `json:"supplier_code"`
+	RegionName      string `json:"region_name"`
+	RegionCode      string `json:"region_code"`
+	StoreName       string `json:"store_name"`
+	StoreCode       string `json:"store_code"`
+	AutoOrderDate   string `json:"auto_order_date"`
+	ApplicationDay  string `json:"application_day"`
+	ExecutionPeriod string `json:"execution_period"`
 }
