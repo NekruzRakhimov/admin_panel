@@ -448,7 +448,7 @@ func ConvertExcelToStruct(c *gin.Context) {
 			break
 		}
 
-		if product.ProductNumber == "" {
+		if product.Sku == "" {
 			c.JSON(http.StatusBadRequest, gin.H{"reason": "не все номера товаров были заполнены, проверьте заполненность полей"})
 			return
 		}
