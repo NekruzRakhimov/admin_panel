@@ -11,4 +11,5 @@ type AuthResponse struct {
 	Name     string  `json:"name"`
 	Uid      string  `json:"uid"`
 	Roles    []Roles `json:"roles"`
+	Reason   string  `json:"reason"`
 }
