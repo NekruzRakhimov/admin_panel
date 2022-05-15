@@ -421,7 +421,7 @@ func ConvertExcelToStruct(c *gin.Context) {
 		}
 
 		if priceStr != "" {
-			c.JSON(http.StatusBadRequest, gin.H{"reason": "не все цены заполнены, проверьте заполненость полей"})
+			c.JSON(http.StatusBadRequest, gin.H{"reason": "не все цены заполнены, проверьте заполненность полей"})
 			return
 
 		}
