@@ -33,6 +33,9 @@ type Graphic struct {
 	RegionCode      string `json:"region_code"`
 	StoreName       string `json:"store_name"`
 	StoreCode       string `json:"store_code"`
+	OnceAMonth      bool   `json:"once_a_month"`
+	TwiceAMonth     bool   `json:"twice_a_month"`
+	IsOn            bool   `json:"is_on"`
 	AutoOrderDate   string `json:"auto_order_date"`
 	ApplicationDay  string `json:"application_day"`
 	ExecutionPeriod string `json:"execution_period"`
