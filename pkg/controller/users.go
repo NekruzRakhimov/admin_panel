@@ -177,11 +177,10 @@ func LoginNew(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
 		return
 	}
-	if login.Reason != "" {
-		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"reason": login.Reason})
-			return
-		}
+	fmt.Println(login, "LOGIN")
+	if login.Uid == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{"reason": login.Reason})
+		return
 	}
 
 	//accessToken, err := service.GenerateToken(payload.Login, payload.Password)
