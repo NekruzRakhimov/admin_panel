@@ -136,3 +136,7 @@ func EditGraphic(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"reason": "график успешно обновлен"})
 }
+
+func GetAllAutoOrders(c *gin.Context) {
+	c.JSON(http.StatusOK, []int{})
+}
