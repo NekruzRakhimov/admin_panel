@@ -33,7 +33,6 @@ func GetDisPer(c *gin.Context) {
 
 }
 
-
 func GetPurchase(c *gin.Context) {
 	var brand models.ReqBrand
 	c.ShouldBind(&brand)
@@ -138,6 +137,31 @@ func DiscountRB14(c *gin.Context) {
 	fmt.Println("contracts", contracts)
 
 	timeP, err := service.GetRB14ThType(request, contracts)
+	if err != nil {
+		c.JSON(400, err)
+		return
+	}
+	c.JSON(200, timeP)
+
+}
+
+func DiscountRB17(c *gin.Context) {
+	var request models.RBRequest
+	c.ShouldBind(&request)
+
+	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.BIN, request.PeriodFrom, request.PeriodTo)
+	if err != nil {
+		return
+	}
+
+	contracts, err := service.BulkConvertContractFromJsonB(contractsWithJson)
+	if err != nil {
+		return
+	}
+
+	fmt.Println("contracts", contracts)
+
+	timeP, err := service.GetRB17ThType(request, contracts)
 	if err != nil {
 		c.JSON(400, err)
 		return
