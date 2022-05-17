@@ -247,7 +247,7 @@ func GetRB17ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 				fmt.Println("Условия ТРУ")
 				for _, period := range discount.Periods {
 					//fmt.Printf("TYPE %s period %s contract.ExtContractCode: %s", period.Type, period.PeriodFrom, contract.ExtContractCode)
-					if period.PeriodFrom <= req.PeriodFrom && period.PeriodTo >= req.PeriodTo {
+					if period.PeriodFrom >= req.PeriodFrom && period.PeriodTo <= req.PeriodTo {
 						fmt.Println("AMOUNT", amount, period.SalesAmount)
 						//if float32(amount) >= period.TotalAmount {
 						discountAmount := float32(amount) * period.DiscountPercent / 100
