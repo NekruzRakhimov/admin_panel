@@ -265,12 +265,12 @@ func GetRB17ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 					//if float32(amount) >= period.TotalAmount {
 					discountAmount := float32(amount) * period.DiscountPercent / 100
 					RbDTO := models.RbDTO{
-						ContractNumber: contract.ContractParameters.ContractNumber,
-						StartDate:      period.PeriodFrom,
-						EndDate:        period.PeriodTo,
-						TypePeriod:     period.Name,
-						//DiscountPercent: period.DiscountPercent,
-						DiscountAmount: discountAmount,
+						ContractNumber:  contract.ContractParameters.ContractNumber,
+						StartDate:       period.PeriodFrom,
+						EndDate:         period.PeriodTo,
+						TypePeriod:      period.Name,
+						DiscountPercent: period.DiscountPercent,
+						DiscountAmount:  discountAmount,
 						//RewardAmount:         reward,
 						TotalWithoutDiscount: float32(amount),
 						LeasePlan:            period.TotalAmount,
@@ -279,7 +279,7 @@ func GetRB17ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 					rbDTOsl = append(rbDTOsl, RbDTO)
 
 					//} else {
-					rbDTOsl, _ = GetNil12Rb(rbDTOsl, contract, period, RB17Name)
+					//rbDTOsl, _ = GetNil12Rb(rbDTOsl, contract, period, RB17Name)
 				}
 
 			}
