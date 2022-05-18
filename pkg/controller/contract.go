@@ -804,6 +804,7 @@ func CreatePriceType(c *gin.Context) {
 		return
 	}
 	payload.PricetypeCurrency = "398"
+	payload.ClientBin = payload.ClientCode
 	priceTypeResponse, err := service.CreatePriceType(payload)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
