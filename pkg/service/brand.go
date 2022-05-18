@@ -169,7 +169,7 @@ func GetSalesNEw(reqBrand models.ReqBrand) (models.SalesNew, error) {
 		log.Println(err)
 		return sales, err
 	}
-	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
+	//log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
 
 	defer resp.Body.Close()
 	if err != nil {

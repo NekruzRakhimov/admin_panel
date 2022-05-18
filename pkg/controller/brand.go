@@ -171,7 +171,7 @@ func GetExcelGrowth(c *gin.Context) {
 	//c.ShouldBind(&req)
 	c.BindJSON(&req)
 
-	contractsWithJson, err := repository.GetAllContractDetailByBIN(req.BIN, req.PeriodFrom, req.PeriodTo)
+	contractsWithJson, err := repository.GetAllContractDetailByBIN(req.ClientCode, req.PeriodFrom, req.PeriodTo)
 	if err != nil {
 		return
 	}
@@ -197,7 +197,7 @@ func GetRb1(c *gin.Context) {
 	//c.ShouldBind(&req)
 	c.BindJSON(&req)
 
-	contractsWithJson, err := repository.GetAllContractDetailByBIN(req.BIN, req.PeriodFrom, req.PeriodTo)
+	contractsWithJson, err := repository.GetAllContractDetailByBIN(req.ClientCode, req.PeriodFrom, req.PeriodTo)
 	if err != nil {
 		return
 	}
@@ -222,7 +222,7 @@ func GetRb3(c *gin.Context) {
 	//c.ShouldBind(&req)
 	c.BindJSON(&req)
 
-	contractsWithJson, err := repository.GetAllContractDetailByBIN(req.BIN, req.PeriodFrom, req.PeriodTo)
+	contractsWithJson, err := repository.GetAllContractDetailByBIN(req.ClientCode, req.PeriodFrom, req.PeriodTo)
 	if err != nil {
 		return
 	}
@@ -247,7 +247,7 @@ func GetRb5(c *gin.Context) {
 	//c.ShouldBind(&req)
 	c.BindJSON(&req)
 
-	contractsWithJson, err := repository.GetAllContractDetailByBIN(req.BIN, req.PeriodFrom, req.PeriodTo)
+	contractsWithJson, err := repository.GetAllContractDetailByBIN(req.ClientCode, req.PeriodFrom, req.PeriodTo)
 	if err != nil {
 		return
 	}

@@ -27,7 +27,7 @@ const (
 )
 
 func GetAllDeferredDiscounts(request models.RBRequest) (RbDTO []models.RbDTO, err error) {
-	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.BIN, request.PeriodFrom, request.PeriodTo)
+	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.ClientCode, request.PeriodFrom, request.PeriodTo)
 	if err != nil {
 		return nil, err
 	}

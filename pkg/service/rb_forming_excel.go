@@ -53,7 +53,7 @@ func UnifyPurchaseBrandOnlyResponse(purchasesIn models.Purchase) (purchasesOut m
 }
 
 func FormExcelForRBReport(request models.RBRequest) error {
-	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.BIN, request.PeriodFrom, request.PeriodTo)
+	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.ClientCode, request.PeriodFrom, request.PeriodTo)
 	if err != nil {
 		fmt.Println(">> 1")
 		return err
