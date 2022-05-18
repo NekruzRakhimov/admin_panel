@@ -91,7 +91,7 @@ type ContractMiniInfo struct {
 	ContractTypeEng           string  `json:"contract_type_eng"`
 	Status                    string  `json:"status"`
 	Author                    string  `json:"author"`
-	Amount                    float32 `json:"amount"`
+	Amount                    float64 `json:"amount"`
 	CreatedAt                 string  `json:"created_at,omitempty"`
 	UpdatedAt                 string  `json:"updated_at,omitempty"`
 	IsExtendContract          bool    `json:"is_extend_contract"`
@@ -133,7 +133,7 @@ type SupplierCompanyManager struct {
 type ContractParameters struct {
 	ContractNumber string  `json:"contract_number"`
 	ContractName   string  `json:"contract_name"`
-	ContractAmount float32 `json:"contract_amount"`
+	ContractAmount float64 `json:"contract_amount"`
 	IsNewContract  bool    `json:"is_new_contract"`
 	// update fields
 	CurrencyName  string `json:"currency_name,omitempty"`
@@ -156,7 +156,7 @@ type ContractParameters struct {
 
 type ContractParametersDTOFor1C struct {
 	ContractNumber            string  `json:"contract_number"`
-	ContractAmount            float32 `json:"contract_amount"`
+	ContractAmount            float64 `json:"contract_amount"`
 	Currency                  string  `json:"currency,omitempty"`
 	Prepayment                float32 `json:"prepayment,omitempty"`
 	DateOfDelivery            string  `json:"date_of_delivery,omitempty"`
@@ -183,8 +183,8 @@ type Product struct {
 	Producer         string     `json:"producer,omitempty"`
 	Sku              string     `json:"sku,omitempty"`
 	SkuName          string     `json:"sku_name,omitempty"`
-	Plan             float32    `json:"plan,omitempty"`
-	DiscountPercent  float32    `json:"discount_percent,omitempty"`
+	Plan             float64    `json:"plan,omitempty"`
+	DiscountPercent  float64    `json:"discount_percent,omitempty"`
 	PriceType        *PriceType `json:"price_type,omitempty"`
 }
 
@@ -212,8 +212,8 @@ type Discount struct {
 	PeriodFrom      string           `json:"period_from"`
 	IsSale          bool             `json:"is_sale"`
 	PeriodTo        string           `json:"period_to"`
-	DiscountPercent float32          `json:"discount_percent"`
-	GrowthPercent   float32          `json:"growth_percent"`
+	DiscountPercent float64         `json:"discount_percent"`
+	GrowthPercent   float64          `json:"growth_percent"`
 	Periods         []DiscountPeriod `json:"periods,omitempty"`
 	DiscountBrands  []DiscountBrands `json:"discount_brands"`
 	Products        []Product        `json:"products"`
@@ -246,9 +246,9 @@ type DiscountBrands struct {
 }
 
 type BrandDTO struct {
-	DiscountPercent float32 `json:"discount_percent"`
-	PurchaseAmount  float32 `json:"purchase_amount"`
-	SalesAmount     float32 `json:"sales_amount"`
+	DiscountPercent float64 `json:"discount_percent"`
+	PurchaseAmount  float64 `json:"purchase_amount"`
+	SalesAmount     float64 `json:"sales_amount"`
 	BrandName       string  `json:"brand_name"`
 	BrandCode       string  `json:"brand_code"`
 }
@@ -256,14 +256,14 @@ type BrandDTO struct {
 type DiscountPeriod struct {
 	PeriodFrom      string  `json:"period_from"`
 	PeriodTo        string  `json:"period_to"`
-	TotalAmount     float32 `json:"total_amount"`
+	TotalAmount     float64 `json:"total_amount"`
 	RewardAmount    int     `json:"reward_amount"`
-	DiscountPercent float32 `json:"discount_percent"`
+	DiscountPercent float64 `json:"discount_percent"`
 	Type            string  `json:"type,omitempty"`
 	Name            string  `json:"name,omitempty"`
-	PurchaseAmount  float32 `json:"purchase_amount,omitempty"`
-	SalesAmount     float32 `json:"sales_amount,omitempty"`
-	GrowthPercent   float32 `json:"growth_percent,omitempty"`
+	PurchaseAmount  float64 `json:"purchase_amount,omitempty"`
+	SalesAmount     float64 `json:"sales_amount,omitempty"`
+	GrowthPercent   float64 `json:"growth_percent,omitempty"`
 	//DiscountAmount      float32 `json:"discount_amount,omitempty"`
 	//GraceDays           string  `json:"grace_days,omitempty"`
 	//PaymentMultiplicity string  `json:"payment_multiplicity,omitempty"`

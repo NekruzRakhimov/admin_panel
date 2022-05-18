@@ -178,7 +178,7 @@ func GetAllRBByContractorBIN(request models.RBRequest) (rbDTOs []models.RbDTO, e
 	return
 }
 
-func GetTotalSalesForSku(sales models.Sales, sku string) (totalSum float32) {
+func GetTotalSalesForSku(sales models.Sales, sku string) (totalSum float64) {
 	for _, s := range sales.SalesArr {
 		if s.ProductCode == sku {
 			totalSum += s.Total * s.QntTotal
@@ -198,7 +198,7 @@ func GetAllProductsSku(contracts []models.Contract) (SkuArr []string) {
 	return SkuArr
 }
 
-func GetTotalFromSalesByBrand(sales models.Sales, brand string) (totalAmount float32) {
+func GetTotalFromSalesByBrand(sales models.Sales, brand string) (totalAmount float64) {
 	for _, s := range sales.SalesArr {
 		if s.BrandName == brand {
 			totalAmount += s.QntTotal * s.Total
@@ -237,9 +237,9 @@ func DiscountToReportRB(discount models.Discount, contract models.Contract, tota
 		}
 
 		var (
-			maxDiscountAmount float32 // сумма закупа
+			maxDiscountAmount float64 // сумма закупа
 			maxRewardAmount   int     // Сумма вознаграждения
-			maxLeasePlan      float32 // план закупа
+			maxLeasePlan      float64 // план закупа
 			isCompleted       bool
 		)
 
@@ -248,7 +248,7 @@ func DiscountToReportRB(discount models.Discount, contract models.Contract, tota
 				if float64(period.TotalAmount) <= totalAmount {
 					if period.TotalAmount >= maxLeasePlan {
 						log.Printf("\n[CONTRACT_PERIODS][%s] %+v\n", contract.ContractParameters.ContractNumber, discount.Periods)
-						maxDiscountAmount = float32(period.RewardAmount)
+						maxDiscountAmount = float64(period.RewardAmount)
 						maxRewardAmount = period.RewardAmount
 						maxLeasePlan = period.TotalAmount
 						isCompleted = true
@@ -267,7 +267,7 @@ func DiscountToReportRB(discount models.Discount, contract models.Contract, tota
 
 		// Сумма скидки	| Сумма вознаграждения	| План закупа
 
-		contractRB.RewardAmount = float32(maxRewardAmount)
+		contractRB.RewardAmount = float64(maxRewardAmount)
 		contractRB.LeasePlan = maxLeasePlan
 		contractRB.DiscountAmount = maxDiscountAmount
 
@@ -285,8 +285,8 @@ func DiscountToReportRB(discount models.Discount, contract models.Contract, tota
 	return contractsRB
 }
 
-func GetTotalAmount(sales models.Sales) float32 {
-	var amount float32
+func GetTotalAmount(sales models.Sales) float64 {
+	var amount float64
 	for _, s := range sales.SalesArr {
 		amount += s.Total
 	}
@@ -294,10 +294,10 @@ func GetTotalAmount(sales models.Sales) float32 {
 	return amount
 }
 
-func GetTotalAmountPurchase(purchase models.Purchase) float32 {
-	var amount float32
+func GetTotalAmountPurchase(purchase models.Purchase) float64 {
+	var amount float64
 	for _, s := range purchase.PurchaseArr {
-		amount += float32(s.Total)
+		amount += s.Total
 	}
 
 	return amount

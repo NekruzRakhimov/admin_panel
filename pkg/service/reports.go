@@ -18,7 +18,7 @@ type rbDtoFroStoredRbReport struct {
 	LeasePlan       string  `json:"lease_plan"`
 	RewardAmount    string  `json:"reward_amount"`
 	DiscountPercent string  `json:"discount_percent"`
-	DiscountAmount  float32 `json:"discount_amount"`
+	DiscountAmount  float64 `json:"discount_amount"`
 }
 
 func contains(s []int, e int) bool {
@@ -30,7 +30,7 @@ func contains(s []int, e int) bool {
 	return false
 }
 
-func GetRbDtoTotalAmount(RbDTOs []models.RbDTO, contractID int) (totalAmount float32) {
+func GetRbDtoTotalAmount(RbDTOs []models.RbDTO, contractID int) (totalAmount float64) {
 	for _, RbDTO := range RbDTOs {
 		if contractID == RbDTO.ID {
 			totalAmount += RbDTO.DiscountAmount
@@ -51,7 +51,7 @@ func StoreRbReports(rbDTOs []models.RbDTO) error {
 			continue
 		}
 
-		var totalDiscountAmount float32
+		var totalDiscountAmount float64
 
 		for j := i; j < len(rbDTOs); j++ {
 			if rbDTOs[i].ID == rbDTOs[j].ID {
@@ -183,7 +183,7 @@ func GetExcelForStoredExcelReport(storedReportID int) error {
 	var (
 		i                 int
 		lastRow           int
-		totalDiscountsSum float32
+		totalDiscountsSum float64
 	)
 
 	for _, rbDTO := range rbDTOs {

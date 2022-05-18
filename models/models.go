@@ -92,6 +92,9 @@ type PriceTypeCreate struct {
 type BinPriceType struct {
 	ClientBin string `json:"client_bin"`
 }
+type CodePriceType struct {
+	ClientCode string `json:"client_code"`
+}
 
 type ContractCode struct {
 	ExtContractCode string `json:"ext_contract_code"`

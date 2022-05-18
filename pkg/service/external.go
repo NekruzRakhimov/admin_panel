@@ -353,14 +353,14 @@ func GetCountries() (models.Country, error) {
 
 }
 
-func GetPriceType(bin string) ([]models.PriceTypeAndCode, error) {
+func GetPriceType(code string) ([]models.PriceTypeAndCode, error) {
 	var priceType models.RespPriceType
 	priceAndCodeMap := map[string]string{}
 
 	var priceAndCodeSl []models.PriceTypeAndCode
 
 	date := models.ReqBrand{
-		ClientCode: bin,
+		ClientCode: code,
 	}
 	//for _, value := range brandInfo {
 	//	date.TypeParameters = append(date.TypeParameters, value.Brand)

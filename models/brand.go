@@ -26,8 +26,8 @@ type SalesNew struct {
 type SalesArr struct {
 	ProductName string  `json:"product_name"`
 	ProductCode string  `json:"product_code"`
-	Total       float32 `json:"total"`
-	QntTotal    float32 `json:"qnt_total"`
+	Total       float64 `json:"total"`
+	QntTotal    float64 `json:"qnt_total"`
 	Date        string  `json:"date"`
 	BrandCode   string  `json:"brand_code"`
 	BrandName   string  `json:"brand_name"`
