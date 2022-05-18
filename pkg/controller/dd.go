@@ -12,7 +12,7 @@ func DDOne(c *gin.Context) {
 	var request models.RBRequest
 	c.ShouldBind(&request)
 
-	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.BIN, request.PeriodFrom, request.PeriodTo)
+	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.ClientCode, request.PeriodFrom, request.PeriodTo)
 	if err != nil {
 		return
 	}

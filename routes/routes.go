@@ -80,6 +80,7 @@ func runAllRoutes(r *gin.Engine) {
 	cr.PUT("/graphic/:id", controller.EditGraphic)
 
 	cr.GET("/auto_orders", controller.GetAllAutoOrders)
+	cr.POST("/auto_orders", controller.FormAutoOrder)
 
 	hyperstockServ := service.NewHyperstocksService()
 	defectServ := service.NewDefectsService()

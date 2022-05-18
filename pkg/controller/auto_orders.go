@@ -140,3 +140,7 @@ func EditGraphic(c *gin.Context) {
 func GetAllAutoOrders(c *gin.Context) {
 	c.JSON(http.StatusOK, []int{})
 }
+
+func FormAutoOrder(c *gin.Context) {
+
+}

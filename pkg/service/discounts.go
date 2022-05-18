@@ -26,7 +26,7 @@ func SaveDoubtedDiscounts(request models.RBRequest) error {
 }
 
 func GetAllRBByContractorBIN(request models.RBRequest) (rbDTOs []models.RbDTO, err error) {
-	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.BIN, request.PeriodFrom, request.PeriodTo)
+	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.ClientCode, request.PeriodFrom, request.PeriodTo)
 	if err != nil {
 		return
 	}
@@ -334,7 +334,7 @@ func BulkConvertContractFromJsonB(contractsWithJson []models.ContractWithJsonB) 
 }
 
 func GetDoubtedDiscounts(request models.RBRequest) (doubtedDiscounts []models.DoubtedDiscount, err error) {
-	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.BIN, request.PeriodFrom, request.PeriodTo)
+	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.ClientCode, request.PeriodFrom, request.PeriodTo)
 	if err != nil {
 		return nil, err
 	}
