@@ -69,7 +69,72 @@ func GetSales(reqBrand models.ReqBrand) (models.Sales, error) {
 		Type:           "sales_brand_only",
 		TypeValue:      "",
 		TypeParameters: nil,
-		SchemeType:     reqBrand.SchemeType,
+		//SchemeType:     reqBrand.SchemeType,
+		SchemeType:     "LS",
+	}
+	//for _, value := range brandInfo {
+	//	date.TypeParameters = append(date.TypeParameters, value.Brand)
+	//}
+
+	reqBodyBytes := new(bytes.Buffer)
+	json.NewEncoder(reqBodyBytes).Encode(&date)
+	fmt.Println(">>> ", reqBodyBytes)
+
+	//parm.Add("datestart", "01.01.2022 0:02:09")
+	//parm.Add("dateend", "01.01.2022 0:02:09")
+	client := &http.Client{
+		Timeout: 120 * time.Second,
+	}
+	log.Println("запрос", reqBodyBytes)
+	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/getdata"
+	req, err := http.NewRequest("POST", uri, reqBodyBytes)
+	req.Header.Set("Content-Type", "application/json") // This makes it work
+	req.SetBasicAuth("http_client", "123456")
+
+	if err != nil {
+		log.Println(err)
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println(err)
+		return sales, err
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Println(err)
+		return sales, err
+	}
+	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
+
+	defer resp.Body.Close()
+	if err != nil {
+		log.Println(err)
+		return sales, err
+	}
+	body = bytes.TrimPrefix(body, []byte("\xef\xbb\xbf")) // Or []byte{239, 187, 191}
+
+	err = json.Unmarshal(body, &sales)
+	if err != nil {
+		log.Println(err)
+		return sales, err
+	}
+
+	return sales, nil
+}
+
+func GetSalesNEw(reqBrand models.ReqBrand) (models.SalesNew, error) {
+	var sales models.SalesNew
+
+	date := models.ReqBrand{
+		ClientCode:     reqBrand.ClientCode,
+		DateStart:      reqBrand.DateStart + TempDateCompleter,
+		DateEnd:        reqBrand.DateEnd + TempDateEnd,
+		Type:           "sales_brand_only",
+		TypeValue:      "",
+		TypeParameters: nil,
+		//SchemeType:     reqBrand.SchemeType,
+		SchemeType:     "LS",
 	}
 	//for _, value := range brandInfo {
 	//	date.TypeParameters = append(date.TypeParameters, value.Brand)

@@ -1468,6 +1468,14 @@ func CountSales(sales models.Sales) float32 {
 	return amount
 }
 
+func CountSalesNew(sales models.SalesNew) float64 {
+	var amount float64
+	for _, value := range sales.SalesArrNEW {
+		amount += value.Total
+	}
+	return amount
+}
+
 func CountPurchase(purchase models.Purchase) float64 {
 	var amount float64
 	for _, value := range purchase.PurchaseArr {
