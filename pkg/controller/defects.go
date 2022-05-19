@@ -23,14 +23,17 @@ func GetDefectsByPharmacyPF(c *gin.Context) {
 		Enddate:   fmt.Sprintf("%s 23:59:59", date.Date),
 	}
 
-	res, err := service.GetDefectsExt(req)
+	_, err := service.GetDefectsPF(req)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, res)
+	//c.JSON(http.StatusOK, res)
 
 	//c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 	//c.File("./files/defects/defects_pharmacy.xlsx")
+
+	c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	c.File("./files/defects/res.xlsx")
 }
