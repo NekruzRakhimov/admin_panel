@@ -550,13 +550,13 @@ func CheckContractNumber(contractFor1C models.ContractDTOFor1C) (code int, err e
 	}
 	for _, contractParam := range resp1C.ContractArr {
 		if contractParam.ContractNumber == contractFor1C.ContractParameters.ContractNumber || contractParam.ContractName == contractFor1C.ContractParameters.ContractNumber {
-			fmt.Println("TRUE")
-			fmt.Println("DATA FROM 1C", contractParam)
-			fmt.Println("OUR'RE BD", contractFor1C)
-			err = repository.SaveContractExternalCodeByBIN(contractFor1C, contractParam.ContractCode)
-			if err != nil {
-				return 0, err
-			}
+			//fmt.Println("TRUE")
+			//fmt.Println("DATA FROM 1C", contractParam)
+			//fmt.Println("OUR'RE BD", contractFor1C)
+			//err = repository.SaveContractExternalCodeByBIN(contractFor1C, contractParam.ContractCode)
+			//if err != nil {
+			//	return 0, err
+			//}
 
 			return 200, nil
 		}
