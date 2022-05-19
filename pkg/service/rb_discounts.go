@@ -200,32 +200,35 @@ func GetRB16ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 					reqperiodTo, _ := ConvertStringTime(req.PeriodTo)
 
 					// 01.10.2021   -
-					if reqperiodFrom.Before(periodFrom) || reqperiodFrom.Equal(periodFrom) && reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo) {
-						sales, _ := GetSales(reqBrand)
+					if reqperiodFrom.Before(periodFrom) || reqperiodFrom.Equal(periodFrom) {
+						if reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo) {
+							sales, _ := GetSales(reqBrand)
 
-						//	totalPurchaseCode := CountPurchaseByCode(purchase)
-						amount := CountSales(sales)
+							//	totalPurchaseCode := CountPurchaseByCode(purchase)
+							amount := CountSales(sales)
 
-						fmt.Println("TRUE")
-						fmt.Println("AMOUNT", amount, period.SalesAmount)
-						if amount >= period.TotalAmount {
-							discountAmount := amount * period.DiscountPercent / 100
-							RbDTO := models.RbDTO{
-								ContractNumber:  contract.ContractParameters.ContractNumber,
-								StartDate:       period.PeriodFrom,
-								EndDate:         period.PeriodTo,
-								TypePeriod:      period.Name,
-								DiscountPercent: period.DiscountPercent,
-								DiscountAmount:  discountAmount,
-								//RewardAmount:         reward,
-								TotalWithoutDiscount: amount,
-								LeasePlan:            period.TotalAmount,
-								DiscountType:         RB16Name,
+							fmt.Println("TRUE")
+							fmt.Println("AMOUNT", amount, period.SalesAmount)
+							if amount >= period.TotalAmount {
+								discountAmount := amount * period.DiscountPercent / 100
+								RbDTO := models.RbDTO{
+									ContractNumber:  contract.ContractParameters.ContractNumber,
+									StartDate:       period.PeriodFrom,
+									EndDate:         period.PeriodTo,
+									TypePeriod:      period.Name,
+									DiscountPercent: period.DiscountPercent,
+									DiscountAmount:  discountAmount,
+									//RewardAmount:         reward,
+									TotalWithoutDiscount: amount,
+									LeasePlan:            period.TotalAmount,
+									DiscountType:         RB16Name,
+								}
+								rbDTOsl = append(rbDTOsl, RbDTO)
+
+								//} else {
+								//	rbDTOsl, _ = GetNil12Rb(rbDTOsl, contract, period, RB15Name)
 							}
-							rbDTOsl = append(rbDTOsl, RbDTO)
 
-							//} else {
-							//	rbDTOsl, _ = GetNil12Rb(rbDTOsl, contract, period, RB15Name)
 						}
 
 					}
@@ -235,7 +238,6 @@ func GetRB16ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 			}
 
 		}
-
 	}
 
 	return rbDTOsl, nil
