@@ -49,10 +49,10 @@ func GetAllContractDetailByBIN(clientCode, PeriodFrom, PeriodTo string) (contrac
 	sqlQuery := `SELECT *
           FROM (SELECT *
           FROM "contracts"
-          WHERE (requisites ->> 'client_code' = '000002149' AND
+          WHERE (requisites ->> 'client_code' = ? AND
           status = 'в работе')) as sub_query
-          WHERE contract_parameters ->> to_date('start_date', 'DD.MM.YYYY') <= to_date(?, 'DD.MM.YYYY')
-          AND contract_parameters ->> to_date('end_date', 'DD.MM.YYYY') >= to_date(?, 'DD.MM.YYYY')`
+          WHERE to_date(contract_parameters ->> 'start_date', 'DD.MM.YYYY') <= to_date(?, 'DD.MM.YYYY')
+          AND to_date(contract_parameters ->> 'end_date', 'DD.MM.YYYY') >= to_date(?, 'DD.MM.YYYY')`
 
 	if err = db.GetDBConn().Raw(sqlQuery, clientCode, PeriodFrom, PeriodTo).Scan(&contracts).Error; err != nil {
 		log.Println("[repository][GetAllContractDetailByBIN] error is: ", err.Error())
