@@ -137,3 +137,14 @@ create table brands (
                     );
 
 drop table brands;
+
+
+
+ SELECT * FROM "contracts"  WHERE (requisites ->> 'client_code' = '000002149'
+        AND contract_parameters ->> 'start_date' <= '01.04.2021' AND contract_parameters ->> 'end_date' >= '30.12.2022' AND
+        status = 'в работе');
+
+
+    SELECT * FROM "contracts"  WHERE (requisites ->> 'client_code' = '000002149'
+        AND (contract_parameters ->> 'start_date' <= '01.04.2021'::date OR contract_parameters ->> 'end_date' >= '30.12.2023'::date) AND
+                                      status = 'в работе');
