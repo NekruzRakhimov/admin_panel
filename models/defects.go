@@ -9,3 +9,24 @@ type DefectsFile struct {
 	FileName string
 	File     string
 }
+
+type Defect struct {
+	ProductCode      string `json:"product_code"`
+	ProductName      string `json:"product_name"`
+	RegionCode       string `json:"region_code"`
+	RegionName       string `json:"region_name"`
+	StoreCode        string `json:"store_code"`
+	StoreName        string `json:"store_name"`
+	DefectQnt        string `json:"defect_qnt"`
+	StoreSaldoQnt    string `json:"store_saldo_qnt"`
+	StoreSaldoTotal  string `json:"store_saldo_total"`
+	DefectTotal      string `json:"defect_total"`
+	DefectTotalQnt   string `json:"defect_total_qnt"`
+	MatrixTotalSales string `json:"matrix_total_sales"`
+	DifPercent       string `json:"dif_percent"`
+}
+
+type DefectsRequest struct {
+	Startdate string `json:"startdate"`
+	Enddate   string `json:"enddate"`
+}
