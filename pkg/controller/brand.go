@@ -43,18 +43,6 @@ func GetBrands(c *gin.Context) {
 // @Failure      500      {object}  map[string]interface{}
 // @Router       /sales/ [post]
 func GetSales(c *gin.Context) {
-	//по факту должны отправить период С по какое число получить продажи
-	//TODO: на данный момент даты С и ПО вшиты в код (потом надо убрать их)
-	//{
-	//	"datestart":"01.01.2022 0:02:09",
-	//	"dateend":"01.01.2022 0:02:09"
-	//}
-	//TODO:
-	// и в ответ получаем 4 поля
-	// "product_name":
-	//  "product_code":
-	//  "total": - сумма продаж
-	//   "qnt_total": - кол-во
 	payload := models.RBRequest{}
 	err := c.ShouldBindJSON(&payload)
 	if err != nil {
@@ -67,20 +55,23 @@ func GetSales(c *gin.Context) {
 
 	//var brandInfo []models.BrandInfo
 	req := models.ReqBrand{
-		ClientCode:  payload.BIN,
+		ClientCode:  payload.ClientCode,
 		Beneficiary: payload.ContractorName,
 		DateStart:   payload.PeriodFrom,
 		DateEnd:     payload.PeriodTo,
-		Type:        "sales",
+		//Type:        "sales",
 	}
 
-	brandInfo := []models.BrandInfo{}
-	sales, err := service.GetSalesBrand(req, brandInfo)
+	//brandInfo := []models.BrandInfo{}
+	//sales, err := service.GetSalesBrand(req, brandInfo)
+	sales, err := service.GetSalesNEw(req)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
 		return
 	}
-	c.JSON(http.StatusOK, sales)
+	countSales := service.CountSalesNew(sales)
+
+	c.JSON(http.StatusOK, countSales)
 
 }
 

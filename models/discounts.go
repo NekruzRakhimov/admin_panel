@@ -18,11 +18,11 @@ type RbDTO struct {
 	TypePeriod           string  `json:"type_period"`
 	BrandName            string  `json:"brand_name,omitempty"`
 	ProductCode          string  `json:"product_code,omitempty"`
-	DiscountPercent      float32 `json:"discount_percent"`
-	DiscountAmount       float32 `json:"discount_amount"`
-	TotalWithoutDiscount float32 `json:"TotalWithoutDiscount"`
-	LeasePlan            float32 `json:"lease_plan"`
-	RewardAmount         float32 `json:"reward_amount"`
+	DiscountPercent      float64 `json:"discount_percent"`
+	DiscountAmount       float64 `json:"discount_amount"`
+	TotalWithoutDiscount float64 `json:"TotalWithoutDiscount"`
+	LeasePlan            float64 `json:"lease_plan"`
+	RewardAmount         float64 `json:"reward_amount"`
 	DiscountType         string  `json:"discount_type"`
 	Status               string  `json:"status"`
 	RegionName           string  `json:"region_name"`

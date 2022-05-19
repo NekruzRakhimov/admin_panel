@@ -187,7 +187,7 @@ func FormExcelForDeferredDiscounts(request models.RBRequest) error {
 		f.SetCellValue(DD1Name, "E1", "Сумма скидки")
 		err = f.SetCellStyle(DD1Name, "A1", "E1", style)
 
-		var totalDiscountsSum float32
+		var totalDiscountsSum float64
 		var i int
 		var lastRow int
 		for _, contract := range contracts {
@@ -218,7 +218,7 @@ func FormExcelForDeferredDiscounts(request models.RBRequest) error {
 		f.SetCellValue(DD2Name, "E1", "Сумма скидки")
 		err = f.SetCellStyle(DD2Name, "A1", "E1", style)
 
-		var totalDiscountsSum float32
+		var totalDiscountsSum float64
 		var i int
 		var lastRow int
 		for _, contract := range contracts {
@@ -249,7 +249,7 @@ func FormExcelForDeferredDiscounts(request models.RBRequest) error {
 		f.SetCellValue(DD3Name, "E1", "Сумма скидки")
 		err = f.SetCellStyle(DD3Name, "A1", "E1", style)
 
-		var totalDiscountsSum float32
+		var totalDiscountsSum float64
 		var i int
 		var lastRow int
 		for _, contract := range contracts {
@@ -280,7 +280,7 @@ func FormExcelForDeferredDiscounts(request models.RBRequest) error {
 		f.SetCellValue(DD4Name, "E1", "Сумма скидки")
 		err = f.SetCellStyle(DD4Name, "A1", "E1", style)
 
-		var totalDiscountsSum float32
+		var totalDiscountsSum float64
 		var i int
 		var lastRow int
 		for _, contract := range contracts {
@@ -311,7 +311,7 @@ func FormExcelForDeferredDiscounts(request models.RBRequest) error {
 		f.SetCellValue(DD5Name, "E1", "Сумма скидки")
 		err = f.SetCellStyle(DD5Name, "A1", "E1", style)
 
-		var totalDiscountsSum float32
+		var totalDiscountsSum float64
 		var i int
 		var lastRow int
 		for _, contract := range contracts {
@@ -342,7 +342,7 @@ func FormExcelForDeferredDiscounts(request models.RBRequest) error {
 		f.SetCellValue(DD6Name, "E1", "Сумма скидки")
 		err = f.SetCellStyle(DD6Name, "A1", "E1", style)
 
-		var totalDiscountsSum float32
+		var totalDiscountsSum float64
 		var i int
 		var lastRow int
 		for _, contract := range contracts {
@@ -380,7 +380,7 @@ func StoreDdReports(rbDTOs []models.RbDTO) error {
 			continue
 		}
 
-		var totalDiscountAmount float32
+		var totalDiscountAmount float64
 
 		for j := i; j < len(rbDTOs); j++ {
 			if rbDTOs[i].ID == rbDTOs[j].ID {
@@ -513,7 +513,7 @@ func GetExcelForDdStoredExcelReport(storedReportID int) error {
 	var (
 		i                 int
 		lastRow           int
-		totalDiscountsSum float32
+		totalDiscountsSum float64
 	)
 
 	for _, rbDTO := range rbDTOs {

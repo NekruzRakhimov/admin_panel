@@ -51,7 +51,7 @@ func FormExcelForDeferredDiscounts(c *gin.Context) {
 
 }
 
-func GetTotalFromRbDTO(contracts []models.RbDTO) (totalAmount float32) {
+func GetTotalFromRbDTO(contracts []models.RbDTO) (totalAmount float64) {
 	for _, contract := range contracts {
 		totalAmount += contract.DiscountAmount
 	}

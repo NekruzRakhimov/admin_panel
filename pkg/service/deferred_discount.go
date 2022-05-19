@@ -33,16 +33,16 @@ func GetDD1st(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 					return nil, err
 				}
 
-				var discountAmount float32
+				var discountAmount float64
 				//for _, amount := range totalAmountPurchase {
-				discountAmount = float32(totalAmount) * discount.DiscountPercent / 100
+				discountAmount = totalAmount * discount.DiscountPercent / 100
 				rbDTO = append(rbDTO, models.RbDTO{
 					ContractNumber:       contract.ContractParameters.ContractNumber,
 					StartDate:            request.PeriodFrom,
 					EndDate:              request.PeriodTo,
 					DiscountPercent:      discount.DiscountPercent,
 					DiscountAmount:       discountAmount,
-					TotalWithoutDiscount: float32(totalAmount),
+					TotalWithoutDiscount:  totalAmount,
 					DiscountType:         DD1Name,
 				})
 
@@ -65,16 +65,16 @@ func GetDD2nd(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 				if err != nil {
 					return nil, err
 				}
-				var discountAmount float32
+				var discountAmount float64
 				//for _, amount := range totalAmountPurchase {
-				discountAmount = float32(totalAmount) * discount.DiscountPercent / 100
+				discountAmount = totalAmount * discount.DiscountPercent / 100
 				rbDTO = append(rbDTO, models.RbDTO{
 					ContractNumber:       contract.ContractParameters.ContractNumber,
 					StartDate:            request.PeriodTo,
 					EndDate:              request.PeriodFrom,
 					DiscountPercent:      discount.DiscountPercent,
 					DiscountAmount:       discountAmount,
-					TotalWithoutDiscount: float32(totalAmount),
+					TotalWithoutDiscount: totalAmount,
 					DiscountType:         DD2Name,
 				})
 
@@ -101,15 +101,15 @@ func GetDD3rd(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 				if err != nil {
 					return nil, err
 				}
-				var discountAmount float32
-				discountAmount = float32(totalAmount) * discount.DiscountPercent / 100
+				var discountAmount float64
+				discountAmount = totalAmount * discount.DiscountPercent / 100
 				rbDTO = append(rbDTO, models.RbDTO{
 					ContractNumber:       contract.ContractParameters.ContractNumber,
 					StartDate:            request.PeriodTo,
 					EndDate:              request.PeriodFrom,
 					DiscountPercent:      discount.DiscountPercent,
 					DiscountAmount:       discountAmount,
-					TotalWithoutDiscount: float32(totalAmount),
+					TotalWithoutDiscount: totalAmount,
 					DiscountType:         DD3Name,
 				})
 
@@ -131,15 +131,15 @@ func GetDD4th(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 				if err != nil {
 					return nil, err
 				}
-				var discountAmount float32
-				discountAmount = float32(totalAmount) * discount.DiscountPercent / 100
+				var discountAmount float64
+				discountAmount = totalAmount * discount.DiscountPercent / 100
 				rbDTO = append(rbDTO, models.RbDTO{
 					ContractNumber:       contract.ContractParameters.ContractNumber,
 					StartDate:            request.PeriodTo,
 					EndDate:              request.PeriodFrom,
 					DiscountPercent:      discount.DiscountPercent,
 					DiscountAmount:       discountAmount,
-					TotalWithoutDiscount: float32(totalAmount),
+					TotalWithoutDiscount: totalAmount,
 					DiscountType:         DD4Name,
 				})
 
@@ -163,16 +163,16 @@ func GetDD5th(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 					return nil, err
 				}
 
-				var discountAmount float32
+				var discountAmount float64
 
-				discountAmount = float32(totalAmount) * discount.DiscountPercent / 100
+				discountAmount = totalAmount * discount.DiscountPercent / 100
 				rbDTO = append(rbDTO, models.RbDTO{
 					ContractNumber:       contract.ContractParameters.ContractNumber,
 					StartDate:            request.PeriodTo,
 					EndDate:              request.PeriodFrom,
 					DiscountPercent:      discount.DiscountPercent,
 					DiscountAmount:       discountAmount,
-					TotalWithoutDiscount: float32(totalAmount),
+					TotalWithoutDiscount:  totalAmount,
 					DiscountType:         DD5Name,
 				})
 
@@ -198,15 +198,15 @@ func GetDD6th(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 					return nil, err
 				}
 
-				var discountAmount float32
-				discountAmount = float32(totalAmount) * discount.DiscountPercent / 100
+				var discountAmount float64
+				discountAmount = totalAmount * discount.DiscountPercent / 100
 				rbDTO = append(rbDTO, models.RbDTO{
 					ContractNumber:       contract.ContractParameters.ContractNumber,
 					StartDate:            request.PeriodTo,
 					EndDate:              request.PeriodFrom,
 					DiscountPercent:      discount.DiscountPercent,
 					DiscountAmount:       discountAmount,
-					TotalWithoutDiscount: float32(totalAmount),
+					TotalWithoutDiscount: totalAmount,
 					DiscountType:         DD6Name,
 				})
 

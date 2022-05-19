@@ -19,10 +19,26 @@ type Sales struct {
 	SalesArr []SalesArr `json:"sales_arr"`
 }
 
+type SalesNew struct {
+	SalesArrNEW []SalesArrNEW `json:"sales_arr"`
+}
+
 type SalesArr struct {
 	ProductName string  `json:"product_name"`
 	ProductCode string  `json:"product_code"`
-	Total       float32 `json:"total"`
+	Total       float64 `json:"total"`
+	QntTotal    float64 `json:"qnt_total"`
+	Date        string  `json:"date"`
+	BrandCode   string  `json:"brand_code"`
+	BrandName   string  `json:"brand_name"`
+	RegionCode  string  `json:"region_code"`
+	RegionName  string  `json:"region_name"`
+}
+
+type SalesArrNEW struct {
+	ProductName string  `json:"product_name"`
+	ProductCode string  `json:"product_code"`
+	Total       float64 `json:"total"`
 	QntTotal    float32 `json:"qnt_total"`
 	Date        string  `json:"date"`
 	BrandCode   string  `json:"brand_code"`

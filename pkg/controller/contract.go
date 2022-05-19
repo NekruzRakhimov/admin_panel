@@ -768,14 +768,14 @@ func SearchHistoryExecution(c *gin.Context) {
 // @Failure      500      {object}  map[string]interface{}
 // @Router       /price_type/ [post]
 func GetPriceType(c *gin.Context) {
-	var payload models.BinPriceType
+	var payload models.CodePriceType
 
 	err := c.ShouldBindJSON(&payload)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
 		return
 	}
-	priceType, err := service.GetPriceType(payload.ClientBin)
+	priceType, err := service.GetPriceType(payload.ClientCode)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
 		return
@@ -804,6 +804,7 @@ func CreatePriceType(c *gin.Context) {
 		return
 	}
 	payload.PricetypeCurrency = "398"
+	payload.ClientBin = payload.ClientCode
 	priceTypeResponse, err := service.CreatePriceType(payload)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
