@@ -177,3 +177,15 @@ func GetContractCode(c *gin.Context) {
 	c.JSON(200, code)
 
 }
+
+func GetAllContractDetailByBIN(c *gin.Context) {
+	var req models.ReqBrand
+
+	c.ShouldBind(&req)
+	fmt.Println("start_date", req.DateStart)
+	fmt.Println("end_date", req.DateEnd)
+
+	bin, _ := repository.GetAllContractDetailByBIN(req.ClientCode, req.DateStart, req.DateEnd)
+	c.JSON(200, bin)
+
+}

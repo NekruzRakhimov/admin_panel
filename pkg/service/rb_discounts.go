@@ -188,28 +188,26 @@ func GetRB16ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 				fmt.Println("Условия ТРУ")
 				for _, period := range discount.Periods {
 					//fmt.Printf("TYPE %s period %s contract.ExtContractCode: %s", period.Type, period.PeriodFrom, contract.ExtContractCode)
-					if period.PeriodFrom <= req.PeriodFrom && period.PeriodTo >= req.PeriodTo {
-						fmt.Println("AMOUNT", amount, period.SalesAmount)
-						if amount >= period.TotalAmount {
-							discountAmount := amount * period.DiscountPercent / 100
-							RbDTO := models.RbDTO{
-								ContractNumber: contract.ContractParameters.ContractNumber,
-								StartDate:      period.PeriodFrom,
-								EndDate:        period.PeriodTo,
-								TypePeriod:     period.Name,
-								//DiscountPercent: period.DiscountPercent,
-								DiscountAmount: discountAmount,
-								//RewardAmount:         reward,
-								TotalWithoutDiscount: amount,
-								LeasePlan:            period.TotalAmount,
-								DiscountType:         RB16Name,
-							}
-							rbDTOsl = append(rbDTOsl, RbDTO)
-
-						} else {
-							rbDTOsl, _ = GetNil12Rb(rbDTOsl, contract, period, RB15Name)
+					//if period.PeriodFrom <= req.PeriodFrom && period.PeriodTo >= req.PeriodTo {
+					fmt.Println("AMOUNT", amount, period.SalesAmount)
+					if amount >= period.TotalAmount {
+						discountAmount := amount * period.DiscountPercent / 100
+						RbDTO := models.RbDTO{
+							ContractNumber: contract.ContractParameters.ContractNumber,
+							StartDate:      period.PeriodFrom,
+							EndDate:        period.PeriodTo,
+							TypePeriod:     period.Name,
+							//DiscountPercent: period.DiscountPercent,
+							DiscountAmount: discountAmount,
+							//RewardAmount:         reward,
+							TotalWithoutDiscount: amount,
+							LeasePlan:            period.TotalAmount,
+							DiscountType:         RB16Name,
 						}
+						rbDTOsl = append(rbDTOsl, RbDTO)
 
+						//} else {
+						//	rbDTOsl, _ = GetNil12Rb(rbDTOsl, contract, period, RB15Name)
 					}
 
 				}
@@ -219,6 +217,8 @@ func GetRB16ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 		}
 
 	}
+
+	//}
 
 	return rbDTOsl, nil
 }
