@@ -82,6 +82,8 @@ func runAllRoutes(r *gin.Engine) {
 	cr.GET("/auto_orders", controller.GetAllAutoOrders)
 	cr.POST("/auto_orders", controller.FormAutoOrder)
 
+	cr.POST("/defects/pharmacy/PF", controller.GetDefectsByPharmacyPF)
+
 	hyperstockServ := service.NewHyperstocksService()
 	defectServ := service.NewDefectsService()
 	controller.NewHyperstocksController(hyperstockServ).HandleRoutes(cr)
