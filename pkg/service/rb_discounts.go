@@ -189,10 +189,6 @@ func GetRB16ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 						SchemeType:     contract.View,
 						//Contracts:      contractsCode, // необходимо получить коды контрактов
 					}
-					sales, _ := GetSales(reqBrand)
-
-					//	totalPurchaseCode := CountPurchaseByCode(purchase)
-					amount := CountSales(sales)
 
 					//fmt.Printf("TYPE %s period %s contract.ExtContractCode: %s", period.Type, period.PeriodFrom, contract.ExtContractCode)
 					//if period.PeriodFrom <= req.PeriodFrom && period.PeriodTo >= req.PeriodTo {
@@ -201,7 +197,14 @@ func GetRB16ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 					periodTo, _ := ConvertStringTime(period.PeriodTo)
 					reqperiodFrom, _ := ConvertStringTime(req.PeriodFrom)
 					reqperiodTo, _ := ConvertStringTime(req.PeriodTo)
+
+					// 01.10.2021   -
 					if reqperiodFrom.Before(periodFrom) || reqperiodFrom.Equal(periodFrom) && reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo) {
+						sales, _ := GetSales(reqBrand)
+
+						//	totalPurchaseCode := CountPurchaseByCode(purchase)
+						amount := CountSales(sales)
+
 						fmt.Println("TRUE")
 						fmt.Println("AMOUNT", amount, period.SalesAmount)
 						if amount >= period.TotalAmount {
