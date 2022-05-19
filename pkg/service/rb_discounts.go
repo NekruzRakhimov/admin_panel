@@ -176,7 +176,8 @@ func GetRB16ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 		for _, discount := range contract.Discounts {
 
 			fmt.Println(contract.ContractParameters.ContractNumber, "номер договора")
-			if discount.Code == RB16Code && discount.IsSelected == true { // здесь сравниваешь тип скидки и берешь тот тип который тебе нужен
+			if discount.Code == RB16Code && discount.IsSelected == true {
+				// здесь сравниваешь тип скидки и берешь тот тип который тебе нужен
 				fmt.Println("Условия ТРУ")
 				for _, period := range discount.Periods {
 					reqBrand := models.ReqBrand{
@@ -206,12 +207,12 @@ func GetRB16ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 						if amount >= period.TotalAmount {
 							discountAmount := amount * period.DiscountPercent / 100
 							RbDTO := models.RbDTO{
-								ContractNumber: contract.ContractParameters.ContractNumber,
-								StartDate:      period.PeriodFrom,
-								EndDate:        period.PeriodTo,
-								TypePeriod:     period.Name,
+								ContractNumber:  contract.ContractParameters.ContractNumber,
+								StartDate:       period.PeriodFrom,
+								EndDate:         period.PeriodTo,
+								TypePeriod:      period.Name,
 								DiscountPercent: period.DiscountPercent,
-								DiscountAmount: discountAmount,
+								DiscountAmount:  discountAmount,
 								//RewardAmount:         reward,
 								TotalWithoutDiscount: amount,
 								LeasePlan:            period.TotalAmount,
@@ -285,10 +286,20 @@ func GetRB17ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 					//"end_date": "31.12.2021", < "period_to": "30.06.2022",
 
 					//fmt.Printf("TYPE %s period %s contract.ExtContractCode: %s", period.Type, period.PeriodFrom, contract.ExtContractCode)
+					fmt.Println("periodFrom", period.PeriodFrom)
+					fmt.Println("periodTo", period.PeriodTo)
+					fmt.Println("reqperiodFrom", req.PeriodFrom)
+					fmt.Println("reqperiodTo", req.PeriodTo)
 					periodFrom, _ := ConvertStringTime(period.PeriodFrom)
 					periodTo, _ := ConvertStringTime(period.PeriodTo)
 					reqperiodFrom, _ := ConvertStringTime(req.PeriodFrom)
 					reqperiodTo, _ := ConvertStringTime(req.PeriodTo)
+					fmt.Println(reqperiodFrom.Before(periodFrom) || reqperiodFrom.Equal(periodFrom) && reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo))
+					//fmt.Println("periodFrom", periodFrom)
+					//fmt.Println("periodTo", periodTo)
+					//fmt.Println("reqperiodFrom", reqperiodFrom)
+					//fmt.Println("reqperiodTo", reqperiodTo)
+
 					if reqperiodFrom.Before(periodFrom) || reqperiodFrom.Equal(periodFrom) && reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo) {
 						fmt.Println("УСЛОВИЯ ПРОШЛИ")
 						fmt.Println("AMOUNT", amount, period.SalesAmount)

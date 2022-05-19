@@ -127,6 +127,7 @@ func tempRoutes(r *gin.RouterGroup) {
 	r.POST("/getrbfourteen", controller.DiscountRB14)
 	r.POST("/getcode", controller.GetContractCode)
 	r.POST("/rbseventeen", controller.DiscountRB17)
+	r.POST("/rbsixteen", controller.DiscountRB16)
 	r.POST("/check_contract", controller.GetAllContractDetailByBIN)
 
 	r.POST("/rb_brand/", controller.GetBrandInfo)
