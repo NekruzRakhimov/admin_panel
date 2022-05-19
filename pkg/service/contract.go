@@ -337,23 +337,24 @@ func ConformContract(contractId int, status string) error {
 	//}
 	//if code != 200 {
 
-	fmt.Println("CONTRACT", contractFor1C)
+	//fmt.Println("CONTRACT", contractFor1C)
+	//fmt.Printf("%+v\n", contractFor1C)
 
-	//respFrom1C, err := SaveContract1C(contractFor1C)
-	//if err != nil {
-	//	return err
-	//}
-	//
-	//if respFrom1C.Status != "success" {
-	//	return errors.New("не удалось сохранить договор в 1С. Повторите попытку позже")
-	//}
+	respFrom1C, err := SaveContract1C(contractFor1C)
+	if err != nil {
+		return err
+	}
+
+	if respFrom1C.Status != "success" {
+		return errors.New("не удалось сохранить договор в 1С. Повторите попытку позже")
+	}
 	if err := repository.ConformContract(contractId, status); err != nil {
 		return err
 	}
 
-	//if err = repository.SaveContractExternalCode(contractId, respFrom1C.ContractCode); err != nil {
-	//	return err
-	//}
+	if err = repository.SaveContractExternalCode(contractId, respFrom1C.ContractCode); err != nil {
+		return err
+	}
 	//}
 
 	return nil

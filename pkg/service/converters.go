@@ -164,8 +164,8 @@ func ConvertContractToContractDTOFor1CStruct(contract models.Contract) (contract
 			PricetypeName: contract.ContractParameters.PricetypeName,
 			PricetypeCode: contract.ContractParameters.PricetypeCode,
 			// до сюда
-			StartDate: contract.CreatedAt,
-			EndDate:   contract.ContractParameters.ContractDate,
+			StartDate: contract.ContractParameters.StartDate,
+			EndDate:   contract.ContractParameters.EndDate,
 		},
 		WithTemperatureConditions: contract.WithTemperatureConditions,
 		Products:                  contract.Products,
