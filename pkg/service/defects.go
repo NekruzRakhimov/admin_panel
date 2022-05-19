@@ -106,7 +106,7 @@ func FormExcelDefects(filteredDefects []models.DefectsFiltered) error {
 	}
 
 	//f.NewSheet(defectsSheet)
-	var i = 4
+	var i = 2
 	for _, defect := range filteredDefects {
 		f.SetCellValue(defectsSheet, fmt.Sprintf("C%d", i), defect.StoreName)
 		i++
