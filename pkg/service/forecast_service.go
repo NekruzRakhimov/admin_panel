@@ -31,7 +31,7 @@ func (s *forecastService) GetForecast(params *models.ForecastSearchParameters) (
 	}
 
 	for i, _ := range history.SalesArr {
-		history.SalesArr[i].Category = "HistorySales"
+		history.SalesArr[i].Category = "Исторические продажи"
 	}
 
 	forecast := &models.ForecastSales{}
@@ -42,7 +42,7 @@ func (s *forecastService) GetForecast(params *models.ForecastSearchParameters) (
 			fSale := models.Sale{
 				QntTotal: f.QntTotal,
 				Date:     dateNow.AddDate(0, 0, i).Format("2006-01-02T15:04:05"),
-				Category: "ForeCastSales",
+				Category: "Прогноз",
 			}
 
 			forecast.SalesArr = append(forecast.SalesArr, fSale)
