@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
@@ -73,9 +74,12 @@ func (s *forecastService) getHistoricalSales(params *models.ForecastSearchParame
 
 	defer resp.Body.Close()
 
+	rawResp = bytes.TrimPrefix(rawResp, []byte("\xef\xbb\xbf"))
+
 	response := models.HistoricalSales{}
 	err = json.Unmarshal(rawResp, &response)
 	if err != nil {
+		log.Println(err)
 		return nil, errors.New(fmt.Sprintf("Ошибка при обработке респонса 1с %s", err.Error()))
 	}
 
