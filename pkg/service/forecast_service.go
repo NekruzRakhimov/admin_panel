@@ -46,12 +46,12 @@ func (s *forecastService) getHistoricalSales(params *models.ForecastSearchParame
 		Store:     []string{*params.PharmacyCode},
 	})
 	if err != nil {
-		return nil, err
+		return nil, errors.New(fmt.Sprintf("Ошибка при формировнии рекуеста для 1с сервиса %s", err.Error()))
 	}
 	req, err := http.NewRequest(http.MethodPost, utils.AppSettings.Route1c.Host+utils.AppSettings.Route1c.Routes.GetData,
 		bytes.NewBuffer(body))
 	if err != nil {
-		return nil, err
+		return nil, errors.New(fmt.Sprintf("Ошибка при формировнии сервиса 1с %s", err.Error()))
 	}
 	req.SetBasicAuth(utils.AppSettings.Route1c.Login, utils.AppSettings.Route1c.Password)
 	req.Header.Add("Content-Type", "application/json")
@@ -60,7 +60,7 @@ func (s *forecastService) getHistoricalSales(params *models.ForecastSearchParame
 	client := http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		return nil, err
+		return nil, errors.New(fmt.Sprintf("Ошибка при вызове сервиса 1с %s", err.Error()))
 	}
 	if resp.StatusCode != http.StatusOK {
 		return nil, errors.New(fmt.Sprintf("Статус ошибки при запросе продаж %s", resp.Status))
@@ -68,7 +68,7 @@ func (s *forecastService) getHistoricalSales(params *models.ForecastSearchParame
 
 	rawResp, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return nil, err
+		return nil, errors.New(fmt.Sprintf("Ошибка при обработке тело респонса 1с %s", err.Error()))
 	}
 
 	defer resp.Body.Close()
@@ -76,7 +76,7 @@ func (s *forecastService) getHistoricalSales(params *models.ForecastSearchParame
 	response := models.HistoricalSales{}
 	err = json.Unmarshal(rawResp, &response)
 	if err != nil {
-		return nil, err
+		return nil, errors.New(fmt.Sprintf("Ошибка при обработке респонса 1с %s", err.Error()))
 	}
 
 	return &response, nil
