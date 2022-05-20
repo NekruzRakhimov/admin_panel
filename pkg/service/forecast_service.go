@@ -34,9 +34,10 @@ func (s *forecastService) GetForecast(params *models.ForecastSearchParameters) (
 	dateNow := time.Now()
 	for i, f := range history.SalesArr {
 		if i > 1 && i < 31 {
+
 			fSale := models.Sale{
 				QntTotal: f.QntTotal,
-				Date:     dateNow.AddDate(0, 0, i),
+				Date:     dateNow.AddDate(0, 0, i).Format("2006-01-02T15:04:05"),
 			}
 
 			forecast.SalesArr = append(forecast.SalesArr, fSale)
@@ -58,7 +59,7 @@ func (s *forecastService) getHistoricalSales(params *models.ForecastSearchParame
 		DateEnd:   "20.05.2022 23:59:59",
 		Type:      "sales_by_day",
 		Sku:       []string{*params.ProductCode},
-		Store: []string{*params.PharmacyCode},
+		Store:     []string{*params.PharmacyCode},
 	})
 	if err != nil {
 		return nil, errors.New(fmt.Sprintf("Ошибка при формировнии рекуеста для 1с сервиса %s", err.Error()))
