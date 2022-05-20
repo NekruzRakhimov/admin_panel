@@ -86,8 +86,10 @@ func runAllRoutes(r *gin.Engine) {
 
 	hyperstockServ := service.NewHyperstocksService()
 	defectServ := service.NewDefectsService()
+	forecastServ := service.NewForecastService()
 	controller.NewHyperstocksController(hyperstockServ).HandleRoutes(cr)
 	controller.NewDefectsController(defectServ).HandleRoutes(cr)
+	controller.NewForecastController(forecastServ).HandleRoutes(cr)
 }
 
 func runServer(r *gin.Engine) {

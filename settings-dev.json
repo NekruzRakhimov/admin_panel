@@ -11,5 +11,13 @@
     "user": "obktylemltwdzc",
     "password": "3492ecaa68258e934a6b71d0fa502f99d45ce6c159a588a403dbdd789aeedf84",
     "database": "ddgndiu11pio51"
+  },
+  "route_1c": {
+    "host": "http://89.218.153.38:8081/AQG_ULAN/hs/integration",
+    "login": "http_client",
+    "password": "123456",
+    "routes": {
+      "get_data": "/getdata"
+    }
   }
 }
