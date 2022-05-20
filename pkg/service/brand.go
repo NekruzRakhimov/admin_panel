@@ -70,7 +70,7 @@ func GetSales(reqBrand models.ReqBrand) (models.Sales, error) {
 		TypeValue:      "",
 		TypeParameters: nil,
 		//SchemeType:     reqBrand.SchemeType,
-		SchemeType:     "LS",
+		SchemeType: "LS",
 	}
 	//for _, value := range brandInfo {
 	//	date.TypeParameters = append(date.TypeParameters, value.Brand)
@@ -82,9 +82,7 @@ func GetSales(reqBrand models.ReqBrand) (models.Sales, error) {
 
 	//parm.Add("datestart", "01.01.2022 0:02:09")
 	//parm.Add("dateend", "01.01.2022 0:02:09")
-	client := &http.Client{
-		Timeout: 120 * time.Second,
-	}
+	client := &http.Client{}
 	log.Println("запрос", reqBodyBytes)
 	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/getdata"
 	req, err := http.NewRequest("POST", uri, reqBodyBytes)
@@ -105,7 +103,7 @@ func GetSales(reqBrand models.ReqBrand) (models.Sales, error) {
 		log.Println(err)
 		return sales, err
 	}
-	log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
+	//log.Println("BODYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY", string(body))
 
 	defer resp.Body.Close()
 	if err != nil {
@@ -134,7 +132,7 @@ func GetSalesNEw(reqBrand models.ReqBrand) (models.SalesNew, error) {
 		TypeValue:      "",
 		TypeParameters: nil,
 		//SchemeType:     reqBrand.SchemeType,
-		SchemeType:     "LS",
+		SchemeType: "LS",
 	}
 	//for _, value := range brandInfo {
 	//	date.TypeParameters = append(date.TypeParameters, value.Brand)
