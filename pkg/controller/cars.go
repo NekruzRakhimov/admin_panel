@@ -170,10 +170,72 @@ func DiscountRB17(c *gin.Context) {
 
 }
 
+func DiscountRB16(c *gin.Context) {
+	var request models.RBRequest
+	c.ShouldBind(&request)
+
+	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.ClientCode, request.PeriodFrom, request.PeriodTo)
+	if err != nil {
+		return
+	}
+
+	contracts, err := service.BulkConvertContractFromJsonB(contractsWithJson)
+	if err != nil {
+		return
+	}
+
+	fmt.Println("contracts", contracts)
+
+	timeP, err := service.GetRB16ThType(request, contracts)
+	if err != nil {
+		c.JSON(400, err)
+		return
+	}
+	c.JSON(200, timeP)
+
+}
+
+func DiscountRB15(c *gin.Context) {
+	var request models.RBRequest
+	c.ShouldBind(&request)
+
+	contractsWithJson, err := repository.GetAllContractDetailByBIN(request.ClientCode, request.PeriodFrom, request.PeriodTo)
+	if err != nil {
+		return
+	}
+
+	contracts, err := service.BulkConvertContractFromJsonB(contractsWithJson)
+	if err != nil {
+		return
+	}
+
+	fmt.Println("contracts", contracts)
+
+	timeP, err := service.GetRB15ThType(request, contracts)
+	if err != nil {
+		c.JSON(400, err)
+		return
+	}
+	c.JSON(200, timeP)
+
+}
+
 func GetContractCode(c *gin.Context) {
 	var request models.RBRequest
 	c.ShouldBind(&request)
 	code := service.GetExternalCode(request.BIN)
 	c.JSON(200, code)
+
+}
+
+func GetAllContractDetailByBIN(c *gin.Context) {
+	var req models.ReqBrand
+
+	c.ShouldBind(&req)
+	fmt.Println("start_date", req.DateStart)
+	fmt.Println("end_date", req.DateEnd)
+
+	bin, _ := repository.GetAllContractDetailByBIN(req.ClientCode, req.DateStart, req.DateEnd)
+	c.JSON(200, bin)
 
 }

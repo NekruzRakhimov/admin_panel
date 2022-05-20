@@ -26,6 +26,12 @@ type Defect struct {
 	DifPercent       string `json:"dif_percent"`
 }
 
+type DefectsFiltered struct {
+	StoreCode  string   `json:"store_code"`
+	StoreName  string   `json:"store_name"`
+	SubDefects []Defect `json:"sub_defects"`
+}
+
 type DefectsRequest struct {
 	Startdate string `json:"startdate"`
 	Enddate   string `json:"enddate"`
