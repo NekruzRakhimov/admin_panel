@@ -86,8 +86,10 @@ func runAllRoutes(r *gin.Engine) {
 
 	hyperstockServ := service.NewHyperstocksService()
 	defectServ := service.NewDefectsService()
+	forecastServ := service.NewForecastService()
 	controller.NewHyperstocksController(hyperstockServ).HandleRoutes(cr)
 	controller.NewDefectsController(defectServ).HandleRoutes(cr)
+	controller.NewForecastController(forecastServ).HandleRoutes(cr)
 }
 
 func runServer(r *gin.Engine) {
@@ -127,6 +129,8 @@ func tempRoutes(r *gin.RouterGroup) {
 	r.POST("/getrbfourteen", controller.DiscountRB14)
 	r.POST("/getcode", controller.GetContractCode)
 	r.POST("/rbseventeen", controller.DiscountRB17)
+	r.POST("/rbsixteen", controller.DiscountRB16)
+	r.POST("/rbfifteen", controller.DiscountRB15)
 	r.POST("/check_contract", controller.GetAllContractDetailByBIN)
 
 	r.POST("/rb_brand/", controller.GetBrandInfo)
