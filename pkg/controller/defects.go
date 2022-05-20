@@ -37,3 +37,20 @@ func GetDefectsByPharmacyPF(c *gin.Context) {
 	c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 	c.File("./files/defects/res.xlsx")
 }
+
+func GetSalesCount(c *gin.Context) {
+	var req models.SalesCountRequest
+	if err := c.BindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	salesCount, err := service.GetSalesCountExt(req)
+	if err != nil {
+		fmt.Println(salesCount)
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, salesCount)
+}

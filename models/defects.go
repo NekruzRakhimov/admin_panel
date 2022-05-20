@@ -36,3 +36,18 @@ type DefectsRequest struct {
 	Startdate string `json:"startdate"`
 	Enddate   string `json:"enddate"`
 }
+
+type SalesCountRequest struct {
+	Startdate string `json:"startdate"`
+	Enddate   string `json:"enddate"`
+	StoreCode string `json:"store_code"`
+}
+
+type SalesCount struct {
+	ProductCode        string `json:"product_code"`
+	ProductName        string `json:"product_name"`
+	TotalSalesDayCount string `json:"total_sales_day_count"`
+	SalesDayCount      string `json:"sales_day_count"`
+	SalesCount         string `json:"sales_count"`
+	TotalStoreCount    string `json:"total_store_count"`
+}

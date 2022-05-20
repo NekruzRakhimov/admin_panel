@@ -83,6 +83,7 @@ func runAllRoutes(r *gin.Engine) {
 	cr.POST("/auto_orders", controller.FormAutoOrder)
 
 	cr.POST("/defects/pharmacy/PF", controller.GetDefectsByPharmacyPF)
+	cr.POST("/check/sales_count", controller.GetSalesCount)
 
 	hyperstockServ := service.NewHyperstocksService()
 	defectServ := service.NewDefectsService()
