@@ -4,6 +4,7 @@ package models
 type Settings struct {
 	AppParams      Params           `json:"app"`
 	PostgresParams PostgresSettings `json:"postgres_params"`
+	Route1c        Route1c          `json:"route_1c"`
 }
 
 // Params contains params of server metadata
@@ -20,4 +21,15 @@ type PostgresSettings struct {
 	Host     string `json:"host"`
 	Port     string `json:"port"`
 	DataBase string `json:"database"`
+}
+
+type Route1c struct {
+	Host     string `json:"host"`
+	Login    string `json:"login"`
+	Password string `json:"password"`
+	Routes   Routes `json:"routes"`
+}
+
+type Routes struct {
+	GetData string `json:"get_data"`
 }

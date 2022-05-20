@@ -1,7 +1,6 @@
 package main
 
 import (
-	"admin_panel/db"
 	"admin_panel/routes"
 	"admin_panel/utils"
 )
@@ -23,7 +22,7 @@ import (
 // @schemes http
 func main() {
 	utils.ReadSettings()
-	db.StartDbConnection()
+	//db.StartDbConnection()
 
 	//go jobs.RunJobs()
 

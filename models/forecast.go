@@ -1,0 +1,28 @@
+package models
+
+import (
+	"time"
+)
+
+type ForecastSearchParameters struct {
+	ProductCode  *string
+	PharmacyCode *string
+}
+
+type Forecast struct {
+	HistorySales  *HistoricalSales
+	ForecastSales *ForecastSales
+}
+
+type ForecastSales struct {
+	SalesArr []Sale
+}
+
+type HistoricalSales struct {
+	SalesArr []Sale
+}
+
+type Sale struct {
+	QntTotal float64
+	Date     *time.Time
+}
