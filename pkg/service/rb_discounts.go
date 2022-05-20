@@ -198,6 +198,8 @@ func GetRB16ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 					periodTo, _ := ConvertStringTime(period.PeriodTo)
 					reqperiodFrom, _ := ConvertStringTime(req.PeriodFrom)
 					reqperiodTo, _ := ConvertStringTime(req.PeriodTo)
+					fmt.Println("eqperiodFrom.Before(periodFrom) || reqperiodFrom.Equal(periodFrom)", reqperiodFrom.Before(periodFrom) || reqperiodFrom.Equal(periodFrom))
+					fmt.Println("reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo))", reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo))
 
 					// 01.10.2021   -
 					if reqperiodFrom.Before(periodFrom) || reqperiodFrom.Equal(periodFrom) {
