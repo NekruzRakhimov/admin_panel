@@ -6,8 +6,7 @@ type ForecastSearchParameters struct {
 }
 
 type Forecast struct {
-	HistorySales  *HistoricalSales
-	ForecastSales *ForecastSales
+	Sales []Sale
 }
 
 type ForecastSales struct {
@@ -20,5 +19,6 @@ type HistoricalSales struct {
 
 type Sale struct {
 	QntTotal float64 `json:"qnt_total"`
-	Date     string `json:"date"`
+	Date     string  `json:"date"`
+	Category string  `json:"category"`
 }
