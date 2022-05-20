@@ -10,6 +10,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 )
 
 type ForecastService interface {
@@ -29,7 +30,21 @@ func (s *forecastService) GetForecast(params *models.ForecastSearchParameters) (
 		return nil, err
 	}
 
-	return &models.Forecast{HistorySales: history}, err
+	forecast := &models.ForecastSales{}
+	dateNow := time.Now()
+	for i, f := range history.SalesArr {
+		if i > 1 && i < 31 {
+
+			fSale := models.Sale{
+				QntTotal: f.QntTotal,
+				Date:     dateNow.AddDate(0, 0, i).Format("2006-01-02T15:04:05"),
+			}
+
+			forecast.SalesArr = append(forecast.SalesArr, fSale)
+		}
+	}
+
+	return &models.Forecast{HistorySales: history, ForecastSales: forecast}, err
 }
 
 func (s *forecastService) getHistoricalSales(params *models.ForecastSearchParameters) (*models.HistoricalSales, error) {
@@ -40,8 +55,8 @@ func (s *forecastService) getHistoricalSales(params *models.ForecastSearchParame
 		Sku       []string `json:"sku"`
 		Store     []string `json:"store"`
 	}{
-		DateStart: "01.01.2021 0:00:00",
-		DateEnd:   "31.01.2021 23:59:59",
+		DateStart: "20.05.2021 0:00:00",
+		DateEnd:   "20.05.2022 23:59:59",
 		Type:      "sales_by_day",
 		Sku:       []string{*params.ProductCode},
 		Store:     []string{*params.PharmacyCode},
