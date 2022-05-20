@@ -1,9 +1,5 @@
 package models
 
-import (
-	"time"
-)
-
 type ForecastSearchParameters struct {
 	ProductCode  *string
 	PharmacyCode *string
@@ -19,10 +15,10 @@ type ForecastSales struct {
 }
 
 type HistoricalSales struct {
-	SalesArr []Sale
+	SalesArr []Sale `json:"sales_arr"`
 }
 
 type Sale struct {
-	QntTotal float64
-	Date     *time.Time
+	QntTotal float64 `json:"qnt_total"`
+	Date     string `json:"date"`
 }
