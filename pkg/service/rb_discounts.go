@@ -855,11 +855,11 @@ func FillDiscount(request models.RBRequest, contracts []models.Contract, RbCode 
 
 				//log.Printf("[CHECK PRES SAlES: %+v\n", purchase)
 				//fmt.Println("Условия прошли")
-				var discountAmount float64
+
 				//if repository.DoubtedDiscountExecutionCheck(request, contract.ContractParameters.ContractNumber, discount.Code) {
 				//for _, amount := range totalAmountPurchase {
 				if amount > 0 {
-					discountAmount = amount * discount.DiscountPercent / 100
+					discountAmount := amount * discount.DiscountPercent / 100
 					rbDTO = append(rbDTO, models.RbDTO{
 						ContractNumber:       contract.ContractParameters.ContractNumber,
 						StartDate:            contract.ContractParameters.StartDate,
