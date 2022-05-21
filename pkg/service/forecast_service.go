@@ -30,6 +30,10 @@ func (s *forecastService) GetForecast(params *models.ForecastSearchParameters) (
 		return nil, err
 	}
 
+	for i, _ := range history.SalesArr {
+		history.SalesArr[i].Category = "Исторические продажи"
+	}
+
 	forecast := &models.ForecastSales{}
 	dateNow := time.Now()
 	for i, f := range history.SalesArr {
@@ -38,13 +42,19 @@ func (s *forecastService) GetForecast(params *models.ForecastSearchParameters) (
 			fSale := models.Sale{
 				QntTotal: f.QntTotal,
 				Date:     dateNow.AddDate(0, 0, i).Format("2006-01-02T15:04:05"),
+				Category: "Прогноз",
 			}
 
 			forecast.SalesArr = append(forecast.SalesArr, fSale)
 		}
 	}
 
-	return &models.Forecast{HistorySales: history, ForecastSales: forecast}, err
+	sales := make([]models.Sale, 0)
+
+	sales = append(sales, history.SalesArr...)
+	sales = append(sales, forecast.SalesArr...)
+
+	return &models.Forecast{Sales: sales}, err
 }
 
 func (s *forecastService) getHistoricalSales(params *models.ForecastSearchParameters) (*models.HistoricalSales, error) {

@@ -38,12 +38,18 @@ func GetDefectsByPharmacyPF(c *gin.Context) {
 	c.File("./files/defects/res.xlsx")
 }
 
+const TempData = " 00:00:00"
+
 func GetSalesCount(c *gin.Context) {
 	var req models.SalesCountRequest
+
 	if err := c.BindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 		return
 	}
+	req.Startdate += TempData
+	fmt.Println(req.Startdate)
+	req.Enddate += TempData
 
 	salesCount, err := service.GetSalesCountExt(req)
 	if err != nil {
