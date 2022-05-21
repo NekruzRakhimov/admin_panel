@@ -158,6 +158,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		isRB15 bool
 		isRB16 bool
 		isRB17 bool
+		isRB18 bool
 	)
 
 	for _, contract := range contracts {
@@ -212,6 +213,9 @@ func FormExcelForRBReport(request models.RBRequest) error {
 			}
 			if discount.Code == RB17Code && discount.IsSelected {
 				isRB17 = true
+			}
+			if discount.Code == RB18Code && discount.IsSelected {
+				isRB18 = true
 			}
 		}
 	}
@@ -924,6 +928,39 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB17Name, fmt.Sprintf("%s%d", "E", lastRow), utils.FloatToMoneyFormat(float64(totalDiscountsSum)))
 		err = f.SetCellStyle(RB17Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
 		err = f.SetCellStyle(RB17Name, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
+	}
+
+	if isRB18 {
+		rb18thType, err := GetRB18thType(request, contracts)
+		if err != nil {
+			return err
+		}
+
+		f.NewSheet(RB18Name)
+		f.SetCellValue(RB18Name, "A1", "Период")
+		f.SetCellValue(RB18Name, "B1", "Номер договора/ДС")
+		f.SetCellValue(RB18Name, "C1", "Тип скидки")
+		f.SetCellValue(RB18Name, "D1", "Скидка %")
+		f.SetCellValue(RB18Name, "E1", "Сумма скидки")
+		err = f.SetCellStyle(RB18Name, "A1", "E1", style)
+
+		var totalDiscountsSum float64
+		fmt.Printf("CHECK \n%+v\n CHECK", contracts)
+		var i int
+		for _, contract := range rb18thType {
+			f.SetCellValue(RB18Name, fmt.Sprintf("%s%d", "A", i+2), fmt.Sprintf("%s-%s", contract.StartDate, contract.EndDate))
+			f.SetCellValue(RB18Name, fmt.Sprintf("%s%d", "B", i+2), contract.ContractNumber)
+			f.SetCellValue(RB18Name, fmt.Sprintf("%s%d", "C", i+2), RB18Name)
+			f.SetCellValue(RB18Name, fmt.Sprintf("%s%d", "D", i+2), contract.DiscountPercent)
+			f.SetCellValue(RB18Name, fmt.Sprintf("%s%d", "E", i+2), utils.FloatToMoneyFormat(float64(contract.DiscountAmount)))
+			totalDiscountsSum += contract.DiscountAmount
+			lastRow = i + 2
+			i++
+		}
+		lastRow += 1
+		f.SetCellValue(RB18Name, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
+		f.SetCellValue(RB18Name, fmt.Sprintf("%s%d", "E", lastRow), utils.FloatToMoneyFormat(float64(totalDiscountsSum)))
+		err = f.SetCellStyle(RB18Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "E", lastRow), style)
 	}
 
 	f.DeleteSheet("Sheet1")
