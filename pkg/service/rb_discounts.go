@@ -308,27 +308,30 @@ func GetRB17ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 					//fmt.Println("reqperiodFrom", reqperiodFrom)
 					//fmt.Println("reqperiodTo", reqperiodTo)
 
-					if reqperiodFrom.Before(periodFrom) || reqperiodFrom.Equal(periodFrom) && reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo) {
-						fmt.Println("УСЛОВИЯ ПРОШЛИ")
-						fmt.Println("AMOUNT", amount, period.SalesAmount)
-						//if float32(amount) >= period.TotalAmount {
-						discountAmount := amount * period.DiscountPercent / 100
-						RbDTO := models.RbDTO{
-							ContractNumber:  contract.ContractParameters.ContractNumber,
-							StartDate:       period.PeriodFrom,
-							EndDate:         period.PeriodTo,
-							TypePeriod:      period.Name,
-							DiscountPercent: period.DiscountPercent,
-							DiscountAmount:  discountAmount,
-							//RewardAmount:         reward,
-							TotalWithoutDiscount: amount,
-							LeasePlan:            period.TotalAmount,
-							DiscountType:         RB17Name,
-						}
-						rbDTOsl = append(rbDTOsl, RbDTO)
+					if reqperiodFrom.Before(periodFrom) || reqperiodFrom.Equal(periodFrom) {
+						if reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo) {
+							fmt.Println("УСЛОВИЯ ПРОШЛИ")
+							fmt.Println("AMOUNT", amount, period.SalesAmount)
+							//if float32(amount) >= period.TotalAmount {
+							discountAmount := amount * period.DiscountPercent / 100
+							RbDTO := models.RbDTO{
+								ContractNumber:  contract.ContractParameters.ContractNumber,
+								StartDate:       period.PeriodFrom,
+								EndDate:         period.PeriodTo,
+								TypePeriod:      period.Name,
+								DiscountPercent: period.DiscountPercent,
+								DiscountAmount:  discountAmount,
+								//RewardAmount:         reward,
+								TotalWithoutDiscount: amount,
+								LeasePlan:            period.TotalAmount,
+								DiscountType:         RB17Name,
+							}
+							rbDTOsl = append(rbDTOsl, RbDTO)
 
-						//} else {
-						//rbDTOsl, _ = GetNil12Rb(rbDTOsl, contract, period, RB17Name)
+							//} else {
+							//rbDTOsl, _ = GetNil12Rb(rbDTOsl, contract, period, RB17Name)
+						}
+
 					}
 
 				}
@@ -336,7 +339,6 @@ func GetRB17ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 			}
 
 		}
-
 	}
 
 	return rbDTOsl, nil
