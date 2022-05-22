@@ -43,35 +43,35 @@ func GetBrands(c *gin.Context) {
 // @Failure      500      {object}  map[string]interface{}
 // @Router       /sales/ [post]
 func GetSales(c *gin.Context) {
-	payload := models.RBRequest{}
-	err := c.ShouldBindJSON(&payload)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
-		return
-	}
-
-	//payload.PeriodFrom += service.TempDateCompleter
-	//payload.PeriodTo += service.TempDateEnd
-
-	//var brandInfo []models.BrandInfo
-	req := models.ReqBrand{
-		ClientCode:  payload.ClientCode,
-		Beneficiary: payload.ContractorName,
-		DateStart:   payload.PeriodFrom,
-		DateEnd:     payload.PeriodTo,
-		//Type:        "sales",
-	}
-
-	//brandInfo := []models.BrandInfo{}
-	//sales, err := service.GetSalesBrand(req, brandInfo)
-	sales, err := service.GetSalesNEw(req)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
-		return
-	}
-	countSales := service.CountSalesNew(sales)
-
-	c.JSON(http.StatusOK, countSales)
+	//payload := models.RBRequest{}
+	//err := c.ShouldBindJSON(&payload)
+	//if err != nil {
+	//	c.JSON(http.StatusBadRequest, gin.H{"reason": err})
+	//	return
+	//}
+	//
+	////payload.PeriodFrom += service.TempDateCompleter
+	////payload.PeriodTo += service.TempDateEnd
+	//
+	////var brandInfo []models.BrandInfo
+	//req := models.ReqBrand{
+	//	ClientCode:  payload.ClientCode,
+	//	Beneficiary: payload.ContractorName,
+	//	DateStart:   payload.PeriodFrom,
+	//	DateEnd:     payload.PeriodTo,
+	//	//Type:        "sales",
+	//}
+	//
+	////brandInfo := []models.BrandInfo{}
+	////sales, err := service.GetSalesBrand(req, brandInfo)
+	//sales, err := service.GetSalesNEw(req)
+	//if err != nil {
+	//	c.JSON(http.StatusBadRequest, gin.H{"reason": err})
+	//	return
+	//}
+	//countSales := service.CountSalesNew(sales)
+	//
+	//c.JSON(http.StatusOK, countSales)
 
 }
 
