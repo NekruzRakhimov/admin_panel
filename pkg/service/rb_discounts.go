@@ -272,33 +272,6 @@ func GetRB17ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 			if discount.Code == RB17Code && discount.IsSelected == true { // здесь сравниваешь тип скидки и берешь тот тип который тебе нужен
 				fmt.Println("Условия ТРУ")
 				for _, period := range discount.Periods {
-					reqBrand := models.ReqBrand{
-						ClientCode:     req.ClientCode,
-						DateStart:      period.PeriodFrom,
-						DateEnd:        period.PeriodTo,
-						TypeValue:      "",
-						TypeParameters: nil,
-						SchemeType:     contract.View,
-						//Contracts:      contractsCode, // необходимо получить коды контрактов
-					}
-					//sales, _ := GetSales(reqBrand)
-					//
-					////	totalPurchaseCode := CountPurchaseByCode(purchase)
-					//amount := CountSales(sales)
-
-					sales, _ := GetSalesNEw(reqBrand)
-
-					//	totalPurchaseCode := CountPurchaseByCode(purchase)
-					amount := CountSales(sales)
-
-					//fmt.Println("period.PeriodFrom >= req.PeriodFrom", period.PeriodFrom >= req.PeriodFrom)
-					//fmt.Println("period.PeriodTo <= req.PeriodTo", period.PeriodTo <= req.PeriodTo)
-					//fmt.Println("period.PeriodTo", period.PeriodTo)
-					//fmt.Println("req.PeriodTo", req.PeriodTo)
-					//"start_date": "01.10.2021", > "period_from": "01.07.2021",
-					//"end_date": "31.12.2021", < "period_to": "30.06.2022",
-
-					//fmt.Printf("TYPE %s period %s contract.ExtContractCode: %s", period.Type, period.PeriodFrom, contract.ExtContractCode)
 					fmt.Println("periodFrom", period.PeriodFrom)
 					fmt.Println("periodTo", period.PeriodTo)
 					fmt.Println("reqperiodFrom", req.PeriodFrom)
@@ -307,29 +280,46 @@ func GetRB17ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 					periodTo, _ := ConvertStringTime(period.PeriodTo)
 					reqperiodFrom, _ := ConvertStringTime(req.PeriodFrom)
 					reqperiodTo, _ := ConvertStringTime(req.PeriodTo)
-					fmt.Println(reqperiodFrom.Before(periodFrom) || reqperiodFrom.Equal(periodFrom) && reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo))
-					//fmt.Println("periodFrom", periodFrom)
+					//fmt.Println(reqperiodFrom.Before(periodFrom) || reqperiodFrom.Equal(periodFrom) && reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo))
+					fmt.Println("reqperiodFrom.Before(periodFrom) || reqperiodFrom.Equal(periodFrom)", reqperiodFrom.Before(periodFrom) || reqperiodFrom.Equal(periodFrom))
+					fmt.Println("reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo)", reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo))
 					//fmt.Println("periodTo", periodTo)
 					//fmt.Println("reqperiodFrom", reqperiodFrom)
 					//fmt.Println("reqperiodTo", reqperiodTo)
-
+					fmt.Println("ПЕРИОДЫ", period)
 					if reqperiodFrom.Before(periodFrom) || reqperiodFrom.Equal(periodFrom) {
 						if reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo) {
+							//reqBrand := models.ReqBrand{
+							//	ClientCode:     req.ClientCode,
+							//	DateStart:      period.PeriodFrom,
+							//	DateEnd:        period.PeriodTo,
+							//	TypeValue:      "",
+							//	TypeParameters: nil,
+							//	SchemeType:     contract.View,
+							//
+							//}
+							//sales, _ := GetSales(reqBrand)
+							//sales, _ := GetSalesNEw(reqBrand)
+
+							//amount := CountSales(sales)
+
 							fmt.Println("УСЛОВИЯ ПРОШЛИ")
-							fmt.Println("AMOUNT", amount, period.SalesAmount)
-							//if float32(amount) >= period.TotalAmount {
-							discountAmount := amount * period.DiscountPercent / 100
+							fmt.Println("ПЕРИОДЫ которые прошли", period)
+
+							//fmt.Println("AMOUNT", amount, period.SalesAmount)
+							//if amount >= period.TotalAmount {
+							//discountAmount := amount * period.DiscountPercent / 100
 							RbDTO := models.RbDTO{
 								ContractNumber:  contract.ContractParameters.ContractNumber,
 								StartDate:       period.PeriodFrom,
 								EndDate:         period.PeriodTo,
 								TypePeriod:      period.Name,
 								DiscountPercent: period.DiscountPercent,
-								DiscountAmount:  discountAmount,
+								//DiscountAmount:  discountAmount,
 								//RewardAmount:         reward,
-								TotalWithoutDiscount: amount,
-								LeasePlan:            period.TotalAmount,
-								DiscountType:         RB17Name,
+								//TotalWithoutDiscount: amount,
+								LeasePlan:    period.TotalAmount,
+								DiscountType: RB17Name,
 							}
 							rbDTOsl = append(rbDTOsl, RbDTO)
 
@@ -345,6 +335,7 @@ func GetRB17ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 
 		}
 	}
+	//}
 
 	return rbDTOsl, nil
 }

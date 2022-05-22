@@ -222,7 +222,11 @@ func DiscountRB15(c *gin.Context) {
 
 func GetContractCode(c *gin.Context) {
 	var request models.RBRequest
-	c.ShouldBind(&request)
+	err := c.ShouldBind(&request)
+	fmt.Println("REQUEST", request)
+	if err != nil {
+		c.JSON(400, err.Error())
+	}
 	code := service.GetExternalCode(request.BIN)
 	c.JSON(200, code)
 
