@@ -121,14 +121,14 @@ func GetSales(reqBrand models.ReqBrand) (models.Sales, error) {
 	return sales, nil
 }
 
-func GetSalesNEw(reqBrand models.ReqBrand) (models.SalesNew, error) {
-	var sales models.SalesNew
+func GetSalesNEw(reqBrand models.ReqBrand) (models.Sales, error) {
+	var sales models.Sales
 
 	date := models.ReqBrand{
 		ClientCode:     reqBrand.ClientCode,
 		DateStart:      reqBrand.DateStart + TempDateCompleter,
 		DateEnd:        reqBrand.DateEnd + TempDateEnd,
-		Type:           "sales_brand_only",
+		Type:           "sales_total",
 		TypeValue:      "",
 		TypeParameters: nil,
 		//SchemeType:     reqBrand.SchemeType,

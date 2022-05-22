@@ -204,7 +204,7 @@ func GetRB16ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 					// 01.10.2021   -
 					if reqperiodFrom.Before(periodFrom) || reqperiodFrom.Equal(periodFrom) {
 						if reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo) {
-							sales, _ := GetSales(reqBrand)
+							sales, _ := GetSalesNEw(reqBrand)
 
 							//	totalPurchaseCode := CountPurchaseByCode(purchase)
 							amount := CountSales(sales)
@@ -281,7 +281,12 @@ func GetRB17ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 						SchemeType:     contract.View,
 						//Contracts:      contractsCode, // необходимо получить коды контрактов
 					}
-					sales, _ := GetSales(reqBrand)
+					//sales, _ := GetSales(reqBrand)
+					//
+					////	totalPurchaseCode := CountPurchaseByCode(purchase)
+					//amount := CountSales(sales)
+
+					sales, _ := GetSalesNEw(reqBrand)
 
 					//	totalPurchaseCode := CountPurchaseByCode(purchase)
 					amount := CountSales(sales)
@@ -881,7 +886,7 @@ func FillDiscount(request models.RBRequest, contracts []models.Contract, RbCode 
 						DiscountType:         RBName,
 					})
 				}
-				log.Printf("[CHECK PRES DISCOUNT AMOUNT]: %v\n", discountAmount)
+				//log.Printf("[CHECK PRES DISCOUNT AMOUNT]: %v\n", discountAmount)
 
 			}
 			log.Printf("[CHECK PRES DISCOUNT PERCENT]: %f\n", discount.DiscountPercent)

@@ -175,7 +175,7 @@ func SaveContract1C(contract models.ContractDTOFor1C) (models.RespContract, erro
 
 	var respContract1C models.RespContract
 	saveContract := new(bytes.Buffer)
-	err := json.NewEncoder(saveContract).Encode(contract)
+	err := json.NewEncoder(saveContract).Encode(&contract)
 	if err != nil {
 		return respContract1C, err
 	}
