@@ -18,11 +18,17 @@ func initDB() *gorm.DB {
 		settingParams.Host, settingParams.Port,
 		settingParams.User, settingParams.DataBase,
 		settingParams.Password)
-		fmt.Println(connString, "данные бд")
+	fmt.Println(connString, "данные бд")
 
 	db, err := gorm.Open("postgres", connString)
 	//gorm.Open(postgres.Open(connStr), &gorm.Config{Logger: newLogger})
 
+	defer func(db *gorm.DB) {
+		err := db.Close()
+		if err != nil {
+			panic(err)
+		}
+	}(db)
 
 	if err != nil {
 		log.Fatal("Couldn't connect to database", err.Error())
