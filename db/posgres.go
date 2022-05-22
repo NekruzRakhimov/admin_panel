@@ -23,13 +23,6 @@ func initDB() *gorm.DB {
 	db, err := gorm.Open("postgres", connString)
 	//gorm.Open(postgres.Open(connStr), &gorm.Config{Logger: newLogger})
 
-	defer func(db *gorm.DB) {
-		err := db.Close()
-		if err != nil {
-			panic(err)
-		}
-	}(db)
-
 	if err != nil {
 		log.Fatal("Couldn't connect to database", err.Error())
 	}
@@ -45,6 +38,12 @@ func initDB() *gorm.DB {
 // StartDbConnection Creates connection to database
 func StartDbConnection() {
 	database = initDB()
+	defer func(db *gorm.DB) {
+		err := database.Close()
+		if err != nil {
+			panic(err)
+		}
+	}(database)
 }
 
 // GetDBConn func for getting db conn globally
