@@ -38,12 +38,6 @@ func initDB() *gorm.DB {
 // StartDbConnection Creates connection to database
 func StartDbConnection() {
 	database = initDB()
-	defer func(db *gorm.DB) {
-		err := database.Close()
-		if err != nil {
-			panic(err)
-		}
-	}(database)
 }
 
 // GetDBConn func for getting db conn globally
