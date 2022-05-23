@@ -310,27 +310,32 @@ func GetRB17ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 					//rbDTOsl = append(rbDTOsl, RbDTO)
 
 					// 10.01 - 01.01
-					if (reqperiodFrom.After(periodFrom) && reqperiodTo.After(periodTo)) || (reqperiodFrom.Equal(periodFrom) && reqperiodTo.Equal(periodTo)){
-						amount := GetSalesByPeriods(req.PeriodFrom, period.PeriodFrom, req.ClientCode, contract.View)
+
+
+					//if (reqperiodFrom.After(periodFrom) && reqperiodTo.After(periodTo)) || (reqperiodFrom.Equal(periodFrom) && reqperiodTo.Equal(periodTo)){
+					if (reqperiodFrom.After(periodFrom) || reqperiodFrom.Equal(periodFrom)) && (reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo)){
+						amount := GetSalesByPeriods(req.PeriodFrom, period.PeriodTo, req.ClientCode, contract.View)
 						discountAmount := amount * period.DiscountPercent / 100
 						RbDTO.DiscountAmount = discountAmount
 						rbDTOsl = append(rbDTOsl, RbDTO)
 						// брать продажи ДНО и ДКП
-					}else if (periodFrom.After(reqperiodFrom) && periodTo.After(reqperiodTo) ) || (reqperiodFrom.Equal(periodFrom) && reqperiodTo.Equal(periodTo)) {
-						amount := GetSalesByPeriods(req.PeriodFrom, period.PeriodFrom, req.ClientCode, contract.View)
+					}else if (periodFrom.After(reqperiodFrom) || reqperiodFrom.Equal(periodFrom)) && (periodTo.After(reqperiodTo)  ||reqperiodTo.Equal(periodTo)) {
+						amount := GetSalesByPeriods(period.PeriodFrom, req.PeriodTo, req.ClientCode, contract.View)
 						discountAmount := amount * period.DiscountPercent / 100
 						RbDTO.DiscountAmount = discountAmount
 						rbDTOsl = append(rbDTOsl, RbDTO)
 						
-					}else if (reqperiodFrom.After(periodFrom) &&  periodTo.After(reqperiodTo)) || (reqperiodFrom.Equal(periodFrom) && reqperiodTo.Equal(periodTo)){
-						amount := GetSalesByPeriods(req.PeriodFrom, period.PeriodFrom, req.ClientCode, contract.View)
+					}else if (reqperiodFrom.After(periodFrom) || reqperiodFrom.Equal(periodFrom)) && (periodTo.After(reqperiodTo)  || reqperiodTo.Equal(periodTo)){
+					//}else if (reqperiodFrom.After(periodFrom) &&  periodTo.After(reqperiodTo)) || (reqperiodFrom.Equal(periodFrom) && reqperiodTo.Equal(periodTo)){
+						amount := GetSalesByPeriods(req.PeriodFrom, req.PeriodTo, req.ClientCode, contract.View)
 						discountAmount := amount * period.DiscountPercent / 100
 						RbDTO.DiscountAmount = discountAmount
 						rbDTOsl = append(rbDTOsl, RbDTO)
 						
 						
-					}else if ( periodFrom.After(reqperiodFrom) && reqperiodTo.After(periodTo)) || (reqperiodFrom.Equal(periodFrom) && reqperiodTo.Equal(periodTo)){
-						amount := GetSalesByPeriods(req.PeriodFrom, period.PeriodFrom, req.ClientCode, contract.View)
+					}else if (periodFrom.After(reqperiodFrom) || reqperiodFrom.Equal(periodFrom)) && (reqperiodTo.After(periodTo)  || reqperiodTo.Equal(periodTo)){
+					//}else if ( periodFrom.After(reqperiodFrom) && reqperiodTo.After(periodTo)) || (reqperiodFrom.Equal(periodFrom) && reqperiodTo.Equal(periodTo)){
+						amount := GetSalesByPeriods(period.PeriodFrom ,period.PeriodTo,  req.ClientCode, contract.View)
 						discountAmount := amount * period.DiscountPercent / 100
 						RbDTO.DiscountAmount = discountAmount
 						rbDTOsl = append(rbDTOsl, RbDTO)
