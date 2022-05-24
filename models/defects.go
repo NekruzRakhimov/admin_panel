@@ -13,17 +13,13 @@ type DefectsFile struct {
 type Defect struct {
 	ProductCode      string `json:"product_code"`
 	ProductName      string `json:"product_name"`
-	RegionCode       string `json:"region_code"`
-	RegionName       string `json:"region_name"`
 	StoreCode        string `json:"store_code"`
 	StoreName        string `json:"store_name"`
 	DefectQnt        string `json:"defect_qnt"`
 	StoreSaldoQnt    string `json:"store_saldo_qnt"`
-	StoreSaldoTotal  string `json:"store_saldo_total"`
-	DefectTotal      string `json:"defect_total"`
-	DefectTotalQnt   string `json:"defect_total_qnt"`
-	MatrixTotalSales string `json:"matrix_total_sales"`
-	DifPercent       string `json:"dif_percent"`
+	MatrixSales      string `json:"matrix_sales"`
+	MatrixProductQnt string `json:"matrix_product_qnt"`
+	DefectPrice      string `json:"defect_price"`
 }
 
 type DefectsFiltered struct {

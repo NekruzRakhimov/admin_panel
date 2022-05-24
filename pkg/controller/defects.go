@@ -19,8 +19,8 @@ func GetDefectsByPharmacyPF(c *gin.Context) {
 	}
 
 	req := models.DefectsRequest{
-		Startdate: fmt.Sprintf("%s 00:00:00", date.Date),
-		Enddate:   fmt.Sprintf("%s 23:59:59", date.Date),
+		Startdate: date.Date,
+		Enddate:   date.Date,
 	}
 
 	_, err := service.GetDefectsPF(req)
