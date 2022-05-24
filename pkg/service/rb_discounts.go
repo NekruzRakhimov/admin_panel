@@ -320,16 +320,23 @@ func GetRB17ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 						rbDTOsl = append(rbDTOsl, RbDTO)
 						// брать продажи ДНО и ДКП
 					}else if (periodFrom.After(reqperiodFrom) || reqperiodFrom.Equal(periodFrom)) && (periodTo.After(reqperiodTo)  ||reqperiodTo.Equal(periodTo)) {
-						amount := GetSalesByPeriods(period.PeriodFrom, req.PeriodTo, req.ClientCode, contract.View)
+							//#2
+						amount := GetSalesByPeriods(period.PeriodFrom, req.PeriodTo, req.ClientCode, contract.View )
 						discountAmount := amount * period.DiscountPercent / 100
 						RbDTO.DiscountAmount = discountAmount
+						RbDTO.StartDate = period.PeriodFrom
+						RbDTO.EndDate = req.PeriodTo
 						rbDTOsl = append(rbDTOsl, RbDTO)
 						
 					}else if (reqperiodFrom.After(periodFrom) || reqperiodFrom.Equal(periodFrom)) && (periodTo.After(reqperiodTo)  || reqperiodTo.Equal(periodTo)){
 					//}else if (reqperiodFrom.After(periodFrom) &&  periodTo.After(reqperiodTo)) || (reqperiodFrom.Equal(periodFrom) && reqperiodTo.Equal(periodTo)){
+						//#3
+
 						amount := GetSalesByPeriods(req.PeriodFrom, req.PeriodTo, req.ClientCode, contract.View)
 						discountAmount := amount * period.DiscountPercent / 100
 						RbDTO.DiscountAmount = discountAmount
+						RbDTO.StartDate = req.PeriodFrom
+						RbDTO.EndDate = req.PeriodTo
 						rbDTOsl = append(rbDTOsl, RbDTO)
 						
 						
