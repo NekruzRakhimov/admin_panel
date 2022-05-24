@@ -144,7 +144,7 @@ type ContractParameters struct {
 	Prepayment                float32  `json:"prepayment,omitempty"`
 	DateOfDelivery            string   `json:"date_of_delivery,omitempty"`
 	FrequencyDeferredDiscount string   `json:"frequency_deferred_discount,omitempty"` //Кратность расчета отложенной скидки TODO: возможно нужно поменять
-	DeliveryAddress           []string `json:"delivery_address,omitempty"`
+	DeliveryAddress           []string `json:"delivery_address"`
 	DeliveryTimeInterval      int      `json:"delivery_time_interval,omitempty"` //интервал времени поставки после поступления денежых средств
 	ReturnTimeDelivery        int      `json:"return_time_delivery,omitempty"`   //время возврата при условии не поставки
 	ContractDate              string   `json:"contract_date,omitempty"`
