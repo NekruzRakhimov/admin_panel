@@ -281,20 +281,7 @@ func GetRB17ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 					periodTo, _ := ConvertStringTime(period.PeriodTo)
 					reqperiodFrom, _ := ConvertStringTime(req.PeriodFrom)
 					reqperiodTo, _ := ConvertStringTime(req.PeriodTo)
-					//fmt.Println(reqperiodFrom.Before(periodFrom) || reqperiodFrom.Equal(periodFrom) && reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo))
-					fmt.Println("reqperiodFrom.Before(periodFrom) || reqperiodFrom.Equal(periodFrom)", reqperiodFrom.Before(periodFrom) || reqperiodFrom.Equal(periodFrom))
-					fmt.Println("reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo)", reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo))
-					//fmt.Println("periodTo", periodTo)
-					//fmt.Println("reqperiodFrom", reqperiodFrom)
-					//fmt.Println("reqperiodTo", reqperiodTo)
-					fmt.Println("ПЕРИОДЫ", period)
-					//if reqperiodFrom.Before(periodFrom) || reqperiodFrom.Equal(periodFrom) {
-					//	if reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo) {
 
-					//sales, _ := GetSales(reqBrand)
-					//sales, _ := GetSalesNEw(reqBrand)
-
-					//amount := CountSales(sales)
 					RbDTO := models.RbDTO{
 						ContractNumber:  contract.ContractParameters.ContractNumber,
 						StartDate:       period.PeriodFrom,
@@ -316,6 +303,9 @@ func GetRB17ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 						amount := GetSalesByPeriods(req.PeriodFrom, period.PeriodTo, req.ClientCode, contract.View)
 						discountAmount := amount * period.DiscountPercent / 100
 						RbDTO.DiscountAmount = discountAmount
+						RbDTO.StartDate = req.PeriodFrom
+						RbDTO.EndDate = period.PeriodTo
+
 						rbDTOsl = append(rbDTOsl, RbDTO)
 						// брать продажи ДНО и ДКП
 
@@ -357,6 +347,10 @@ func GetRB17ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 						amount := GetSalesByPeriods(period.PeriodFrom, period.PeriodTo, req.ClientCode, contract.View)
 						discountAmount := amount * period.DiscountPercent / 100
 						RbDTO.DiscountAmount = discountAmount
+						RbDTO.StartDate = period.PeriodFrom
+						RbDTO.EndDate = period.PeriodTo
+
+
 						rbDTOsl = append(rbDTOsl, RbDTO)
 
 						RbDTO.StartDate = req.PeriodFrom
