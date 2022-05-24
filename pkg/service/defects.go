@@ -112,7 +112,7 @@ func FormExcelDefects(filteredDefects []models.DefectsFiltered) error {
 		f.SetCellValue(defectsSheet, fmt.Sprintf("C%d", i), defect.StoreName) //Аптека
 		i++
 		for _, subDefect := range defect.SubDefects {
-			storeSaldoQnt, err := strconv.Atoi(subDefect.StoreSaldoQnt)
+			storeSaldoQnt, err := strconv.ParseFloat(subDefect.StoreSaldoQnt, 2)
 			if err != nil {
 				return err
 			}
@@ -149,7 +149,7 @@ func FormExcelDefects(filteredDefects []models.DefectsFiltered) error {
 
 			f.SetCellValue(defectsSheet, fmt.Sprintf("M%d", i), (float64(len(defect.SubDefects))*price)*float64(matrixProductQnt)) //% дефектуры от АМ
 			f.SetCellValue(defectsSheet, fmt.Sprintf("N%d", i), storeSaldoQnt)                                                     // наличие продукции на складе
-			f.SetCellValue(defectsSheet, fmt.Sprintf("O%d", i), float64(storeSaldoQnt)*price)                                      // наличие продукции на складе - в суммарном выражении
+			f.SetCellValue(defectsSheet, fmt.Sprintf("O%d", i), storeSaldoQnt*price)                                               // наличие продукции на складе - в суммарном выражении
 			f.SetCellValue(defectsSheet, fmt.Sprintf("P%d", i), price)                                                             // Закупочная цена
 
 			i++
