@@ -159,7 +159,7 @@ type ContractParametersDTOFor1C struct {
 	ContractAmount            float64 `json:"contract_amount"`
 	Currency                  string  `json:"currency,omitempty"`
 	Prepayment                float32 `json:"prepayment,omitempty"`
-	DateOfDelivery            string  `json:"date_of_delivery,omitempty"`
+	DateOfDelivery            string  `json:"date_of_delivery"`
 	FrequencyDeferredDiscount string  `json:"frequency_deferred_discount,omitempty"` //Кратность расчета отложенной скидки TODO: возможно нужно поменять
 	DeliveryAddress           string  `json:"delivery_address,omitempty"`
 	DeliveryTimeInterval      int     `json:"delivery_time_interval,omitempty"` //интервал времени поставки после поступления денежых средств
