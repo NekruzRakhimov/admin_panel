@@ -71,16 +71,18 @@ func GetDefectsPF(req models.DefectsRequest) (filteredDefects []models.DefectsFi
 	req.IsPF = true
 	log.Println(time.Now(), " Started Getting Defects from 1C")
 	fmt.Println(time.Now(), " Started Getting Defects from 1C")
+	now := time.Now()
 	defects, err := GetDefectsExt(req)
 	if err != nil {
 		return nil, err
 	}
-	log.Println(time.Now(), " Finished Getting Defects from 1C")
-	fmt.Println(time.Now(), " Finished Getting Defects from 1C")
+	log.Println(time.Now(), " Finished Getting Defects from 1C: durance[", time.Now().Sub(now), "]")
+	fmt.Println(time.Now(), " Finished Getting Defects from 1C: durance[", time.Now().Sub(now), "]")
 	var checkedCodes []string
 
 	log.Println(time.Now(), " Started Filtering data into Stores")
 	fmt.Println(time.Now(), " Started Filtering data into Stores")
+	now = time.Now()
 	for i, defect := range defects {
 		if !StrArrContainsEl(checkedCodes, defect.StoreCode) {
 			defectsFiltered := models.DefectsFiltered{
@@ -96,15 +98,16 @@ func GetDefectsPF(req models.DefectsRequest) (filteredDefects []models.DefectsFi
 			filteredDefects = append(filteredDefects, defectsFiltered)
 		}
 	}
-	log.Println(time.Now(), "Finished Filtering data into Stores")
-	fmt.Println(time.Now(), "Finished Filtering data into Stores")
+	log.Println(time.Now(), "Finished Filtering data into Stores: durance[", time.Now().Sub(now), "]")
+	fmt.Println(time.Now(), "Finished Filtering data into Stores: durance[", time.Now().Sub(now), "]")
 
 	log.Println(time.Now(), "Start Forming excel")
 	fmt.Println(time.Now(), "Start Forming excel")
+	now = time.Now()
 	if err = FormExcelDefectsPF(req, filteredDefects); err != nil {
 		return nil, err
 	}
-	log.Println(time.Now(), "Finished Forming excel")
+	log.Println(time.Now(), "Finished Forming excel: durance[", time.Now().Sub(now), "]")
 	fmt.Println(time.Now(), "Finished Forming excel")
 
 	return filteredDefects, nil

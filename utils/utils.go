@@ -36,7 +36,7 @@ func ReverseString(s string) (result string) {
 func FloatToMoneyFormat(numIn float64) (numOut string) {
 	counter := 0
 	temp := fmt.Sprintf("%.2f", numIn)
-	fmt.Println(temp)
+	//fmt.Println(temp)
 	temp = ReverseString(temp)
 
 	for i := 0; i < len(temp); i++ {

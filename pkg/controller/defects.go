@@ -26,6 +26,7 @@ func GetDefectsByPharmacyPF(c *gin.Context) {
 	}
 	log.Println(time.Now(), " Started Defects - Main")
 	fmt.Println(time.Now(), " Started Defects - Main")
+	mainTime := time.Now()
 	_, err := service.GetDefectsPF(req)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
@@ -37,8 +38,8 @@ func GetDefectsByPharmacyPF(c *gin.Context) {
 	//c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 	//c.File("./files/defects/defects_pharmacy.xlsx")
 
-	log.Println(time.Now(), " Finished Defects - Main")
-	fmt.Println(time.Now(), " Finished Defects - Main")
+	log.Println(time.Now(), " Finished Defects - Main: durance[", time.Now().Sub(mainTime), "]")
+	fmt.Println(time.Now(), " Finished Defects - Main: durance[", time.Now().Sub(mainTime), "]")
 	c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 	c.File("./files/defects/res.xlsx")
 }
