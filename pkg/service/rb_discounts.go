@@ -6,6 +6,7 @@ import (
 	"admin_panel/utils"
 	"fmt"
 	"log"
+	"strconv"
 	"time"
 )
 
@@ -1137,13 +1138,18 @@ func GetRB8thType(request models.RBRequest, contracts []models.Contract) ([]mode
 
 		for _, discount := range contract.Discounts {
 			if discount.Code == "DISCOUNT_FOR_LEASE_GENERAL" && discount.IsSelected == true {
+				total := totalAmount * discount.DiscountPercent / 100
+				sprintf := fmt.Sprintf("%8.2f", total)
+				fmt.Println(sprintf, "SS")
+
+				totalAmount, _ := strconv.ParseFloat(sprintf, 64)
 				rb := models.RbDTO{
 					ID:              contract.ID,
 					ContractNumber:  contract.ContractParameters.ContractNumber,
 					StartDate:        request.PeriodFrom,
 					EndDate:         request.PeriodTo,
 					DiscountPercent: discount.DiscountPercent,
-					DiscountAmount:  totalAmount * discount.DiscountPercent / 100,
+					DiscountAmount:  totalAmount,
 					DiscountType:    RB8Name,
 				}
 
