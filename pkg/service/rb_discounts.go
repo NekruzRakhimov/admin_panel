@@ -223,7 +223,8 @@ func FillRbwithPeriod(period models.DiscountPeriod, req models.RBRequest, contra
 		RbDTO.StartDate = period.PeriodTo
 		RbDTO.EndDate = req.PeriodTo
 		RbDTO.DiscountAmount = 0
-		RbDTO.DiscountType = "Нет скидок"
+		//RbDTO.DiscountType = "Нет скидок"
+		RbDTO.DiscountType = "Кейс #1"
 		rbDTOsl = append(rbDTOsl, RbDTO)
 
 	}else if (periodFrom.After(reqperiodFrom) || reqperiodFrom.Equal(periodFrom)) && (periodTo.After(reqperiodTo) || reqperiodTo.Equal(periodTo)) {
@@ -236,7 +237,8 @@ func FillRbwithPeriod(period models.DiscountPeriod, req models.RBRequest, contra
 		RbDTO.StartDate = req.PeriodFrom
 		RbDTO.EndDate = period.PeriodFrom
 		RbDTO.DiscountAmount = 0
-		RbDTO.DiscountType = "Нет скидок"
+		//RbDTO.DiscountType = "Нет скидок"
+		RbDTO.DiscountType = "Кейс #2"
 		rbDTOsl = append(rbDTOsl, RbDTO)
 
 	} else if (reqperiodFrom.After(periodFrom) || reqperiodFrom.Equal(periodFrom)) && (periodTo.After(reqperiodTo) || reqperiodTo.Equal(periodTo)) {
@@ -267,8 +269,9 @@ func FillRbwithPeriod(period models.DiscountPeriod, req models.RBRequest, contra
 		RbDTO.StartDate = req.PeriodFrom
 		RbDTO.EndDate = period.PeriodFrom
 		RbDTO.DiscountAmount = 0
-		RbDTO.DiscountType = "Нет скидок"
+		RbDTO.DiscountType = "Кейс #4 от начала периода"
 		rbDTOsl = append(rbDTOsl, RbDTO)
+		RbDTO.DiscountType = "Кейс #4 от конца периода"
 		RbDTO.StartDate = period.PeriodTo
 		RbDTO.EndDate =  req.PeriodTo
 
