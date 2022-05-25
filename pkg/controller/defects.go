@@ -5,7 +5,9 @@ import (
 	"admin_panel/pkg/service"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
+	"time"
 )
 
 func GetDefectsByPharmacyPF(c *gin.Context) {
@@ -22,7 +24,8 @@ func GetDefectsByPharmacyPF(c *gin.Context) {
 		Startdate: date.Date,
 		Enddate:   date.Date,
 	}
-
+	log.Println(time.Now(), " Started Defects - Main")
+	fmt.Println(time.Now(), " Started Defects - Main")
 	_, err := service.GetDefectsPF(req)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
@@ -34,6 +37,8 @@ func GetDefectsByPharmacyPF(c *gin.Context) {
 	//c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 	//c.File("./files/defects/defects_pharmacy.xlsx")
 
+	log.Println(time.Now(), " Finished Defects - Main")
+	fmt.Println(time.Now(), " Finished Defects - Main")
 	c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 	c.File("./files/defects/res.xlsx")
 }

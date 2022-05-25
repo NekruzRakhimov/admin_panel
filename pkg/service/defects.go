@@ -11,6 +11,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 const defectsSheet = "TDSheet"
@@ -68,12 +69,18 @@ func GetDefectsExt(req models.DefectsRequest) (defects []models.Defect, err erro
 func GetDefectsPF(req models.DefectsRequest) (filteredDefects []models.DefectsFiltered, err error) {
 	//var filteredDefects []models.DefectsFiltered
 	req.IsPF = true
+	log.Println(time.Now(), " Started Getting Defects from 1C")
+	fmt.Println(time.Now(), " Started Getting Defects from 1C")
 	defects, err := GetDefectsExt(req)
 	if err != nil {
 		return nil, err
 	}
+	log.Println(time.Now(), " Finished Getting Defects from 1C")
+	fmt.Println(time.Now(), " Finished Getting Defects from 1C")
 	var checkedCodes []string
 
+	log.Println(time.Now(), " Started Filtering data into Stores")
+	fmt.Println(time.Now(), " Started Filtering data into Stores")
 	for i, defect := range defects {
 		if !StrArrContainsEl(checkedCodes, defect.StoreCode) {
 			defectsFiltered := models.DefectsFiltered{
@@ -89,10 +96,16 @@ func GetDefectsPF(req models.DefectsRequest) (filteredDefects []models.DefectsFi
 			filteredDefects = append(filteredDefects, defectsFiltered)
 		}
 	}
+	log.Println(time.Now(), "Finished Filtering data into Stores")
+	fmt.Println(time.Now(), "Finished Filtering data into Stores")
 
+	log.Println(time.Now(), "Start Forming excel")
+	fmt.Println(time.Now(), "Start Forming excel")
 	if err = FormExcelDefectsPF(req, filteredDefects); err != nil {
 		return nil, err
 	}
+	log.Println(time.Now(), "Finished Forming excel")
+	fmt.Println(time.Now(), "Finished Forming excel")
 
 	return filteredDefects, nil
 }
@@ -185,30 +198,30 @@ func FormExcelDefectsPF(req models.DefectsRequest, filteredDefects []models.Defe
 		)
 		i++
 		for _, subDefect := range defect.SubDefects {
-			storeSaldoQnt, err := strconv.ParseFloat(subDefect.StoreSaldoQnt, 2)
-			if err != nil {
-				return err
-			}
+			storeSaldoQnt, _ := strconv.ParseFloat(subDefect.StoreSaldoQnt, 2)
+			//if err != nil {
+			//	return err
+			//}
 
-			defectQnt, err := strconv.Atoi(subDefect.DefectQnt)
-			if err != nil {
-				return err
-			}
+			defectQnt, _ := strconv.Atoi(subDefect.DefectQnt)
+			//if err != nil {
+			//	return err
+			//}
 
-			matrixProductQnt, err := strconv.Atoi(subDefect.MatrixProductQnt)
-			if err != nil {
-				return err
-			}
+			matrixProductQnt, _ := strconv.Atoi(subDefect.MatrixProductQnt)
+			//if err != nil {
+			//	return err
+			//}
 
-			price, err := strconv.ParseFloat(subDefect.DefectPrice, 2)
-			if err != nil {
-				return err
-			}
+			price, _ := strconv.ParseFloat(subDefect.DefectPrice, 2)
+			//if err != nil {
+			//	return err
+			//}
 
-			matrixSales, err := strconv.ParseFloat(subDefect.MatrixSales, 2)
-			if err != nil {
-				return err
-			}
+			matrixSales, _ := strconv.ParseFloat(subDefect.MatrixSales, 2)
+			//if err != nil {
+			//	return err
+			//}
 
 			f.SetCellValue(defectsSheet, fmt.Sprintf("B%d", i), subDefect.ProductName) //Наименование
 			f.SetCellValue(defectsSheet, fmt.Sprintf("C%d", i), subDefect.ProductCode) //код 1С
@@ -319,27 +332,27 @@ func FormExcelDefectsLS(req models.DefectsRequest, filteredDefects []models.Defe
 		)
 		i++
 		for _, subDefect := range defect.SubDefects {
-			storeSaldoQnt, err := strconv.ParseFloat(subDefect.StoreSaldoQnt, 2)
+			storeSaldoQnt, _ := strconv.ParseFloat(subDefect.StoreSaldoQnt, 2)
 			if err != nil {
 				return err
 			}
 
-			defectQnt, err := strconv.Atoi(subDefect.DefectQnt)
+			defectQnt, _ := strconv.Atoi(subDefect.DefectQnt)
 			if err != nil {
 				return err
 			}
 
-			matrixProductQnt, err := strconv.Atoi(subDefect.MatrixProductQnt)
+			matrixProductQnt, _ := strconv.Atoi(subDefect.MatrixProductQnt)
 			if err != nil {
 				return err
 			}
 
-			price, err := strconv.ParseFloat(subDefect.DefectPrice, 2)
+			price, _ := strconv.ParseFloat(subDefect.DefectPrice, 2)
 			if err != nil {
 				return err
 			}
 
-			matrixSales, err := strconv.ParseFloat(subDefect.MatrixSales, 2)
+			matrixSales, _ := strconv.ParseFloat(subDefect.MatrixSales, 2)
 			if err != nil {
 				return err
 			}
