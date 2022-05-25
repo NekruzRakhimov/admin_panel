@@ -685,17 +685,19 @@ func GetRB3rdType(request models.RBRequest, contracts []models.Contract) ([]mode
 				for _, product := range discount.Products {
 					//total := GetTotalSalesForSku(sales, product.Sku)
 					rb := models.RbDTO{
-						ID:              contract.ID,
-						ContractNumber:  contract.ContractParameters.ContractNumber,
-						StartDate:       contract.ContractParameters.StartDate,
-						EndDate:         contract.ContractParameters.EndDate,
-						ProductCode:     product.Sku,
-						DiscountPercent: product.DiscountPercent,
-						LeasePlan:       product.Plan,
-						DiscountType:    RB3Name,
+						ID:                   contract.ID,
+						ContractNumber:       contract.ContractParameters.ContractNumber,
+						StartDate:            contract.ContractParameters.StartDate,
+						EndDate:              contract.ContractParameters.EndDate,
+						ProductCode:          product.Sku,
+						DiscountPercent:      product.DiscountPercent,
+						TotalWithoutDiscount: totalAmount,
+						LeasePlan:            product.Plan,
+						DiscountType:         RB3Name,
 					}
 					if totalAmount >= product.Plan {
 						rb.DiscountAmount = totalAmount * rb.DiscountPercent / 100
+
 					} else {
 						rb.DiscountAmount = 0
 					}
@@ -887,14 +889,15 @@ func RB5thTypeDetails(request models.RBRequest, contract models.Contract, discou
 
 				rbDTO = append(rbDTO, models.RbDTO{
 
-					ContractNumber:  contract.ContractParameters.ContractNumber,
-					StartDate:       discountBrand.PeriodFrom,
-					EndDate:         discountBrand.PeriodTo,
-					BrandName:       brand.BrandName,
-					ProductCode:     brand.BrandCode,
-					DiscountPercent: brand.DiscountPercent,
-					DiscountAmount:  discountAmount,
-					DiscountType:    RB5Name,
+					ContractNumber:       contract.ContractParameters.ContractNumber,
+					StartDate:            discountBrand.PeriodFrom,
+					EndDate:              discountBrand.PeriodTo,
+					BrandName:            brand.BrandName,
+					ProductCode:          brand.BrandCode,
+					DiscountPercent:      brand.DiscountPercent,
+					DiscountAmount:       discountAmount,
+					TotalWithoutDiscount: totalAmount,
+					DiscountType:         RB5Name,
 				})
 			}
 		}
@@ -1210,13 +1213,14 @@ func GetRB9thType(request models.RBRequest, contracts []models.Contract) ([]mode
 		for _, discount := range contract.Discounts {
 			if discount.Code == RB9Code && discount.IsSelected == true {
 				rb := models.RbDTO{
-					ID:              contract.ID,
-					ContractNumber:  contract.ContractParameters.ContractNumber,
-					StartDate:       contract.ContractParameters.StartDate,
-					EndDate:         contract.ContractParameters.EndDate,
-					DiscountPercent: discount.DiscountPercent,
-					DiscountAmount:  totalAmount * discount.DiscountPercent / 100,
-					DiscountType:    RB9Name,
+					ID:                   contract.ID,
+					ContractNumber:       contract.ContractParameters.ContractNumber,
+					StartDate:            contract.ContractParameters.StartDate,
+					EndDate:              contract.ContractParameters.EndDate,
+					DiscountPercent:      discount.DiscountPercent,
+					DiscountAmount:       totalAmount * discount.DiscountPercent / 100,
+					TotalWithoutDiscount: totalAmount,
+					DiscountType:         RB9Name,
 				}
 
 				RBs = append(RBs, rb)
@@ -1258,12 +1262,13 @@ func GetRb10thType(request models.RBRequest, contracts []models.Contract) (rbDTO
 					discountAmount = innerSalesTotal * discount.DiscountPercent / 100
 				}
 				rbDTO = append(rbDTO, models.RbDTO{
-					ContractNumber:  contract.ContractParameters.ContractNumber,
-					StartDate:       request.PeriodTo,
-					EndDate:         request.PeriodFrom,
-					DiscountPercent: discount.DiscountPercent,
-					DiscountAmount:  discountAmount,
-					DiscountType:    RB10Name,
+					ContractNumber:       contract.ContractParameters.ContractNumber,
+					StartDate:            request.PeriodTo,
+					EndDate:              request.PeriodFrom,
+					DiscountPercent:      discount.DiscountPercent,
+					DiscountAmount:       discountAmount,
+					TotalWithoutDiscount: innerSalesTotal,
+					DiscountType:         RB10Name,
 				})
 
 			}
@@ -1305,7 +1310,7 @@ func GetRB11thType(req models.RBRequest, contracts []models.Contract) ([]models.
 							TypePeriod:           period.Name,
 							DiscountPercent:      period.DiscountPercent,
 							DiscountAmount:       discountAmount,
-							TotalWithoutDiscount: totalPurchaseAmount - discountAmount,
+							TotalWithoutDiscount: totalPurchaseAmount,
 							LeasePlan:            period.PurchaseAmount,
 							DiscountType:         RB11Name,
 						})
