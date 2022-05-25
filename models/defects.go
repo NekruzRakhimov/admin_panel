@@ -33,6 +33,7 @@ type DefectsFiltered struct {
 type DefectsRequest struct {
 	Startdate string `json:"startdate"`
 	Enddate   string `json:"enddate"`
+	IsPF      bool   `json:"isPf"`
 }
 
 type SalesCountRequest struct {

@@ -67,6 +67,7 @@ func GetDefectsExt(req models.DefectsRequest) (defects []models.Defect, err erro
 
 func GetDefectsPF(req models.DefectsRequest) (filteredDefects []models.DefectsFiltered, err error) {
 	//var filteredDefects []models.DefectsFiltered
+	req.IsPF = true
 	defects, err := GetDefectsExt(req)
 	if err != nil {
 		return nil, err
@@ -98,6 +99,7 @@ func GetDefectsPF(req models.DefectsRequest) (filteredDefects []models.DefectsFi
 
 func GetDefectsLS(req models.DefectsRequest) (filteredDefects []models.DefectsFiltered, err error) {
 	//var filteredDefects []models.DefectsFiltered
+	req.IsPF = false
 	defects, err := GetDefectsExt(req)
 	if err != nil {
 		return nil, err
@@ -105,14 +107,14 @@ func GetDefectsLS(req models.DefectsRequest) (filteredDefects []models.DefectsFi
 	var checkedCodes []string
 
 	for i, defect := range defects {
-		isPF, err := strconv.ParseBool(defect.PF)
-		if err != nil {
-			return nil, err
-		}
+		//isPF, err := strconv.ParseBool(defect.PF)
+		//if err != nil {
+		//	return nil, err
+		//}
 
-		if isPF {
-			continue
-		}
+		//if isPF {
+		//	continue
+		//}
 
 		if !StrArrContainsEl(checkedCodes, defect.StoreCode) {
 			defectsFiltered := models.DefectsFiltered{
