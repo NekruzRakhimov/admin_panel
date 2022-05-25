@@ -53,10 +53,10 @@ func FloatToMoneyFormat(numIn float64) (numOut string) {
 		numOut = string(temp[i]) + numOut
 		counter++
 
-		fmt.Println("i: ", i)
-		fmt.Println("	temp[i]: ", string(temp[i]))
-		fmt.Println("	counter: ", counter)
-		fmt.Println("	numOut: ", numOut)
+		//fmt.Println("i: ", i)
+		//fmt.Println("	temp[i]: ", string(temp[i]))
+		//fmt.Println("	counter: ", counter)
+		//fmt.Println("	numOut: ", numOut)
 	}
 
 	return numOut
