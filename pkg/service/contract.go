@@ -342,6 +342,7 @@ func ConformContract(contractId int, status string) error {
 	contractFor1C.Requisites.BIN = contractFor1C.Requisites.ClientCode
 	fmt.Println("contractFor1C.Requisites.ClientCode", contractFor1C.Requisites.ClientCode)
 	fmt.Println("contractFor1C.Requisites.BIN", contractFor1C.Requisites.BIN)
+	fmt.Println("ADREES", contractFor1C.ContractParameters.DeliveryAddress)
 
 	respFrom1C, err := SaveContract1C(contractFor1C)
 	if err != nil {
