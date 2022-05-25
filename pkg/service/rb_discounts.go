@@ -192,7 +192,7 @@ func GetRB16ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 	return rbDTOsl, nil
 }
 
-func FillRbwithPeriod(period models.DiscountPeriod, req models.RBRequest, contract models.Contract, RBNAME string) []models.RbDTO  {
+func FillRbwithPeriod(period models.DiscountPeriod, req models.RBRequest, contract models.Contract, RBNAME string) []models.RbDTO {
 	var rbDTOsl []models.RbDTO
 	periodFrom, _ := ConvertStringTime(period.PeriodFrom)
 	periodTo, _ := ConvertStringTime(period.PeriodTo)
@@ -228,7 +228,7 @@ func FillRbwithPeriod(period models.DiscountPeriod, req models.RBRequest, contra
 		RbDTO.DiscountType = "Кейс #1"
 		rbDTOsl = append(rbDTOsl, RbDTO)
 
-	}else if (periodFrom.After(reqperiodFrom) || reqperiodFrom.Equal(periodFrom)) && (periodTo.After(reqperiodTo) || reqperiodTo.Equal(periodTo)) {
+	} else if (periodFrom.After(reqperiodFrom) || reqperiodFrom.Equal(periodFrom)) && (periodTo.After(reqperiodTo) || reqperiodTo.Equal(periodTo)) {
 		amount := GetSalesByPeriods(period.PeriodFrom, req.PeriodTo, req.ClientCode, contract.View)
 		discountAmount := amount * period.DiscountPercent / 100
 		RbDTO.DiscountAmount = discountAmount
@@ -252,9 +252,6 @@ func FillRbwithPeriod(period models.DiscountPeriod, req models.RBRequest, contra
 		RbDTO.EndDate = req.PeriodTo
 		rbDTOsl = append(rbDTOsl, RbDTO)
 
-
-
-
 		//4 кейс
 	} else if (periodFrom.After(reqperiodFrom) || reqperiodFrom.Equal(periodFrom)) && (reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo)) {
 		//}else if ( periodFrom.After(reqperiodFrom) && reqperiodTo.After(periodTo)) || (reqperiodFrom.Equal(periodFrom) && reqperiodTo.Equal(periodTo)){
@@ -263,7 +260,6 @@ func FillRbwithPeriod(period models.DiscountPeriod, req models.RBRequest, contra
 		RbDTO.DiscountAmount = discountAmount
 		RbDTO.StartDate = period.PeriodFrom
 		RbDTO.EndDate = period.PeriodTo
-
 
 		rbDTOsl = append(rbDTOsl, RbDTO)
 
@@ -274,7 +270,7 @@ func FillRbwithPeriod(period models.DiscountPeriod, req models.RBRequest, contra
 		rbDTOsl = append(rbDTOsl, RbDTO)
 		RbDTO.DiscountType = "Кейс #4 от конца периода"
 		RbDTO.StartDate = period.PeriodTo
-		RbDTO.EndDate =  req.PeriodTo
+		RbDTO.EndDate = req.PeriodTo
 
 		rbDTOsl = append(rbDTOsl, RbDTO)
 
@@ -356,7 +352,7 @@ func GetRB17ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 						RbDTO.DiscountType = "Кейс #1"
 						rbDTOsl = append(rbDTOsl, RbDTO)
 
-					}else if (periodFrom.After(reqperiodFrom) || reqperiodFrom.Equal(periodFrom)) && (periodTo.After(reqperiodTo) || reqperiodTo.Equal(periodTo)) {
+					} else if (periodFrom.After(reqperiodFrom) || reqperiodFrom.Equal(periodFrom)) && (periodTo.After(reqperiodTo) || reqperiodTo.Equal(periodTo)) {
 						amount := GetSalesByPeriods(period.PeriodFrom, req.PeriodTo, req.ClientCode, contract.View)
 						discountAmount := amount * period.DiscountPercent / 100
 						RbDTO.DiscountAmount = discountAmount
@@ -380,9 +376,6 @@ func GetRB17ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 						RbDTO.EndDate = req.PeriodTo
 						rbDTOsl = append(rbDTOsl, RbDTO)
 
-
-
-
 						//4 кейс
 					} else if (periodFrom.After(reqperiodFrom) || reqperiodFrom.Equal(periodFrom)) && (reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo)) {
 						//}else if ( periodFrom.After(reqperiodFrom) && reqperiodTo.After(periodTo)) || (reqperiodFrom.Equal(periodFrom) && reqperiodTo.Equal(periodTo)){
@@ -391,7 +384,6 @@ func GetRB17ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 						RbDTO.DiscountAmount = discountAmount
 						RbDTO.StartDate = period.PeriodFrom
 						RbDTO.EndDate = period.PeriodTo
-
 
 						rbDTOsl = append(rbDTOsl, RbDTO)
 
@@ -402,7 +394,7 @@ func GetRB17ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 						rbDTOsl = append(rbDTOsl, RbDTO)
 						RbDTO.DiscountType = "Кейс #4 (конец)"
 						RbDTO.StartDate = period.PeriodTo
-						RbDTO.EndDate =  req.PeriodTo
+						RbDTO.EndDate = req.PeriodTo
 
 						rbDTOsl = append(rbDTOsl, RbDTO)
 
@@ -1133,24 +1125,25 @@ func GetRB8thType(request models.RBRequest, contracts []models.Contract) ([]mode
 			//Contracts:      contractsCode, // необходимо получить коды контрактов
 			SchemeType: contract.View,
 		}
-		purchase, _ := GetPurchase(reqBrand)
-		totalAmount := GetPurchaseTotalAmount(purchase)
 
 		for _, discount := range contract.Discounts {
 			if discount.Code == "DISCOUNT_FOR_LEASE_GENERAL" && discount.IsSelected == true {
+				purchase, _ := GetPurchase(reqBrand)
+				totalAmount := GetPurchaseTotalAmount(purchase)
 				total := totalAmount * discount.DiscountPercent / 100
 				sprintf := fmt.Sprintf("%8.2f", total)
 				fmt.Println(sprintf, "SS")
 
-				totalAmount, _ := strconv.ParseFloat(sprintf, 64)
+				amount, _ := strconv.ParseFloat(sprintf, 64)
 				rb := models.RbDTO{
-					ID:              contract.ID,
-					ContractNumber:  contract.ContractParameters.ContractNumber,
-					StartDate:        request.PeriodFrom,
-					EndDate:         request.PeriodTo,
-					DiscountPercent: discount.DiscountPercent,
-					DiscountAmount:  totalAmount,
-					DiscountType:    RB8Name,
+					ID:                   contract.ID,
+					ContractNumber:       contract.ContractParameters.ContractNumber,
+					StartDate:            request.PeriodFrom,
+					EndDate:              request.PeriodTo,
+					DiscountPercent:      discount.DiscountPercent,
+					DiscountAmount:       amount,
+					TotalWithoutDiscount: totalAmount,
+					DiscountType:         RB8Name,
 				}
 
 				RBs = append(RBs, rb)
