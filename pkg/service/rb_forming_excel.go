@@ -541,11 +541,11 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		}
 
 		f.NewSheet(RB8Name)
-		f.SetCellValue(RB8Name, "A1", "Период")
-		f.SetCellValue(RB8Name, "B1", "Номер договора/ДС")
-		f.SetCellValue(RB8Name, "C1", "Тип скидки")
-		f.SetCellValue(RB8Name, "D1", "Скидка %")
-		f.SetCellValue(RB8Name, "E1", "Сумма скидки")
+		f.SetCellValue(RB8Name, "A1", "Период                    ")
+		f.SetCellValue(RB8Name, "B1", "Номер договора/ДС         ")
+		f.SetCellValue(RB8Name, "C1", "Тип скидки                ")
+		f.SetCellValue(RB8Name, "D1", "Скидка %                  ")
+		f.SetCellValue(RB8Name, "E1", "Сумма скидки              ")
 		err = f.SetCellStyle(RB8Name, "A1", "E1", style)
 
 		var totalDiscountsSum float64
