@@ -11,6 +11,8 @@ type DefectsFile struct {
 }
 
 type Defect struct {
+	MainDrugStore    string `json:"main_drug_store"`
+	PF               string `json:"PF"`
 	ProductCode      string `json:"product_code"`
 	ProductName      string `json:"product_name"`
 	StoreCode        string `json:"store_code"`

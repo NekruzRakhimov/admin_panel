@@ -38,6 +38,36 @@ func GetDefectsByPharmacyPF(c *gin.Context) {
 	c.File("./files/defects/res.xlsx")
 }
 
+func GetDefectsByPharmacyLS(c *gin.Context) {
+	date := struct {
+		Date string `json:"date"`
+	}{}
+
+	if err := c.BindJSON(&date); err != nil {
+		c.JSON(http.StatusOK, gin.H{"reason": err.Error()})
+		return
+	}
+
+	req := models.DefectsRequest{
+		Startdate: date.Date,
+		Enddate:   date.Date,
+	}
+
+	_, err := service.GetDefectsLS(req)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	//c.JSON(http.StatusOK, res)
+
+	//c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	//c.File("./files/defects/defects_pharmacy.xlsx")
+
+	c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	c.File("./files/defects/res_ls.xlsx")
+}
+
 const TempData = " 00:00:00"
 
 func GetSalesCount(c *gin.Context) {
