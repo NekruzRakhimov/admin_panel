@@ -185,16 +185,16 @@ func FormExcelForRBReport(request models.RBRequest) error {
 				isRB7 = true
 			}
 			if discount.Code == RB8Code && discount.IsSelected {
-				isRB7 = true
+				isRB8 = true
 			}
 			if discount.Code == RB9Code && discount.IsSelected {
-				isRB7 = true
+				isRB9 = true
 			}
 			if discount.Code == RB10Code && discount.IsSelected {
 				isRB10 = true
 			}
 			if discount.Code == RB11Code && discount.IsSelected {
-				isRB10 = true
+				isRB11 = true
 			}
 			if discount.Code == RB12Code && discount.IsSelected {
 				isRB12 = true
@@ -541,11 +541,11 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		}
 
 		f.NewSheet(RB8Name)
-		f.SetCellValue(RB8Name, "A1", "Период")
-		f.SetCellValue(RB8Name, "B1", "Номер договора/ДС")
-		f.SetCellValue(RB8Name, "C1", "Тип скидки")
-		f.SetCellValue(RB8Name, "D1", "Скидка %")
-		f.SetCellValue(RB8Name, "E1", "Сумма скидки")
+		f.SetCellValue(RB8Name, "A1", "Период                    ")
+		f.SetCellValue(RB8Name, "B1", "Номер договора/ДС         ")
+		f.SetCellValue(RB8Name, "C1", "Тип скидки                ")
+		f.SetCellValue(RB8Name, "D1", "Скидка %                  ")
+		f.SetCellValue(RB8Name, "E1", "Сумма скидки              ")
 		err = f.SetCellStyle(RB8Name, "A1", "E1", style)
 
 		var totalDiscountsSum float64
