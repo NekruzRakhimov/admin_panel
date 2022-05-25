@@ -1137,8 +1137,8 @@ func GetRB8thType(request models.RBRequest, contracts []models.Contract) ([]mode
 				rb := models.RbDTO{
 					ID:              contract.ID,
 					ContractNumber:  contract.ContractParameters.ContractNumber,
-					StartDate:       contract.ContractParameters.StartDate,
-					EndDate:         contract.ContractParameters.EndDate,
+					StartDate:        request.PeriodFrom,
+					EndDate:         request.PeriodTo,
 					DiscountPercent: discount.DiscountPercent,
 					DiscountAmount:  totalAmount * discount.DiscountPercent / 100,
 					DiscountType:    RB8Name,

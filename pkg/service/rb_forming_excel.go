@@ -185,16 +185,16 @@ func FormExcelForRBReport(request models.RBRequest) error {
 				isRB7 = true
 			}
 			if discount.Code == RB8Code && discount.IsSelected {
-				isRB7 = true
+				isRB8 = true
 			}
 			if discount.Code == RB9Code && discount.IsSelected {
-				isRB7 = true
+				isRB9 = true
 			}
 			if discount.Code == RB10Code && discount.IsSelected {
 				isRB10 = true
 			}
 			if discount.Code == RB11Code && discount.IsSelected {
-				isRB10 = true
+				isRB11 = true
 			}
 			if discount.Code == RB12Code && discount.IsSelected {
 				isRB12 = true
