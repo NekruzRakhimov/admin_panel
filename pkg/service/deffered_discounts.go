@@ -110,12 +110,15 @@ func FormExcelForDeferredDiscounts(request models.RBRequest) error {
 	const sheetAllPurchases = "итог"
 
 	f.NewSheet(sheetAllPurchases)
-	f.SetCellValue(sheetAllPurchases, "A1", "Бренд")
-	f.SetCellValue(sheetAllPurchases, "B1", "Номер бренда")
-	f.SetCellValue(sheetAllPurchases, "C1", "Период")
-	f.SetCellValue(sheetAllPurchases, "D1", "Стоимость")
-	f.SetCellValue(sheetAllPurchases, "E1", "Количество")
-	f.SetCellValue(sheetAllPurchases, "F1", "Итог:")
+	f.SetCellValue(sheetAllPurchases, "A1", "Вид скидки:")
+	f.SetCellValue(sheetAllPurchases, "B1", "Сумма скидки:")
+	//f.SetCellValue(sheetAllPurchases, "C1", "Период")
+	//f.SetCellValue(sheetAllPurchases, "D1", "Стоимость")
+	//f.SetCellValue(sheetAllPurchases, "E1", "Количество")
+	//f.SetCellValue(sheetAllPurchases, "F1", "Итог:")
+
+	f.SetCellValue(sheet, "A1", "Вид скидки:")
+	f.SetCellValue(sheet, "B1", "Сумма скидки:")
 
 	var lastRow int
 
