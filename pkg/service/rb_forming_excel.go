@@ -249,6 +249,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 
 	f.NewSheet(sheet)
 	ineration := 1
+	var TotalAmountDiscounts float64
 	f.SetCellValue(sheet, "A1", "Вид скидки:")
 	f.SetCellValue(sheet, "B1", "Сумма скидки:")
 	f.SetCellValue(sheet, "C1", "Итог:")
@@ -344,7 +345,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB2Name, "H1", "Тип")
 		err = f.SetCellStyle(RB2Name, "A1", "H1", style)
 
-		var totalDiscountsSum int
+		var totalDiscountsSum float64
 		for i, contract := range rbSecondType {
 			f.SetCellValue(RB2Name, fmt.Sprintf("%s%d", "A", i+2), fmt.Sprintf("%s-%s", contract.StartDate, contract.EndDate))
 			f.SetCellValue(RB2Name, fmt.Sprintf("%s%d", "B", i+2), contract.ContractNumber)
@@ -354,14 +355,22 @@ func FormExcelForRBReport(request models.RBRequest) error {
 			f.SetCellValue(RB2Name, fmt.Sprintf("%s%d", "F", i+2), utils.FloatToMoneyFormat(contract.DiscountAmount))
 			f.SetCellValue(RB2Name, fmt.Sprintf("%s%d", "G", i+2), utils.FloatToMoneyFormat(contract.TotalWithoutDiscount))
 			f.SetCellValue(RB2Name, fmt.Sprintf("%s%d", "H", i+2), "по продажам")
-			totalDiscountsSum += int(contract.DiscountAmount)
+			totalDiscountsSum += contract.DiscountAmount
+			TotalAmountDiscounts += totalDiscountsSum
+
+
 			lastRow = i + 2
 		}
 		lastRow += 1
 		f.SetCellValue(RB2Name, fmt.Sprintf("%s%d", "E", lastRow), "Итог:")
-		f.SetCellValue(RB2Name, fmt.Sprintf("%s%d", "F", lastRow), utils.FloatToMoneyFormat(float64(totalDiscountsSum)))
+		f.SetCellValue(RB2Name, fmt.Sprintf("%s%d", "F", lastRow), utils.FloatToMoneyFormat(totalDiscountsSum))
 		err = f.SetCellStyle(RB2Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
 		err = f.SetCellStyle(RB2Name, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "F", lastRow), style)
+
+		ineration++
+
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", ineration), RB2Name)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", ineration), utils.FloatToMoneyFormat(totalDiscountsSum))
 	}
 
 	if isRB3 {
@@ -397,6 +406,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 			f.SetCellValue(RB3Name, fmt.Sprintf("%s%d", "H", i+2), utils.FloatToMoneyFormat(float64(contract.TotalWithoutDiscount)))
 			f.SetCellValue(RB3Name, fmt.Sprintf("%s%d", "I", i+2), "по закупам")
 			totalDiscountsSum += contract.DiscountAmount
+			TotalAmountDiscounts += totalDiscountsSum
 			lastRow = i + 2
 			i++
 		}
@@ -405,6 +415,11 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB3Name, fmt.Sprintf("%s%d", "G", lastRow), utils.FloatToMoneyFormat(float64(totalDiscountsSum)))
 		err = f.SetCellStyle(RB3Name, fmt.Sprintf("%s%d", "F", lastRow), fmt.Sprintf("%s%d", "G", lastRow), style)
 		//err = f.SetCellStyle(RB2Name, fmt.Sprintf("%s%d", "G", lastRow), fmt.Sprintf("%s%d", "G", lastRow), style)
+
+		ineration++
+		//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", ineration), fmt.Sprintf("%s%d", "D", lastRow), style)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", ineration), RB3Name)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", ineration), utils.FloatToMoneyFormat(totalDiscountsSum))
 	}
 
 	if isRB4 {
@@ -436,6 +451,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 			f.SetCellValue(RB4Name, fmt.Sprintf("%s%d", "F", i+2), utils.FloatToMoneyFormat(contract.TotalWithoutDiscount))
 			f.SetCellValue(RB4Name, fmt.Sprintf("%s%d", "G", i+2), "по закупам")
 			totalDiscountsSum += contract.DiscountAmount
+			TotalAmountDiscounts += totalDiscountsSum
 			lastRow = i + 2
 			i++
 		}
@@ -443,6 +459,12 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB4Name, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
 		f.SetCellValue(RB4Name, fmt.Sprintf("%s%d", "E", lastRow), utils.FloatToMoneyFormat(float64(totalDiscountsSum)))
 		err = f.SetCellStyle(RB4Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "E", lastRow), style)
+
+
+		ineration++
+		//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", ineration), fmt.Sprintf("%s%d", "D", lastRow), style)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", ineration), RB4Name)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", ineration), utils.FloatToMoneyFormat(totalDiscountsSum))
 	}
 
 	if isRB5 {
@@ -462,11 +484,11 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB5Name, "D1", "Бренд")
 		f.SetCellValue(RB5Name, "E1", "Скидка %")
 		f.SetCellValue(RB5Name, "F1", "Сумма скидки")
-		f.SetCellValue(RB4Name, "G1", "Общая сумма")
-		f.SetCellValue(RB4Name, "H1", "Тип")
+		f.SetCellValue(RB5Name, "G1", "Общая сумма")
+		f.SetCellValue(RB5Name, "H1", "Тип")
 		err = f.SetCellStyle(RB5Name, "A1", "H1", style)
 
-		var totalDiscountsSum int
+		var totalDiscountsSum float64
 		for i, contract := range rb5thType {
 			f.SetCellValue(RB5Name, fmt.Sprintf("%s%d", "A", i+2), fmt.Sprintf("%s-%s", contract.StartDate, contract.EndDate))
 			f.SetCellValue(RB5Name, fmt.Sprintf("%s%d", "B", i+2), contract.ContractNumber)
@@ -476,7 +498,8 @@ func FormExcelForRBReport(request models.RBRequest) error {
 			f.SetCellValue(RB5Name, fmt.Sprintf("%s%d", "F", i+2), utils.FloatToMoneyFormat(contract.DiscountAmount))
 			f.SetCellValue(RB5Name, fmt.Sprintf("%s%d", "G", i+2), utils.FloatToMoneyFormat(contract.TotalWithoutDiscount))
 			f.SetCellValue(RB5Name, fmt.Sprintf("%s%d", "H", i+2), "по закупам")
-			totalDiscountsSum += int(contract.DiscountAmount)
+			totalDiscountsSum += contract.DiscountAmount
+			TotalAmountDiscounts += totalDiscountsSum
 			lastRow = i + 2
 		}
 		lastRow += 1
@@ -484,6 +507,11 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB5Name, fmt.Sprintf("%s%d", "F", lastRow), utils.FloatToMoneyFormat(float64(totalDiscountsSum)))
 		err = f.SetCellStyle(RB5Name, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "F", lastRow), style)
 		err = f.SetCellStyle(RB2Name, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
+
+		ineration++
+		//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", ineration), fmt.Sprintf("%s%d", "D", lastRow), style)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", ineration), RB5Name)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", ineration), utils.FloatToMoneyFormat(totalDiscountsSum))
 
 	}
 
@@ -507,8 +535,8 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB6Name, "H1", "Тип")
 		err = f.SetCellStyle(RB6Name, "A1", "H1", style)
 
-		var totalDiscountsSum int
-		var AmountDiscount float64
+		var totalDiscountsSum float64
+
 		for i, contract := range rb6thType {
 			f.SetCellValue(RB6Name, fmt.Sprintf("%s%d", "A", i+2), fmt.Sprintf("%s-%s", contract.StartDate, contract.EndDate))
 			f.SetCellValue(RB6Name, fmt.Sprintf("%s%d", "B", i+2), contract.ContractNumber)
@@ -519,8 +547,8 @@ func FormExcelForRBReport(request models.RBRequest) error {
 
 			f.SetCellValue(RB6Name, fmt.Sprintf("%s%d", "G", i+2), utils.FloatToMoneyFormat(contract.TotalWithoutDiscount))
 			f.SetCellValue(RB6Name, fmt.Sprintf("%s%d", "H", i+2), "по закупам")
-			totalDiscountsSum += int(contract.DiscountAmount)
-			AmountDiscount += contract.DiscountAmount
+			totalDiscountsSum += contract.DiscountAmount
+			TotalAmountDiscounts += contract.DiscountAmount
 			lastRow = i + 2
 		}
 		lastRow += 1
@@ -537,7 +565,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		ineration++
 		//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", ineration), fmt.Sprintf("%s%d", "D", lastRow), style)
 		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", ineration), RB6Name)
-		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", ineration), utils.FloatToMoneyFormat(AmountDiscount))
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", ineration), utils.FloatToMoneyFormat(float64(totalDiscountsSum)))
 		//f.SetCellValue(sheet, fmt.Sprintf("%s%d", "C", ineration), RB6Name)
 
 	}
@@ -563,7 +591,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB7Name, "H1", "Тип")
 		err = f.SetCellStyle(RB7Name, "A1", "H1", style)
 
-		var totalDiscountsSum int
+		var totalDiscountsSum float64
 		for i, contract := range rb7thType {
 			f.SetCellValue(RB7Name, fmt.Sprintf("%s%d", "A", i+2), fmt.Sprintf("%s-%s", contract.StartDate, contract.EndDate))
 			f.SetCellValue(RB7Name, fmt.Sprintf("%s%d", "B", i+2), contract.ContractNumber)
@@ -574,7 +602,8 @@ func FormExcelForRBReport(request models.RBRequest) error {
 
 			f.SetCellValue(RB7Name, fmt.Sprintf("%s%d", "G", i+2), utils.FloatToMoneyFormat(float64(contract.TotalWithoutDiscount)))
 			f.SetCellValue(RB7Name, fmt.Sprintf("%s%d", "H", i+2), "по продажам")
-			totalDiscountsSum += int(contract.DiscountAmount)
+			totalDiscountsSum += contract.DiscountAmount
+			TotalAmountDiscounts += totalDiscountsSum
 			lastRow = i + 2
 		}
 		lastRow += 1
@@ -582,6 +611,11 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB7Name, fmt.Sprintf("%s%d", "F", lastRow), utils.FloatToMoneyFormat(float64(totalDiscountsSum)))
 		err = f.SetCellStyle(RB7Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
 		err = f.SetCellStyle(RB7Name, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
+
+		ineration++
+		//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", ineration), fmt.Sprintf("%s%d", "D", lastRow), style)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", ineration), RB7Name)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", ineration), utils.FloatToMoneyFormat(totalDiscountsSum))
 
 	}
 
@@ -613,6 +647,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 			f.SetCellValue(RB8Name, fmt.Sprintf("%s%d", "F", i+2), utils.FloatToMoneyFormat(contract.TotalWithoutDiscount))
 			f.SetCellValue(RB8Name, fmt.Sprintf("%s%d", "G", i+2), "по закупам")
 			totalDiscountsSum += contract.DiscountAmount
+			TotalAmountDiscounts = totalDiscountsSum
 			lastRow = i + 2
 			i++
 		}
@@ -620,6 +655,11 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB8Name, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
 		f.SetCellValue(RB8Name, fmt.Sprintf("%s%d", "E", lastRow), utils.FloatToMoneyFormat(float64(totalDiscountsSum)))
 		err = f.SetCellStyle(RB8Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "E", lastRow), style)
+
+		ineration++
+		//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", ineration), fmt.Sprintf("%s%d", "D", lastRow), style)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", ineration), RB8Name)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", ineration), utils.FloatToMoneyFormat(totalDiscountsSum))
 	}
 
 	if isRB9 {
@@ -652,13 +692,20 @@ func FormExcelForRBReport(request models.RBRequest) error {
 			f.SetCellValue(RB9Name, fmt.Sprintf("%s%d", "F", i+2), utils.FloatToMoneyFormat(float64(contract.TotalWithoutDiscount)))
 			f.SetCellValue(RB9Name, fmt.Sprintf("%s%d", "G", i+2), "по закупам")
 			totalDiscountsSum += contract.DiscountAmount
+			TotalAmountDiscounts += totalDiscountsSum
 			lastRow = i + 2
 			i++
 		}
 		lastRow += 1
 		f.SetCellValue(RB9Name, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
-		f.SetCellValue(RB9Name, fmt.Sprintf("%s%d", "E", lastRow), utils.FloatToMoneyFormat(float64(totalDiscountsSum)))
+		f.SetCellValue(RB9Name, fmt.Sprintf("%s%d", "E", lastRow), utils.FloatToMoneyFormat(totalDiscountsSum))
 		err = f.SetCellStyle(RB9Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "E", lastRow), style)
+
+
+		ineration++
+		//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", ineration), fmt.Sprintf("%s%d", "D", lastRow), style)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", ineration), RB9Name)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", ineration), utils.FloatToMoneyFormat(totalDiscountsSum))
 	}
 
 	if isRB10 {
@@ -690,13 +737,19 @@ func FormExcelForRBReport(request models.RBRequest) error {
 			f.SetCellValue(RB10Name, fmt.Sprintf("%s%d", "F", i+2), utils.FloatToMoneyFormat(float64(contract.TotalWithoutDiscount)))
 			f.SetCellValue(RB10Name, fmt.Sprintf("%s%d", "G", i+2), "по продажам")
 			totalDiscountsSum += contract.DiscountAmount
+			TotalAmountDiscounts += totalDiscountsSum
 			lastRow = i + 2
 			i++
 		}
 		lastRow += 1
 		f.SetCellValue(RB10Name, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
-		f.SetCellValue(RB10Name, fmt.Sprintf("%s%d", "E", lastRow), utils.FloatToMoneyFormat(float64(totalDiscountsSum)))
+		f.SetCellValue(RB10Name, fmt.Sprintf("%s%d", "E", lastRow), utils.FloatToMoneyFormat(totalDiscountsSum))
 		err = f.SetCellStyle(RB10Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "E", lastRow), style)
+
+		ineration++
+		//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", ineration), fmt.Sprintf("%s%d", "D", lastRow), style)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", ineration), RB10Name)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", ineration), utils.FloatToMoneyFormat(totalDiscountsSum))
 	}
 
 	if isRB11 {
@@ -727,22 +780,28 @@ func FormExcelForRBReport(request models.RBRequest) error {
 			f.SetCellValue(RB11Name, fmt.Sprintf("%s%d", "B", i+2), contract.ContractNumber)
 			f.SetCellValue(RB11Name, fmt.Sprintf("%s%d", "C", i+2), contract.DiscountType)
 			f.SetCellValue(RB11Name, fmt.Sprintf("%s%d", "D", i+2), contract.DiscountPercent)
-			f.SetCellValue(RB11Name, fmt.Sprintf("%s%d", "E", i+2), utils.FloatToMoneyFormat(float64(contract.DiscountAmount)))
-			f.SetCellValue(RB11Name, fmt.Sprintf("%s%d", "F", i+2), utils.FloatToMoneyFormat(float64(contract.TotalWithoutDiscount)))
+			f.SetCellValue(RB11Name, fmt.Sprintf("%s%d", "E", i+2), utils.FloatToMoneyFormat(contract.DiscountAmount))
+			f.SetCellValue(RB11Name, fmt.Sprintf("%s%d", "F", i+2), utils.FloatToMoneyFormat(contract.TotalWithoutDiscount))
 			f.SetCellValue(RB11Name, fmt.Sprintf("%s%d", "G", i+2), "по закупам")
 			//f.SetCellValue(RB4Name, fmt.Sprintf("%s%d", "D", i+2), contract.ProductCode)
 			//f.SetCellValue(RB4Name, fmt.Sprintf("%s%d", "E", i+2), contract.LeasePlan)
 			totalDiscountsSum += contract.DiscountAmount
+			TotalAmountDiscounts += totalDiscountsSum
 			lastRow = i + 2
 			i++
 		}
 		lastRow += 1
 		f.SetCellValue(RB11Name, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
-		f.SetCellValue(RB11Name, fmt.Sprintf("%s%d", "E", lastRow), utils.FloatToMoneyFormat(float64(totalDiscountsSum)))
+		f.SetCellValue(RB11Name, fmt.Sprintf("%s%d", "E", lastRow), utils.FloatToMoneyFormat(totalDiscountsSum))
 		err = f.SetCellStyle(RB11Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "E", lastRow), style)
 		if err != nil {
 			return err
 		}
+
+		ineration++
+		//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", ineration), fmt.Sprintf("%s%d", "D", lastRow), style)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", ineration), RB11Name)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", ineration), utils.FloatToMoneyFormat(totalDiscountsSum))
 	}
 
 	if isRB12 {
@@ -780,14 +839,20 @@ func FormExcelForRBReport(request models.RBRequest) error {
 			//f.SetCellValue(RB4Name, fmt.Sprintf("%s%d", "D", i+2), contract.ProductCode)
 			//f.SetCellValue(RB4Name, fmt.Sprintf("%s%d", "E", i+2), contract.LeasePlan)
 			totalDiscountsSum += contract.DiscountAmount
+			TotalAmountDiscounts += totalDiscountsSum
 			lastRow = i + 2
 			i++
 		}
 		lastRow += 1
 		f.SetCellValue(RB12Name, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
-		f.SetCellValue(RB12Name, fmt.Sprintf("%s%d", "E", lastRow), utils.FloatToMoneyFormat(float64(totalDiscountsSum)))
+		f.SetCellValue(RB12Name, fmt.Sprintf("%s%d", "E", lastRow), utils.FloatToMoneyFormat(totalDiscountsSum))
 		err = f.SetCellStyle(RB12Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "E", lastRow), style)
 		//err = f.SetCellStyle(RB2Name, fmt.Sprintf("%s%d", "G", lastRow), fmt.Sprintf("%s%d", "G", lastRow), style)
+
+		ineration++
+		//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", ineration), fmt.Sprintf("%s%d", "D", lastRow), style)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", ineration), RB12Name)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", ineration), utils.FloatToMoneyFormat(totalDiscountsSum))
 
 		//if isRB13 {
 		//	rb12thType, err := GetRB12thType(request)
@@ -857,6 +922,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 			//f.SetCellValue(RB4Name, fmt.Sprintf("%s%d", "D", i+2), contract.ProductCode)
 			//f.SetCellValue(RB4Name, fmt.Sprintf("%s%d", "E", i+2), contract.LeasePlan)
 			totalDiscountsSum += contract.DiscountAmount
+			TotalAmountDiscounts += totalDiscountsSum
 			lastRow = i + 2
 			i++
 		}
@@ -865,6 +931,11 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB13Name, fmt.Sprintf("%s%d", "E", lastRow), utils.FloatToMoneyFormat(float64(totalDiscountsSum)))
 		err = f.SetCellStyle(RB13Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "E", lastRow), style)
 		//err = f.SetCellStyle(RB2Name, fmt.Sprintf("%s%d", "G", lastRow), fmt.Sprintf("%s%d", "G", lastRow), style)
+
+		ineration++
+		//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", ineration), fmt.Sprintf("%s%d", "D", lastRow), style)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", ineration), RB13Name)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", ineration), utils.FloatToMoneyFormat(totalDiscountsSum))
 	}
 
 	if isRB14 {
@@ -891,10 +962,11 @@ func FormExcelForRBReport(request models.RBRequest) error {
 			f.SetCellValue(RB14Name, fmt.Sprintf("%s%d", "B", i+2), contract.ContractNumber)
 			f.SetCellValue(RB14Name, fmt.Sprintf("%s%d", "C", i+2), RB14Name)
 			f.SetCellValue(RB14Name, fmt.Sprintf("%s%d", "D", i+2), contract.ProductCode)
-			f.SetCellValue(RB14Name, fmt.Sprintf("%s%d", "E", i+2), utils.FloatToMoneyFormat(float64(contract.LeasePlan)))
+			f.SetCellValue(RB14Name, fmt.Sprintf("%s%d", "E", i+2), utils.FloatToMoneyFormat(contract.LeasePlan))
 			f.SetCellValue(RB14Name, fmt.Sprintf("%s%d", "F", i+2), contract.DiscountPercent)
-			f.SetCellValue(RB14Name, fmt.Sprintf("%s%d", "G", i+2), utils.FloatToMoneyFormat(float64(contract.DiscountAmount)))
+			f.SetCellValue(RB14Name, fmt.Sprintf("%s%d", "G", i+2), utils.FloatToMoneyFormat(contract.DiscountAmount))
 			totalDiscountsSum += contract.DiscountAmount
+			TotalAmountDiscounts += totalDiscountsSum
 			lastRow = i + 2
 			i++
 		}
@@ -903,6 +975,11 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB14Name, fmt.Sprintf("%s%d", "G", lastRow), utils.FloatToMoneyFormat(float64(totalDiscountsSum)))
 		err = f.SetCellStyle(RB14Name, fmt.Sprintf("%s%d", "F", lastRow), fmt.Sprintf("%s%d", "G", lastRow), style)
 		//err = f.SetCellStyle(RB2Name, fmt.Sprintf("%s%d", "G", lastRow), fmt.Sprintf("%s%d", "G", lastRow), style)
+
+		ineration++
+		//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", ineration), fmt.Sprintf("%s%d", "D", lastRow), style)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", ineration), RB14Name)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", ineration), utils.FloatToMoneyFormat(totalDiscountsSum))
 	}
 
 	if isRB15 {
@@ -929,6 +1006,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 			f.SetCellValue(RB15Name, fmt.Sprintf("%s%d", "D", i+2), utils.FloatToMoneyFormat(float64(contract.RewardAmount)))
 			f.SetCellValue(RB15Name, fmt.Sprintf("%s%d", "E", i+2), utils.FloatToMoneyFormat(float64(contract.DiscountAmount)))
 			totalDiscountsSum += contract.DiscountAmount
+			TotalAmountDiscounts += totalDiscountsSum
 			lastRow = i + 2
 			i++
 		}
@@ -937,6 +1015,11 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB15Name, fmt.Sprintf("%s%d", "E", lastRow), utils.FloatToMoneyFormat(float64(totalDiscountsSum)))
 		err = f.SetCellStyle(RB15Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
 		err = f.SetCellStyle(RB15Name, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
+
+		ineration++
+		//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", ineration), fmt.Sprintf("%s%d", "D", lastRow), style)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", ineration), RB15Name)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", ineration), utils.FloatToMoneyFormat(totalDiscountsSum))
 	}
 
 	if isRB16 {
@@ -963,6 +1046,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 			f.SetCellValue(RB16Name, fmt.Sprintf("%s%d", "D", i+2), contract.DiscountPercent)
 			f.SetCellValue(RB16Name, fmt.Sprintf("%s%d", "E", i+2), utils.FloatToMoneyFormat(float64(contract.DiscountAmount)))
 			totalDiscountsSum += contract.DiscountAmount
+			TotalAmountDiscounts += totalDiscountsSum
 			lastRow = i + 2
 			i++
 		}
@@ -970,6 +1054,11 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB16Name, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
 		f.SetCellValue(RB16Name, fmt.Sprintf("%s%d", "E", lastRow), utils.FloatToMoneyFormat(float64(totalDiscountsSum)))
 		err = f.SetCellStyle(RB16Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "E", lastRow), style)
+
+		ineration++
+		//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", ineration), fmt.Sprintf("%s%d", "D", lastRow), style)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", ineration), RB16Name)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", ineration), utils.FloatToMoneyFormat(totalDiscountsSum))
 	}
 
 	if isRB17 {
@@ -996,6 +1085,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 			f.SetCellValue(RB17Name, fmt.Sprintf("%s%d", "D", i+2), utils.FloatToMoneyFormat(float64(contract.RewardAmount)))
 			f.SetCellValue(RB17Name, fmt.Sprintf("%s%d", "E", i+2), utils.FloatToMoneyFormat(float64(contract.DiscountAmount)))
 			totalDiscountsSum += contract.DiscountAmount
+			TotalAmountDiscounts += totalDiscountsSum
 			lastRow = i + 2
 			i++
 		}
@@ -1004,6 +1094,11 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB17Name, fmt.Sprintf("%s%d", "E", lastRow), utils.FloatToMoneyFormat(float64(totalDiscountsSum)))
 		err = f.SetCellStyle(RB17Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
 		err = f.SetCellStyle(RB17Name, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
+
+		ineration++
+		//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", ineration), fmt.Sprintf("%s%d", "D", lastRow), style)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", ineration), RB17Name)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", ineration), utils.FloatToMoneyFormat(totalDiscountsSum))
 	}
 
 	if isRB18 {
@@ -1030,14 +1125,22 @@ func FormExcelForRBReport(request models.RBRequest) error {
 			f.SetCellValue(RB18Name, fmt.Sprintf("%s%d", "D", i+2), contract.DiscountPercent)
 			f.SetCellValue(RB18Name, fmt.Sprintf("%s%d", "E", i+2), utils.FloatToMoneyFormat(float64(contract.DiscountAmount)))
 			totalDiscountsSum += contract.DiscountAmount
+			TotalAmountDiscounts += totalDiscountsSum
 			lastRow = i + 2
 			i++
 		}
 		lastRow += 1
 		f.SetCellValue(RB18Name, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
-		f.SetCellValue(RB18Name, fmt.Sprintf("%s%d", "E", lastRow), utils.FloatToMoneyFormat(float64(totalDiscountsSum)))
+		f.SetCellValue(RB18Name, fmt.Sprintf("%s%d", "E", lastRow), utils.FloatToMoneyFormat(totalDiscountsSum))
 		err = f.SetCellStyle(RB18Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "E", lastRow), style)
+
+		ineration++
+		//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", ineration), fmt.Sprintf("%s%d", "D", lastRow), style)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", ineration), RB18Name)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", ineration), utils.FloatToMoneyFormat(totalDiscountsSum))
 	}
+	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "C", ineration), "Итог:")
+	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "D", ineration), utils.FloatToMoneyFormat(TotalAmountDiscounts))
 
 	f.DeleteSheet("Sheet1")
 	f.SaveAs("files/reports/rb/rb_report.xlsx")
