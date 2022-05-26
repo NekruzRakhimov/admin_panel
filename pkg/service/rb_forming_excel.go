@@ -233,7 +233,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 	//if conTotalAmount <= totalAmount {
 	//	discount = rewardAmount
 	//}
-
+	moneyStyle, _ := f.NewStyle(`{"number_format": 4}`)
 	style, err := f.NewStyle(&excelize.Style{
 		Fill: excelize.Fill{Type: "pattern", Color: []string{"#F5DEB3"}, Pattern: 1},
 		Border: []excelize.Border{
@@ -358,7 +358,6 @@ func FormExcelForRBReport(request models.RBRequest) error {
 			totalDiscountsSum += contract.DiscountAmount
 			TotalAmountDiscounts += totalDiscountsSum
 
-
 			lastRow = i + 2
 		}
 		lastRow += 1
@@ -459,7 +458,6 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB4Name, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
 		f.SetCellValue(RB4Name, fmt.Sprintf("%s%d", "E", lastRow), utils.FloatToMoneyFormat(float64(totalDiscountsSum)))
 		err = f.SetCellStyle(RB4Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "E", lastRow), style)
-
 
 		ineration++
 		//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", ineration), fmt.Sprintf("%s%d", "D", lastRow), style)
@@ -566,6 +564,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", ineration), fmt.Sprintf("%s%d", "D", lastRow), style)
 		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", ineration), RB6Name)
 		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", ineration), utils.FloatToMoneyFormat(float64(totalDiscountsSum)))
+		f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "B", ineration), fmt.Sprintf("%s%d", "B", ineration), moneyStyle)
 		//f.SetCellValue(sheet, fmt.Sprintf("%s%d", "C", ineration), RB6Name)
 
 	}
@@ -700,7 +699,6 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB9Name, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
 		f.SetCellValue(RB9Name, fmt.Sprintf("%s%d", "E", lastRow), utils.FloatToMoneyFormat(totalDiscountsSum))
 		err = f.SetCellStyle(RB9Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "E", lastRow), style)
-
 
 		ineration++
 		//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", ineration), fmt.Sprintf("%s%d", "D", lastRow), style)
