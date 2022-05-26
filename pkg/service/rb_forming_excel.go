@@ -248,11 +248,10 @@ func FormExcelForRBReport(request models.RBRequest) error {
 	}
 
 	f.NewSheet(sheet)
-	ineration := 0
+	ineration := 1
 	f.SetCellValue(sheet, "F1", "Вид скидки:")
 	f.SetCellValue(sheet, "B1", "Сумма скидки:")
 	f.SetCellValue(sheet, "C1", "Итог:")
-
 
 	//f.SetCellValue(sheet, "A1", "Бренд")
 	//f.SetCellValue(sheet, "B1", "Номер бренда")
@@ -518,8 +517,6 @@ func FormExcelForRBReport(request models.RBRequest) error {
 			f.SetCellValue(RB6Name, fmt.Sprintf("%s%d", "E", i+2), contract.DiscountPercent)
 			f.SetCellValue(RB6Name, fmt.Sprintf("%s%d", "F", i+2), utils.FloatToMoneyFormat(float64(contract.DiscountAmount)))
 
-
-
 			f.SetCellValue(RB6Name, fmt.Sprintf("%s%d", "G", i+2), utils.FloatToMoneyFormat(contract.TotalWithoutDiscount))
 			f.SetCellValue(RB6Name, fmt.Sprintf("%s%d", "H", i+2), "по закупам")
 			totalDiscountsSum += int(contract.DiscountAmount)
@@ -531,17 +528,17 @@ func FormExcelForRBReport(request models.RBRequest) error {
 
 		f.SetCellValue(RB6Name, fmt.Sprintf("%s%d", "E", lastRow), "Итог:")
 		f.SetCellValue(RB6Name, fmt.Sprintf("%s%d", "F", lastRow), utils.FloatToMoneyFormat(float64(totalDiscountsSum)))
-		err = f.SetCellStyle(RB6Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
-		err = f.SetCellStyle(RB6Name, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
+		f.SetCellStyle(RB6Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
+		f.SetCellStyle(RB6Name, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
 
 		//f.SetCellValue(sheet, "F1", "Вид скидки:")
 		//f.SetCellValue(sheet, "B1", "Сумма скидки:")
 		//f.SetCellValue(sheet, "C1", "Итог:")
 		ineration++
 		//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", ineration), fmt.Sprintf("%s%d", "D", lastRow), style)
-		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", ineration+2), RB6Name)
-		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", ineration+2), utils.FloatToMoneyFormat(AmountDiscount))
-		//f.SetCellValue(sheet, fmt.Sprintf("%s%d", "C", ineration+2), RB6Name)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", ineration), RB6Name)
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", ineration), utils.FloatToMoneyFormat(AmountDiscount))
+		//f.SetCellValue(sheet, fmt.Sprintf("%s%d", "C", ineration), RB6Name)
 
 	}
 
