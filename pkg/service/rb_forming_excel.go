@@ -263,7 +263,10 @@ func FormExcelForRBReport(request models.RBRequest) error {
 	ineration := 1
 	var TotalAmountDiscounts float64
 	f.SetCellValue(sheet, "A1", "Вид скидки:")
+	f.SetColWidth(sheet, "A", "A", 42)
 	f.SetCellValue(sheet, "B1", "Сумма скидки:")
+	f.SetColWidth(sheet, "B", "B", 17)
+
 	//f.SetCellValue(sheet, "C1", "Итог:")
 
 	//f.SetCellValue(sheet, "A1", "Бренд")
