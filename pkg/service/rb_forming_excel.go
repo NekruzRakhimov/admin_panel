@@ -254,6 +254,8 @@ func FormExcelForRBReport(request models.RBRequest) error {
 	f.SetCellValue(sheet, "D1", "Стоимость")
 	f.SetCellValue(sheet, "E1", "Количество")
 	f.SetCellValue(sheet, "F1", "Итог:")
+	f.SetCellValue(sheet, "G1", "Сумма скидки:")
+	f.SetCellValue(sheet, "H1", "Вид скидки:")
 
 	//fmt.Printf(">>arr>>%+v", sales.SalesArr)
 
@@ -515,6 +517,8 @@ func FormExcelForRBReport(request models.RBRequest) error {
 			lastRow = i + 2
 		}
 		lastRow += 1
+		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "H1", 2), "МТЗ")
+
 		f.SetCellValue(RB6Name, fmt.Sprintf("%s%d", "E", lastRow), "Итог:")
 		f.SetCellValue(RB6Name, fmt.Sprintf("%s%d", "F", lastRow), utils.FloatToMoneyFormat(float64(totalDiscountsSum)))
 		err = f.SetCellStyle(RB6Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
