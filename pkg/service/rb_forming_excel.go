@@ -1138,8 +1138,9 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", ineration), utils.FloatToMoneyFormat(totalDiscountsSum))
 	}
 	ineration++
-	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "C", ineration), "Итог:")
-	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "D", ineration), utils.FloatToMoneyFormat(TotalAmountDiscounts))
+
+	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "C", ineration), fmt.Sprintf("%s:  %s", "Итог", utils.FloatToMoneyFormat(TotalAmountDiscounts)))
+	//f.SetCellValue(sheet, fmt.Sprintf("%s%d", "D", ineration), )
 
 	f.DeleteSheet("Sheet1")
 	f.SaveAs("files/reports/rb/rb_report.xlsx")
