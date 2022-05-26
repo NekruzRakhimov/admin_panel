@@ -252,7 +252,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 	var TotalAmountDiscounts float64
 	f.SetCellValue(sheet, "A1", "Вид скидки:")
 	f.SetCellValue(sheet, "B1", "Сумма скидки:")
-	f.SetCellValue(sheet, "C1", "Итог:")
+	//f.SetCellValue(sheet, "C1", "Итог:")
 
 	//f.SetCellValue(sheet, "A1", "Бренд")
 	//f.SetCellValue(sheet, "B1", "Номер бренда")
@@ -282,13 +282,13 @@ func FormExcelForRBReport(request models.RBRequest) error {
 
 	lastRow += 3
 
-	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "E", lastRow), "Итог:")
+	//f.SetCellValue(sheet, fmt.Sprintf("%s%d", "E", lastRow), "Итог:")
 	//f.SetCellValue(sheet, fmt.Sprintf("%s%d", "F", lastRow), discount)
-	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "F", lastRow), utils.FloatToMoneyFormat(totalAmount))
+	//f.SetCellValue(sheet, fmt.Sprintf("%s%d", "F", lastRow), utils.FloatToMoneyFormat(totalAmount))
 	//_ = f.MergeCell(sheet, fmt.Sprintf("%s%d", "A", lastRow), fmt.Sprintf("%s%d", "B", lastRow))
 	err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", lastRow), fmt.Sprintf("%s%d", "F", lastRow), style)
 	err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", 1), fmt.Sprintf("%s%d", "F", 1), style)
-	err = f.SetCellStyle(sheet, "A1", "D1", style)
+	err = f.SetCellStyle(sheet, "A1", "B1", style)
 	//f.SetCellValue("Sheet1", "D102", discount)
 	//RB1
 
@@ -1137,8 +1137,10 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", ineration), RB18Name)
 		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", ineration), utils.FloatToMoneyFormat(totalDiscountsSum))
 	}
-	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "C", ineration), "Итог:")
-	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "D", ineration), utils.FloatToMoneyFormat(TotalAmountDiscounts))
+	ineration++
+
+	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "C", ineration), fmt.Sprintf("%s:  %s", "Итог", utils.FloatToMoneyFormat(TotalAmountDiscounts)))
+	//f.SetCellValue(sheet, fmt.Sprintf("%s%d", "D", ineration), )
 
 	f.DeleteSheet("Sheet1")
 	f.SaveAs("files/reports/rb/rb_report.xlsx")
