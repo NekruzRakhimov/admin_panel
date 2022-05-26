@@ -117,9 +117,6 @@ func FormExcelForDeferredDiscounts(request models.RBRequest) error {
 	//f.SetCellValue(sheetAllPurchases, "E1", "Количество")
 	//f.SetCellValue(sheetAllPurchases, "F1", "Итог:")
 
-	f.SetCellValue(sheet, "A1", "Вид скидки:")
-	f.SetCellValue(sheet, "B1", "Сумма скидки:")
-
 	var lastRow int
 
 	period := fmt.Sprintf("%s-%s", request.PeriodFrom, request.PeriodTo)
@@ -137,11 +134,14 @@ func FormExcelForDeferredDiscounts(request models.RBRequest) error {
 
 	lastRow += 3
 
-	f.SetCellValue(sheetAllPurchases, fmt.Sprintf("%s%d", "E", lastRow), "Итог:")
-	f.SetCellValue(sheetAllPurchases, fmt.Sprintf("%s%d", "F", lastRow), utils.FloatToMoneyFormat(totalAmount))
-	err = f.SetCellStyle(sheetAllPurchases, fmt.Sprintf("%s%d", "A", lastRow), fmt.Sprintf("%s%d", "F", lastRow), style)
-	err = f.SetCellStyle(sheetAllPurchases, fmt.Sprintf("%s%d", "A", 1), fmt.Sprintf("%s%d", "F", 1), style)
-	err = f.SetCellStyle(sheetAllPurchases, "A1", "D1", style)
+	//f.SetCellValue(sheetAllPurchases, fmt.Sprintf("%s%d", "E", lastRow), "Итог:")
+	//f.SetCellValue(sheetAllPurchases, fmt.Sprintf("%s%d", "F", lastRow), utils.FloatToMoneyFormat(totalAmount))
+	//err = f.SetCellStyle(sheetAllPurchases, fmt.Sprintf("%s%d", "A", lastRow), fmt.Sprintf("%s%d", "F", lastRow), style)
+	//err = f.SetCellStyle(sheetAllPurchases, fmt.Sprintf("%s%d", "A", 1), fmt.Sprintf("%s%d", "F", 1), style)
+	//err = f.SetCellStyle(sheetAllPurchases, "A1", "D1", style)
+
+	err = f.SetCellStyle(sheetAllPurchases, "A1", "B1", style)
+	f.SetColWidth(RB18Name, "A", "B", 20)
 
 	contracts, err := GetAllDeferredDiscounts(request)
 	if err != nil {
