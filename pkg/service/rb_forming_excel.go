@@ -249,7 +249,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 
 	f.NewSheet(sheet)
 	ineration := 1
-	f.SetCellValue(sheet, "F1", "Вид скидки:")
+	f.SetCellValue(sheet, "A1", "Вид скидки:")
 	f.SetCellValue(sheet, "B1", "Сумма скидки:")
 	f.SetCellValue(sheet, "C1", "Итог:")
 
