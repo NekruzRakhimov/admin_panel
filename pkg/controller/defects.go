@@ -23,6 +23,7 @@ func GetDefectsByPharmacyPF(c *gin.Context) {
 	req := models.DefectsRequest{
 		Startdate: date.Date,
 		Enddate:   date.Date,
+		IsPF:      true,
 	}
 	log.Println(time.Now(), " Started Defects - Main")
 	fmt.Println(time.Now(), " Started Defects - Main")

@@ -19,10 +19,13 @@ const defectsSheet = "TDSheet"
 func GetDefectsExt(req models.DefectsRequest) (defects []models.Defect, err error) {
 	//var binOrganizationAKNIET = "060540001442"
 
-	req = models.DefectsRequest{
-		Startdate: fmt.Sprintf("%s 00:00:00", req.Startdate),
-		Enddate:   fmt.Sprintf("%s 23:59:59", req.Enddate),
-	}
+	//req = models.DefectsRequest{
+	//	Startdate: fmt.Sprintf("%s 00:00:00", req.Startdate),
+	//	Enddate:   fmt.Sprintf("%s 23:59:59", req.Enddate),
+	//}
+
+	req.Startdate += " 00:00:00"
+	req.Enddate += " 23:59:59"
 
 	bodyBin := new(bytes.Buffer)
 	err = json.NewEncoder(bodyBin).Encode(&req)
@@ -68,7 +71,7 @@ func GetDefectsExt(req models.DefectsRequest) (defects []models.Defect, err erro
 
 func GetDefectsPF(req models.DefectsRequest) (filteredDefects []models.DefectsFiltered, err error) {
 	//var filteredDefects []models.DefectsFiltered
-	req.IsPF = true
+	//req.IsPF = true
 	log.Println(time.Now(), " Started Getting Defects from 1C")
 	fmt.Println(time.Now(), " Started Getting Defects from 1C")
 	now := time.Now()
@@ -178,9 +181,9 @@ func FormExcelDefectsPF(req models.DefectsRequest, filteredDefects []models.Defe
 		},
 	})
 
-	//f.NewSheet(defectsSheet)
-	//f.SetCellValue(defectsSheet, "D1", req.Startdate) //Дата
-	//f.SetCellValue(defectsSheet, "H1", req.Startdate) //Дата
+	f.NewSheet(defectsSheet)
+	f.SetCellValue(defectsSheet, "D1", req.Startdate) //Дата
+	f.SetCellValue(defectsSheet, "H1", req.Startdate) //Дата
 
 	//stream.SetRow("D1", []interface{}{excelize.Cell{Value: req.Startdate}})
 	//stream.SetRow("H1", []interface{}{excelize.Cell{Value: req.Startdate}})
