@@ -234,6 +234,18 @@ func FormExcelForRBReport(request models.RBRequest) error {
 	//	discount = rewardAmount
 	//}
 	moneyStyle, _ := f.NewStyle(`{"number_format": 4}`)
+
+	coloredMoneyStyle, _ := f.NewStyle(&excelize.Style{
+		Fill: excelize.Fill{Type: "pattern", Color: []string{"#F5DEB3"}, Pattern: 1},
+		Border: []excelize.Border{
+			{Type: "left", Color: "000000", Style: 1},
+			{Type: "right", Color: "000000", Style: 1},
+			{Type: "top", Color: "000000", Style: 1},
+			{Type: "bottom", Color: "000000", Style: 1},
+		},
+		NumFmt:        4,
+	})
+
 	style, err := f.NewStyle(&excelize.Style{
 		Fill: excelize.Fill{Type: "pattern", Color: []string{"#F5DEB3"}, Pattern: 1},
 		Border: []excelize.Border{
@@ -286,8 +298,8 @@ func FormExcelForRBReport(request models.RBRequest) error {
 	//f.SetCellValue(sheet, fmt.Sprintf("%s%d", "F", lastRow), discount)
 	//f.SetCellValue(sheet, fmt.Sprintf("%s%d", "F", lastRow), utils.FloatToMoneyFormat(totalAmount))
 	//_ = f.MergeCell(sheet, fmt.Sprintf("%s%d", "A", lastRow), fmt.Sprintf("%s%d", "B", lastRow))
-	err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", lastRow), fmt.Sprintf("%s%d", "F", lastRow), style)
-	err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", 1), fmt.Sprintf("%s%d", "F", 1), style)
+	//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", lastRow), fmt.Sprintf("%s%d", "F", lastRow), style)
+	//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", 1), fmt.Sprintf("%s%d", "F", 1), style)
 	err = f.SetCellStyle(sheet, "A1", "B1", style)
 	//f.SetCellValue("Sheet1", "D102", discount)
 	//RB1
@@ -364,8 +376,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB2Name, fmt.Sprintf("%s%d", "E", lastRow), "Итог:")
 		f.SetCellValue(RB2Name, fmt.Sprintf("%s%d", "F", lastRow), utils.FloatToMoneyFormat(totalDiscountsSum))
 		err = f.SetCellStyle(RB2Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
-		err = f.SetCellStyle(RB2Name, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "F", lastRow), style)
-
+		err = f.SetCellStyle(RB2Name, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "F", lastRow), moneyStyle)
 		ineration++
 
 		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", ineration), RB2Name)
@@ -1138,9 +1149,9 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", ineration), utils.FloatToMoneyFormat(totalDiscountsSum))
 	}
 	ineration++
-
-	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "C", ineration), fmt.Sprintf("%s:  %s", "Итог", utils.FloatToMoneyFormat(TotalAmountDiscounts)))
-	//f.SetCellValue(sheet, fmt.Sprintf("%s%d", "D", ineration), )
+	f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", ineration), fmt.Sprintf("%s%d", "A", ineration), coloredMoneyStyle)
+	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", ineration), "Итог" )
+	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "D", ineration), utils.FloatToMoneyFormat(TotalAmountDiscounts))
 
 	f.DeleteSheet("Sheet1")
 	f.SaveAs("files/reports/rb/rb_report.xlsx")
