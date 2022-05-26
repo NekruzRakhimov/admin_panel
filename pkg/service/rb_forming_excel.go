@@ -536,6 +536,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.NewSheet(RB6Name)
 		f.SetCellValue(RB6Name, "A1", "Период")
 		f.SetCellValue(RB6Name, "B1", "Номер договора/ДС")
+		f.SetColWidth(RB6Name, "B", "D", 109)
 		f.SetCellValue(RB6Name, "C1", "Тип скидки")
 		f.SetCellValue(RB6Name, "D1", "Бренд")
 		f.SetCellValue(RB6Name, "E1", "Скидка %")
