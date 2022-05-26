@@ -359,12 +359,12 @@ func GetRB17ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 						RbDTO.StartDate = period.PeriodFrom
 						RbDTO.EndDate = req.PeriodTo
 						rbDTOsl = append(rbDTOsl, RbDTO)
-						RbDTO.StartDate = req.PeriodFrom
-						RbDTO.EndDate = period.PeriodFrom
-						RbDTO.DiscountAmount = 0
-						//RbDTO.DiscountType = "Нет скидок"
-						RbDTO.DiscountType = "Кейс #2"
-						rbDTOsl = append(rbDTOsl, RbDTO)
+						//RbDTO.StartDate = req.PeriodFrom
+						//RbDTO.EndDate = period.PeriodFrom
+						//RbDTO.DiscountAmount = 0
+						////RbDTO.DiscountType = "Нет скидок"
+						//RbDTO.DiscountType = "Кейс #2"
+						//rbDTOsl = append(rbDTOsl, RbDTO)
 
 					} else if (reqperiodFrom.After(periodFrom) || reqperiodFrom.Equal(periodFrom)) && (periodTo.After(reqperiodTo) || reqperiodTo.Equal(periodTo)) {
 						//}else if (reqperiodFrom.After(periodFrom) &&  periodTo.After(reqperiodTo)) || (reqperiodFrom.Equal(periodFrom) && reqperiodTo.Equal(periodTo)){
