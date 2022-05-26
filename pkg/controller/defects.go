@@ -80,10 +80,13 @@ const TempData = " 00:00:00"
 func GetSalesCount(c *gin.Context) {
 	var req models.SalesCountRequest
 
+	fmt.Println("Started Main")
+	fmt.Println("Started unmarshalling req_body")
 	if err := c.BindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 		return
 	}
+	fmt.Println("Finished unmarshalling req_body")
 	req.Startdate += TempData
 	fmt.Println(req.Startdate)
 	req.Enddate += TempData
@@ -95,5 +98,6 @@ func GetSalesCount(c *gin.Context) {
 		return
 	}
 
+	fmt.Println("Finished Main")
 	c.JSON(http.StatusOK, salesCount)
 }

@@ -380,6 +380,19 @@ func FormExcelDefectsLS(req models.DefectsRequest, filteredDefects []models.Defe
 		},
 	})
 
+	moneyStyle, _ := f.NewStyle(`{"number_format": 4}`)
+	moneyMainStyle, _ := f.NewStyle(&excelize.Style{
+		Fill: excelize.Fill{Type: "pattern", Color: []string{"#FFFAD9"}, Pattern: 1},
+		Border: []excelize.Border{
+			{Type: "left", Color: "000000", Style: 1},
+			{Type: "right", Color: "000000", Style: 1},
+			{Type: "top", Color: "000000", Style: 1},
+			{Type: "bottom", Color: "000000", Style: 1},
+		},
+		NumFmt: 4,
+	})
+	//xlsx.SetCellStyle("Sheet1", "B4", "B4", style)
+
 	//f.NewSheet(defectsSheet)
 	f.SetCellValue(defectsSheet, "D1", req.Startdate) //Дата
 	f.SetCellValue(defectsSheet, "H1", req.Startdate) //Дата
@@ -433,68 +446,72 @@ func FormExcelDefectsLS(req models.DefectsRequest, filteredDefects []models.Defe
 			f.SetCellValue(defectsSheet, fmt.Sprintf("B%d", i), subDefect.ProductName) //Наименование
 			f.SetCellValue(defectsSheet, fmt.Sprintf("C%d", i), subDefect.ProductCode) //код 1С
 
-			f.SetCellValue(defectsSheet, fmt.Sprintf("D%d", i), utils.FloatToMoneyFormat(matrixSales)) // кол-во СКЮ продаваемых за 60 дней по матрице
+			f.SetCellValue(defectsSheet, fmt.Sprintf("D%d", i), matrixSales) // кол-во СКЮ продаваемых за 60 дней по матрице
 			storeMatrixSales += matrixSales
 
-			f.SetCellValue(defectsSheet, fmt.Sprintf("E%d", i), utils.FloatToMoneyFormat(float64(defectQnt))) //кол-во СКЮ в дефектуре
+			f.SetCellValue(defectsSheet, fmt.Sprintf("E%d", i), defectQnt) //кол-во СКЮ в дефектуре
 			storeDefectQnt += defectQnt
 
-			f.SetCellValue(defectsSheet, fmt.Sprintf("F%d", i), utils.FloatToMoneyFormat(float64(defectQnt)*price)) //сумма дефектуры
+			f.SetCellValue(defectsSheet, fmt.Sprintf("F%d", i), float64(defectQnt)*price) //сумма дефектуры
 			storeDefectSum += float64(defectQnt) * price
 
 			if matrixSales == 0 {
-				f.SetCellValue(defectsSheet, fmt.Sprintf("G%d", i), utils.FloatToMoneyFormat(0)) //% дефектуры от факт продаж
+				f.SetCellValue(defectsSheet, fmt.Sprintf("G%d", i), 0) //% дефектуры от факт продаж
 			} else {
-				f.SetCellValue(defectsSheet, fmt.Sprintf("G%d", i), utils.FloatToMoneyFormat(float64(defectQnt)/matrixSales*100)) //% дефектуры от факт продаж
+				f.SetCellValue(defectsSheet, fmt.Sprintf("G%d", i), float64(defectQnt)/matrixSales*100) //% дефектуры от факт продаж
 			}
 			storeFactSaleDefect += float64(defectQnt) / matrixSales * 100
 
-			f.SetCellValue(defectsSheet, fmt.Sprintf("H%d", i), utils.FloatToMoneyFormat(float64(matrixProductQnt))) //кол-во СКЮ входящих в АМ аптеки/магазина
+			f.SetCellValue(defectsSheet, fmt.Sprintf("H%d", i), matrixProductQnt) //кол-во СКЮ входящих в АМ аптеки/магазина
 			storeSkuQnt += matrixProductQnt
 
-			f.SetCellValue(defectsSheet, fmt.Sprintf("I%d", i), utils.FloatToMoneyFormat(float64(len(defect.SubDefects)))) //кол-во СКЮ в дефектуре по АМ ПФ
+			f.SetCellValue(defectsSheet, fmt.Sprintf("I%d", i), len(defect.SubDefects)) //кол-во СКЮ в дефектуре по АМ ПФ
 			storeDefectSkuQnt = len(defect.SubDefects)
 
-			f.SetCellValue(defectsSheet, fmt.Sprintf("J%d", i), utils.FloatToMoneyFormat(float64(len(defect.SubDefects))*price)) //сумма дефектуры
+			f.SetCellValue(defectsSheet, fmt.Sprintf("J%d", i), float64(len(defect.SubDefects))*price) //сумма дефектуры
 			storeDefectSum2 += float64(len(defect.SubDefects)) * price
 
-			f.SetCellValue(defectsSheet, fmt.Sprintf("K%d", i), utils.FloatToMoneyFormat((float64(len(defect.SubDefects))*price)*float64(matrixProductQnt))) //% дефектуры от АМ
+			f.SetCellValue(defectsSheet, fmt.Sprintf("K%d", i), float64(len(defect.SubDefects))/float64(matrixProductQnt)*100) //% дефектуры от АМ
 			storeDefectAM += (float64(len(defect.SubDefects)) * price) * float64(matrixProductQnt)
 
-			f.SetCellValue(defectsSheet, fmt.Sprintf("L%d", i), utils.FloatToMoneyFormat(storeSaldoQnt)) // наличие продукции на складе
+			f.SetCellValue(defectsSheet, fmt.Sprintf("L%d", i), storeSaldoQnt) // наличие продукции на складе
 			storeStoreSaldoQnt += storeSaldoQnt
 
-			f.SetCellValue(defectsSheet, fmt.Sprintf("M%d", i), utils.FloatToMoneyFormat(storeSaldoQnt*price)) // наличие продукции на складе - в суммарном выражении
+			f.SetCellValue(defectsSheet, fmt.Sprintf("M%d", i), storeSaldoQnt*price) // наличие продукции на складе - в суммарном выражении
 			storeStoreSaldoCount += storeSaldoQnt * price
 
-			f.SetCellValue(defectsSheet, fmt.Sprintf("N%d", i), utils.FloatToMoneyFormat(price)) // Закупочная цена
+			f.SetCellValue(defectsSheet, fmt.Sprintf("N%d", i), price) // Закупочная цена
 
+			f.SetCellStyle(defectsSheet, fmt.Sprintf("D%d", i), fmt.Sprintf("N%d", i), moneyStyle)
 			i++
 		}
 
-		f.SetCellValue(defectsSheet, fmt.Sprintf("D%d", storeIndex), utils.FloatToMoneyFormat(storeMatrixSales))                         // кол-во СКЮ продаваемых за 60 дней по матрице
-		f.SetCellValue(defectsSheet, fmt.Sprintf("E%d", storeIndex), utils.FloatToMoneyFormat(float64(storeDefectQnt)))                  //кол-во СКЮ в дефектуре
-		f.SetCellValue(defectsSheet, fmt.Sprintf("F%d", storeIndex), utils.FloatToMoneyFormat(storeDefectSum))                           //сумма дефектуры
-		f.SetCellValue(defectsSheet, fmt.Sprintf("G%d", storeIndex), utils.FloatToMoneyFormat(float64(storeDefectQnt)/storeMatrixSales)) //% дефектуры от факт продаж
-		f.SetCellValue(defectsSheet, fmt.Sprintf("H%d", storeIndex), utils.FloatToMoneyFormat(float64(storeSkuQnt)))                     //кол-во СКЮ входящих в АМ аптеки/магазина
-		f.SetCellValue(defectsSheet, fmt.Sprintf("I%d", storeIndex), utils.FloatToMoneyFormat(float64(storeDefectSkuQnt)))               //кол-во СКЮ в дефектуре по АМ ПФ
-		f.SetCellValue(defectsSheet, fmt.Sprintf("J%d", storeIndex), utils.FloatToMoneyFormat(storeDefectSum2))                          //сумма дефектуры
-		f.SetCellValue(defectsSheet, fmt.Sprintf("K%d", storeIndex), utils.FloatToMoneyFormat(storeDefectAM))                            //% дефектуры от АМ
+		f.SetCellValue(defectsSheet, fmt.Sprintf("D%d", storeIndex), storeMatrixSales)                                    // кол-во СКЮ продаваемых за 60 дней по матрице
+		f.SetCellValue(defectsSheet, fmt.Sprintf("E%d", storeIndex), storeDefectQnt)                                      //кол-во СКЮ в дефектуре
+		f.SetCellValue(defectsSheet, fmt.Sprintf("F%d", storeIndex), storeDefectSum)                                      //сумма дефектуры
+		f.SetCellValue(defectsSheet, fmt.Sprintf("G%d", storeIndex), float64(storeDefectQnt)/storeMatrixSales)            //% дефектуры от факт продаж
+		f.SetCellValue(defectsSheet, fmt.Sprintf("H%d", storeIndex), storeSkuQnt)                                         //кол-во СКЮ входящих в АМ аптеки/магазина
+		f.SetCellValue(defectsSheet, fmt.Sprintf("I%d", storeIndex), storeDefectSkuQnt)                                   //кол-во СКЮ в дефектуре по АМ ПФ
+		f.SetCellValue(defectsSheet, fmt.Sprintf("J%d", storeIndex), storeDefectSum2)                                     //сумма дефектуры
+		f.SetCellValue(defectsSheet, fmt.Sprintf("K%d", storeIndex), float64(storeDefectSkuQnt)/float64(storeSkuQnt)*100) //% дефектуры от АМ
 		//if storeDefectSkuQnt != 0 {
 		//	f.SetCellValue(defectsSheet, fmt.Sprintf("M%d", i), float64(storeDefectSkuQnt)/float64(storeSkuQnt)) //% дефектуры от АМ
 		//} else {
 		//	f.SetCellValue(defectsSheet, fmt.Sprintf("M%d", i), 0) //% дефектуры от АМ
 		//}
-		f.SetCellValue(defectsSheet, fmt.Sprintf("L%d", storeIndex), utils.FloatToMoneyFormat(storeStoreSaldoQnt))   // наличие продукции на складе
-		f.SetCellValue(defectsSheet, fmt.Sprintf("M%d", storeIndex), utils.FloatToMoneyFormat(storeStoreSaldoCount)) // наличие продукции на складе - в суммарном выражении
+		f.SetCellValue(defectsSheet, fmt.Sprintf("L%d", storeIndex), storeStoreSaldoQnt)   // наличие продукции на складе
+		f.SetCellValue(defectsSheet, fmt.Sprintf("M%d", storeIndex), storeStoreSaldoCount) // наличие продукции на складе - в суммарном выражении
 		f.SetCellStyle(defectsSheet, fmt.Sprintf("A%d", storeIndex), fmt.Sprintf("M%d", storeIndex), style)
+		f.SetCellStyle(defectsSheet, fmt.Sprintf("D%d", storeIndex), fmt.Sprintf("N%d", storeIndex), moneyStyle)
 
 		globalDefectSum1 += storeDefectSum
 		globalDefectSum2 += storeDefectSum2
 	}
 
-	f.SetCellValue(defectsSheet, "F3", utils.FloatToMoneyFormat(globalDefectSum1))
-	f.SetCellValue(defectsSheet, "J3", utils.FloatToMoneyFormat(globalDefectSum2))
+	f.SetCellValue(defectsSheet, "F3", globalDefectSum1)
+	f.SetCellStyle(defectsSheet, "F3", "F3", moneyMainStyle)
+	f.SetCellValue(defectsSheet, "J3", globalDefectSum2)
+	f.SetCellStyle(defectsSheet, "J3", "J3", moneyMainStyle)
 
 	f.DeleteSheet("Sheet1")
 	f.SaveAs("files/defects/res_ls.xlsx")
@@ -509,13 +526,16 @@ func GetSalesCountExt(req models.SalesCountRequest) (defects []models.SalesCount
 		SalesCountArr []models.SalesCount `json:"sales_count_arr"`
 	}{}
 
+	fmt.Println("Started marshalling ext_req_body")
 	bodyBin := new(bytes.Buffer)
 	err = json.NewEncoder(bodyBin).Encode(&req)
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println("BODY", bodyBin)
+	fmt.Println("Finished marshalling ext_req_body")
+	//fmt.Println("BODY", bodyBin)
 
+	fmt.Println("Started sending ext_req")
 	client := &http.Client{}
 	endpoint := fmt.Sprintf("http://89.218.153.38:8081/AQG_ULAN/hs/integration/salescount")
 	r, err := http.NewRequest("POST", endpoint, bodyBin) // URL-encoded payload
@@ -530,21 +550,26 @@ func GetSalesCountExt(req models.SalesCountRequest) (defects []models.SalesCount
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println("Finished sending ext_req")
 
 	defer res.Body.Close()
+	fmt.Println("Started reading ext_response")
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		log.Println(err)
 	}
+	fmt.Println("Finished reading ext_response")
 
 	// ----------> часть Unmarshall json ->
 	body = bytes.TrimPrefix(body, []byte("\xef\xbb\xbf"))
 
 	fmt.Println("BODY", string(body))
+	fmt.Println("Started unmarshalling ext_response")
 	err = json.Unmarshal(body, &response)
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println("Finished unmarshalling ext_response")
 
 	return response.SalesCountArr, nil
 }

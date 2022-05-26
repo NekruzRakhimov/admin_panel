@@ -43,3 +43,16 @@ type Graphic struct {
 	ApplicationDay    pq.StringArray `json:"application_day"`
 	ExecutionPeriod   string         `json:"execution_period"`
 }
+
+type AutoOrder struct {
+	ID                int    `json:"id"`
+	GraphicName       string `json:"graphic_name"`
+	Formula           string `json:"formula"`
+	ByMatrix          bool   `json:"by_matrix"`
+	Schedule          string `json:"schedule"`
+	FormedOrdersCount int    `json:"formed_orders_count"`
+	Organization      string `json:"organization"`
+	Status            string `json:"status"`
+	Store             string `json:"store"`
+	CreatedAt         string `json:"created_at"`
+}

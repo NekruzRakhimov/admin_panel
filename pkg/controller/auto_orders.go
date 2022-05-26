@@ -138,7 +138,13 @@ func EditGraphic(c *gin.Context) {
 }
 
 func GetAllAutoOrders(c *gin.Context) {
-	c.JSON(http.StatusOK, []int{})
+	autoOrders, err := service.GetAllAutoOrders()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, autoOrders)
 }
 
 func FormAutoOrder(c *gin.Context) {

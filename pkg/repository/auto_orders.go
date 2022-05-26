@@ -72,3 +72,22 @@ func EditGraphic(graphic models.Graphic) error {
 
 	return nil
 }
+
+func GetAllAutoOrders() (autoOrders []models.AutoOrder, err error) {
+	sqlQuery := `SELECT id,
+					   graphic_name,
+					   formula,
+					   by_matrix,
+					   schedule,
+					   formed_orders_count,
+					   organization,
+					   status,
+					   store,
+					   to_char(created_at::timestamptz, 'DD.MM.YYYY') as created_at
+				FROM auto_order ORDER BY id`
+	if err = db.GetDBConn().Raw(sqlQuery).Scan(&autoOrders).Error; err != nil {
+		return nil, err
+	}
+
+	return autoOrders, nil
+}

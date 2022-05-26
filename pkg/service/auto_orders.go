@@ -1818,3 +1818,7 @@ func GetGraphicByID(id int) (graphic models.Graphic, err error) {
 func EditGraphic(graphic models.Graphic) error {
 	return repository.EditGraphic(graphic)
 }
+
+func GetAllAutoOrders() (autoOrders []models.AutoOrder, err error) {
+	return repository.GetAllAutoOrders()
+}
