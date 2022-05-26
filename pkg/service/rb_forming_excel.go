@@ -282,9 +282,9 @@ func FormExcelForRBReport(request models.RBRequest) error {
 
 	lastRow += 3
 
-	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "E", lastRow), "Итог:")
+	//f.SetCellValue(sheet, fmt.Sprintf("%s%d", "E", lastRow), "Итог:")
 	//f.SetCellValue(sheet, fmt.Sprintf("%s%d", "F", lastRow), discount)
-	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "F", lastRow), utils.FloatToMoneyFormat(totalAmount))
+	//f.SetCellValue(sheet, fmt.Sprintf("%s%d", "F", lastRow), utils.FloatToMoneyFormat(totalAmount))
 	//_ = f.MergeCell(sheet, fmt.Sprintf("%s%d", "A", lastRow), fmt.Sprintf("%s%d", "B", lastRow))
 	err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", lastRow), fmt.Sprintf("%s%d", "F", lastRow), style)
 	err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", 1), fmt.Sprintf("%s%d", "F", 1), style)
