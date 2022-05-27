@@ -359,7 +359,8 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB2Name, "F1", "Сумма скидки")
 		f.SetCellValue(RB2Name, "G1", "Общая сумма")
 		f.SetCellValue(RB2Name, "H1", "Тип")
-		f.SetColWidth(RB2Name, "A", "H", 17)
+		f.SetColWidth(RB2Name, "A", "H", 22)
+		f.SetColWidth(RB2Name, "C", "C", 40)
 		err = f.SetCellStyle(RB2Name, "A1", "H1", style)
 
 		var totalDiscountsSum float64
@@ -405,7 +406,8 @@ func FormExcelForRBReport(request models.RBRequest) error {
 
 		f.SetCellValue(RB3Name, "H1", "Общая сумма")
 		f.SetCellValue(RB3Name, "I1", "Тип")
-		f.SetColWidth(RB3Name, "A", "I", 17)
+		f.SetColWidth(RB3Name, "A", "I", 22)
+		f.SetColWidth(RB3Name, "C", "C", 40)
 		err = f.SetCellStyle(RB3Name, "A1", "I1", style)
 
 		var totalDiscountsSum float64
@@ -452,7 +454,8 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB4Name, "E1", "Сумма скидки")
 		f.SetCellValue(RB4Name, "F1", "Общая сумма")
 		f.SetCellValue(RB4Name, "G1", "Тип")
-		f.SetColWidth(RB4Name, "A", "G", 17)
+		f.SetColWidth(RB4Name, "A", "G", 22)
+		f.SetColWidth(RB4Name, "C", "C", 40)
 		f.SetCellStyle(RB4Name, "A1", "G1", style)
 
 		var totalDiscountsSum float64
@@ -502,7 +505,8 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB5Name, "F1", "Сумма скидки")
 		f.SetCellValue(RB5Name, "G1", "Общая сумма")
 		f.SetCellValue(RB5Name, "H1", "Тип")
-		f.SetColWidth(RB5Name, "A", "H", 17)
+		f.SetColWidth(RB5Name, "A", "H", 22)
+		f.SetColWidth(RB5Name, "C", "C", 40)
 		err = f.SetCellStyle(RB5Name, "A1", "H1", style)
 
 		var totalDiscountsSum float64
@@ -544,13 +548,15 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.NewSheet(RB6Name)
 		f.SetCellValue(RB6Name, "A1", "Период")
 		f.SetCellValue(RB6Name, "B1", "Номер договора/ДС")
-		f.SetColWidth(RB6Name, "A", "H", 17)
+
 		f.SetCellValue(RB6Name, "C1", "Тип скидки")
 		f.SetCellValue(RB6Name, "D1", "Бренд")
 		f.SetCellValue(RB6Name, "E1", "Скидка %")
 		f.SetCellValue(RB6Name, "F1", "Сумма скидки")
 		f.SetCellValue(RB6Name, "G1", "Общая сумма")
 		f.SetCellValue(RB6Name, "H1", "Тип")
+		f.SetColWidth(RB6Name, "A", "H", 22)
+		f.SetColWidth(RB6Name, "C", "C", 40)
 		err = f.SetCellStyle(RB6Name, "A1", "H1", style)
 
 		var totalDiscountsSum float64
@@ -609,7 +615,8 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB7Name, "G1", "Общая сумма")
 		f.SetCellValue(RB7Name, "H1", "Тип")
 
-		f.SetColWidth(RB7Name, "A", "H", 17)
+		f.SetColWidth(RB7Name, "A", "H", 22)
+		f.SetColWidth(RB7Name, "С", "С", 40)
 
 		err = f.SetCellStyle(RB7Name, "A1", "H1", style)
 
@@ -655,8 +662,8 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB8Name, "E1", "Сумма скидки")
 		f.SetCellValue(RB8Name, "F1", "Общая сумма")
 		f.SetCellValue(RB8Name, "G1", "Тип")
-		f.SetColWidth(RB8Name, "A", "G", 17)
-		f.SetColWidth(RB8Name, "C", "C", 34)
+		f.SetColWidth(RB8Name, "A", "G", 22)
+		f.SetColWidth(RB8Name, "C", "C", 40)
 		err = f.SetCellStyle(RB8Name, "A1", "G1", style)
 
 		var totalDiscountsSum float64
@@ -702,7 +709,8 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB9Name, "F1", "Общая сумма")
 		f.SetCellValue(RB9Name, "G1", "Тип")
 
-		f.SetColWidth(RB9Name, "A", "G", 17)
+		f.SetColWidth(RB9Name, "A", "G", 22)
+		f.SetColWidth(RB9Name, "С", "С", 40)
 		err = f.SetCellStyle(RB9Name, "A1", "G1", style)
 
 		var totalDiscountsSum float64
@@ -748,7 +756,8 @@ func FormExcelForRBReport(request models.RBRequest) error {
 
 		f.SetCellValue(RB10Name, "F1", "Общая сумма")
 		f.SetCellValue(RB10Name, "G1", "Тип")
-		f.SetColWidth(RB10Name, "G", "E", 17)
+		f.SetColWidth(RB10Name, "A", "E", 22)
+		f.SetColWidth(RB10Name, "С", "С", 40)
 		err = f.SetCellStyle(RB10Name, "A1", "G1", style)
 
 		var totalDiscountsSum float64
@@ -795,7 +804,8 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB11Name, "G1", "Тип")
 		//f.SetCellValue(RB4Name, "D1", "Код товара")
 		//f.SetCellValue(RB4Name, "E1", "План закупа")
-		f.SetColWidth(RB11Name, "A", "G", 17)
+		f.SetColWidth(RB11Name, "A", "G", 22)
+		f.SetColWidth(RB11Name, "С", "С", 40)
 		err = f.SetCellStyle(RB11Name, "A1", "G1", style)
 
 		var totalDiscountsSum float64
@@ -849,7 +859,8 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB12Name, "G1", "Тип")
 		//f.SetCellValue(RB4Name, "D1", "Код товара")
 		//f.SetCellValue(RB4Name, "E1", "План закупа")
-		f.SetColWidth(RB12Name, "A", "G", 17)
+		f.SetColWidth(RB12Name, "A", "G", 22)
+		f.SetColWidth(RB12Name, "С", "С", 40)
 		err = f.SetCellStyle(RB12Name, "A1", "G1", style)
 
 		var totalDiscountsSum float64
@@ -935,7 +946,8 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB13Name, "E1", "Сумма скидки")
 		//f.SetCellValue(RB4Name, "D1", "Код товара")
 		//f.SetCellValue(RB4Name, "E1", "План закупа")
-		f.SetColWidth(RB13Name, "A", "E", 17)
+		f.SetColWidth(RB13Name, "A", "E", 22)
+		f.SetColWidth(RB13Name, "C", "C", 40)
 		err = f.SetCellStyle(RB13Name, "A1", "E1", style)
 
 		var totalDiscountsSum float64
@@ -980,7 +992,8 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB14Name, "E1", "План закупа")
 		f.SetCellValue(RB14Name, "F1", "Скидка %")
 		f.SetCellValue(RB14Name, "G1", "Сумма скидки")
-		f.SetColWidth(RB14Name, "A", "G", 17)
+		f.SetColWidth(RB14Name, "A", "G", 22)
+		f.SetColWidth(RB14Name, "С", "С", 40)
 		err = f.SetCellStyle(RB14Name, "A1", "G1", style)
 
 		var totalDiscountsSum float64
@@ -1024,7 +1037,8 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB15Name, "D1", "Сумма вознаграждения")
 		f.SetCellValue(RB15Name, "E1", "Сумма скидки")
 
-		f.SetColWidth(RB15Name, "A", "E", 17)
+		f.SetColWidth(RB15Name, "A", "E", 22)
+		f.SetColWidth(RB15Name, "C", "C", 40)
 		err = f.SetCellStyle(RB15Name, "A1", "E1", style)
 
 		var totalDiscountsSum float64
@@ -1065,7 +1079,8 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB16Name, "C1", "Тип скидки")
 		f.SetCellValue(RB16Name, "D1", "Скидка %")
 		f.SetCellValue(RB16Name, "E1", "Сумма скидки")
-		f.SetColWidth(RB16Name, "A", "E", 17)
+		f.SetColWidth(RB16Name, "A", "E", 22)
+		f.SetColWidth(RB16Name, "С", "С", 40)
 		err = f.SetCellStyle(RB16Name, "A1", "E1", style)
 
 		var totalDiscountsSum float64
@@ -1105,6 +1120,8 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB17Name, "C1", "Тип скидки")
 		f.SetCellValue(RB17Name, "D1", "Сумма вознаграждения")
 		f.SetCellValue(RB17Name, "E1", "Сумма скидки")
+		f.SetColWidth(RB17Name, "A", "E", 22)
+		f.SetColWidth(RB17Name, "C", "C", 40)
 		err = f.SetCellStyle(RB17Name, "A1", "E1", style)
 
 		var totalDiscountsSum float64
@@ -1145,8 +1162,8 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB18Name, "C1", "Тип скидки")
 		f.SetCellValue(RB18Name, "D1", "Скидка %")
 		f.SetCellValue(RB18Name, "E1", "Сумма скидки")
-		f.SetColWidth(RB18Name, "A", "E", 17)
-		//f.SetColWidth(RB18Name, "C", "C", 34)
+		f.SetColWidth(RB18Name, "A", "E", 22)
+		f.SetColWidth(RB18Name, "C", "C", 40)
 		err = f.SetCellStyle(RB18Name, "A1", "E1", style)
 
 		var totalDiscountsSum float64
