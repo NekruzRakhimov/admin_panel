@@ -303,7 +303,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 	//_ = f.MergeCell(sheet, fmt.Sprintf("%s%d", "A", lastRow), fmt.Sprintf("%s%d", "B", lastRow))
 	//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", lastRow), fmt.Sprintf("%s%d", "F", lastRow), style)
 	//err = f.SetCellStyle(sheet, fmt.Sprintf("%s%d", "A", 1), fmt.Sprintf("%s%d", "F", 1), style)
-	//err = f.SetCellStyle(sheet, "A1", "B1", style)
+	err = f.SetCellStyle(sheet, "A1", "B1", style)
 	//f.SetColWidth(sheet, "A", "B", 20)
 	//f.SetCellValue("Sheet1", "D102", discount)
 	//RB1
