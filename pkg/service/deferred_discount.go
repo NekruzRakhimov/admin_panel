@@ -70,8 +70,8 @@ func GetDD2nd(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 				discountAmount = totalAmount * discount.DiscountPercent / 100
 				rbDTO = append(rbDTO, models.RbDTO{
 					ContractNumber:       contract.ContractParameters.ContractNumber,
-					StartDate:            request.PeriodTo,
-					EndDate:              request.PeriodFrom,
+					StartDate:            request.PeriodFrom,
+					EndDate:              request.PeriodTo,
 					DiscountPercent:      discount.DiscountPercent,
 					DiscountAmount:       discountAmount,
 					TotalWithoutDiscount: totalAmount,
@@ -105,8 +105,8 @@ func GetDD3rd(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 				discountAmount = totalAmount * discount.DiscountPercent / 100
 				rbDTO = append(rbDTO, models.RbDTO{
 					ContractNumber:       contract.ContractParameters.ContractNumber,
-					StartDate:            request.PeriodTo,
-					EndDate:              request.PeriodFrom,
+					StartDate:            request.PeriodFrom,
+					EndDate:              request.PeriodTo,
 					DiscountPercent:      discount.DiscountPercent,
 					DiscountAmount:       discountAmount,
 					TotalWithoutDiscount: totalAmount,
@@ -135,8 +135,8 @@ func GetDD4th(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 				discountAmount = totalAmount * discount.DiscountPercent / 100
 				rbDTO = append(rbDTO, models.RbDTO{
 					ContractNumber:       contract.ContractParameters.ContractNumber,
-					StartDate:            request.PeriodTo,
-					EndDate:              request.PeriodFrom,
+					StartDate:            request.PeriodFrom,
+					EndDate:              request.PeriodTo,
 					DiscountPercent:      discount.DiscountPercent,
 					DiscountAmount:       discountAmount,
 					TotalWithoutDiscount: totalAmount,
@@ -202,8 +202,8 @@ func GetDD6th(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 				discountAmount = totalAmount * discount.DiscountPercent / 100
 				rbDTO = append(rbDTO, models.RbDTO{
 					ContractNumber:       contract.ContractParameters.ContractNumber,
-					StartDate:            request.PeriodTo,
-					EndDate:              request.PeriodFrom,
+					StartDate:            request.PeriodFrom,
+					EndDate:              request.PeriodTo,
 					DiscountPercent:      discount.DiscountPercent,
 					DiscountAmount:       discountAmount,
 					TotalWithoutDiscount: totalAmount,
