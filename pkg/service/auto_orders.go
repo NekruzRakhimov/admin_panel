@@ -1822,3 +1822,37 @@ func EditGraphic(graphic models.Graphic) error {
 func GetAllAutoOrders() (autoOrders []models.AutoOrder, err error) {
 	return repository.GetAllAutoOrders()
 }
+
+//func FormAutoOrders() error {
+//	graphics, err := repository.GetAllGraphics()
+//	if err != nil {
+//		return err
+//	}
+//
+//	for i, graphic := range graphics {
+//		storeCode := graphic.StoreCode
+//		supplierCode := graphic.SupplierCode
+//
+//		matrix, err := GetMatrix(storeCode)
+//		if err != nil {
+//			return err
+//		}
+//
+//		req := models.SalesCountRequest{
+//			Startdate: "27.05.2022 00:00:00",
+//			Enddate:   "27.05.2022 00:00:00",
+//			StoreCode: storeCode,
+//		}
+//		sales, err := GetSalesCountExt(req)
+//		if err != nil {
+//			return err
+//		}
+//
+//		for j, product := range matrix {
+//			if product.SupplierCode == supplierCode && product.StoreCode == storeCode {
+//
+//			}
+//		}
+//
+//	}
+//}

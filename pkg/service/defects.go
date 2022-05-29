@@ -2,7 +2,6 @@ package service
 
 import (
 	"admin_panel/models"
-	"admin_panel/utils"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -71,10 +70,13 @@ func GetDefectsExt(req models.DefectsRequest) (defects []models.Defect, err erro
 
 func GetDefectsPF(req models.DefectsRequest) (filteredDefects []models.DefectsFiltered, err error) {
 	//var filteredDefects []models.DefectsFiltered
-	//req.IsPF = true
+	req.IsPF = true
 	log.Println(time.Now(), " Started Getting Defects from 1C")
 	fmt.Println(time.Now(), " Started Getting Defects from 1C")
 	now := time.Now()
+	req.DaysCount = -60
+	req.QueryType = "warehouse_defect"
+
 	defects, err := GetDefectsExt(req)
 	if err != nil {
 		return nil, err
@@ -119,6 +121,8 @@ func GetDefectsPF(req models.DefectsRequest) (filteredDefects []models.DefectsFi
 func GetDefectsLS(req models.DefectsRequest) (filteredDefects []models.DefectsFiltered, err error) {
 	//var filteredDefects []models.DefectsFiltered
 	req.IsPF = false
+	req.DaysCount = -60
+	req.QueryType = "warehouse_defect"
 	defects, err := GetDefectsExt(req)
 	if err != nil {
 		return nil, err
@@ -333,10 +337,10 @@ func FormExcelDefectsPF(req models.DefectsRequest, filteredDefects []models.Defe
 		f.SetCellValue(defectsSheet, fmt.Sprintf("F%d", storeIndex), storeDefectSum) //сумма дефектуры
 		//stream.SetRow(fmt.Sprintf("F%d", storeIndex), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(storeDefectSum)}})
 
-		f.SetCellValue(defectsSheet, fmt.Sprintf("G%d", storeIndex), storeDefectQnt/storeMatrixSales) //% дефектуры от факт продаж
+		f.SetCellValue(defectsSheet, fmt.Sprintf("G%d", storeIndex), storeDefectQnt/storeMatrixSales*100) //% дефектуры от факт продаж
 		//stream.SetRow(fmt.Sprintf("G%d", storeIndex), []interface{}{excelize.Cell{Value: fmt.Sprintf("%s%", utils.FloatToMoneyFormat(storeDefectQnt/storeMatrixSales))}})
 
-		f.SetCellValue(defectsSheet, fmt.Sprintf("H%d", storeIndex), utils.FloatToMoneyFormat(storeSkuQnt)) //кол-во СКЮ входящих в АМ аптеки/магазина
+		f.SetCellValue(defectsSheet, fmt.Sprintf("H%d", storeIndex), storeSkuQnt) //кол-во СКЮ входящих в АМ аптеки/магазина
 		//stream.SetRow(fmt.Sprintf("H%d", storeIndex), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(storeSkuQnt)}})
 
 		f.SetCellValue(defectsSheet, fmt.Sprintf("I%d", storeIndex), storeDefectSkuQnt) //кол-во СКЮ в дефектуре по АМ ПФ
@@ -345,7 +349,7 @@ func FormExcelDefectsPF(req models.DefectsRequest, filteredDefects []models.Defe
 		f.SetCellValue(defectsSheet, fmt.Sprintf("J%d", storeIndex), storeDefectSum2) //сумма дефектуры
 		//stream.SetRow(fmt.Sprintf("J%d", storeIndex), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(storeDefectSum2)}})
 
-		f.SetCellValue(defectsSheet, fmt.Sprintf("K%d", storeIndex), storeDefectAM) //% дефектуры от АМ
+		f.SetCellValue(defectsSheet, fmt.Sprintf("K%d", storeIndex), storeDefectSkuQnt/storeSkuQnt*100) //% дефектуры от АМ
 		//stream.SetRow(fmt.Sprintf("K%d", storeIndex), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(storeDefectAM)}})
 		//if storeDefectSkuQnt != 0 {
 		//	f.SetCellValue(defectsSheet, fmt.Sprintf("M%d", i), float64(storeDefectSkuQnt)/float64(storeSkuQnt)) //% дефектуры от АМ
@@ -507,7 +511,7 @@ func FormExcelDefectsLS(req models.DefectsRequest, filteredDefects []models.Defe
 		f.SetCellValue(defectsSheet, fmt.Sprintf("D%d", storeIndex), storeMatrixSales)                                    // кол-во СКЮ продаваемых за 60 дней по матрице
 		f.SetCellValue(defectsSheet, fmt.Sprintf("E%d", storeIndex), storeDefectQnt)                                      //кол-во СКЮ в дефектуре
 		f.SetCellValue(defectsSheet, fmt.Sprintf("F%d", storeIndex), storeDefectSum)                                      //сумма дефектуры
-		f.SetCellValue(defectsSheet, fmt.Sprintf("G%d", storeIndex), float64(storeDefectQnt)/storeMatrixSales)            //% дефектуры от факт продаж
+		f.SetCellValue(defectsSheet, fmt.Sprintf("G%d", storeIndex), float64(storeDefectQnt)/storeMatrixSales*100)        //% дефектуры от факт продаж
 		f.SetCellValue(defectsSheet, fmt.Sprintf("H%d", storeIndex), storeSkuQnt)                                         //кол-во СКЮ входящих в АМ аптеки/магазина
 		f.SetCellValue(defectsSheet, fmt.Sprintf("I%d", storeIndex), storeDefectSkuQnt)                                   //кол-во СКЮ в дефектуре по АМ ПФ
 		f.SetCellValue(defectsSheet, fmt.Sprintf("J%d", storeIndex), storeDefectSum2)                                     //сумма дефектуры
