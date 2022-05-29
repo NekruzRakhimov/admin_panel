@@ -4,6 +4,7 @@ import (
 	"admin_panel/models"
 	"admin_panel/pkg/repository"
 	"admin_panel/pkg/service"
+	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/xuri/excelize/v2"
@@ -27,52 +28,47 @@ import (
 func CreateContract(c *gin.Context) {
 	var contract models.Contract
 
-
-
 	if err := c.BindJSON(&contract); err != nil {
 		log.Println("[controller.CreateContract]|[c.BindJSO]| error is: ", err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 		return
 	}
-	err, status := CheckPeriodContract(contract)
+	err := CheckPeriodContract(contract)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"reason": status})
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 		return
 	}
 
 	contract.Type = c.Param("type")
 
-	if err := service.CreateContract(contract); err != nil {
-		log.Println("[controller.CreateContract]|[service.CreateContract]| error is: ", err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
-		return
-	}
+	//if err := service.CreateContract(contract); err != nil {
+	//	log.Println("[controller.CreateContract]|[service.CreateContract]| error is: ", err.Error())
+	//	c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+	//	return
+	//}
 
 	c.JSON(http.StatusOK, gin.H{"reason": "новый договор был успешно создан!"})
 }
 
-func CheckPeriodContract(contract models.Contract) (err error,  status string){
+func CheckPeriodContract(contract models.Contract) error {
 
-
-	for _, discount := range contract.Discounts{
-		for _, checkPeriod := range discount.Periods{
+	for _, discount := range contract.Discounts {
+		for _, checkPeriod := range discount.Periods {
 			startDate, _ := service.ConvertStringTime(contract.ContractParameters.StartDate)
 			endDate, _ := service.ConvertStringTime(contract.ContractParameters.EndDate)
 			periodFrom, _ := service.ConvertStringTime(checkPeriod.PeriodFrom)
-			periodTo, _ :=service.ConvertStringTime(checkPeriod.PeriodTo)
-
-			//TODO: необходимо конвертировать
-			if (startDate.Before(periodFrom)) && endDate.Before(periodTo){
-				return err, discount.Name
+			periodTo, _ := service.ConvertStringTime(checkPeriod.PeriodTo)
+			if !(periodFrom.After(startDate) && periodTo.After(endDate)) {
+				fmt.Println("IS NOT TRUE")
+				discount := fmt.Sprintf("Ошибка, %s: - дата скиди  не может быть ниже или выше договора", discount.Name)
+				return errors.New(discount)
 			}
-
 
 		}
 
-
 	}
 
-	return nil, ""
+	return nil
 
 }
 
