@@ -157,8 +157,7 @@ func FormExcelForDeferredDiscounts(request models.RBRequest) error {
 	//err = f.SetCellStyle(sheetAllPurchases, fmt.Sprintf("%s%d", "A", 1), fmt.Sprintf("%s%d", "F", 1), style)
 	//err = f.SetCellStyle(sheetAllPurchases, "A1", "D1", style)
 
-	err = f.SetCellStyle(sheetAllPurchases, "A1", "B1", style)
-	f.SetColWidth(sheetAllPurchases, "A", "B", 20)
+
 
 	contracts, err := GetAllDeferredDiscounts(request)
 	if err != nil {

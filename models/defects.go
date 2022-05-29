@@ -33,7 +33,9 @@ type DefectsFiltered struct {
 type DefectsRequest struct {
 	Startdate string `json:"startdate"`
 	Enddate   string `json:"enddate"`
-	IsPF      bool   `json:"isPf"`
+	QueryType string `json:"queryType"` //warehouse_defect - по складам / drugstore_defect - по аптекам
+	DaysCount int    `json:"days_count"`
+	IsPF      bool   `json:"isPF"`
 }
 
 type SalesCountRequest struct {
