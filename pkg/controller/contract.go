@@ -41,11 +41,11 @@ func CreateContract(c *gin.Context) {
 
 	contract.Type = c.Param("type")
 
-	//if err := service.CreateContract(contract); err != nil {
-	//	log.Println("[controller.CreateContract]|[service.CreateContract]| error is: ", err.Error())
-	//	c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
-	//	return
-	//}
+	if err := service.CreateContract(contract); err != nil {
+		log.Println("[controller.CreateContract]|[service.CreateContract]| error is: ", err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{"reason": "новый договор был успешно создан!"})
 }
