@@ -106,17 +106,17 @@ func FormExcelForRBReport(request models.RBRequest) error {
 	//externalCodes := GetExternalCode(request.BIN)
 	//contractsCode := JoinContractCode(externalCodes)
 
-	req := models.ReqBrand{
-		ClientCode:     request.BIN,
-		DateStart:      request.PeriodFrom,
-		DateEnd:        request.PeriodTo,
-		TypeValue:      "purchase_brand_only",
-		TypeParameters: nil,
-		//Contracts:      contractsCode, // необходимо получить коды контрактов
-	}
-	tempPurchases, _ := GetPurchaseBrandOnly(req)
+	//req := models.ReqBrand{
+	//	ClientCode:     request.BIN,
+	//	DateStart:      request.PeriodFrom,
+	//	DateEnd:        request.PeriodTo,
+	//	TypeValue:      "purchase_brand_only",
+	//	TypeParameters: nil,
+	//	//Contracts:      contractsCode, // необходимо получить коды контрактов
+	//}
+	//tempPurchases, _ := GetPurchaseBrandOnly(req)
 
-	purchases := UnifyPurchaseBrandOnlyResponse(tempPurchases)
+	//purchases := UnifyPurchaseBrandOnlyResponse(tempPurchases)
 	//totalPurchaseCode := CountPurchaseByCode(purchase)
 	//
 	//present := models.ReqBrand{
@@ -136,9 +136,9 @@ func FormExcelForRBReport(request models.RBRequest) error {
 	//	return nil, err
 	//}
 
-	fmt.Printf("###%+v\n", contracts)
-	totalAmount := GetPurchaseTotalAmount(purchases)
-	log.Printf("[PURCHASE] %f ", totalAmount)
+	//fmt.Printf("###%+v\n", contracts)
+	//totalAmount := GetPurchaseTotalAmount(purchases)
+	//log.Printf("[PURCHASE] %f ", totalAmount)
 
 	var (
 		isRB1  bool
@@ -223,7 +223,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 	//totalAmount := GetPurchaseTotalAmount(sales)
 
 	fmt.Println(contracts)
-	fmt.Println(totalAmount)
+	//fmt.Println(totalAmount)
 	//var conTotalAmount float32
 	//var rewardAmount int
 
@@ -285,15 +285,15 @@ func FormExcelForRBReport(request models.RBRequest) error {
 	period := fmt.Sprintf("%s-%s", request.PeriodFrom, request.PeriodTo)
 	fmt.Println("<request>: ", period)
 
-	for i, s := range purchases.PurchaseArr {
-		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", i+2), s.BrandName)
-		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", i+2), s.BrandCode)
-		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "С", i+2), period)
-		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "D", i+2), utils.FloatToMoneyFormat(s.Total/s.QntTotal))
-		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "E", i+2), utils.FloatToMoneyFormat(s.QntTotal))
-		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "F", i+2), utils.FloatToMoneyFormat(s.Total))
-		lastRow = i
-	}
+	//for i, s := range purchases.PurchaseArr {
+	//	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", i+2), s.BrandName)
+	//	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "B", i+2), s.BrandCode)
+	//	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "С", i+2), period)
+	//	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "D", i+2), utils.FloatToMoneyFormat(s.Total/s.QntTotal))
+	//	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "E", i+2), utils.FloatToMoneyFormat(s.QntTotal))
+	//	f.SetCellValue(sheet, fmt.Sprintf("%s%d", "F", i+2), utils.FloatToMoneyFormat(s.Total))
+	//	lastRow = i
+	//}
 
 	lastRow += 3
 

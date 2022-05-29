@@ -27,9 +27,16 @@ import (
 func CreateContract(c *gin.Context) {
 	var contract models.Contract
 
+
+
 	if err := c.BindJSON(&contract); err != nil {
 		log.Println("[controller.CreateContract]|[c.BindJSO]| error is: ", err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+	err, status := CheckPeriodContract(contract)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": status})
 		return
 	}
 
@@ -42,6 +49,31 @@ func CreateContract(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"reason": "новый договор был успешно создан!"})
+}
+
+func CheckPeriodContract(contract models.Contract) (err error,  status string){
+
+
+	for _, discount := range contract.Discounts{
+		for _, checkPeriod := range discount.Periods{
+			startDate, _ := service.ConvertStringTime(contract.ContractParameters.StartDate)
+			endDate, _ := service.ConvertStringTime(contract.ContractParameters.EndDate)
+			periodFrom, _ := service.ConvertStringTime(checkPeriod.PeriodFrom)
+			periodTo, _ :=service.ConvertStringTime(checkPeriod.PeriodTo)
+
+			//TODO: необходимо конвертировать
+			if (startDate.Before(periodFrom)) && endDate.Before(periodTo){
+				return err, discount.Name
+			}
+
+
+		}
+
+
+	}
+
+	return nil, ""
+
 }
 
 //AddAdditionalAgreement contract godoc
