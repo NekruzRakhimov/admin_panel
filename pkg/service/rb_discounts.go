@@ -217,6 +217,7 @@ func FillRbwithPeriod(period models.DiscountPeriod, req models.RBRequest, contra
 		RbDTO.DiscountAmount = discountAmount
 		RbDTO.StartDate = req.PeriodFrom
 		RbDTO.EndDate = period.PeriodTo
+		RbDTO.TotalWithoutDiscount =  amount
 
 		rbDTOsl = append(rbDTOsl, RbDTO)
 		// брать продажи ДНО и ДКП
@@ -234,6 +235,7 @@ func FillRbwithPeriod(period models.DiscountPeriod, req models.RBRequest, contra
 		RbDTO.DiscountAmount = discountAmount
 		RbDTO.StartDate = period.PeriodFrom
 		RbDTO.EndDate = req.PeriodTo
+		RbDTO.TotalWithoutDiscount =  amount
 		rbDTOsl = append(rbDTOsl, RbDTO)
 		RbDTO.StartDate = req.PeriodFrom
 		RbDTO.EndDate = period.PeriodFrom
@@ -250,6 +252,7 @@ func FillRbwithPeriod(period models.DiscountPeriod, req models.RBRequest, contra
 		RbDTO.DiscountAmount = discountAmount
 		RbDTO.StartDate = req.PeriodFrom
 		RbDTO.EndDate = req.PeriodTo
+		RbDTO.TotalWithoutDiscount =  amount
 		rbDTOsl = append(rbDTOsl, RbDTO)
 
 		//4 кейс
@@ -260,6 +263,7 @@ func FillRbwithPeriod(period models.DiscountPeriod, req models.RBRequest, contra
 		RbDTO.DiscountAmount = discountAmount
 		RbDTO.StartDate = period.PeriodFrom
 		RbDTO.EndDate = period.PeriodTo
+		RbDTO.TotalWithoutDiscount =  amount
 
 		rbDTOsl = append(rbDTOsl, RbDTO)
 
