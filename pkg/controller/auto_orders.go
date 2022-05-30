@@ -184,14 +184,14 @@ func GetAllFormedGraphics(c *gin.Context) {
 		return
 	}
 
-	var notEmpty []models.FormedGraphic
-	for _, graphic := range graphics {
-		if len(graphic.Products) > 0 {
-			notEmpty = append(notEmpty, graphic)
-		}
-	}
+	//var notEmpty []models.FormedGraphic
+	//for _, graphic := range graphics {
+	//	if len(graphic.Products) > 0 {
+	//		notEmpty = append(notEmpty, graphic)
+	//	}
+	//}
 
-	c.JSON(http.StatusOK, notEmpty)
+	c.JSON(http.StatusOK, graphics)
 }
 
 //GetAllFormedGraphicProducts auto_orders godoc

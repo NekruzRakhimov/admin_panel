@@ -1165,6 +1165,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 			TotalAmountDiscounts += totalDiscountsSum
 			lastRow = i + 2
 			i++
+			f.SetCellStyle(RB17Name, fmt.Sprintf("%s%d", "E", i+2), fmt.Sprintf("%s%d", "F", i+2), moneyStyle)
 		}
 		lastRow += 1
 		f.SetCellValue(RB17Name, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
