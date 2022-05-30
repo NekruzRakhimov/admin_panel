@@ -434,6 +434,48 @@ definitions:
       rb_request:
         $ref: '#/definitions/models.RBRequest'
     type: object
+  models.FormedGraphic:
+    properties:
+      by_matrix:
+        type: boolean
+      dister_days:
+        type: integer
+      graphic_name:
+        type: string
+      id:
+        type: integer
+      product_availability_days:
+        type: integer
+      schedule:
+        type: string
+      status:
+        type: string
+      store:
+        type: string
+      store_days:
+        type: integer
+      supplier:
+        type: string
+    type: object
+  models.FormedGraphicProduct:
+    properties:
+      days:
+        type: integer
+      graphic_id:
+        type: integer
+      id:
+        type: integer
+      order_qnt:
+        type: number
+      product_availability_days:
+        type: integer
+      product_code:
+        type: string
+      product_name:
+        type: string
+      remainder:
+        type: number
+    type: object
   models.FrequencyDeferredDiscount:
     properties:
       code:
@@ -446,7 +488,9 @@ definitions:
   models.Graphic:
     properties:
       application_day:
-        type: string
+        items:
+          type: string
+        type: array
       author:
         type: string
       auto_order_date:
@@ -525,6 +569,8 @@ definitions:
   models.PriceTypeCreate:
     properties:
       client_bin:
+        type: string
+      client_code:
         type: string
       pricetype_currency:
         type: string
@@ -1054,6 +1100,101 @@ paths:
       summary: Attach Role To User
       tags:
       - users
+  /auto_orders:
+    post:
+      consumes:
+      - application/json
+      description: Creating auto_orders
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Creating auto_orders
+      tags:
+      - contracts
+  /auto_orders/graphics:
+    get:
+      consumes:
+      - application/json
+      description: Gel All auto_orders
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.FormedGraphic'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All auto_orders
+      tags:
+      - contracts
+  /auto_orders/graphics/{graphic_id}/products:
+    get:
+      consumes:
+      - application/json
+      description: Gel All auto_ordered products
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.FormedGraphicProduct'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All auto_ordered products
+      tags:
+      - contracts
   /brands/:
     get:
       consumes:

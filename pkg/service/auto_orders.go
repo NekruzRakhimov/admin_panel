@@ -9,7 +9,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math"
 	"net/http"
+	"strconv"
 )
 
 func GetStoreRegions() ([]models.StoreRegion, error) {
@@ -1823,36 +1825,108 @@ func GetAllAutoOrders() (autoOrders []models.AutoOrder, err error) {
 	return repository.GetAllAutoOrders()
 }
 
-//func FormAutoOrders() error {
-//	graphics, err := repository.GetAllGraphics()
-//	if err != nil {
-//		return err
-//	}
-//
-//	for i, graphic := range graphics {
-//		storeCode := graphic.StoreCode
-//		supplierCode := graphic.SupplierCode
-//
-//		matrix, err := GetMatrix(storeCode)
-//		if err != nil {
-//			return err
-//		}
-//
-//		req := models.SalesCountRequest{
-//			Startdate: "27.05.2022 00:00:00",
-//			Enddate:   "27.05.2022 00:00:00",
-//			StoreCode: storeCode,
-//		}
-//		sales, err := GetSalesCountExt(req)
-//		if err != nil {
-//			return err
-//		}
-//
-//		for j, product := range matrix {
-//			if product.SupplierCode == supplierCode && product.StoreCode == storeCode {
-//
-//			}
-//		}
-//
-//	}
-//}
+func FormAutoOrders() error {
+	graphics, err := repository.GetAllGraphics()
+	if err != nil {
+		return err
+	}
+
+	var formedGraphics []models.FormedGraphic
+
+	for _, graphic := range graphics {
+		var formedGraphic models.FormedGraphic
+		formedGraphic.GraphicID = graphic.ID
+		formedGraphic.ByMatrix = true
+		formedGraphic.ProductAvailabilityDays = 0
+		formedGraphic.DisterDays = 0
+		formedGraphic.StoreDays = 0
+
+		storeCode := graphic.StoreCode
+		supplierCode := graphic.SupplierCode
+
+		matrix, err := GetMatrix(storeCode)
+		if err != nil {
+			return err
+		}
+
+		req := models.SalesCountRequest{
+			Startdate: "27.05.2022 00:00:00",
+			Enddate:   "27.05.2022 00:00:00",
+			StoreCode: storeCode,
+		}
+		sales, err := GetSalesCountExt(req)
+		if err != nil {
+			return err
+		}
+
+		for _, product := range matrix {
+			if product.SupplierCode == supplierCode && product.StoreCode == storeCode {
+				min, _ := strconv.ParseFloat(product.Min, 2)
+				max, _ := strconv.ParseFloat(product.Max, 2)
+				if min != 0 {
+					formedGraphic.FormulaID = 1
+					for _, sale := range sales {
+						if sale.ProductCode == product.ProductCode {
+							salesCount, _ := strconv.ParseFloat(sale.SalesCount, 2)
+							salesDayCount, _ := strconv.ParseFloat(sale.SalesDayCount, 2)
+							totalStoreCount, _ := strconv.ParseFloat(sale.TotalStoreCount, 2)
+							totalSalesDayCount, _ := strconv.ParseFloat(sale.TotalSalesDayCount, 2)
+
+							koef := 15
+							if graphic.OnceAMonth {
+								koef = 45
+							} else if graphic.TwiceAMonth {
+								koef = 30
+							}
+
+							orderQnt := salesCount/salesDayCount*float64(koef) + min - totalStoreCount
+							orderQnt = math.Ceil(orderQnt)
+
+							formedGraphic.Products = append(formedGraphic.Products, models.FormedGraphicProduct{
+								ProductCode:             product.ProductCode,
+								ProductName:             product.ProductName,
+								OrderQnt:                orderQnt,
+								Days:                    int(salesDayCount),
+								Remainder:               totalStoreCount,
+								ProductAvailabilityDays: int(totalSalesDayCount),
+							})
+						}
+					}
+				} else if max != 0 {
+					formedGraphic.FormulaID = 2
+					for _, sale := range sales {
+						if sale.ProductCode == product.ProductCode {
+							//salesCount, _ := strconv.ParseFloat(sale.SalesCount, 2)
+							salesDayCount, _ := strconv.ParseFloat(sale.SalesDayCount, 2)
+							totalStoreCount, _ := strconv.ParseFloat(sale.TotalStoreCount, 2)
+							totalSalesDayCount, _ := strconv.ParseFloat(sale.TotalSalesDayCount, 2)
+
+							orderQnt := max - totalStoreCount
+							orderQnt = math.Ceil(orderQnt)
+
+							formedGraphic.Products = append(formedGraphic.Products, models.FormedGraphicProduct{
+								ProductCode:             product.ProductCode,
+								ProductName:             product.ProductName,
+								OrderQnt:                orderQnt,
+								Days:                    int(salesDayCount),
+								Remainder:               totalStoreCount,
+								ProductAvailabilityDays: int(totalSalesDayCount),
+							})
+						}
+					}
+				}
+			}
+		}
+		formedGraphics = append(formedGraphics, formedGraphic)
+	}
+
+	return repository.SaveFormedGraphics(formedGraphics)
+}
+
+func GetAllFormedGraphics() (graphics []models.FormedGraphic, err error) {
+	return repository.GetAllFormedGraphics()
+}
+
+func GetAllFormedGraphicsProducts(formedGraphicID int) (products []models.FormedGraphicProduct, err error) {
+	return repository.GetAllFormedGraphicsProducts(formedGraphicID)
+}

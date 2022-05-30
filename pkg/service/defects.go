@@ -246,6 +246,7 @@ func FormExcelDefectsPF(req models.DefectsRequest, filteredDefects []models.Defe
 		)
 		i++
 		for _, subDefect := range defect.SubDefects {
+			f.SetCellValue(defectsSheet, fmt.Sprintf("A%d", i), defect.StoreName)
 			storeSaldoQnt, _ := strconv.ParseFloat(subDefect.StoreSaldoQnt, 2)
 			//if err != nil {
 			//	return err
@@ -384,7 +385,7 @@ func FormExcelDefectsPF(req models.DefectsRequest, filteredDefects []models.Defe
 	//	return err
 	//}
 
-	f.SaveAs("files/defects/res.xlsx")
+	_ = f.SaveAs("files/defects/res.xlsx")
 	//f.Close()
 	return nil
 }
@@ -440,6 +441,7 @@ func FormExcelDefectsLS(req models.DefectsRequest, filteredDefects []models.Defe
 		)
 		i++
 		for _, subDefect := range defect.SubDefects {
+			f.SetCellValue(defectsSheet, fmt.Sprintf("A%d", i), defect.StoreName)
 			storeSaldoQnt, _ := strconv.ParseFloat(subDefect.StoreSaldoQnt, 2)
 			if err != nil {
 				return err
@@ -536,7 +538,7 @@ func FormExcelDefectsLS(req models.DefectsRequest, filteredDefects []models.Defe
 	f.SetCellStyle(defectsSheet, "J3", "J3", moneyMainStyle)
 
 	f.DeleteSheet("Sheet1")
-	f.SaveAs("files/defects/res_ls.xlsx")
+	_ = f.SaveAs("files/defects/res_ls.xlsx")
 	//f.Close()
 	return nil
 }

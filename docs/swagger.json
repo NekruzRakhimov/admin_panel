@@ -279,6 +279,145 @@
                 }
             }
         },
+        "/auto_orders": {
+            "post": {
+                "description": "Creating auto_orders",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contracts"
+                ],
+                "summary": "Creating auto_orders",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/auto_orders/graphics": {
+            "get": {
+                "description": "Gel All auto_orders",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contracts"
+                ],
+                "summary": "Get All auto_orders",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.FormedGraphic"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/auto_orders/graphics/{graphic_id}/products": {
+            "get": {
+                "description": "Gel All auto_ordered products",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contracts"
+                ],
+                "summary": "Get All auto_ordered products",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.FormedGraphicProduct"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/brands/": {
             "get": {
                 "description": "Получаем список брендов",
@@ -4817,6 +4956,70 @@
                 }
             }
         },
+        "models.FormedGraphic": {
+            "type": "object",
+            "properties": {
+                "by_matrix": {
+                    "type": "boolean"
+                },
+                "dister_days": {
+                    "type": "integer"
+                },
+                "graphic_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "product_availability_days": {
+                    "type": "integer"
+                },
+                "schedule": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "store": {
+                    "type": "string"
+                },
+                "store_days": {
+                    "type": "integer"
+                },
+                "supplier": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.FormedGraphicProduct": {
+            "type": "object",
+            "properties": {
+                "days": {
+                    "type": "integer"
+                },
+                "graphic_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "order_qnt": {
+                    "type": "number"
+                },
+                "product_availability_days": {
+                    "type": "integer"
+                },
+                "product_code": {
+                    "type": "string"
+                },
+                "product_name": {
+                    "type": "string"
+                },
+                "remainder": {
+                    "type": "number"
+                }
+            }
+        },
         "models.FrequencyDeferredDiscount": {
             "type": "object",
             "properties": {
@@ -4835,7 +5038,10 @@
             "type": "object",
             "properties": {
                 "application_day": {
-                    "type": "string"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "author": {
                     "type": "string"
@@ -4956,6 +5162,9 @@
             "type": "object",
             "properties": {
                 "client_bin": {
+                    "type": "string"
+                },
+                "client_code": {
                     "type": "string"
                 },
                 "pricetype_currency": {

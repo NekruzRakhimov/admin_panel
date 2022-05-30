@@ -56,3 +56,45 @@ type AutoOrder struct {
 	Store             string `json:"store"`
 	CreatedAt         string `json:"created_at"`
 }
+
+type SalesCountRequest struct {
+	Startdate string `json:"startdate"`
+	Enddate   string `json:"enddate"`
+	StoreCode string `json:"store_code"`
+}
+
+type SalesCount struct {
+	ProductCode        string `json:"product_code"`
+	ProductName        string `json:"product_name"`
+	TotalSalesDayCount string `json:"total_sales_day_count"`
+	SalesDayCount      string `json:"sales_day_count"`
+	SalesCount         string `json:"sales_count"`
+	TotalStoreCount    string `json:"total_store_count"`
+}
+
+type FormedGraphic struct {
+	ID                      int                    `json:"id"`
+	FormulaID               int                    `json:"-"`
+	GraphicID               int                    `json:"-"`
+	GraphicName             string                 `json:"graphic_name"`
+	Supplier                string                 `json:"supplier"`
+	Store                   string                 `json:"store"`
+	ByMatrix                bool                   `json:"by_matrix"`
+	Schedule                string                 `json:"schedule"`
+	ProductAvailabilityDays int                    `json:"product_availability_days"`
+	DisterDays              int                    `json:"dister_days"`
+	StoreDays               int                    `json:"store_days"`
+	Status                  string                 `json:"status"`
+	Products                []FormedGraphicProduct `json:"-"`
+}
+
+type FormedGraphicProduct struct {
+	ID                      int     `json:"id"`
+	GraphicID               int     `json:"graphic_id"`
+	ProductCode             string  `json:"product_code"`
+	ProductName             string  `json:"product_name"`
+	OrderQnt                float64 `json:"order_qnt"`
+	Days                    int     `json:"days"`
+	Remainder               float64 `json:"remainder"`
+	ProductAvailabilityDays int     `json:"product_availability_days"`
+}
