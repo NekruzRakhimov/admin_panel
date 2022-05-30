@@ -364,7 +364,8 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		err = f.SetCellStyle(RB2Name, "A1", "H1", style)
 
 		var totalDiscountsSum float64
-		for i, contract := range rbSecondType {
+		var i int
+		for _, contract := range rbSecondType {
 			f.SetCellValue(RB2Name, fmt.Sprintf("%s%d", "A", i+2), fmt.Sprintf("%s-%s", contract.StartDate, contract.EndDate))
 			f.SetCellValue(RB2Name, fmt.Sprintf("%s%d", "B", i+2), contract.ContractNumber)
 			f.SetCellValue(RB2Name, fmt.Sprintf("%s%d", "C", i+2), RB2Name)
@@ -378,6 +379,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 
 			lastRow = i + 2
 			f.SetCellStyle(RB2Name, fmt.Sprintf("%s%d", "F", i+2), fmt.Sprintf("%s%d", "G", i+2), moneyStyle)
+			i++
 		}
 		lastRow += 1
 
