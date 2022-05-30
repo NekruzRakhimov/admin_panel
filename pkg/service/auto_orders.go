@@ -1840,6 +1840,7 @@ func FormAutoOrders() error {
 		formedGraphic.ProductAvailabilityDays = 0
 		formedGraphic.DisterDays = 0
 		formedGraphic.StoreDays = 0
+		formedGraphic.Status = "сформирован"
 
 		storeCode := graphic.StoreCode
 		supplierCode := graphic.SupplierCode
@@ -1850,7 +1851,7 @@ func FormAutoOrders() error {
 		}
 
 		req := models.SalesCountRequest{
-			Startdate: "27.05.2022 00:00:00",
+			Startdate: "01.01.2022 00:00:00",
 			Enddate:   "27.05.2022 00:00:00",
 			StoreCode: storeCode,
 		}

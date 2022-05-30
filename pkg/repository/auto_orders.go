@@ -94,7 +94,7 @@ func GetAllAutoOrders() (autoOrders []models.AutoOrder, err error) {
 
 func SaveFormedGraphics(formedGraphics []models.FormedGraphic) error {
 	for _, graphic := range formedGraphics {
-		if err := db.GetDBConn().Table("formed_graphics").Create(&graphic).Error; err != nil {
+		if err := db.GetDBConn().Table("formed_graphics").Omit("formula_id", "graphic_name", "supplier", "store", "schedule", "products").Create(&graphic).Error; err != nil {
 			return err
 		}
 
@@ -120,18 +120,18 @@ func SaveFormedGraphicProducts(products []models.FormedGraphicProduct, formedGra
 
 func GetAllFormedGraphics() (graphics []models.FormedGraphic, err error) {
 	sqlQuery := `SELECT fg.id,
-       g.number,
-       g.supplier_name,
-       g.store_name,
+       g.number as graphic_name,
+       g.supplier_name as supplier,
+       g.store_name as store,
        fg.by_matrix,
        g.application_day as schedule,
        fg.product_availability_days,
-       fg.distr_days,
+       fg.dister_days,
        fg.store_days,
-       fg.status
-		FROM
-					 formed_graphics fg
-					 JOIN graphics g ON fg.graphic_id = g.id`
+       fg.status as status
+                FROM
+                                         formed_graphics fg
+                                         JOIN graphics g ON fg.graphic_id = g.id`
 	if err = db.GetDBConn().Raw(sqlQuery).Scan(&graphics).Error; err != nil {
 		return nil, err
 	}
@@ -140,7 +140,7 @@ func GetAllFormedGraphics() (graphics []models.FormedGraphic, err error) {
 }
 
 func GetAllFormedGraphicsProducts(formedGraphicID int) (products []models.FormedGraphicProduct, err error) {
-	sqlQuery := "SELECT * FROM formed_graphic_products WHERE formed_graphic_id = ?"
+	sqlQuery := "SELECT * FROM formed_graphic_products WHERE graphic_id = ?"
 	if err = db.GetDBConn().Raw(sqlQuery, formedGraphicID).Scan(&products).Error; err != nil {
 		return nil, err
 	}
