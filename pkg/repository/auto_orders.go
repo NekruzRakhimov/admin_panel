@@ -94,6 +94,10 @@ func GetAllAutoOrders() (autoOrders []models.AutoOrder, err error) {
 
 func SaveFormedGraphics(formedGraphics []models.FormedGraphic) error {
 	for _, graphic := range formedGraphics {
+		if len(graphic.Products) == 0 {
+			continue
+		}
+
 		if err := db.GetDBConn().Table("formed_graphics").Omit("formula_id", "graphic_name", "supplier", "store", "schedule", "products").Create(&graphic).Error; err != nil {
 			return err
 		}
