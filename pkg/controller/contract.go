@@ -4,6 +4,7 @@ import (
 	"admin_panel/models"
 	"admin_panel/pkg/repository"
 	"admin_panel/pkg/service"
+	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/xuri/excelize/v2"
@@ -32,6 +33,11 @@ func CreateContract(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 		return
 	}
+	err := CheckPeriodContract(contract)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
 
 	contract.Type = c.Param("type")
 
@@ -42,6 +48,41 @@ func CreateContract(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"reason": "новый договор был успешно создан!"})
+}
+
+func CheckPeriodContract(contract models.Contract) error {
+
+	for _, discount := range contract.Discounts {
+		for _, checkPeriod := range discount.Periods {
+			startDate, _ := service.ConvertStringTime(contract.ContractParameters.StartDate)
+			endDate, _ := service.ConvertStringTime(contract.ContractParameters.EndDate)
+			periodFrom, _ := service.ConvertStringTime(checkPeriod.PeriodFrom)
+			periodTo, _ := service.ConvertStringTime(checkPeriod.PeriodTo)
+			if !(periodFrom.After(startDate) && periodTo.After(endDate)) {
+				fmt.Println("IS NOT TRUE")
+				discount := fmt.Sprintf("Ошибка, %s: - дата скиди  не может быть ниже или выше договора", discount.Name)
+				return errors.New(discount)
+			}
+
+		}
+
+		for _, discountBrand := range discount.DiscountBrands {
+			startDate, _ := service.ConvertStringTime(contract.ContractParameters.StartDate)
+			endDate, _ := service.ConvertStringTime(contract.ContractParameters.EndDate)
+			periodFrom, _ := service.ConvertStringTime(discountBrand.PeriodFrom)
+			periodTo, _ := service.ConvertStringTime(discountBrand.PeriodTo)
+			if !(periodFrom.After(startDate) && periodTo.After(endDate)) {
+				fmt.Println("IS NOT TRUE")
+				discount := fmt.Sprintf("Ошибка, %s: - дата скиди  не может быть ниже или выше договора", discount.Name)
+				return errors.New(discount)
+			}
+
+		}
+
+	}
+
+	return nil
+
 }
 
 //AddAdditionalAgreement contract godoc
