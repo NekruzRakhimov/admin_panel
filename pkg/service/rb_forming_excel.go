@@ -1209,8 +1209,9 @@ func FormExcelForRBReport(request models.RBRequest) error {
 
 
 			lastRow = i + 2
-			i++
 			f.SetCellStyle(RB17Name, fmt.Sprintf("%s%d", "E", i+2), fmt.Sprintf("%s%d", "F", i+2), moneyStyle)
+			i++
+
 		}
 		lastRow += 1
 
