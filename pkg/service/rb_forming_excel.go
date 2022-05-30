@@ -1162,12 +1162,13 @@ func FormExcelForRBReport(request models.RBRequest) error {
 			f.SetCellValue(RB17Name, fmt.Sprintf("%s%d", "E", i+2), contract.DiscountAmount)
 			f.SetCellValue(RB17Name, fmt.Sprintf("%s%d", "F", i+2), totalDiscountsSum)
 			totalDiscountsSum += contract.DiscountAmount
-			TotalAmountDiscounts += totalDiscountsSum
+
 			lastRow = i + 2
 			i++
 			f.SetCellStyle(RB17Name, fmt.Sprintf("%s%d", "E", i+2), fmt.Sprintf("%s%d", "F", i+2), moneyStyle)
 		}
 		lastRow += 1
+		TotalAmountDiscounts += totalDiscountsSum
 		f.SetCellValue(RB17Name, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
 		f.SetCellValue(RB17Name, fmt.Sprintf("%s%d", "E", lastRow), totalDiscountsSum)
 		err = f.SetCellStyle(RB17Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "E", lastRow), style)
