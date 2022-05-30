@@ -754,6 +754,7 @@ func GetRB14ThType(request models.RBRequest, contracts []models.Contract) ([]mod
 						ProductCode:     product.Sku,
 						DiscountPercent: float64(product.DiscountPercent),
 						LeasePlan:       product.Plan,
+						TotalWithoutDiscount: innerSalesTotal,
 						DiscountType:    RB14Name,
 					}
 					if innerSalesTotal >= product.Plan {
