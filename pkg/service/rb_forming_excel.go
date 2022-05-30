@@ -1147,7 +1147,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB17Name, "D1", "Скидка %")
 		f.SetCellValue(RB17Name, "E1", "Сумма скидки")
 		f.SetCellValue(RB17Name, "F1", "Общая сумма")
-		f.SetColWidth(RB17Name, "A", "E", 22)
+		f.SetColWidth(RB17Name, "A", "F", 22)
 		f.SetColWidth(RB17Name, "C", "C", 40)
 		err = f.SetCellStyle(RB17Name, "A1", "F1", style)
 
