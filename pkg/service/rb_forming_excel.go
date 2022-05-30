@@ -382,7 +382,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 		f.SetCellValue(RB2Name, fmt.Sprintf("%s%d", "E", lastRow), "Итог:")
 		f.SetCellValue(RB2Name, fmt.Sprintf("%s%d", "F", lastRow), totalDiscountsSum)
 		err = f.SetCellStyle(RB2Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
-		err = f.SetCellStyle(RB2Name, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "F", lastRow), moneyStyle)
+		err = f.SetCellStyle(RB2Name, fmt.Sprintf("%s%d", "F", lastRow), fmt.Sprintf("%s%d", "G", lastRow), moneyStyle)
 		ineration++
 
 		f.SetCellValue(sheet, fmt.Sprintf("%s%d", "A", ineration), RB2Name)
@@ -585,10 +585,10 @@ func FormExcelForRBReport(request models.RBRequest) error {
 
 		f.SetCellValue(RB6Name, fmt.Sprintf("%s%d", "E", lastRow), "Итог:")
 		f.SetCellValue(RB6Name, fmt.Sprintf("%s%d", "F", lastRow), totalDiscountsSum)
-		f.SetCellStyle(RB6Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
-		f.SetCellStyle(RB6Name, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
+		//f.SetCellStyle(RB6Name, fmt.Sprintf("%s%d", "D", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
+		//f.SetCellStyle(RB6Name, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "D", lastRow), style)
 
-		err = f.SetCellStyle(RB6Name, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "G", lastRow), moneyStyle)
+		err = f.SetCellStyle(RB6Name, fmt.Sprintf("%s%d", "E", lastRow), fmt.Sprintf("%s%d", "G", lastRow), coloredMoneyStyle)
 
 		//f.SetCellValue(sheet, "F1", "Вид скидки:")
 		//f.SetCellValue(sheet, "B1", "Сумма скидки:")

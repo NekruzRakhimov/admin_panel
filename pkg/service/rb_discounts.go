@@ -958,8 +958,8 @@ func FillDiscount(request models.RBRequest, contracts []models.Contract, RbCode 
 					discountAmount := amount * discount.DiscountPercent / 100
 					rbDTO = append(rbDTO, models.RbDTO{
 						ContractNumber:       contract.ContractParameters.ContractNumber,
-						StartDate:            contract.ContractParameters.StartDate,
-						EndDate:              contract.ContractParameters.EndDate,
+						StartDate:            request.PeriodFrom,
+						EndDate:               request.PeriodTo,
 						DiscountPercent:      discount.DiscountPercent,
 						DiscountAmount:       discountAmount,
 						TotalWithoutDiscount: amount,
