@@ -2,6 +2,7 @@ package main
 
 import (
 	"admin_panel/db"
+	"admin_panel/pkg/jobs"
 	"admin_panel/routes"
 	"admin_panel/utils"
 )
@@ -25,7 +26,7 @@ func main() {
 	utils.ReadSettings()
 	db.StartDbConnection()
 
-	//go jobs.RunJobs()
+	go jobs.RunJobs()
 
 	routes.RunAllRoutes()
 }
