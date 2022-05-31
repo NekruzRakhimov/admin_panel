@@ -4,12 +4,16 @@ import (
 	"admin_panel/models"
 	"admin_panel/utils"
 	"bytes"
+	"encoding/csv"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
+	"mime/multipart"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -29,7 +33,6 @@ func (s *forecastService) GetForecast(params *models.ForecastSearchParameters) (
 	if err != nil {
 		return nil, err
 	}
-
 	for i, _ := range history.SalesArr {
 		history.SalesArr[i].Category = "Исторические продажи"
 	}
@@ -49,8 +52,20 @@ func (s *forecastService) GetForecast(params *models.ForecastSearchParameters) (
 		}
 	}
 
-	sales := make([]models.Sale, 0)
+	/*csvHistoricalFile, err := s.getCSVFile(*history) //TODO открыть когда будет готово сервис на тестовом сервере
+	if err != nil {
+		return nil, err
+	}
 
+	forecast, err := s.getForecast(csvHistoricalFile)
+	if err != nil {
+		return nil, err
+	}
+	for i, _ := range forecast.SalesArr {
+		forecast.SalesArr[i].Category = "Прогноз"
+	}*/
+
+	sales := make([]models.Sale, 0)
 	sales = append(sales, history.SalesArr...)
 	sales = append(sales, forecast.SalesArr...)
 
@@ -109,4 +124,71 @@ func (s *forecastService) getHistoricalSales(params *models.ForecastSearchParame
 	}
 
 	return &response, nil
+}
+
+func (s *forecastService) getForecast(csv *os.File) (*models.ForecastSales, error) {
+	body := &bytes.Buffer{}
+	writer := multipart.NewWriter(body)
+	fw, err := writer.CreateFormFile("file", "forecast.csv")
+	if err != nil {
+		return nil, err
+	}
+	_, err = io.Copy(fw, csv)
+	if err != nil {
+		return nil, err
+	}
+	writer.Close()
+
+	req, err := http.NewRequest(http.MethodPost, utils.AppSettings.ForecastUrl, bytes.NewReader(body.Bytes()))
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Content-Type", writer.FormDataContentType())
+
+	client := http.Client{}
+	rsp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	if rsp.StatusCode != http.StatusOK {
+		return nil, errors.New(fmt.Sprintf("Request failed with response code: %d", rsp.StatusCode))
+	}
+
+	rawResp, err := ioutil.ReadAll(rsp.Body)
+	if err != nil {
+		return nil, errors.New(fmt.Sprintf("Ошибка при обработке тело forecast %s", err.Error()))
+	}
+
+	defer rsp.Body.Close()
+
+	rawResp = bytes.TrimPrefix(rawResp, []byte("\xef\xbb\xbf"))
+
+	response := models.ForecastSales{}
+	err = json.Unmarshal(rawResp, &response)
+	if err != nil {
+		log.Println(err)
+		return nil, errors.New(fmt.Sprintf("Ошибка при обработке респонса forecast %s", err.Error()))
+	}
+
+	return &response, nil
+}
+
+func (s *forecastService) getCSVFile(sales models.HistoricalSales) (*os.File, error) {
+	// Create a csv file
+	f, err := os.Create("forecast.csv")
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+
+	w := csv.NewWriter(f)
+	for _, obj := range sales.SalesArr {
+		var record []string
+		record = append(record, obj.Date)
+		record = append(record, fmt.Sprintf("%.2f", obj.QntTotal))
+		w.Write(record)
+	}
+	w.Flush()
+
+	return f, nil
 }

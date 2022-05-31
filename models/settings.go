@@ -5,6 +5,7 @@ type Settings struct {
 	AppParams      Params           `json:"app"`
 	PostgresParams PostgresSettings `json:"postgres_params"`
 	Route1c        Route1c          `json:"route_1c"`
+	ForecastUrl    string           `json:"forecast_url"`
 }
 
 // Params contains params of server metadata

@@ -19,5 +19,6 @@
     "routes": {
       "get_data": "/getdata"
     }
-  }
+  },
+  "forecast_url": "https://:/forecast"
 }
