@@ -1895,6 +1895,7 @@ func FormAutoOrders() error {
 								Koef:                    koef,
 								TotalStoreCount:         totalStoreCount,
 								Min:                     min,
+								StoreCode:               storeCode,
 							})
 						}
 					}

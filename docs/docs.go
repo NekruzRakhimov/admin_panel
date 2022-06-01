@@ -2177,6 +2177,51 @@ var doc = `{
             }
         },
         "/formula": {
+            "get": {
+                "description": "Gel All formulas",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "formula"
+                ],
+                "summary": "Get All formulas",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Formula"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "Create Formula",
                 "consumes": [
@@ -2269,6 +2314,59 @@ var doc = `{
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/formula/{id}/details": {
+            "get": {
+                "description": "Gel formula Details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contracts"
+                ],
+                "summary": "Get formula Details",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id of formula",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Formula"
                         }
                     },
                     "400": {
@@ -5163,6 +5261,9 @@ var doc = `{
                 "sales_day_count": {
                     "type": "number"
                 },
+                "store_code": {
+                    "type": "string"
+                },
                 "total_store_count": {
                     "type": "number"
                 }
@@ -5222,6 +5323,9 @@ var doc = `{
                 "no_sales_no_remainder_to_order": {
                     "type": "number"
                 },
+                "organization": {
+                    "type": "string"
+                },
                 "packing_norm": {
                     "type": "boolean"
                 },
@@ -5230,6 +5334,12 @@ var doc = `{
                 },
                 "sales_less_than_mtz": {
                     "type": "boolean"
+                },
+                "schedule": {
+                    "$ref": "#/definitions/models.Schedule"
+                },
+                "store_house": {
+                    "type": "string"
                 },
                 "transit_good_dister_days": {
                     "type": "integer"
@@ -5748,6 +5858,39 @@ var doc = `{
                 },
                 "total": {
                     "type": "number"
+                }
+            }
+        },
+        "models.Schedule": {
+            "type": "object",
+            "properties": {
+                "everyDay": {
+                    "type": "object",
+                    "properties": {
+                        "every": {
+                            "type": "integer"
+                        },
+                        "is_selected": {
+                            "type": "boolean"
+                        },
+                        "options": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "is_selected": {
+                                        "type": "boolean"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "time": {
+                    "type": "string"
                 }
             }
         },

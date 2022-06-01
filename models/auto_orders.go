@@ -103,4 +103,5 @@ type FormedGraphicProduct struct {
 	TotalStoreCount         float64 `json:"total_store_count"`
 	Min                     float64 `json:"min"`
 	Max                     float64 `json:"max"`
+	StoreCode               string  `json:"store_code"`
 }
