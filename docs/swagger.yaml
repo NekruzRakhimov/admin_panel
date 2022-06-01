@@ -543,6 +543,13 @@ definitions:
       transit_good_store_days:
         type: integer
     type: object
+  models.FormulaParameters:
+    properties:
+      code:
+        type: string
+      name_rus:
+        type: string
+    type: object
   models.FrequencyDeferredDiscount:
     properties:
       code:
@@ -2626,6 +2633,38 @@ paths:
       summary: Get formula Details
       tags:
       - contracts
+  /formula/parameters:
+    get:
+      consumes:
+      - application/json
+      description: Gel All parameters
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.FormulaParameters'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All formulas parameters
+      tags:
+      - formula
   /graphic:
     get:
       consumes:

@@ -98,6 +98,43 @@ func GetFormulaByID(c *gin.Context) {
 	c.JSON(http.StatusOK, models.Formula{})
 }
 
+//GetFormulaParameters formula godoc
+// @Summary Get All formulas parameters
+// @Description Gel All parameters
+// @Accept  json
+// @Produce  json
+// @Tags formula
+// @Success 200 {array}  models.FormulaParameters
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /formula/parameters [get]
 func GetFormulaParameters(c *gin.Context) {
+	parameters := []models.FormulaParameters{
+		{
+			NameRus: "Мин",
+			Code:    "min",
+		},
+		{
+			NameRus: "Макс",
+			Code:    "max",
+		},
+		{
+			NameRus: "Остатки",
+			Code:    "remainder",
+		},
+		{
+			NameRus: "Продажи",
+			Code:    "sales",
+		},
+		{
+			NameRus: "Дни продаж",
+			Code:    "sales_days",
+		},
+		{
+			NameRus: "Товар в пути",
+			Code:    "good_on_road",
+		},
+	}
 
+	c.JSON(http.StatusOK, parameters)
 }

@@ -39,3 +39,8 @@ type Schedule struct {
 		}
 	}
 }
+
+type FormulaParameters struct {
+	NameRus string `json:"name_rus"`
+	Code    string `json:"code"`
+}

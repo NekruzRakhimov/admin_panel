@@ -2277,6 +2277,53 @@ var doc = `{
                 }
             }
         },
+        "/formula/parameters": {
+            "get": {
+                "description": "Gel All parameters",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "formula"
+                ],
+                "summary": "Get All formulas parameters",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.FormulaParameters"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/formula/{id}": {
             "put": {
                 "description": "Editing Formula",
@@ -5346,6 +5393,17 @@ var doc = `{
                 },
                 "transit_good_store_days": {
                     "type": "integer"
+                }
+            }
+        },
+        "models.FormulaParameters": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "name_rus": {
+                    "type": "string"
                 }
             }
         },
