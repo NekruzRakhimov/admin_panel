@@ -886,7 +886,23 @@ definitions:
     type: object
   models.Schedule:
     properties:
-      everyDay:
+      every_day:
+        properties:
+          every:
+            type: integer
+          is_selected:
+            type: boolean
+          options:
+            items:
+              properties:
+                is_selected:
+                  type: boolean
+                name:
+                  type: string
+              type: object
+            type: array
+        type: object
+      every_week:
         properties:
           every:
             type: integer

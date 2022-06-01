@@ -37,7 +37,15 @@ type Schedule struct {
 			Name       string `json:"name"`
 			IsSelected bool   `json:"is_selected"`
 		}
-	}
+	} `json:"every_day"`
+	EveryWeek struct {
+		IsSelected bool `json:"is_selected"`
+		Every      int  `json:"every"`
+		Options    []struct {
+			Name       string `json:"name"`
+			IsSelected bool   `json:"is_selected"`
+		}
+	} `json:"every_week"`
 }
 
 type FormulaParameters struct {

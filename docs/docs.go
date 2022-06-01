@@ -5922,7 +5922,32 @@ var doc = `{
         "models.Schedule": {
             "type": "object",
             "properties": {
-                "everyDay": {
+                "every_day": {
+                    "type": "object",
+                    "properties": {
+                        "every": {
+                            "type": "integer"
+                        },
+                        "is_selected": {
+                            "type": "boolean"
+                        },
+                        "options": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "is_selected": {
+                                        "type": "boolean"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "every_week": {
                     "type": "object",
                     "properties": {
                         "every": {
