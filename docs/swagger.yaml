@@ -465,6 +465,12 @@ definitions:
         type: integer
       id:
         type: integer
+      koef:
+        type: integer
+      max:
+        type: number
+      min:
+        type: number
       order_qnt:
         type: number
       product_availability_days:
@@ -475,6 +481,59 @@ definitions:
         type: string
       remainder:
         type: number
+      sales_count:
+        type: number
+      sales_day_count:
+        type: number
+      total_store_count:
+        type: number
+    type: object
+  models.Formula:
+    properties:
+      account_aqniet_store_remainder:
+        type: boolean
+      account_illiquid:
+        type: boolean
+      account_permission_to_order:
+        type: boolean
+      account_write_off:
+        type: boolean
+      analysis_period:
+        type: string
+      author:
+        type: string
+      auto_order_type:
+        type: string
+      expiration_date:
+        type: string
+      formula_name:
+        type: string
+      formula_number:
+        type: string
+      formula_string_code:
+        type: string
+      formula_string_name:
+        type: string
+      id:
+        type: integer
+      is_mtz:
+        type: boolean
+      km_type:
+        type: string
+      need_automated_calculation:
+        type: boolean
+      no_sales_no_remainder_to_order:
+        type: number
+      packing_norm:
+        type: boolean
+      product_availability_days_less_than_15:
+        type: boolean
+      sales_less_than_mtz:
+        type: boolean
+      transit_good_dister_days:
+        type: integer
+      transit_good_store_days:
+        type: integer
     type: object
   models.FrequencyDeferredDiscount:
     properties:
@@ -2390,6 +2449,87 @@ paths:
       summary: Get All Positions
       tags:
       - dictionary
+  /formula:
+    post:
+      consumes:
+      - application/json
+      description: Create Formula
+      parameters:
+      - description: creating Formula
+        in: body
+        name: Formula
+        required: true
+        schema:
+          $ref: '#/definitions/models.Formula'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create Formula
+      tags:
+      - formula
+  /formula/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Editing Formula
+      parameters:
+      - description: editing Formula
+        in: body
+        name: contract
+        required: true
+        schema:
+          $ref: '#/definitions/models.Formula'
+      - description: id of Formula
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Editing Formula
+      tags:
+      - formula
   /graphic:
     get:
       consumes:
