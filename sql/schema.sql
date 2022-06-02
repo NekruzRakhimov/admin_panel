@@ -152,3 +152,4 @@ create table if not exists users_roles
 
 create unique index users_roles_id_uindex
     on users_roles (id);
+

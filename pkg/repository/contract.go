@@ -392,3 +392,26 @@ func GetSuppliersByParameter(filed string, value string) (suppliers []models.Dat
 	}
 	return suppliers, nil
 }
+
+func CheckEndContract() ([]models.PediodContract, error) {
+	var EndDate []models.PediodContract
+
+	err := db.GetDBConn().Raw("SELECT id, contract_parameters ->> 'end_date' as end_date FROM contracts").Scan(&EndDate).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return EndDate, nil
+
+}
+
+func ChangeStatusContract(id int) error {
+
+	err := db.GetDBConn().Exec("Update contracts SET status = 'заверщённый' where id = $1", id).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
+
+}

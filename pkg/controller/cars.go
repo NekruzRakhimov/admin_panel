@@ -243,3 +243,14 @@ func GetAllContractDetailByBIN(c *gin.Context) {
 	c.JSON(200, bin)
 
 }
+
+func CheckEndContract(c *gin.Context) {
+
+	contract, err := repository.CheckEndContract()
+	if err != nil {
+		c.JSON(400, err)
+	}
+
+	c.JSON(200, contract)
+
+}

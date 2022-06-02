@@ -120,43 +120,129 @@ func GetRB15ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 			if discount.Code == RB15Code && discount.IsSelected == true { // здесь сравниваешь тип скидки и берешь тот тип который тебе нужен
 				fmt.Println("Условия ТРУ")
 				for _, period := range discount.Periods {
-
-					reqBrand := models.ReqBrand{
-						ClientCode:     req.ClientCode,
-						DateStart:      period.PeriodFrom,
-						DateEnd:        period.PeriodTo,
-						TypeValue:      "",
-						TypeParameters: nil,
-						SchemeType:     contract.View,
-						//Contracts:      contractsCode, // необходимо получить коды контрактов
+					RbDTO := models.RbDTO{
+						ContractNumber:  contract.ContractParameters.ContractNumber,
+						StartDate:       period.PeriodFrom,
+						EndDate:         period.PeriodTo,
+						TypePeriod:      period.Name,
+						DiscountPercent: period.DiscountPercent,
+						//DiscountAmount:  discountAmount,
+						//RewardAmount:         reward,
+						//TotalWithoutDiscount: amount,
+						LeasePlan:    period.TotalAmount,
+						DiscountType: RB15Name,
 					}
-					sales, _ := GetSales(reqBrand)
-					amount := CountSales(sales)
+
+					//sales, _ := GetSales(reqBrand)
+					//amount := CountSales(sales)
 					periodFrom, _ := ConvertStringTime(period.PeriodFrom)
 					periodTo, _ := ConvertStringTime(period.PeriodTo)
 					reqperiodFrom, _ := ConvertStringTime(req.PeriodFrom)
 					reqperiodTo, _ := ConvertStringTime(req.PeriodTo)
-					if reqperiodFrom.Before(periodFrom) || reqperiodFrom.Equal(periodFrom) && reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo) {
-						fmt.Println("AMOUNT", amount, period.SalesAmount)
-						if amount >= period.TotalAmount {
-							//reward := amount * period.DiscountPercent / 100
-							RbDTO := models.RbDTO{
-								ContractNumber:  contract.ContractParameters.ContractNumber,
-								StartDate:       period.PeriodFrom,
-								EndDate:         period.PeriodTo,
-								TypePeriod:      period.Name,
-								DiscountPercent: period.DiscountPercent,
-								//DiscountAmount:       total,
-								RewardAmount:         float64(period.RewardAmount),
-								TotalWithoutDiscount: amount,
-								LeasePlan:            period.TotalAmount,
-								DiscountType:         RB15Name,
-							}
+					if (reqperiodFrom.After(periodFrom) || reqperiodFrom.Equal(periodFrom)) && (reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo)) {
+						amount := GetSalesByPeriods(req.PeriodFrom, period.PeriodTo, req.ClientCode, contract.View)
+						if amount > period.TotalAmount {
+							//discountAmount := amount * period.DiscountPercent / 100
+							//RbDTO.DiscountAmount = discountAmount
+							RbDTO.RewardAmount = float64(period.RewardAmount)
+							RbDTO.StartDate = req.PeriodFrom
+							RbDTO.EndDate = period.PeriodTo
+							RbDTO.TotalWithoutDiscount = amount
 							rbDTOsl = append(rbDTOsl, RbDTO)
 
 						} else {
-							rbDTOsl, _ = GetNil12Rb(rbDTOsl, contract, period, RB15Name)
+							RbDTO.DiscountAmount = 0
+							RbDTO.StartDate = req.PeriodFrom
+							RbDTO.EndDate = period.PeriodTo
+
+							rbDTOsl = append(rbDTOsl, RbDTO)
 						}
+
+						//// брать продажи ДНО и ДКП
+						//
+						//RbDTO.StartDate = period.PeriodTo
+						//RbDTO.EndDate = req.PeriodTo
+						//RbDTO.DiscountAmount = 0
+						////RbDTO.DiscountType = "Нет скидок"
+						//RbDTO.DiscountType = "Кейс #1"
+						//rbDTOsl = append(rbDTOsl, RbDTO)
+
+					} else if (periodFrom.After(reqperiodFrom) || reqperiodFrom.Equal(periodFrom)) && (periodTo.After(reqperiodTo) || reqperiodTo.Equal(periodTo)) {
+						amount := GetSalesByPeriods(period.PeriodFrom, req.PeriodTo, req.ClientCode, contract.View)
+						if amount > period.TotalAmount {
+							//discountAmount := amount * period.DiscountPercent / 100
+							RbDTO.RewardAmount = float64(period.RewardAmount)
+							RbDTO.StartDate = period.PeriodFrom
+							RbDTO.EndDate = req.PeriodTo
+							RbDTO.TotalWithoutDiscount = amount
+
+							rbDTOsl = append(rbDTOsl, RbDTO)
+
+						} else {
+							RbDTO.DiscountAmount = 0
+							RbDTO.StartDate = period.PeriodFrom
+							RbDTO.EndDate = req.PeriodTo
+							rbDTOsl = append(rbDTOsl, RbDTO)
+						}
+
+						//RbDTO.StartDate = req.PeriodFrom
+						//RbDTO.EndDate = period.PeriodFrom
+						//RbDTO.DiscountAmount = 0
+						////RbDTO.DiscountType = "Нет скидок"
+						//RbDTO.DiscountType = "Кейс #2"
+						//rbDTOsl = append(rbDTOsl, RbDTO)
+
+					} else if (reqperiodFrom.After(periodFrom) || reqperiodFrom.Equal(periodFrom)) && (periodTo.After(reqperiodTo) || reqperiodTo.Equal(periodTo)) {
+						//}else if (reqperiodFrom.After(periodFrom) &&  periodTo.After(reqperiodTo)) || (reqperiodFrom.Equal(periodFrom) && reqperiodTo.Equal(periodTo)){
+						amount := GetSalesByPeriods(req.PeriodFrom, req.PeriodTo, req.ClientCode, contract.View)
+						if amount > period.TotalAmount {
+							//discountAmount := amount * period.DiscountPercent / 100
+							//RbDTO.DiscountAmount = discountAmount
+							RbDTO.RewardAmount = float64(period.RewardAmount)
+							RbDTO.StartDate = req.PeriodFrom
+							RbDTO.EndDate = req.PeriodTo
+							RbDTO.TotalWithoutDiscount = amount
+
+							rbDTOsl = append(rbDTOsl, RbDTO)
+
+						} else {
+							RbDTO.DiscountAmount = 0
+							RbDTO.StartDate = req.PeriodFrom
+							RbDTO.EndDate = req.PeriodTo
+							rbDTOsl = append(rbDTOsl, RbDTO)
+						}
+
+						//4 кейс
+					} else if (periodFrom.After(reqperiodFrom) || reqperiodFrom.Equal(periodFrom)) && (reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo)) {
+						//}else if ( periodFrom.After(reqperiodFrom) && reqperiodTo.After(periodTo)) || (reqperiodFrom.Equal(periodFrom) && reqperiodTo.Equal(periodTo)){
+						amount := GetSalesByPeriods(period.PeriodFrom, period.PeriodTo, req.ClientCode, contract.View)
+
+						if amount > period.TotalAmount {
+							discountAmount := amount * period.DiscountPercent / 100
+							RbDTO.DiscountAmount = discountAmount
+							RbDTO.StartDate = period.PeriodFrom
+							RbDTO.EndDate = period.PeriodTo
+							RbDTO.TotalWithoutDiscount = amount
+							if discountAmount > 0 {
+								rbDTOsl = append(rbDTOsl, RbDTO)
+							}
+						} else {
+							RbDTO.StartDate = period.PeriodFrom
+							RbDTO.EndDate = period.PeriodTo
+							RbDTO.DiscountAmount = 0
+							rbDTOsl = append(rbDTOsl, RbDTO)
+						}
+
+						//RbDTO.StartDate = req.PeriodFrom
+						//RbDTO.EndDate = period.PeriodFrom
+						//RbDTO.DiscountAmount = 0
+						//RbDTO.DiscountType = "Кейс #4 (начало)"
+						//rbDTOsl = append(rbDTOsl, RbDTO)
+						//RbDTO.DiscountType = "Кейс #4 (конец)"
+						//RbDTO.StartDate = period.PeriodTo
+						//RbDTO.EndDate = req.PeriodTo
+						//
+						//rbDTOsl = append(rbDTOsl, RbDTO)
 
 					}
 
@@ -213,70 +299,107 @@ func FillRbwithPeriod(period models.DiscountPeriod, req models.RBRequest, contra
 	}
 	if (reqperiodFrom.After(periodFrom) || reqperiodFrom.Equal(periodFrom)) && (reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo)) {
 		amount := GetSalesByPeriods(req.PeriodFrom, period.PeriodTo, req.ClientCode, contract.View)
-		discountAmount := amount * period.DiscountPercent / 100
-		RbDTO.DiscountAmount = discountAmount
-		RbDTO.StartDate = req.PeriodFrom
-		RbDTO.EndDate = period.PeriodTo
-		RbDTO.TotalWithoutDiscount =  amount
+		if amount > period.TotalAmount {
+			discountAmount := amount * period.DiscountPercent / 100
+			RbDTO.DiscountAmount = discountAmount
+			RbDTO.StartDate = req.PeriodFrom
+			RbDTO.EndDate = period.PeriodTo
+			RbDTO.TotalWithoutDiscount = amount
+			if discountAmount > 0 {
+				rbDTOsl = append(rbDTOsl, RbDTO)
+			}
+		} else {
+			RbDTO.DiscountAmount = 0
+			RbDTO.StartDate = req.PeriodFrom
+			RbDTO.EndDate = period.PeriodTo
 
-		rbDTOsl = append(rbDTOsl, RbDTO)
-		// брать продажи ДНО и ДКП
+			rbDTOsl = append(rbDTOsl, RbDTO)
+		}
 
-		RbDTO.StartDate = period.PeriodTo
-		RbDTO.EndDate = req.PeriodTo
-		RbDTO.DiscountAmount = 0
-		//RbDTO.DiscountType = "Нет скидок"
-		RbDTO.DiscountType = "Кейс #1"
-		rbDTOsl = append(rbDTOsl, RbDTO)
+		//// брать продажи ДНО и ДКП
+		//
+		//RbDTO.StartDate = period.PeriodTo
+		//RbDTO.EndDate = req.PeriodTo
+		//RbDTO.DiscountAmount = 0
+		////RbDTO.DiscountType = "Нет скидок"
+		//RbDTO.DiscountType = "Кейс #1"
+		//rbDTOsl = append(rbDTOsl, RbDTO)
 
 	} else if (periodFrom.After(reqperiodFrom) || reqperiodFrom.Equal(periodFrom)) && (periodTo.After(reqperiodTo) || reqperiodTo.Equal(periodTo)) {
 		amount := GetSalesByPeriods(period.PeriodFrom, req.PeriodTo, req.ClientCode, contract.View)
-		discountAmount := amount * period.DiscountPercent / 100
-		RbDTO.DiscountAmount = discountAmount
-		RbDTO.StartDate = period.PeriodFrom
-		RbDTO.EndDate = req.PeriodTo
-		RbDTO.TotalWithoutDiscount =  amount
-		rbDTOsl = append(rbDTOsl, RbDTO)
-		RbDTO.StartDate = req.PeriodFrom
-		RbDTO.EndDate = period.PeriodFrom
-		RbDTO.DiscountAmount = 0
-		//RbDTO.DiscountType = "Нет скидок"
-		RbDTO.DiscountType = "Кейс #2"
-		rbDTOsl = append(rbDTOsl, RbDTO)
+		if amount > period.TotalAmount {
+			discountAmount := amount * period.DiscountPercent / 100
+			RbDTO.DiscountAmount = discountAmount
+			RbDTO.StartDate = period.PeriodFrom
+			RbDTO.EndDate = req.PeriodTo
+			RbDTO.TotalWithoutDiscount = amount
+			if discountAmount > 0 {
+				rbDTOsl = append(rbDTOsl, RbDTO)
+			}
+		} else {
+			RbDTO.DiscountAmount = 0
+			RbDTO.StartDate = period.PeriodFrom
+			RbDTO.EndDate = req.PeriodTo
+			rbDTOsl = append(rbDTOsl, RbDTO)
+		}
+
+		//RbDTO.StartDate = req.PeriodFrom
+		//RbDTO.EndDate = period.PeriodFrom
+		//RbDTO.DiscountAmount = 0
+		////RbDTO.DiscountType = "Нет скидок"
+		//RbDTO.DiscountType = "Кейс #2"
+		//rbDTOsl = append(rbDTOsl, RbDTO)
 
 	} else if (reqperiodFrom.After(periodFrom) || reqperiodFrom.Equal(periodFrom)) && (periodTo.After(reqperiodTo) || reqperiodTo.Equal(periodTo)) {
 		//}else if (reqperiodFrom.After(periodFrom) &&  periodTo.After(reqperiodTo)) || (reqperiodFrom.Equal(periodFrom) && reqperiodTo.Equal(periodTo)){
-
 		amount := GetSalesByPeriods(req.PeriodFrom, req.PeriodTo, req.ClientCode, contract.View)
-		discountAmount := amount * period.DiscountPercent / 100
-		RbDTO.DiscountAmount = discountAmount
-		RbDTO.StartDate = req.PeriodFrom
-		RbDTO.EndDate = req.PeriodTo
-		RbDTO.TotalWithoutDiscount =  amount
-		rbDTOsl = append(rbDTOsl, RbDTO)
+		if amount > period.TotalAmount {
+			discountAmount := amount * period.DiscountPercent / 100
+			RbDTO.DiscountAmount = discountAmount
+			RbDTO.StartDate = req.PeriodFrom
+			RbDTO.EndDate = req.PeriodTo
+			RbDTO.TotalWithoutDiscount = amount
+			if discountAmount > 0 {
+				rbDTOsl = append(rbDTOsl, RbDTO)
+			}
+		} else {
+			RbDTO.DiscountAmount = 0
+			RbDTO.StartDate = req.PeriodFrom
+			RbDTO.EndDate = req.PeriodTo
+			rbDTOsl = append(rbDTOsl, RbDTO)
+		}
 
 		//4 кейс
 	} else if (periodFrom.After(reqperiodFrom) || reqperiodFrom.Equal(periodFrom)) && (reqperiodTo.After(periodTo) || reqperiodTo.Equal(periodTo)) {
 		//}else if ( periodFrom.After(reqperiodFrom) && reqperiodTo.After(periodTo)) || (reqperiodFrom.Equal(periodFrom) && reqperiodTo.Equal(periodTo)){
 		amount := GetSalesByPeriods(period.PeriodFrom, period.PeriodTo, req.ClientCode, contract.View)
-		discountAmount := amount * period.DiscountPercent / 100
-		RbDTO.DiscountAmount = discountAmount
-		RbDTO.StartDate = period.PeriodFrom
-		RbDTO.EndDate = period.PeriodTo
-		RbDTO.TotalWithoutDiscount =  amount
 
-		rbDTOsl = append(rbDTOsl, RbDTO)
+		if amount > period.TotalAmount {
+			discountAmount := amount * period.DiscountPercent / 100
+			RbDTO.DiscountAmount = discountAmount
+			RbDTO.StartDate = period.PeriodFrom
+			RbDTO.EndDate = period.PeriodTo
+			RbDTO.TotalWithoutDiscount = amount
+			if discountAmount > 0 {
+				rbDTOsl = append(rbDTOsl, RbDTO)
+			}
+		} else {
+			RbDTO.StartDate = period.PeriodFrom
+			RbDTO.EndDate = period.PeriodTo
+			RbDTO.DiscountAmount = 0
+			rbDTOsl = append(rbDTOsl, RbDTO)
+		}
 
-		RbDTO.StartDate = req.PeriodFrom
-		RbDTO.EndDate = period.PeriodFrom
-		RbDTO.DiscountAmount = 0
-		RbDTO.DiscountType = "Кейс #4 от начала периода"
-		rbDTOsl = append(rbDTOsl, RbDTO)
-		RbDTO.DiscountType = "Кейс #4 от конца периода"
-		RbDTO.StartDate = period.PeriodTo
-		RbDTO.EndDate = req.PeriodTo
-
-		rbDTOsl = append(rbDTOsl, RbDTO)
+		//RbDTO.StartDate = req.PeriodFrom
+		//RbDTO.EndDate = period.PeriodFrom
+		//RbDTO.DiscountAmount = 0
+		//RbDTO.DiscountType = "Кейс #4 (начало)"
+		//rbDTOsl = append(rbDTOsl, RbDTO)
+		//RbDTO.DiscountType = "Кейс #4 (конец)"
+		//RbDTO.StartDate = period.PeriodTo
+		//RbDTO.EndDate = req.PeriodTo
+		//
+		//rbDTOsl = append(rbDTOsl, RbDTO)
 
 	}
 
@@ -346,10 +469,9 @@ func GetRB17ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 						RbDTO.StartDate = req.PeriodFrom
 						RbDTO.EndDate = period.PeriodTo
 						RbDTO.TotalWithoutDiscount = amount
-						if discountAmount > 0{
+						if discountAmount > 0 {
 							rbDTOsl = append(rbDTOsl, RbDTO)
 						}
-
 
 						//// брать продажи ДНО и ДКП
 						//
@@ -367,7 +489,7 @@ func GetRB17ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 						RbDTO.StartDate = period.PeriodFrom
 						RbDTO.EndDate = req.PeriodTo
 						RbDTO.TotalWithoutDiscount = amount
-						if discountAmount > 0{
+						if discountAmount > 0 {
 							rbDTOsl = append(rbDTOsl, RbDTO)
 						}
 
@@ -386,8 +508,8 @@ func GetRB17ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 						RbDTO.StartDate = req.PeriodFrom
 						RbDTO.EndDate = req.PeriodTo
 						RbDTO.TotalWithoutDiscount = amount
-						if discountAmount > 0{
-						rbDTOsl = append(rbDTOsl, RbDTO)
+						if discountAmount > 0 {
+							rbDTOsl = append(rbDTOsl, RbDTO)
 						}
 
 						//4 кейс
@@ -399,11 +521,9 @@ func GetRB17ThType(req models.RBRequest, contracts []models.Contract) ([]models.
 						RbDTO.StartDate = period.PeriodFrom
 						RbDTO.EndDate = period.PeriodTo
 						RbDTO.TotalWithoutDiscount = amount
-						if discountAmount > 0{
+						if discountAmount > 0 {
 							rbDTOsl = append(rbDTOsl, RbDTO)
 						}
-
-
 
 						//RbDTO.StartDate = req.PeriodFrom
 						//RbDTO.EndDate = period.PeriodFrom
@@ -758,15 +878,15 @@ func GetRB14ThType(request models.RBRequest, contracts []models.Contract) ([]mod
 				for _, product := range discount.Products {
 					//total := GetTotalSalesForSku(sales, product.Sku)
 					rb := models.RbDTO{
-						ID:              contract.ID,
-						ContractNumber:  contract.ContractParameters.ContractNumber,
-						StartDate:       contract.ContractParameters.StartDate,
-						EndDate:         contract.ContractParameters.EndDate,
-						ProductCode:     product.Sku,
-						DiscountPercent: float64(product.DiscountPercent),
-						LeasePlan:       product.Plan,
+						ID:                   contract.ID,
+						ContractNumber:       contract.ContractParameters.ContractNumber,
+						StartDate:            contract.ContractParameters.StartDate,
+						EndDate:              contract.ContractParameters.EndDate,
+						ProductCode:          product.Sku,
+						DiscountPercent:      float64(product.DiscountPercent),
+						LeasePlan:            product.Plan,
 						TotalWithoutDiscount: innerSalesTotal,
-						DiscountType:    RB14Name,
+						DiscountType:         RB14Name,
 					}
 					if innerSalesTotal >= product.Plan {
 						rb.DiscountAmount = innerSalesTotal * rb.DiscountPercent / 100
@@ -978,7 +1098,7 @@ func FillDiscount(request models.RBRequest, contracts []models.Contract, RbCode 
 					rbDTO = append(rbDTO, models.RbDTO{
 						ContractNumber:       contract.ContractParameters.ContractNumber,
 						StartDate:            request.PeriodFrom,
-						EndDate:               request.PeriodTo,
+						EndDate:              request.PeriodTo,
 						DiscountPercent:      discount.DiscountPercent,
 						DiscountAmount:       discountAmount,
 						TotalWithoutDiscount: amount,
