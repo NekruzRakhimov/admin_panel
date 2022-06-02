@@ -1890,6 +1890,12 @@ func FormAutoOrders() error {
 								Days:                    int(salesDayCount),
 								Remainder:               totalStoreCount,
 								ProductAvailabilityDays: int(totalSalesDayCount),
+								SalesCount:              salesCount,
+								SalesDayCount:           salesDayCount,
+								Koef:                    koef,
+								TotalStoreCount:         totalStoreCount,
+								Min:                     min,
+								StoreCode:               storeCode,
 							})
 						}
 					}
@@ -1912,6 +1918,8 @@ func FormAutoOrders() error {
 								Days:                    int(salesDayCount),
 								Remainder:               totalStoreCount,
 								ProductAvailabilityDays: int(totalSalesDayCount),
+								Max:                     max,
+								TotalStoreCount:         totalStoreCount,
 							})
 						}
 					}

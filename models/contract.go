@@ -405,3 +405,8 @@ type ProductsData struct {
 	ProductCode string `json:"product_code"`
 	ProductName string `json:"product_name"`
 }
+
+type PediodContract struct {
+	ID      int    `json:"id"`
+	EndDate string `json:"end_date"`
+}

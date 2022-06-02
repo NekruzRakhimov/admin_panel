@@ -97,4 +97,11 @@ type FormedGraphicProduct struct {
 	Days                    int     `json:"days"`
 	Remainder               float64 `json:"remainder"`
 	ProductAvailabilityDays int     `json:"product_availability_days"`
+	SalesCount              float64 `json:"sales_count"`
+	SalesDayCount           float64 `json:"sales_day_count"`
+	Koef                    int     `json:"koef"`
+	TotalStoreCount         float64 `json:"total_store_count"`
+	Min                     float64 `json:"min"`
+	Max                     float64 `json:"max"`
+	StoreCode               string  `json:"store_code"`
 }

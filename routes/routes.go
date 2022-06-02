@@ -79,11 +79,17 @@ func runAllRoutes(r *gin.Engine) {
 	cr.POST("/graphic", controller.CreateGraphic)
 	cr.PUT("/graphic/:id", controller.EditGraphic)
 
+	cr.POST("/auto_orders", controller.FormAutoOrder)
 	cr.GET("/auto_orders", controller.GetAllAutoOrders)
 	cr.GET("/auto_orders/graphics", controller.GetAllFormedGraphics)
 	cr.GET("/auto_orders/graphics/:graphic_id/products", controller.GetAllFormedGraphicProducts)
 
-	cr.POST("/auto_orders", controller.FormAutoOrder)
+	cr.POST("/formula", controller.CreateFormula)
+	cr.GET("/formula", controller.GetAllFormulas)
+	cr.GET("/formula/:id/details", controller.GetFormulaByID)
+	cr.PUT("/formula/:id", controller.EditFormula)
+
+	cr.GET("/formula/parameters", controller.GetFormulaParameters)
 
 	cr.POST("/defects/pharmacy/PF", controller.GetDefectsByPharmacyPF)
 	cr.POST("/defects/pharmacy/LS", controller.GetDefectsByPharmacyLS)
@@ -138,6 +144,7 @@ func tempRoutes(r *gin.RouterGroup) {
 	r.POST("/rbsixteen", controller.DiscountRB16)
 	r.POST("/rbfifteen", controller.DiscountRB15)
 	r.POST("/check_contract", controller.GetAllContractDetailByBIN)
+	r.GET("/check_enddate", controller.CheckEndContract)
 
 	r.POST("/rb_brand/", controller.GetBrandInfo)
 	r.POST("/rb_brand/excel/", controller.GenerateReportBrand)
