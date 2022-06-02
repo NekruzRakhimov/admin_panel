@@ -20,5 +20,5 @@
       "get_data": "/getdata"
     }
   },
-  "forecast_url": "https://:/forecast"
+  "forecast_url": "http://localhost:8997/forecast"
 }

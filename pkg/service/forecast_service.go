@@ -11,10 +11,15 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"mime"
 	"mime/multipart"
 	"net/http"
+	"net/textproto"
+	"net/url"
 	"os"
-	"time"
+	"path/filepath"
+	"strconv"
+	"strings"
 )
 
 type ForecastService interface {
@@ -28,6 +33,8 @@ func NewForecastService() ForecastService {
 	return &forecastService{}
 }
 
+const forecastFile = "forecast.csv"
+
 func (s *forecastService) GetForecast(params *models.ForecastSearchParameters) (*models.Forecast, error) {
 	history, err := s.getHistoricalSales(params)
 	if err != nil {
@@ -37,33 +44,13 @@ func (s *forecastService) GetForecast(params *models.ForecastSearchParameters) (
 		history.SalesArr[i].Category = "Исторические продажи"
 	}
 
-	forecast := &models.ForecastSales{}
-	dateNow := time.Now()
-	for i, f := range history.SalesArr {
-		if i > 1 && i < 31 {
-
-			fSale := models.Sale{
-				QntTotal: f.QntTotal,
-				Date:     dateNow.AddDate(0, 0, i).Format("2006-01-02T15:04:05"),
-				Category: "Прогноз",
-			}
-
-			forecast.SalesArr = append(forecast.SalesArr, fSale)
-		}
-	}
-
-	/*csvHistoricalFile, err := s.getCSVFile(*history) //TODO открыть когда будет готово сервис на тестовом сервере
-	if err != nil {
-		return nil, err
-	}
-
-	forecast, err := s.getForecast(csvHistoricalFile)
+	forecast, err := s.getForecast(*history)
 	if err != nil {
 		return nil, err
 	}
 	for i, _ := range forecast.SalesArr {
 		forecast.SalesArr[i].Category = "Прогноз"
-	}*/
+	}
 
 	sales := make([]models.Sale, 0)
 	sales = append(sales, history.SalesArr...)
@@ -126,44 +113,100 @@ func (s *forecastService) getHistoricalSales(params *models.ForecastSearchParame
 	return &response, nil
 }
 
-func (s *forecastService) getForecast(csv *os.File) (*models.ForecastSales, error) {
-	body := &bytes.Buffer{}
-	writer := multipart.NewWriter(body)
-	fw, err := writer.CreateFormFile("file", "forecast.csv")
+func (s *forecastService) getForecast(sales models.HistoricalSales) (*models.ForecastSales, error) {
+	err := generateCSVFile(sales)
 	if err != nil {
 		return nil, err
-	}
-	_, err = io.Copy(fw, csv)
-	if err != nil {
-		return nil, err
-	}
-	writer.Close()
-
-	req, err := http.NewRequest(http.MethodPost, utils.AppSettings.ForecastUrl, bytes.NewReader(body.Bytes()))
-	if err != nil {
-		return nil, err
-	}
-	req.Header.Set("Content-Type", writer.FormDataContentType())
-
-	client := http.Client{}
-	rsp, err := client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	if rsp.StatusCode != http.StatusOK {
-		return nil, errors.New(fmt.Sprintf("Request failed with response code: %d", rsp.StatusCode))
 	}
 
-	rawResp, err := ioutil.ReadAll(rsp.Body)
+	prophet, err := postProphet(utils.AppSettings.ForecastUrl, forecastFile)
+	if err != nil {
+		return nil, err
+	}
+
+	forecast := &models.ForecastSales{}
+	for _, f := range prophet.Data {
+		fSale := models.Sale{
+			QntTotal: f.XGBoost,
+			Date:     strings.ReplaceAll(f.Ds, ".000Z", ""),
+			Category: "Прогноз",
+		}
+
+		forecast.SalesArr = append(forecast.SalesArr, fSale)
+
+	}
+
+	return forecast, nil
+}
+
+func generateCSVFile(sales models.HistoricalSales) error {
+	// Create a csv file
+	f, err := os.Create(forecastFile)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	w := csv.NewWriter(f)
+	titleCSV := []string{"dteday", "cnt", "holiday", "workingday"}
+	w.Write(titleCSV)
+	for i, obj := range sales.SalesArr {
+		var record []string
+		record = append(record, obj.Date)
+		record = append(record, fmt.Sprintf("%.2f", obj.QntTotal))
+		if i == 5 {
+			record = append(record, "1")
+		} else {
+			record = append(record, "0")
+		}
+		record = append(record, "1")
+		w.Write(record)
+	}
+	w.Flush()
+
+	return nil
+}
+
+func postProphet(dst, fname string) (*models.ProphetSales, error) {
+	u, err := url.Parse(dst)
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse destination url: %w", err)
+	}
+
+	form, err := makeRequestBody(fname)
+	if err != nil {
+		return nil, fmt.Errorf("failed to prepare request body: %w", err)
+	}
+
+	hdr := make(http.Header)
+	hdr.Set("Content-Type", form.contentType)
+	req := http.Request{
+		Method:        http.MethodPost,
+		URL:           u,
+		Header:        hdr,
+		Body:          ioutil.NopCloser(form.body),
+		ContentLength: int64(form.contentLen),
+	}
+
+	resp, err := http.DefaultClient.Do(&req)
+	if err != nil {
+		return nil, fmt.Errorf("failed to perform http request: %w", err)
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, errors.New(fmt.Sprintf("Request failed with response code in python service: %d", resp.StatusCode))
+	}
+
+	rawResp, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return nil, errors.New(fmt.Sprintf("Ошибка при обработке тело forecast %s", err.Error()))
 	}
 
-	defer rsp.Body.Close()
+	defer resp.Body.Close()
 
 	rawResp = bytes.TrimPrefix(rawResp, []byte("\xef\xbb\xbf"))
 
-	response := models.ForecastSales{}
+	response := models.ProphetSales{}
 	err = json.Unmarshal(rawResp, &response)
 	if err != nil {
 		log.Println(err)
@@ -173,22 +216,84 @@ func (s *forecastService) getForecast(csv *os.File) (*models.ForecastSales, erro
 	return &response, nil
 }
 
-func (s *forecastService) getCSVFile(sales models.HistoricalSales) (*os.File, error) {
-	// Create a csv file
-	f, err := os.Create("forecast.csv")
+type form struct {
+	body        *bytes.Buffer
+	contentType string
+	contentLen  int
+}
+
+func makeRequestBody(fname string) (form, error) {
+	ct, err := getFileContentType(fname)
 	if err != nil {
-		return nil, err
+		return form{}, fmt.Errorf(
+			`failed to get content type for file "%s": %w`,
+			fname, err)
 	}
-	defer f.Close()
 
-	w := csv.NewWriter(f)
-	for _, obj := range sales.SalesArr {
-		var record []string
-		record = append(record, obj.Date)
-		record = append(record, fmt.Sprintf("%.2f", obj.QntTotal))
-		w.Write(record)
+	fd, err := os.Open(fname)
+	if err != nil {
+		return form{}, fmt.Errorf("failed to open file to upload: %w", err)
 	}
-	w.Flush()
+	defer fd.Close()
 
-	return f, nil
+	stat, err := fd.Stat()
+	if err != nil {
+		return form{}, fmt.Errorf("failed to query file info: %w", err)
+	}
+
+	hdr := make(textproto.MIMEHeader)
+	cd := mime.FormatMediaType("form-data", map[string]string{
+		"name":     "file",
+		"filename": fname,
+	})
+	hdr.Set("Content-Disposition", cd)
+	hdr.Set("Content-Type", ct)
+	hdr.Set("Content-Length", strconv.FormatInt(stat.Size(), 10))
+
+	var buf bytes.Buffer
+	mw := multipart.NewWriter(&buf)
+
+	part, err := mw.CreatePart(hdr)
+	if err != nil {
+		return form{}, fmt.Errorf("failed to create new form part: %w", err)
+	}
+
+	n, err := io.Copy(part, fd)
+	if err != nil {
+		return form{}, fmt.Errorf("failed to write form part: %w", err)
+	}
+
+	if int64(n) != stat.Size() {
+		return form{}, fmt.Errorf("file size changed while writing: %s", fd.Name())
+	}
+
+	err = mw.Close()
+	if err != nil {
+		return form{}, fmt.Errorf("failed to prepare form: %w", err)
+	}
+
+	return form{
+		body:        &buf,
+		contentType: mw.FormDataContentType(),
+		contentLen:  buf.Len(),
+	}, nil
+}
+
+var fileContentTypes = map[string]string{
+	"csv": "text/csv",
+}
+
+func getFileContentType(fname string) (string, error) {
+	ext := filepath.Ext(fname)
+	if ext == "" {
+		return "", fmt.Errorf("file name has no extension: %s", fname)
+	}
+
+	ext = strings.ToLower(ext[1:])
+	ct, found := fileContentTypes[ext]
+	if !found {
+		return "", fmt.Errorf("unknown file name extension: %s", ext)
+	}
+
+	return ct, nil
 }

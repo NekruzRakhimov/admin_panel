@@ -22,3 +22,12 @@ type Sale struct {
 	Date     string  `json:"date"`
 	Category string  `json:"category"`
 }
+
+type ProphetSales struct {
+	Data []Prophet `json:"data"`
+}
+
+type Prophet struct {
+	Ds      string  `json:"ds"`
+	XGBoost float64 `json:"XGBoost"`
+}
