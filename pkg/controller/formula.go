@@ -68,3 +68,73 @@ func EditFormula(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"reason": "формула успешно создана"})
 }
+
+//GetAllFormulas formula godoc
+// @Summary Get All formulas
+// @Description Gel All formulas
+// @Accept  json
+// @Produce  json
+// @Tags formula
+// @Success 200 {array}  models.Formula
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /formula [get]
+func GetAllFormulas(c *gin.Context) {
+	c.JSON(http.StatusOK, []int{})
+}
+
+//GetFormulaByID formula godoc
+// @Summary Get formula Details
+// @Description Gel formula Details
+// @Accept  json
+// @Produce  json
+// @Tags contracts
+// @Param  id  path string true "id of formula"
+// @Success 200 {object}  models.Formula
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /formula/{id}/details [get]
+func GetFormulaByID(c *gin.Context) {
+	c.JSON(http.StatusOK, models.Formula{})
+}
+
+//GetFormulaParameters formula godoc
+// @Summary Get All formulas parameters
+// @Description Gel All parameters
+// @Accept  json
+// @Produce  json
+// @Tags formula
+// @Success 200 {array}  models.FormulaParameters
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /formula/parameters [get]
+func GetFormulaParameters(c *gin.Context) {
+	parameters := []models.FormulaParameters{
+		{
+			NameRus: "Мин",
+			Code:    "min",
+		},
+		{
+			NameRus: "Макс",
+			Code:    "max",
+		},
+		{
+			NameRus: "Остатки",
+			Code:    "remainder",
+		},
+		{
+			NameRus: "Продажи",
+			Code:    "sales",
+		},
+		{
+			NameRus: "Дни продаж",
+			Code:    "sales_days",
+		},
+		{
+			NameRus: "Товар в пути",
+			Code:    "good_on_road",
+		},
+	}
+
+	c.JSON(http.StatusOK, parameters)
+}
