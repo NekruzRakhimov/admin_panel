@@ -352,7 +352,8 @@ func ConformContract(contractId int, status string) error {
 	if respFrom1C.Status != "success" {
 		return errors.New("не удалось сохранить договор в 1С. Повторите попытку позже")
 	}
-	if err := repository.ConformContract(contractId, status); err != nil {
+
+	if err = repository.ConformContract(contract, status); err != nil {
 		return err
 	}
 

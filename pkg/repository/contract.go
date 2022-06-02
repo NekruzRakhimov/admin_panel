@@ -13,9 +13,6 @@ import (
 
 func CreateContract(contractWithJson models.ContractWithJsonB) error {
 	//fmt.Printf(">>>> %+v", contractWithJson)
-	if err := db.GetDBConn().Table("contracts").Exec("UPDATE contracts SET status = ? WHERE id = ?", "заверщённый", contractWithJson.PrevContractId).Error; err != nil {
-		return err
-	}
 
 	err := db.GetDBConn().Table("contracts").Omit("created_at", "updated_at", "is_extend_contract", "extend_date", "brand_name", "brand_code", "discount_percent", "contract_id").Create(&contractWithJson).Error
 	fmt.Println(contractWithJson.ID, "ContractParam")
@@ -115,13 +112,17 @@ func GetContractDetails(contractId int) (contract models.ContractWithJsonB, err 
 	return contract, nil
 }
 
-func ConformContract(contractId int, status string) error {
-	sqlQuery := "UPDATE contracts SET status = $1 WHERE id = $2"
-	if err := db.GetDBConn().Exec(sqlQuery, status, contractId).Error; err != nil {
+func ConformContract(contract models.Contract, status string) error {
+	if err := db.GetDBConn().Table("contracts").Exec("UPDATE contracts SET status = ? WHERE id = ?", "заверщённый", contract.PrevContractId).Error; err != nil {
 		return err
 	}
 
-	if err := RecordContractStatusChange(contractId, status); err != nil {
+	sqlQuery := "UPDATE contracts SET status = $1 WHERE id = $2"
+	if err := db.GetDBConn().Exec(sqlQuery, status, contract.ID).Error; err != nil {
+		return err
+	}
+
+	if err := RecordContractStatusChange(contract.ID, status); err != nil {
 		return err
 	}
 
