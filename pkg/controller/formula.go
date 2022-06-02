@@ -80,7 +80,13 @@ func EditFormula(c *gin.Context) {
 // @Failure 500 {object} map[string]interface{}
 // @Router /formula [get]
 func GetAllFormulas(c *gin.Context) {
-	c.JSON(http.StatusOK, []int{})
+	formulas, err := service.GetAllFormulas()
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, formulas)
 }
 
 //GetFormulaByID formula godoc
@@ -95,7 +101,19 @@ func GetAllFormulas(c *gin.Context) {
 // @Failure 500 {object} map[string]interface{}
 // @Router /formula/{id}/details [get]
 func GetFormulaByID(c *gin.Context) {
-	c.JSON(http.StatusOK, models.Formula{})
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": "id not found"})
+		return
+	}
+
+	formula, err := service.GetFormulaByID(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, formula)
 }
 
 //GetFormulaParameters formula godoc

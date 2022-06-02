@@ -25,7 +25,8 @@ type Formula struct {
 	NoSalesNoRemainderToOrder         float64  `json:"no_sales_no_remainder_to_order"`
 	Organization                      string   `json:"organization"`
 	StoreHouse                        string   `json:"store_house"`
-	Schedule                          Schedule `json:"schedule"`
+	Schedule                          Schedule `json:"schedule" gorm:"-"`
+	ScheduleStr                       string   `json:"-" gorm:"column:schedule"`
 }
 
 type Schedule struct {
