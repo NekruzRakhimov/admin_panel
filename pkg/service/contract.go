@@ -54,9 +54,9 @@ func AddAdditionalAgreement(contract models.Contract) error {
 		return err
 	}
 
-	if prevContractDetails.Status != "в работе" {
-		return errors.New(fmt.Sprintf("статус договора - [%s]. Вы не можете добавить к нему ДС", prevContractDetails.Status))
-	}
+	//if prevContractDetails.Status != "в работе" {
+	//	return errors.New(fmt.Sprintf("статус договора - [%s]. Вы не можете добавить к нему ДС", prevContractDetails.Status))
+	//}
 
 	switch contract.Status {
 	case "DRAFT":
