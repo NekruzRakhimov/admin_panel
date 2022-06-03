@@ -325,7 +325,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 
 		var totalDiscountsSum float64
 		fmt.Printf("CHECK \n%+v\n CHECK", contracts)
-		var i int
+		var i int // вроде бы занова создается
 		for _, contract := range contract1stType {
 			f.SetCellValue(RB1Name, fmt.Sprintf("%s%d", "A", i+2), fmt.Sprintf("%s-%s", contract.StartDate, contract.EndDate))
 			f.SetCellValue(RB1Name, fmt.Sprintf("%s%d", "B", i+2), contract.ContractNumber)
@@ -337,6 +337,7 @@ func FormExcelForRBReport(request models.RBRequest) error {
 			lastRow = i + 2
 			i++
 		}
+		// вот что странно...
 		lastRow += 1
 		f.SetCellValue(RB1Name, fmt.Sprintf("%s%d", "D", lastRow), "Итог:")
 		f.SetCellValue(RB1Name, fmt.Sprintf("%s%d", "E", lastRow), totalDiscountsSum)
