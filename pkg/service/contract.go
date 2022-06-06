@@ -508,8 +508,8 @@ func GetContractStatusChangesHistory(contractId int) (history []models.ContractS
 	return history, nil
 }
 
-func SearchContractByNumber(contractNumber, status string) ([]models.SearchContract, error) {
-	return repository.SearchContractByNumber(contractNumber, status)
+func SearchContractByNumber(status string, field string, param string) ([]models.SearchContract, error) {
+	return repository.SearchContractByNumber(status, field, param  )
 }
 
 func SearchContractHistory(field, param string) ([]models.SearchContract, error) {

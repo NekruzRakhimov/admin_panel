@@ -223,11 +223,31 @@ func SaveContractExternalCodeByBIN(contractFor1C models.ContractDTOFor1C, contra
 	return nil
 }
 
-func SearchContractByNumber(param string, status string) ([]models.SearchContract, error) {
+func SearchContractByNumber(status string, field string, param string) ([]models.SearchContract, error) {
 	var search []models.SearchContract
-	query := fmt.Sprint("SELECT id, status, requisites ->> 'beneficiary' AS  beneficiary,  contract_parameters ->> 'contract_number' AS contract_number," +
-		"type AS contract_type,  created_at, updated_at, manager AS author, contract_parameters ->> 'contract_amount' AS amount FROM  contracts " +
-		"WHERE  contract_parameters ->> 'contract_number' like  $1 ")
+
+	//TODO:
+	// 1. добавить еще 1 вариант по контрагенту
+	// 2. найти какое поле это
+
+	contractParam := "contract_parameters ->> 'contract_number'"
+	manager := "manager"
+	beneficiary := "requisites ->> 'beneficiary'"
+
+	if field == "manager" {
+		field = manager
+	} else if field == "contract_number" {
+		field = contractParam
+	} else if field == "beneficiary" {
+		field = beneficiary
+	}
+
+	//query := fmt.Sprint("SELECT id, status, requisites ->> 'beneficiary' AS  beneficiary,  contract_parameters ->> 'contract_number' AS contract_number," +
+	//	"type AS contract_type,  created_at, updated_at, manager AS author, contract_parameters ->> 'contract_amount' AS amount FROM  contracts " +
+	//	"WHERE  contract_parameters ->> 'contract_number' like  $1 ")
+	query := fmt.Sprintf("SELECT id, status, requisites ->> 'beneficiary' AS  beneficiary,  contract_parameters ->> 'contract_number' AS contract_number,"+
+		"type AS contract_type,  created_at, updated_at, manager AS author, contract_parameters ->> 'contract_amount' AS amount FROM  contracts "+
+		"WHERE  %s like  $1 ", field)
 	if status == "" {
 		err := db.GetDBConn().Raw(query, "%"+param+"%").Scan(&search).Error
 		if errors.Is(err, gorm.ErrRecordNotFound) {

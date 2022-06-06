@@ -645,7 +645,8 @@ func SearchContractByNumber(c *gin.Context) {
 	//
 
 	status := c.Query("status")
-	contractNumber := c.Query("contract_number")
+	param := c.Query("param")
+	field := c.Query("field")
 	switch status {
 	case "DRAFT":
 		status = "черновик"
@@ -662,7 +663,7 @@ func SearchContractByNumber(c *gin.Context) {
 	}
 	log.Println(status, "checking status")
 
-	result, err := service.SearchContractByNumber(contractNumber, status)
+	result, err := service.SearchContractByNumber(status, field, param)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 		return

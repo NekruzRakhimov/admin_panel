@@ -2,6 +2,7 @@ package service
 
 import (
 	"admin_panel/models"
+	"admin_panel/pkg/repository"
 	"log"
 )
 
@@ -158,31 +159,34 @@ func GetDD5th(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 	for _, contract := range contracts {
 		for _, discount := range contract.Discounts {
 			if discount.Code == DD5Code && discount.IsSelected == true {
-				totalAmount, err := Fill(request, contract)
-				if err != nil {
-					return nil, err
+				if repository.DoubtedDiscountExecutionCheck(request, contract.ContractParameters.ContractNumber, discount.Code) {
+
+					totalAmount, err := Fill(request, contract)
+					if err != nil {
+						return nil, err
+					}
+
+					var discountAmount float64
+
+					discountAmount = totalAmount * discount.DiscountPercent / 100
+					rbDTO = append(rbDTO, models.RbDTO{
+						ContractNumber:       contract.ContractParameters.ContractNumber,
+						StartDate:            request.PeriodFrom,
+						EndDate:              request.PeriodTo,
+						DiscountPercent:      discount.DiscountPercent,
+						DiscountAmount:       discountAmount,
+						TotalWithoutDiscount: totalAmount,
+						DiscountType:         DD5Name,
+					})
+
 				}
-
-				var discountAmount float64
-
-				discountAmount = totalAmount * discount.DiscountPercent / 100
-				rbDTO = append(rbDTO, models.RbDTO{
-					ContractNumber:       contract.ContractParameters.ContractNumber,
-					StartDate:            request.PeriodFrom,
-					EndDate:              request.PeriodTo,
-					DiscountPercent:      discount.DiscountPercent,
-					DiscountAmount:       discountAmount,
-					TotalWithoutDiscount: totalAmount,
-					DiscountType:         DD5Name,
-				})
 
 			}
 
+			//log.Println("[CHECK PRES TRUE/FALSE]: ", repository.DoubtedDiscountExecutionCheck(request, contract.ContractParameters.ContractNumber, discount.Code))
+
+			log.Printf("CHECK PRES DISCOUNT rbDTO %+v\n", rbDTO)
 		}
-
-		//log.Println("[CHECK PRES TRUE/FALSE]: ", repository.DoubtedDiscountExecutionCheck(request, contract.ContractParameters.ContractNumber, discount.Code))
-
-		log.Printf("CHECK PRES DISCOUNT rbDTO %+v\n", rbDTO)
 	}
 
 	return rbDTO, nil
@@ -193,22 +197,25 @@ func GetDD6th(request models.RBRequest, contracts []models.Contract) (rbDTO []mo
 	for _, contract := range contracts {
 		for _, discount := range contract.Discounts {
 			if discount.Code == DD6Code && discount.IsSelected == true {
-				totalAmount, err := Fill(request, contract)
-				if err != nil {
-					return nil, err
-				}
+				if repository.DoubtedDiscountExecutionCheck(request, contract.ContractParameters.ContractNumber, discount.Code) {
+					totalAmount, err := Fill(request, contract)
+					if err != nil {
+						return nil, err
+					}
 
-				var discountAmount float64
-				discountAmount = totalAmount * discount.DiscountPercent / 100
-				rbDTO = append(rbDTO, models.RbDTO{
-					ContractNumber:       contract.ContractParameters.ContractNumber,
-					StartDate:            request.PeriodFrom,
-					EndDate:              request.PeriodTo,
-					DiscountPercent:      discount.DiscountPercent,
-					DiscountAmount:       discountAmount,
-					TotalWithoutDiscount: totalAmount,
-					DiscountType:         DD6Name,
-				})
+					var discountAmount float64
+					discountAmount = totalAmount * discount.DiscountPercent / 100
+					rbDTO = append(rbDTO, models.RbDTO{
+						ContractNumber:       contract.ContractParameters.ContractNumber,
+						StartDate:            request.PeriodFrom,
+						EndDate:              request.PeriodTo,
+						DiscountPercent:      discount.DiscountPercent,
+						DiscountAmount:       discountAmount,
+						TotalWithoutDiscount: totalAmount,
+						DiscountType:         DD6Name,
+					})
+
+				}
 
 			}
 
