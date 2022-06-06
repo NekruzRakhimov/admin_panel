@@ -335,7 +335,7 @@ var doc = `{
                 }
             }
         },
-        "/auto_orders/graphics": {
+        "/auto_orders/{formula_id}/graphics": {
             "get": {
                 "description": "Gel All auto_orders",
                 "consumes": [
@@ -382,7 +382,7 @@ var doc = `{
                 }
             }
         },
-        "/auto_orders/graphics/{graphic_id}/products": {
+        "/auto_orders/{formula_id}/graphics/{graphic_id}/products": {
             "get": {
                 "description": "Gel All auto_ordered products",
                 "consumes": [

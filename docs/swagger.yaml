@@ -1242,7 +1242,7 @@ paths:
       summary: Creating auto_orders
       tags:
       - contracts
-  /auto_orders/graphics:
+  /auto_orders/{formula_id}/graphics:
     get:
       consumes:
       - application/json
@@ -1274,7 +1274,7 @@ paths:
       summary: Get All auto_orders
       tags:
       - contracts
-  /auto_orders/graphics/{graphic_id}/products:
+  /auto_orders/{formula_id}/graphics/{graphic_id}/products:
     get:
       consumes:
       - application/json

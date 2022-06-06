@@ -3,6 +3,7 @@ package controller
 import (
 	"admin_panel/models"
 	"admin_panel/pkg/service"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -176,8 +177,15 @@ func FormAutoOrder(c *gin.Context) {
 // @Success 200 {array}  models.FormedGraphic
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /auto_orders/graphics [get]
+// @Router /auto_orders/{formula_id}/graphics [get]
 func GetAllFormedGraphics(c *gin.Context) {
+	formulaID, err := strconv.Atoi(c.Param("formula_id"))
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{"reason": err.Error()})
+		return
+	}
+	fmt.Println(formulaID)
+
 	graphics, err := service.GetAllFormedGraphics()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
@@ -203,8 +211,15 @@ func GetAllFormedGraphics(c *gin.Context) {
 // @Success 200 {array}  models.FormedGraphicProduct
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /auto_orders/graphics/{graphic_id}/products [get]
+// @Router /auto_orders/{formula_id}/graphics/{graphic_id}/products [get]
 func GetAllFormedGraphicProducts(c *gin.Context) {
+	formulaID, err := strconv.Atoi(c.Param("formula_id"))
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{"reason": err.Error()})
+		return
+	}
+	fmt.Println(formulaID)
+
 	formedGraphicID, err := strconv.Atoi(c.Param("graphic_id"))
 	if err != nil {
 		c.JSON(http.StatusBadGateway, gin.H{"reason": "graphic_id param not found"})

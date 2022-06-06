@@ -81,8 +81,8 @@ func runAllRoutes(r *gin.Engine) {
 
 	cr.POST("/auto_orders", controller.FormAutoOrder)
 	cr.GET("/auto_orders", controller.GetAllAutoOrders)
-	cr.GET("/auto_orders/graphics", controller.GetAllFormedGraphics)
-	cr.GET("/auto_orders/graphics/:graphic_id/products", controller.GetAllFormedGraphicProducts)
+	cr.GET("/auto_orders/:formula_id/graphics", controller.GetAllFormedGraphics)
+	cr.GET("/auto_orders/:formula_id/graphics/:graphic_id/products", controller.GetAllFormedGraphicProducts)
 
 	cr.POST("/formula", controller.CreateFormula)
 	cr.GET("/formula", controller.GetAllFormulas)
