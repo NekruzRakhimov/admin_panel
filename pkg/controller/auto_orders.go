@@ -234,3 +234,13 @@ func GetAllFormedGraphicProducts(c *gin.Context) {
 
 	c.JSON(http.StatusOK, products)
 }
+
+func GetAllAutoOrderTypes(c *gin.Context) {
+	types := []string{"Min", "Max"}
+	c.JSON(http.StatusOK, types)
+}
+
+func GetAllAutoOrderAnalysesPeriod(c *gin.Context) {
+	periods := []int{1, 2, 3, 4, 5}
+	c.JSON(http.StatusOK, periods)
+}
