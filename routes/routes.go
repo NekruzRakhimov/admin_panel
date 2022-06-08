@@ -153,6 +153,9 @@ func tempRoutes(r *gin.RouterGroup) {
 	r.POST("/rb_brand/excel/", controller.GenerateReportBrand)
 	r.POST("/check_1c_get_data", controller.Check1CGetData)
 	r.GET("/cars", controller.GetCarsBrand)
+
+
+	r.GET("/segments", controller.GetSegments)
 }
 
 func Check1CRoutes(r *gin.RouterGroup) {
