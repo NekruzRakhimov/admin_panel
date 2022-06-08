@@ -14,7 +14,7 @@ func CreateFormula(formula models.Formula) error {
 }
 
 func EditFormula(formula models.Formula) error {
-	if err := db.GetDBConn().Table("formulas").Create(&formula).Error; err != nil {
+	if err := db.GetDBConn().Table("formulas").Save(&formula).Error; err != nil {
 		return err
 	}
 	return nil
