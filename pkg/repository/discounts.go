@@ -50,7 +50,7 @@ func GetAllContractDetailByBIN(clientCode, PeriodFrom, PeriodTo string) (contrac
           FROM (SELECT *
           FROM "contracts"
           WHERE (requisites ->> 'client_code' = ? AND
-          status = 'в работе')) as sub_query
+          status in ('в работе', 'заверщённый'))) as sub_query
           WHERE to_date(contract_parameters ->> 'start_date', 'DD.MM.YYYY') <= to_date(?, 'DD.MM.YYYY')
           AND to_date(contract_parameters ->> 'end_date', 'DD.MM.YYYY') >= to_date(?, 'DD.MM.YYYY')`
 
