@@ -433,6 +433,7 @@ func ConvertExcelToStruct(c *gin.Context) {
 	}
 
 	var products []models.Product
+	// number of raw
 	counter := 2
 	for {
 		var product models.Product
@@ -485,6 +486,7 @@ func ConvertExcelToStruct(c *gin.Context) {
 		//	return
 		//}
 
+		// цикл на этом останавливается
 		if product.ProductNumber == "" && product.ProductName == "" && priceStr == "" && product.Currency == "" {
 			break
 		}

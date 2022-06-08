@@ -15,6 +15,11 @@ import (
 
 const defectsSheet = "TDSheet"
 
+const (
+	getAllMatrix   = "http://89.218.153.38:8081/AQG_ULAN/hs/integration/getallmatrix"
+	getDefectsInfo = "http://89.218.153.38:8081/AQG_ULAN/hs/integration/getdefectinfo"
+)
+
 func GetDefectsExt(req models.DefectsRequest) (defects []models.Defect, err error) {
 	//var binOrganizationAKNIET = "060540001442"
 
