@@ -356,3 +356,12 @@ func GetAllFrequencyDeferredDiscounts(c *gin.Context) {
 
 	c.JSON(http.StatusOK, frequencyDeferredDiscount)
 }
+
+func GetSegments(c *gin.Context)  {
+
+	segments := service.GetSegments()
+
+
+	c.JSON(200, segments)
+
+}

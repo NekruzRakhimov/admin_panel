@@ -56,3 +56,53 @@ func EditDictionaryValue(dictionaryValue models.DictionaryValue) error {
 func DeleteDictionaryValue(dictionaryID, dictionaryValueID int) error {
 	return repository.DeleteDictionaryValue(dictionaryID, dictionaryValueID)
 }
+
+func GetSegments() []models.Segment {
+	nomen1 := []models.ListsNomenclature{
+		{
+			ProductCode: "Аспирин С № 10 табл шипуч",
+			ProductName: "00000001732",
+		},
+		{
+			ProductCode: "Спринцовка-аспиратор САИ Б 1-3 со стекл. наконечн.",
+			ProductName: "00000001639",
+		},
+		{
+			ProductCode: "Фаспик 400 мг, №6, табл., покрытые оболочкой",
+			ProductName: "00000002553",
+		},
+	}
+	nomen2 := []models.ListsNomenclature{
+		{
+			ProductCode: "Head&Shoulders шампунь успокаивающий 400 мл ",
+			ProductName: "00000008367",
+		},
+		{
+			ProductCode: "Head&Shoulders шампунь успокаивающий 200 мл ",
+			ProductName: "00000008835",
+		},
+		{
+			ProductCode: "Спайдер мен мыло жидкое Web-Head 480 мл",
+			ProductName: "00000017162",
+		},
+	}
+	seg := []models.Segment{
+		{
+			SegmentCode:       "0000098",
+			NameSegment:       "1",
+			ListsNomenclature: nomen1,
+			Counterparty:      "Юнифарма ООО",
+			ForMarket:         true,
+		},
+		{
+			SegmentCode:       "0000098",
+			NameSegment:       "2",
+			ListsNomenclature: nomen2,
+			Counterparty:      "Farma Marketing (Фарма Маркетинг) ТОО",
+			ForMarket:         true,
+		},
+	}
+
+	return seg
+
+}
