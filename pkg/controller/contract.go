@@ -403,6 +403,11 @@ func GetProductsTemplate(c *gin.Context) {
 	c.File("files/applications/products_template.xlsx")
 }
 
+func GetSegmentsTemplate(c *gin.Context) {
+	c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	c.File("files/applications/segments_template.xlsx")
+}
+
 func ConvertExcelToStruct(c *gin.Context) {
 	img, err := c.FormFile("file")
 	if err != nil {

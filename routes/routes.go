@@ -154,7 +154,6 @@ func tempRoutes(r *gin.RouterGroup) {
 	r.POST("/check_1c_get_data", controller.Check1CGetData)
 	r.GET("/cars", controller.GetCarsBrand)
 
-
 	r.GET("/segments", controller.GetSegments)
 }
 
@@ -206,6 +205,8 @@ func ReportsRoutes(r *gin.RouterGroup) {
 }
 
 func ContractRoutes(r *gin.RouterGroup) {
+	r.GET("/segments_template", controller.GetSegmentsTemplate)
+
 	r.GET("/search_history_ex/:id/", controller.SearchHistoryExecution)
 	r.GET("/change_date_contract/", controller.ChangeDataContract)
 	r.GET("/search_contract/", controller.SearchContractByNumber)
