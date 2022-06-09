@@ -531,6 +531,167 @@ func ConvertExcelToStruct(c *gin.Context) {
 	c.JSON(http.StatusOK, products)
 }
 
+
+
+func ConvertExcelToStructProductsAndRegion(c *gin.Context) {
+	img, err := c.FormFile("file")
+	if err != nil {
+		log.Println("[controller.ConvertExcelToStruct]|[c.FormFile(\"file\")]| error is: ", err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	//file, err := os.Create("files/applications/products_template.xlsx")
+	//if err != nil {
+	//	log.Println("[controller.ConvertExcelToStruct]|[os.Create]| error is: ", err.Error())
+	//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+	//	return
+	//}
+
+	if err := c.SaveUploadedFile(img, "files/applications/edited_segments_template.xlsx"); err != nil {
+		log.Println("[controller.ConvertExcelToStruct]|[c.SaveUploadedFile]| error is: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	f, err := excelize.OpenFile("files/applications/edited_segments_template.xlsx")
+	//c.JSON(http.StatusOK, gin.H{"reason": "ok"})
+	if err != nil {
+		log.Println("[controller.ConvertExcelToStruct]|[excelize.OpenFile]| error is: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	var segments []models.SegmentForExcel
+	// number of raw
+	counter := 2
+	for {
+		//var product models.Product
+		var segment models.SegmentForExcel
+		segment.SegmentCode, err = f.GetCellValue("page1", fmt.Sprintf("A%d", counter))
+		if err != nil {
+			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+			return
+		}
+
+		segment.ProductName, err = f.GetCellValue("page1", fmt.Sprintf("B%d", counter))
+		if err != nil {
+			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+			return
+		}
+
+		segment.ProductCode, err = f.GetCellValue("page1", fmt.Sprintf("C%d", counter))
+		if err != nil {
+			log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+			return
+		}
+
+		//product.Currency, err = f.GetCellValue("page1", fmt.Sprintf("D%d", counter))
+		//if err != nil {
+		//	log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
+		//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		//	return
+		//}
+		//
+		////product.Substance, err = f.GetCellValue("page1", fmt.Sprintf("E%d", counter))
+		////if err != nil {
+		////	log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
+		////	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		////	return
+		////}
+		//
+		////product.StorageCondition, err = f.GetCellValue("page1", fmt.Sprintf("F%d", counter))
+		////if err != nil {
+		////	log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
+		////	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		////	return
+		////}
+		//
+		////product.Producer, err = f.GetCellValue("page1", fmt.Sprintf("G%d", counter))
+		////if err != nil {
+		////	log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
+		////	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		////	return
+		////}
+
+		// цикл на этом останавливается
+		if segment.SegmentCode == "" && segment.ProductName == "" && segment.ProductCode == "" {
+			break
+		}
+
+		if segment.SegmentCode == "" {
+			c.JSON(http.StatusBadRequest, gin.H{"reason": "не все сегменты были заполнены, проверьте заполненность полей"})
+			return
+		}
+
+		if segment.ProductName == "" {
+			c.JSON(http.StatusBadRequest, gin.H{"reason": "не все торговые названия были заполнены, проверьте заполненность полей"})
+			return
+		}
+
+		if segment.ProductCode == "" {
+			c.JSON(http.StatusBadRequest, gin.H{"reason": "не все коды товаров заполнены, проверьте заполненность полей"})
+			return
+		}
+
+		//product.Price, err = strconv.ParseFloat(priceStr, 64)
+		//if err != nil {
+		//	log.Println("test: ", priceStr)
+		//	log.Println("[controller.ConvertExcelToStruct]|[f.GetCellValue]| error is: ", err.Error())
+		//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		//	return
+		//}
+		//
+		//if product.Currency == "" {
+		//	c.JSON(http.StatusBadRequest, gin.H{"reason": "не все валюты заполнены, проверьте заполненность полей"})
+		//	return
+		//}
+
+		segments = append(segments, segment)
+		counter++
+	}
+
+	c.JSON(http.StatusOK, segments)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // CounterpartyContract GetCounterpartyContract contract godoc
 // @Summary Get CounterpartyContract
 // @Description Берет данные контрагента
