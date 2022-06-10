@@ -88,18 +88,18 @@ func GetSegments() []models.Segment {
 	}
 	seg := []models.Segment{
 		{
-			SegmentCode:       "0000098",
-			NameSegment:       "1",
-			ListsNomenclature: nomen1,
-			Counterparty:      "Юнифарма ООО",
-			ForMarket:         true,
+			SegmentCode: "0000098",
+			NameSegment: "1",
+			Products:    nomen1,
+			//Counterparty:      "Юнифарма ООО",
+			ForMarket: true,
 		},
 		{
-			SegmentCode:       "0000098",
-			NameSegment:       "2",
-			ListsNomenclature: nomen2,
-			Counterparty:      "Farma Marketing (Фарма Маркетинг) ТОО",
-			ForMarket:         true,
+			SegmentCode: "0000098",
+			NameSegment: "2",
+			Products:    nomen2,
+			//Counterparty:      "Farma Marketing (Фарма Маркетинг) ТОО",
+			ForMarket: true,
 		},
 	}
 

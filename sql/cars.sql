@@ -148,3 +148,22 @@ drop table brands;
     SELECT * FROM "contracts"  WHERE (requisites ->> 'client_code' = '000002149'
         AND (contract_parameters ->> 'start_date' <= '01.04.2021'::date OR contract_parameters ->> 'end_date' >= '30.12.2023'::date) AND
                                       status = 'в работе');
+
+
+CREATE TABLE segment
+(
+    id            bigserial primary key,
+    segment_code  varchar unique,
+    name_segment  varchar,
+    main_supplier varchar,
+    email         varchar,
+    for_market    bool default false,
+    product       jsonb,
+    region        jsonb
+
+);
+
+drop table segment;
+
+
+
