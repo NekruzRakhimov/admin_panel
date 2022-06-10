@@ -1,0 +1,27 @@
+package models
+
+type Segment struct {
+	ID int `json:"id"`
+	SegmentCode       string   `json:"segment_code"`
+	NameSegment       string   `json:"name_segment"`
+	MainSupplier string `json:"main_supplier"`
+	Email        string `json:"email"`
+	//Counterparty      string   `json:"counterparty"`
+	ForMarket         bool     `json:"for_market"`
+	ListsNomenclature []ListsNomenclature `json:"lists_nomenclature"`
+	Region Region `json:"region"`
+
+}
+
+type ListsNomenclature struct {
+	ProductCode string `json:"product_code"`
+	ProductName string `json:"product_name"`
+}
+
+
+type Region struct {
+	Counterparty string `json:"counterparty"`
+	Region       string `json:"region"`
+	RegionCode   string `json:"region_code"`
+	Email        string `json:"email"`
+}
