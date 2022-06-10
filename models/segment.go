@@ -1,11 +1,13 @@
 package models
 
 type Segment struct {
-	ID           int    `json:"id"`
-	SegmentCode  string `json:"segment_code"`
-	NameSegment  string `json:"name_segment"`
-	MainSupplier string `json:"main_supplier"`
-	Email        string `json:"email"`
+	ID          int    `json:"id"`
+	SegmentCode string `json:"segment_code"`
+	NameSegment string `json:"name_segment"`
+	Beneficiary string `json:"beneficiary"`
+	Bin         string `json:"bin"`
+	ClientCode  string `json:"client_code"`
+	Email       string `json:"email"`
 	//Counterparty      string   `json:"counterparty"`
 	ForMarket  bool                `json:"for_market"`
 	Products   []ListsNomenclature `json:"product"`
