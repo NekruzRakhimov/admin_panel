@@ -238,18 +238,19 @@ func FormExcelDefectsPF(req models.DefectsRequest, filteredDefects []models.Defe
 		f.SetCellValue(defectsSheet, fmt.Sprintf("A%d", storeIndex), defect.StoreName) //Аптека
 		//stream.SetRow(fmt.Sprintf("A%d", storeIndex), []interface{}{excelize.Cell{Value: defect.StoreName}}) //Аптека
 		var (
-			storeMatrixSales     float64 // кол-во СКЮ продаваемых за 60 дней по матрице
-			storeDefectQnt       float64 //кол-во СКЮ в дефектуре
-			storeDefectSum       float64 //сумма дефектуры
-			storeFactSaleDefect  float64 //% дефектуры от факт продаж
-			storeSkuQnt          float64 //кол-во СКЮ входящих в АМ аптеки/магазина
-			storeDefectSkuQnt    float64 //кол-во СКЮ в дефектуре по АМ ПФ
-			storeDefectSum2      float64 //сумма дефектуры
-			storeDefectAM        float64 //% дефектуры от АМ
+			storeMatrixSales float64 // кол-во СКЮ продаваемых за 60 дней по матрице
+			storeDefectQnt   float64 //кол-во СКЮ в дефектуре
+			storeDefectSum   float64 //сумма дефектуры
+			//storeFactSaleDefect  float64 //% дефектуры от факт продаж
+			storeSkuQnt       float64 //кол-во СКЮ входящих в АМ аптеки/магазина
+			storeDefectSkuQnt float64 //кол-во СКЮ в дефектуре по АМ ПФ
+			storeDefectSum2   float64 //сумма дефектуры
+			//storeDefectAM        float64 //% дефектуры от АМ
 			storeStoreSaldoQnt   float64 // наличие продукции на складе
 			storeStoreSaldoCount float64 // наличие продукции на складе - в суммарном выражении
 		)
 		i++
+		j := i
 		for _, subDefect := range defect.SubDefects {
 			f.SetCellValue(defectsSheet, fmt.Sprintf("A%d", i), defect.StoreName)
 			storeSaldoQnt, _ := strconv.ParseFloat(subDefect.StoreSaldoQnt, 2)
@@ -257,7 +258,7 @@ func FormExcelDefectsPF(req models.DefectsRequest, filteredDefects []models.Defe
 			//	return err
 			//}
 
-			defectQnt, _ := strconv.ParseFloat(subDefect.DefectQnt, 2)
+			//defectQnt, _ := strconv.ParseFloat(subDefect.DefectQnt, 2)
 			//if err != nil {
 			//	return err
 			//}
@@ -285,40 +286,43 @@ func FormExcelDefectsPF(req models.DefectsRequest, filteredDefects []models.Defe
 
 			f.SetCellValue(defectsSheet, fmt.Sprintf("D%d", i), matrixSales) // кол-во СКЮ продаваемых за 60 дней по матрице
 			//stream.SetRow(fmt.Sprintf("D%d", i), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(matrixSales)}})
-			storeMatrixSales += matrixSales
-
-			f.SetCellValue(defectsSheet, fmt.Sprintf("E%d", i), defectQnt) //кол-во СКЮ в дефектуре
-			//stream.SetRow(fmt.Sprintf("E%d", i), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(defectQnt)}})
-			storeDefectQnt += defectQnt
-
-			f.SetCellValue(defectsSheet, fmt.Sprintf("F%d", i), defectQnt*price) //сумма дефектуры
-			//stream.SetRow(fmt.Sprintf("F%d", i), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(defectQnt * price)}})
-			storeDefectSum += defectQnt * price
-
-			if matrixSales == 0 {
-				f.SetCellValue(defectsSheet, fmt.Sprintf("G%d", i), 0) //% дефектуры от факт продаж
-				//stream.SetRow(fmt.Sprintf("G%d", i), []interface{}{excelize.Cell{Value: 0}})
-			} else {
-				f.SetCellValue(defectsSheet, fmt.Sprintf("G%d", i), defectQnt/matrixSales*100) //% дефектуры от факт продаж
-				//stream.SetRow(fmt.Sprintf("G%d", i), []interface{}{excelize.Cell{Value: fmt.Sprintf("%s%", utils.FloatToMoneyFormat(defectQnt/matrixSales*100))}})
+			if matrixSales != 0 {
+				storeMatrixSales++
 			}
-			storeFactSaleDefect += defectQnt / matrixSales * 100
 
-			f.SetCellValue(defectsSheet, fmt.Sprintf("H%d", i), matrixProductQnt) //кол-во СКЮ входящих в АМ аптеки/магазина
+			f.SetCellValue(defectsSheet, fmt.Sprintf("E%d", i), matrixSales/matrixSales*15-storeSaldoQnt) //кол-во СКЮ в дефектуре
+			//stream.SetRow(fmt.Sprintf("E%d", i), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(defectQnt)}})
+			if matrixSales != 0 {
+				storeDefectQnt++
+			}
+
+			f.SetCellValue(defectsSheet, fmt.Sprintf("F%d", i), (matrixSales/matrixSales*15-storeSaldoQnt)*price) //сумма дефектуры
+			//stream.SetRow(fmt.Sprintf("F%d", i), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(defectQnt * price)}})
+			storeDefectSum += (matrixSales/matrixSales*15 - storeSaldoQnt) * price
+
+			f.SetCellValue(defectsSheet, fmt.Sprintf("H%d", i), 1) //кол-во СКЮ входящих в АМ аптеки/магазина
 			//stream.SetRow(fmt.Sprintf("H%d", i), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(matrixProductQnt)}})
 			storeSkuQnt += matrixProductQnt
 
-			f.SetCellValue(defectsSheet, fmt.Sprintf("I%d", i), len(defect.SubDefects)) //кол-во СКЮ в дефектуре по АМ ПФ
+			hasDefect := 0
+			if matrixSales/matrixSales*15-storeSaldoQnt > 0 {
+				storeDefectSkuQnt++
+				hasDefect = 1
+			}
+			f.SetCellValue(defectsSheet, fmt.Sprintf("I%d", i), hasDefect) //кол-во СКЮ в дефектуре по АМ ПФ
 			//stream.SetRow(fmt.Sprintf("I%d", i), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(float64(len(defect.SubDefects)))}})
-			storeDefectSkuQnt = float64(len(defect.SubDefects))
 
-			f.SetCellValue(defectsSheet, fmt.Sprintf("J%d", i), float64(len(defect.SubDefects))*price) //сумма дефектуры
+			f.SetCellValue(defectsSheet, fmt.Sprintf("J%d", i), (matrixSales/matrixSales*15-storeSaldoQnt)*price) //сумма дефектуры
 			//stream.SetRow(fmt.Sprintf("J%d", i), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(float64(len(defect.SubDefects)) * price)}})
-			storeDefectSum2 += float64(len(defect.SubDefects)) * price
+			if hasDefect != 0 {
+				storeDefectSum2 += price
+			}
 
-			f.SetCellValue(defectsSheet, fmt.Sprintf("K%d", i), float64(len(defect.SubDefects))/matrixProductQnt*100) //% дефектуры от АМ
-			//stream.SetRow(fmt.Sprintf("K%d", i), []interface{}{excelize.Cell{Value: fmt.Sprintf("%s%", utils.FloatToMoneyFormat((float64(len(defect.SubDefects)))/matrixProductQnt*100))}})
-			storeDefectAM += float64(len(defect.SubDefects)) / matrixProductQnt * 100
+			/*
+				f.SetCellValue(defectsSheet, fmt.Sprintf("K%d", i), float64(len(defect.SubDefects))/matrixProductQnt*100) //% дефектуры от АМ
+				//stream.SetRow(fmt.Sprintf("K%d", i), []interface{}{excelize.Cell{Value: fmt.Sprintf("%s%", utils.FloatToMoneyFormat((float64(len(defect.SubDefects)))/matrixProductQnt*100))}})
+				storeDefectAM += float64(len(defect.SubDefects)) / matrixProductQnt * 100
+			*/
 
 			f.SetCellValue(defectsSheet, fmt.Sprintf("L%d", i), storeSaldoQnt) // наличие продукции на складе
 			//stream.SetRow(fmt.Sprintf("L%d", i), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(storeSaldoQnt)}})
@@ -334,6 +338,57 @@ func FormExcelDefectsPF(req models.DefectsRequest, filteredDefects []models.Defe
 			i++
 		}
 
+		//% дефектуры от факт продаж
+		for _, subDefect := range defect.SubDefects {
+			storeSaldoQnt, _ := strconv.ParseFloat(subDefect.StoreSaldoQnt, 2)
+			//if err != nil {
+			//	return err
+			//}
+
+			//defectQnt, _ := strconv.ParseFloat(subDefect.DefectQnt, 2)
+			//if err != nil {
+			//	return err
+			//}
+
+			//matrixProductQnt, _ := strconv.ParseFloat(subDefect.MatrixProductQnt, 2)
+			//if err != nil {
+			//	return err
+			//}
+
+			price, _ := strconv.ParseFloat(subDefect.DefectPrice, 2)
+			//if err != nil {
+			//	return err
+			//}
+
+			matrixSales, _ := strconv.ParseFloat(subDefect.MatrixSales, 2)
+			//if err != nil {
+			//	return err
+			//}
+
+			f.SetCellValue(defectsSheet, fmt.Sprintf("G%d", j), ((matrixSales/matrixSales*15-storeSaldoQnt)*price)*100/storeDefectSum) //% дефектуры от факт продаж
+
+			//f.SetCellValue(defectsSheet, fmt.Sprintf("J%d", i), float64(len(defect.SubDefects))*price) //сумма дефектуры
+			////stream.SetRow(fmt.Sprintf("J%d", i), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(float64(len(defect.SubDefects)) * price)}})
+			//storeDefectSum2 += float64(len(defect.SubDefects)) * price
+
+			f.SetCellValue(defectsSheet, fmt.Sprintf("K%d", i), ((matrixSales/matrixSales*15-storeSaldoQnt)*price)*100/storeDefectSum2) //% дефектуры от АМ
+			//stream.SetRow(fmt.Sprintf("K%d", i), []interface{}{excelize.Cell{Value: fmt.Sprintf("%s%", utils.FloatToMoneyFormat((float64(len(defect.SubDefects)))/matrixProductQnt*100))}})
+			//storeDefectAM += float64(len(defect.SubDefects)) / matrixProductQnt * 100
+
+			/*f.SetCellValue(defectsSheet, fmt.Sprintf("L%d", i), storeSaldoQnt) // наличие продукции на складе
+			//stream.SetRow(fmt.Sprintf("L%d", i), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(storeSaldoQnt)}})
+			storeStoreSaldoQnt += storeSaldoQnt
+
+			f.SetCellValue(defectsSheet, fmt.Sprintf("M%d", i), storeSaldoQnt*price) // наличие продукции на складе - в суммарном выражении
+			//stream.SetRow(fmt.Sprintf("M%d", i), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(storeSaldoQnt * price)}})
+			storeStoreSaldoCount += storeSaldoQnt * price
+
+			f.SetCellValue(defectsSheet, fmt.Sprintf("N%d", i), price) // Закупочная цена
+			//stream.SetRow(fmt.Sprintf("N%d", i), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(price)}})
+			f.SetCellStyle(defectsSheet, fmt.Sprintf("D%d", i), fmt.Sprintf("N%d", i), moneyStyle)*/
+			j++
+		}
+
 		f.SetCellValue(defectsSheet, fmt.Sprintf("D%d", storeIndex), storeMatrixSales) // кол-во СКЮ продаваемых за 60 дней по матрице
 		//stream.SetRow(fmt.Sprintf("D%d", storeIndex), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(storeMatrixSales)}})
 
@@ -346,7 +401,7 @@ func FormExcelDefectsPF(req models.DefectsRequest, filteredDefects []models.Defe
 		f.SetCellValue(defectsSheet, fmt.Sprintf("G%d", storeIndex), storeDefectQnt/storeMatrixSales*100) //% дефектуры от факт продаж
 		//stream.SetRow(fmt.Sprintf("G%d", storeIndex), []interface{}{excelize.Cell{Value: fmt.Sprintf("%s%", utils.FloatToMoneyFormat(storeDefectQnt/storeMatrixSales))}})
 
-		f.SetCellValue(defectsSheet, fmt.Sprintf("H%d", storeIndex), storeSkuQnt) //кол-во СКЮ входящих в АМ аптеки/магазина
+		f.SetCellValue(defectsSheet, fmt.Sprintf("H%d", storeIndex), len(defect.SubDefects)) //кол-во СКЮ входящих в АМ аптеки/магазина
 		//stream.SetRow(fmt.Sprintf("H%d", storeIndex), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(storeSkuQnt)}})
 
 		f.SetCellValue(defectsSheet, fmt.Sprintf("I%d", storeIndex), storeDefectSkuQnt) //кол-во СКЮ в дефектуре по АМ ПФ

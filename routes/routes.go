@@ -17,8 +17,6 @@ import (
 	_ "admin_panel/docs"
 )
 
-//
-
 func RunAllRoutes() {
 	r := gin.Default()
 
@@ -46,6 +44,7 @@ func RunAllRoutes() {
 
 func Check(c *gin.Context) {
 	service.CreateNecessity()
+	c.JSON(http.StatusOK, gin.H{"reason": "up and working"})
 }
 
 func runAllRoutes(r *gin.Engine) {
