@@ -3,6 +3,7 @@ package repository
 import (
 	"admin_panel/db"
 	"admin_panel/models"
+	"fmt"
 )
 
 func CreateGraphic(graphic models.Graphic) error {
@@ -71,6 +72,18 @@ func EditGraphic(graphic models.Graphic) error {
 	}
 
 	return nil
+}
+
+func DeleteGraphic(id int) error {
+	fmt.Println("ID", id)
+	update := "UPDATE auto_order SET is_removed = ? WHERE id = ?"
+	err := db.GetDBConn().Exec(update, true, id).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
+
 }
 
 func GetAllAutoOrders() (autoOrders []models.AutoOrder, err error) {

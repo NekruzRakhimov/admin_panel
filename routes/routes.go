@@ -77,6 +77,7 @@ func runAllRoutes(r *gin.Engine) {
 	cr.GET("/graphic/:id/details", controller.GetGraphicByID)
 	cr.POST("/graphic", controller.CreateGraphic)
 	cr.PUT("/graphic/:id", controller.EditGraphic)
+	cr.PUT("/delete_graphic/:id", controller.DeleteGraphic)
 
 	cr.POST("/auto_orders", controller.FormAutoOrder)
 	cr.GET("/auto_orders", controller.GetAllAutoOrders)
@@ -90,6 +91,7 @@ func runAllRoutes(r *gin.Engine) {
 	cr.GET("/formula", controller.GetAllFormulas)
 	cr.GET("/formula/:id/details", controller.GetFormulaByID)
 	cr.PUT("/formula/:id", controller.EditFormula)
+	cr.PUT("/delete_formula/:id", controller.DeleteFormulaByID)
 
 	cr.GET("/formula/parameters", controller.GetFormulaParameters)
 

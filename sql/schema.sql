@@ -153,3 +153,9 @@ create table if not exists users_roles
 create unique index users_roles_id_uindex
     on users_roles (id);
 
+
+
+ALTER table  formulas
+ADD COLUMN is_removed bool default false;
+
+UPDATE formulas SET is_removed = false WHERE id = 4;

@@ -138,6 +138,22 @@ func EditGraphic(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"reason": "график успешно обновлен"})
 }
 
+func DeleteGraphic(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": "graphic_id не найден"})
+		return
+	}
+	err = service.DeleteGraphic(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
+		return
+
+	}
+	c.JSON(http.StatusOK, gin.H{"reason": "график успешно удален"})
+
+}
+
 // GetAllAutoOrders TODO пока не сделаем формулы, не нужен
 func GetAllAutoOrders(c *gin.Context) {
 	autoOrders, err := service.GetAllAutoOrders()

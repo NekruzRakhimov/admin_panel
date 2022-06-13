@@ -1821,6 +1821,10 @@ func EditGraphic(graphic models.Graphic) error {
 	return repository.EditGraphic(graphic)
 }
 
+func DeleteGraphic(id int) error {
+	return repository.DeleteGraphic(id)
+}
+
 func GetAllAutoOrders() (autoOrders []models.AutoOrder, err error) {
 	return repository.GetAllAutoOrders()
 }

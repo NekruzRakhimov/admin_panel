@@ -69,6 +69,22 @@ func EditFormula(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"reason": "формула успешно создана"})
 }
 
+func DeleteFormulaByID(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": "id not found"})
+		return
+	}
+	err = service.DeleteFormula(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
+		return
+
+	}
+	c.JSON(http.StatusOK, gin.H{"reason": "формула успешно удалена"})
+
+}
+
 //GetAllFormulas formula godoc
 // @Summary Get All formulas
 // @Description Gel All formulas

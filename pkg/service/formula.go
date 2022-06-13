@@ -25,6 +25,9 @@ func EditFormula(formula models.Formula) error {
 	formula.ScheduleStr = string(scheduleStr)
 	return repository.EditFormula(formula)
 }
+func DeleteFormula(id int) error {
+	return repository.DeleteFormula(id)
+}
 
 func GetAllFormulas() (formulas []models.Formula, err error) {
 	formulas, err = repository.GetAllFormulas()

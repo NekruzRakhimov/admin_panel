@@ -290,13 +290,13 @@ func FormExcelDefectsPF(req models.DefectsRequest, filteredDefects []models.Defe
 				storeMatrixSales++
 			}
 
-			f.SetCellValue(defectsSheet, fmt.Sprintf("E%d", i), matrixSales/matrixSales*15-storeSaldoQnt) //кол-во СКЮ в дефектуре
+			f.SetCellValue(defectsSheet, fmt.Sprintf("E%d", i), float64(len(defect.SubDefects))/float64(len(defect.SubDefects))*15-storeSaldoQnt) //кол-во СКЮ в дефектуре
 			//stream.SetRow(fmt.Sprintf("E%d", i), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(defectQnt)}})
 			if matrixSales != 0 {
 				storeDefectQnt++
 			}
 
-			f.SetCellValue(defectsSheet, fmt.Sprintf("F%d", i), (matrixSales/matrixSales*15-storeSaldoQnt)*price) //сумма дефектуры
+			f.SetCellValue(defectsSheet, fmt.Sprintf("F%d", i), (float64(len(defect.SubDefects))/float64(len(defect.SubDefects))*15-storeSaldoQnt)*price) //сумма дефектуры
 			//stream.SetRow(fmt.Sprintf("F%d", i), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(defectQnt * price)}})
 			storeDefectSum += (matrixSales/matrixSales*15 - storeSaldoQnt) * price
 
@@ -312,7 +312,7 @@ func FormExcelDefectsPF(req models.DefectsRequest, filteredDefects []models.Defe
 			f.SetCellValue(defectsSheet, fmt.Sprintf("I%d", i), hasDefect) //кол-во СКЮ в дефектуре по АМ ПФ
 			//stream.SetRow(fmt.Sprintf("I%d", i), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(float64(len(defect.SubDefects)))}})
 
-			f.SetCellValue(defectsSheet, fmt.Sprintf("J%d", i), (matrixSales/matrixSales*15-storeSaldoQnt)*price) //сумма дефектуры
+			f.SetCellValue(defectsSheet, fmt.Sprintf("J%d", i), (float64(len(defect.SubDefects))/float64(len(defect.SubDefects))*15-storeSaldoQnt)*price) //сумма дефектуры
 			//stream.SetRow(fmt.Sprintf("J%d", i), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(float64(len(defect.SubDefects)) * price)}})
 			if hasDefect != 0 {
 				storeDefectSum2 += price
@@ -360,18 +360,18 @@ func FormExcelDefectsPF(req models.DefectsRequest, filteredDefects []models.Defe
 			//	return err
 			//}
 
-			matrixSales, _ := strconv.ParseFloat(subDefect.MatrixSales, 2)
+			//matrixSales, _ := strconv.ParseFloat(subDefect.MatrixSales, 2)
 			//if err != nil {
 			//	return err
 			//}
 
-			f.SetCellValue(defectsSheet, fmt.Sprintf("G%d", j), ((matrixSales/matrixSales*15-storeSaldoQnt)*price)*100/storeDefectSum) //% дефектуры от факт продаж
+			f.SetCellValue(defectsSheet, fmt.Sprintf("G%d", j), ((float64(len(defect.SubDefects))/float64(len(defect.SubDefects))*15-storeSaldoQnt)*price)*100/storeDefectSum) //% дефектуры от факт продаж
 
 			//f.SetCellValue(defectsSheet, fmt.Sprintf("J%d", i), float64(len(defect.SubDefects))*price) //сумма дефектуры
 			////stream.SetRow(fmt.Sprintf("J%d", i), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(float64(len(defect.SubDefects)) * price)}})
 			//storeDefectSum2 += float64(len(defect.SubDefects)) * price
 
-			f.SetCellValue(defectsSheet, fmt.Sprintf("K%d", i), ((matrixSales/matrixSales*15-storeSaldoQnt)*price)*100/storeDefectSum2) //% дефектуры от АМ
+			f.SetCellValue(defectsSheet, fmt.Sprintf("K%d", i), ((float64(len(defect.SubDefects))/float64(len(defect.SubDefects))*15-storeSaldoQnt)*price)*100/storeDefectSum2) //% дефектуры от АМ
 			//stream.SetRow(fmt.Sprintf("K%d", i), []interface{}{excelize.Cell{Value: fmt.Sprintf("%s%", utils.FloatToMoneyFormat((float64(len(defect.SubDefects)))/matrixProductQnt*100))}})
 			//storeDefectAM += float64(len(defect.SubDefects)) / matrixProductQnt * 100
 
