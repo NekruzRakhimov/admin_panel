@@ -23,11 +23,14 @@ func GetAllDeferredDiscounts(c *gin.Context) {
 		return
 	}
 
-
 	contracts, err := service.GetAllDeferredDiscounts(request)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
+	}
+
+	for i := range contracts {
+		contracts[i].Status = "Завершено"
 	}
 
 	if err := service.StoreDdReports(contracts); err != nil {
@@ -53,7 +56,6 @@ func FormExcelForDeferredDiscounts(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
 	}
-
 
 	if err := service.FormExcelForDeferredDiscounts(request); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
