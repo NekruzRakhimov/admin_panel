@@ -159,6 +159,7 @@ func tempRoutes(r *gin.RouterGroup) {
 
 	r.POST("/segment_product", controller.ConvertExcelToStructProductsAndRegion)
 	r.POST("/segment", controller.CreateSegment)
+	r.GET("/segment/:id", controller.GetSegmentByID)
 }
 
 func Check1CRoutes(r *gin.RouterGroup) {

@@ -216,3 +216,6 @@ SELECT id
      , contract_parameters ->> 'contract_amount' AS amount
 FROM contracts
 WHERE contract_number like  '%9595_2%' AND status =  'на согласовании'
+
+
+SELECT *FROM segment WHERE id = 1;
