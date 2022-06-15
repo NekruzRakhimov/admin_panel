@@ -37,3 +37,38 @@ type DefectsRequest struct {
 	DaysCount int    `json:"days_count"`
 	IsPF      bool   `json:"isPF"`
 }
+
+type DefectsInfoReq struct {
+	Startdate string   `json:"startdate"`
+	Enddate   string   `json:"enddate"`
+	StoreCode string   `json:"store_code"`
+	Products  []string `json:"products"`
+}
+
+type DefectsInfo struct {
+	ProductCode    string `json:"product_code"`
+	StoreSaldoQnt  string `json:"store_saldo_qnt"`
+	MatrixSales    string `json:"matrix_sales"`
+	MatrixSalesQnt string `json:"matrix_sales_qnt"`
+	DefectPrice    string `json:"defect_price"`
+}
+
+type MatrixInfoFrom1C struct {
+	StoreName   string `json:"store_name"`
+	StoreCode   string `json:"store_code"`
+	ProductName string `json:"product_name"`
+	ProductCode string `json:"product_code"`
+}
+
+type Store struct {
+	ID        int    `json:"id"`
+	StoreName string `json:"store_name"`
+	StoreCode string `json:"store_code"`
+}
+
+type ProductFullInfo struct {
+	Product     string
+	Matrix      Matrix
+	SalesCount  SalesCount
+	DefectsInfo DefectsInfo
+}

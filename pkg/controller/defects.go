@@ -2,6 +2,7 @@ package controller
 
 import (
 	"admin_panel/models"
+	"admin_panel/pkg/repository"
 	"admin_panel/pkg/service"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -28,7 +29,7 @@ func GetDefectsByPharmacyPF(c *gin.Context) {
 	log.Println(time.Now(), " Started Defects - Main")
 	fmt.Println(time.Now(), " Started Defects - Main")
 	mainTime := time.Now()
-	_, err := service.GetDefectsPF(req)
+	err := service.GetNewDefects(req)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
@@ -100,4 +101,21 @@ func GetSalesCount(c *gin.Context) {
 
 	fmt.Println("Finished Main")
 	c.JSON(http.StatusOK, salesCount)
+}
+
+func SaveMatrix(c *gin.Context) {
+	//var matrix []models.MatrixInfoFrom1C
+	//if err := c.BindJSON(&matrix); err != nil {
+	//	c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+	//	return
+	//}
+
+	//if err := service.SaveAllMatrixFrom1C(matrix); err != nil {
+	//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+	//	return
+	//}
+
+	stores, _ := repository.GetAllStores()
+
+	c.JSON(http.StatusOK, stores)
 }

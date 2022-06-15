@@ -2,6 +2,7 @@ package service
 
 import (
 	"admin_panel/models"
+	"admin_panel/pkg/repository"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -73,8 +74,124 @@ func GetDefectsExt(req models.DefectsRequest) (defects []models.Defect, err erro
 	return defectsArr.DefectArr, nil
 }
 
-func GetDefectsPF(req models.DefectsRequest) (filteredDefects []models.DefectsFiltered, err error) {
-	//var filteredDefects []models.DefectsFiltered
+func GetDefectsInfoExt(req models.DefectsInfoReq) (defectsInfo []models.DefectsInfo, err error) {
+	//var binOrganizationAKNIET = "060540001442"
+
+	//req = models.DefectsRequest{
+	//	Startdate: fmt.Sprintf("%s 00:00:00", req.Startdate),
+	//	Enddate:   fmt.Sprintf("%s 23:59:59", req.Enddate),
+	//}
+
+	req.Startdate += " 00:00:00"
+	req.Enddate += " 00:00:00"
+
+	bodyBin := new(bytes.Buffer)
+	err = json.NewEncoder(bodyBin).Encode(&req)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println("BODY", bodyBin)
+
+	client := &http.Client{}
+	endpoint := fmt.Sprintf(getDefectsInfo)
+	r, err := http.NewRequest("POST", endpoint, bodyBin) // URL-encoded payload
+	if err != nil {
+		return nil, err
+	}
+	r.Header.Add("Content-Type", "application/json")
+	// надо логин и пароль добавить в конфиг
+	r.SetBasicAuth("http_client", "123456")
+
+	res, err := client.Do(r)
+	if err != nil {
+		return nil, err
+	}
+
+	defer res.Body.Close()
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// ----------> часть Unmarshall json ->
+	body = bytes.TrimPrefix(body, []byte("\xef\xbb\xbf"))
+	defectsArr := struct {
+		DefectArr []models.DefectsInfo `json:"defect_arr"`
+	}{}
+
+	err = json.Unmarshal(body, &defectsArr)
+	if err != nil {
+		return nil, err
+	}
+
+	return defectsArr.DefectArr, nil
+}
+
+func GetAllMatrixExt() (arr []models.MatrixInfoFrom1C, err error) {
+	//var binOrganizationAKNIET = "060540001442"
+
+	//req = models.DefectsRequest{
+	//	Startdate: fmt.Sprintf("%s 00:00:00", req.Startdate),
+	//	Enddate:   fmt.Sprintf("%s 23:59:59", req.Enddate),
+	//}
+
+	client := &http.Client{}
+	endpoint := fmt.Sprintf(getAllMatrix)
+	r, err := http.NewRequest("GET", endpoint, nil) // URL-encoded payload
+	if err != nil {
+		return nil, err
+	}
+	r.Header.Add("Content-Type", "application/json")
+	// надо логин и пароль добавить в конфиг
+	r.SetBasicAuth("http_client", "123456")
+
+	res, err := client.Do(r)
+	if err != nil {
+		return nil, err
+	}
+
+	defer res.Body.Close()
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// ----------> часть Unmarshall json ->
+	body = bytes.TrimPrefix(body, []byte("\xef\xbb\xbf"))
+	defectsArr := struct {
+		MatrixArr []models.MatrixInfoFrom1C `json:"matrix_arr"`
+	}{}
+
+	err = json.Unmarshal(body, &defectsArr)
+	if err != nil {
+		return nil, err
+	}
+
+	return defectsArr.MatrixArr, nil
+}
+
+func SaveAllMatrixFrom1C(matrix []models.MatrixInfoFrom1C) error {
+	//matrix, err := GetAllMatrixExt()
+	//if err != nil {
+	//	return err
+	//}
+
+	var addedStores []string
+	var stores []models.Store
+	for _, m := range matrix {
+		if !stringContains(addedStores, m.StoreCode) {
+			addedStores = append(addedStores, m.StoreCode)
+			stores = append(stores, models.Store{
+				StoreName: m.StoreName,
+				StoreCode: m.StoreCode,
+			})
+		}
+	}
+
+	return repository.SaveAllStoresFrom1C(stores)
+}
+
+func GetDefectsPF(req models.DefectsRequest) error {
 	req.IsPF = true
 	log.Println(time.Now(), " Started Getting Defects from 1C")
 	fmt.Println(time.Now(), " Started Getting Defects from 1C")
@@ -84,7 +201,7 @@ func GetDefectsPF(req models.DefectsRequest) (filteredDefects []models.DefectsFi
 
 	defects, err := GetDefectsExt(req)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	log.Println(time.Now(), " Finished Getting Defects from 1C: durance[", time.Now().Sub(now), "]")
 	fmt.Println(time.Now(), " Finished Getting Defects from 1C: durance[", time.Now().Sub(now), "]")
@@ -105,7 +222,7 @@ func GetDefectsPF(req models.DefectsRequest) (filteredDefects []models.DefectsFi
 				}
 			}
 			checkedCodes = append(checkedCodes, defect.StoreCode)
-			filteredDefects = append(filteredDefects, defectsFiltered)
+			//filteredDefects = append(filteredDefects, defectsFiltered)
 		}
 	}
 	log.Println(time.Now(), "Finished Filtering data into Stores: durance[", time.Now().Sub(now), "]")
@@ -114,13 +231,14 @@ func GetDefectsPF(req models.DefectsRequest) (filteredDefects []models.DefectsFi
 	log.Println(time.Now(), "Start Forming excel")
 	fmt.Println(time.Now(), "Start Forming excel")
 	now = time.Now()
-	if err = FormExcelDefectsPF(req, filteredDefects); err != nil {
-		return nil, err
+	var f []models.DefectsFiltered
+	if err = FormExcelDefectsPF(req, f); err != nil {
+		return err
 	}
 	log.Println(time.Now(), "Finished Forming excel: durance[", time.Now().Sub(now), "]")
 	fmt.Println(time.Now(), "Finished Forming excel")
 
-	return filteredDefects, nil
+	return nil
 }
 
 func GetDefectsLS(req models.DefectsRequest) (filteredDefects []models.DefectsFiltered, err error) {
@@ -206,27 +324,22 @@ func FormExcelDefectsPF(req models.DefectsRequest, filteredDefects []models.Defe
 	f.SetCellValue(defectsSheet, "D1", req.Startdate) //Дата
 	f.SetCellValue(defectsSheet, "H1", req.Startdate) //Дата
 
-	//stream.SetRow("D1", []interface{}{excelize.Cell{Value: req.Startdate}})
-	//stream.SetRow("H1", []interface{}{excelize.Cell{Value: req.Startdate}})
+	var reqDefectsInfo models.DefectsInfoReq
+	fmt.Println("Start getting defects info")
+	defectsInfo, err := GetDefectsInfoExt(reqDefectsInfo)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("%v", defectsInfo)
+	fmt.Println("Finished getting defects info")
 
-	//stream.SetRow("A1", []interface{}{excelize.Cell{Value: "ПФ"}})
-
-	//stream.SetRow("A2", []interface{}{excelize.Cell{Value: "Аптека"}})
-	//stream.SetRow("B2", []interface{}{excelize.Cell{Value: "Наименование"}})
-	//stream.SetRow("C2", []interface{}{excelize.Cell{Value: "код 1С"}})
-	//stream.SetRow("D2", []interface{}{excelize.Cell{Value: "кол-во СКЮ продаваемых за 60 дней по матрице"}})
-	//stream.SetRow("E2", []interface{}{excelize.Cell{Value: "кол-во СКЮ в дефектуре"}})
-	//stream.SetRow("F2", []interface{}{excelize.Cell{Value: "сумма дефектуры"}})
-	//stream.SetRow("G2", []interface{}{excelize.Cell{Value: "% дефектуры от факт продаж"}})
-	//stream.SetRow("H2", []interface{}{excelize.Cell{Value: "кол-во СКЮ входящих в АМ аптеки/магазина"}})
-	//stream.SetRow("I2", []interface{}{excelize.Cell{Value: "кол-во СКЮ в дефектуре по АМ ПФ"}})
-	//stream.SetRow("J2", []interface{}{excelize.Cell{Value: "сумма дефектуры"}})
-	//stream.SetRow("K2", []interface{}{excelize.Cell{Value: "% дефектуры от АМ"}})
-	//stream.SetRow("L2", []interface{}{excelize.Cell{Value: "наличие продукции на складе"}})
-	//stream.SetRow("M2", []interface{}{excelize.Cell{Value: "наличие продукции на складе - в суммарном выражении"}})
-	//stream.SetRow("N2", []interface{}{excelize.Cell{Value: "закупочная цена"}})
-	//
-	//stream.SetRow("A3", []interface{}{excelize.Cell{Value: "Дивизион/филиал"}})
+	fmt.Println("Start getting matrix info")
+	matrix, err := GetMatrixExt("")
+	if err != nil {
+		return err
+	}
+	fmt.Printf("%v", matrix)
+	fmt.Println("Finished getting matrix info")
 
 	var (
 		globalDefectSum1 float64
@@ -235,7 +348,7 @@ func FormExcelDefectsPF(req models.DefectsRequest, filteredDefects []models.Defe
 	var i = 4
 	for _, defect := range filteredDefects {
 		storeIndex := i
-		f.SetCellValue(defectsSheet, fmt.Sprintf("A%d", storeIndex), defect.StoreName) //Аптека
+		f.SetCellValue(defectsSheet, fmt.Sprintf("A%d", storeIndex), matrix[0].StoreName) //Аптека
 		//stream.SetRow(fmt.Sprintf("A%d", storeIndex), []interface{}{excelize.Cell{Value: defect.StoreName}}) //Аптека
 		var (
 			storeMatrixSales float64 // кол-во СКЮ продаваемых за 60 дней по матрице
@@ -251,8 +364,8 @@ func FormExcelDefectsPF(req models.DefectsRequest, filteredDefects []models.Defe
 		)
 		i++
 		j := i
-		for _, subDefect := range defect.SubDefects {
-			f.SetCellValue(defectsSheet, fmt.Sprintf("A%d", i), defect.StoreName)
+		for k, subDefect := range defect.SubDefects {
+			f.SetCellValue(defectsSheet, fmt.Sprintf("A%d", i), matrix[0].StoreName)
 			storeSaldoQnt, _ := strconv.ParseFloat(subDefect.StoreSaldoQnt, 2)
 			//if err != nil {
 			//	return err
@@ -263,7 +376,7 @@ func FormExcelDefectsPF(req models.DefectsRequest, filteredDefects []models.Defe
 			//	return err
 			//}
 
-			matrixProductQnt, _ := strconv.ParseFloat(subDefect.MatrixProductQnt, 2)
+			//matrixProductQnt, _ := strconv.ParseFloat(subDefect.MatrixProductQnt, 2)
 			//if err != nil {
 			//	return err
 			//}
@@ -273,7 +386,17 @@ func FormExcelDefectsPF(req models.DefectsRequest, filteredDefects []models.Defe
 			//	return err
 			//}
 
-			matrixSales, _ := strconv.ParseFloat(subDefect.MatrixSales, 2)
+			//matrixSales, _ := strconv.ParseFloat(subDefect.MatrixSales, 2)
+			//if err != nil {
+			//	return err
+			//}
+
+			matrixSalesDefectInfo, _ := strconv.ParseFloat(defectsInfo[k].MatrixSales, 2)
+			//if err != nil {
+			//	return err
+			//}
+
+			matrixSalesQntDefectInfo, _ := strconv.ParseFloat(defectsInfo[k].MatrixSalesQnt, 2)
 			//if err != nil {
 			//	return err
 			//}
@@ -284,28 +407,29 @@ func FormExcelDefectsPF(req models.DefectsRequest, filteredDefects []models.Defe
 			f.SetCellValue(defectsSheet, fmt.Sprintf("C%d", i), subDefect.ProductCode) //код 1С
 			//stream.SetRow(fmt.Sprintf("C%d", i), []interface{}{excelize.Cell{Value: subDefect.ProductCode}})
 
-			f.SetCellValue(defectsSheet, fmt.Sprintf("D%d", i), matrixSales) // кол-во СКЮ продаваемых за 60 дней по матрице
+			f.SetCellValue(defectsSheet, fmt.Sprintf("D%d", i), matrixSalesDefectInfo) // кол-во СКЮ продаваемых за 60 дней по матрице
 			//stream.SetRow(fmt.Sprintf("D%d", i), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(matrixSales)}})
-			if matrixSales != 0 {
+			if matrixSalesDefectInfo != 0 {
 				storeMatrixSales++
 			}
 
 			f.SetCellValue(defectsSheet, fmt.Sprintf("E%d", i), float64(len(defect.SubDefects))/float64(len(defect.SubDefects))*15-storeSaldoQnt) //кол-во СКЮ в дефектуре
 			//stream.SetRow(fmt.Sprintf("E%d", i), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(defectQnt)}})
-			if matrixSales != 0 {
+			if matrixSalesDefectInfo != 0 {
 				storeDefectQnt++
 			}
 
 			f.SetCellValue(defectsSheet, fmt.Sprintf("F%d", i), (float64(len(defect.SubDefects))/float64(len(defect.SubDefects))*15-storeSaldoQnt)*price) //сумма дефектуры
 			//stream.SetRow(fmt.Sprintf("F%d", i), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(defectQnt * price)}})
-			storeDefectSum += (matrixSales/matrixSales*15 - storeSaldoQnt) * price
+			storeDefectSum += (matrixSalesDefectInfo/matrixSalesQntDefectInfo*15 - storeSaldoQnt) * price
 
 			f.SetCellValue(defectsSheet, fmt.Sprintf("H%d", i), 1) //кол-во СКЮ входящих в АМ аптеки/магазина
 			//stream.SetRow(fmt.Sprintf("H%d", i), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(matrixProductQnt)}})
-			storeSkuQnt += matrixProductQnt
+			storeSkuQnt++
+			//storeSkuQnt += matrixProductQnt
 
 			hasDefect := 0
-			if matrixSales/matrixSales*15-storeSaldoQnt > 0 {
+			if matrixSalesDefectInfo/matrixSalesQntDefectInfo*15-storeSaldoQnt > 0 {
 				storeDefectSkuQnt++
 				hasDefect = 1
 			}
@@ -371,7 +495,7 @@ func FormExcelDefectsPF(req models.DefectsRequest, filteredDefects []models.Defe
 			////stream.SetRow(fmt.Sprintf("J%d", i), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(float64(len(defect.SubDefects)) * price)}})
 			//storeDefectSum2 += float64(len(defect.SubDefects)) * price
 
-			f.SetCellValue(defectsSheet, fmt.Sprintf("K%d", i), ((float64(len(defect.SubDefects))/float64(len(defect.SubDefects))*15-storeSaldoQnt)*price)*100/storeDefectSum2) //% дефектуры от АМ
+			f.SetCellValue(defectsSheet, fmt.Sprintf("K%d", j), ((float64(len(defect.SubDefects))/float64(len(defect.SubDefects))*15-storeSaldoQnt)*price)*100/storeDefectSum2) //% дефектуры от АМ
 			//stream.SetRow(fmt.Sprintf("K%d", i), []interface{}{excelize.Cell{Value: fmt.Sprintf("%s%", utils.FloatToMoneyFormat((float64(len(defect.SubDefects)))/matrixProductQnt*100))}})
 			//storeDefectAM += float64(len(defect.SubDefects)) / matrixProductQnt * 100
 
@@ -447,6 +571,271 @@ func FormExcelDefectsPF(req models.DefectsRequest, filteredDefects []models.Defe
 
 	_ = f.SaveAs("files/defects/res.xlsx")
 	//f.Close()
+	return nil
+}
+
+func GetNewDefects(req models.DefectsRequest) error {
+	return NewFormExcelDefectsPF(req)
+}
+
+func NewFormExcelDefectsPF(req models.DefectsRequest) error {
+	var restriction int
+	f, err := excelize.OpenFile("files/defects/defects_pharmacy_template.xlsx")
+	if err != nil {
+		return err
+	}
+
+	style, err := f.NewStyle(&excelize.Style{
+		Font: &excelize.Font{
+			Bold: true,
+		},
+		NumFmt: 4,
+	})
+	moneyStyle, _ := f.NewStyle(`{"number_format": 4}`)
+	moneyMainStyle, _ := f.NewStyle(&excelize.Style{
+		Fill: excelize.Fill{Type: "pattern", Color: []string{"#FFFAD9"}, Pattern: 1},
+		Border: []excelize.Border{
+			{Type: "left", Color: "000000", Style: 1},
+			{Type: "right", Color: "000000", Style: 1},
+			{Type: "top", Color: "000000", Style: 1},
+			{Type: "bottom", Color: "000000", Style: 1},
+		},
+		NumFmt: 4,
+	})
+
+	f.NewSheet(defectsSheet)
+	f.SetCellValue(defectsSheet, "D1", req.Startdate) //Дата
+	f.SetCellValue(defectsSheet, "H1", req.Startdate) //Дата
+
+	var (
+		globalDefectSum1 float64
+		globalDefectSum2 float64
+	)
+	var i = 4
+	stores, err := repository.GetAllStores()
+	if err != nil {
+		return err
+	}
+
+	for _, store := range stores {
+
+		storeIndex := i
+		f.SetCellValue(defectsSheet, fmt.Sprintf("A%d", storeIndex), store.StoreName) //Аптека
+		var (
+			storeMatrixSales float64 // кол-во СКЮ продаваемых за 60 дней по матрице
+			storeDefectQnt   float64 //кол-во СКЮ в дефектуре
+			storeDefectSum   float64 //сумма дефектуры
+			//storeFactSaleDefect  float64 //% дефектуры от факт продаж
+			storeSkuQnt       float64 //кол-во СКЮ входящих в АМ аптеки/магазина
+			storeDefectSkuQnt float64 //кол-во СКЮ в дефектуре по АМ ПФ
+			storeDefectSum2   float64 //сумма дефектуры
+			//storeDefectAM        float64 //% дефектуры от АМ
+			storeStoreSaldoQnt   float64 // наличие продукции на складе
+			storeStoreSaldoCount float64 // наличие продукции на складе - в суммарном выражении
+		)
+		i++
+		j := i
+
+		fmt.Println("[GetMatrixExt]")
+		matrix, err := GetMatrixExt(store.StoreCode)
+		if err != nil {
+			return err
+		}
+
+		fmt.Println("[GetSalesCountExt]")
+		salesCountReq := models.SalesCountRequest{Startdate: req.Startdate + " 00:00:00", Enddate: req.Enddate + " 00:00:00", StoreCode: store.StoreCode}
+		sales, err := GetSalesCountExt(salesCountReq)
+		if err != nil {
+			return err
+		}
+
+		fmt.Println("[GetDefectsInfoExt]")
+		reqDefectsInfo := models.DefectsInfoReq{Startdate: req.Startdate, Enddate: req.Enddate, StoreCode: store.StoreCode, Products: nil}
+		defectsInfo, err := GetDefectsInfoExt(reqDefectsInfo)
+		if err != nil {
+			return err
+		}
+
+		var productFullInfo []models.ProductFullInfo
+		for _, m := range matrix {
+			defectInfo := models.DefectsInfo{}
+			for _, info := range defectsInfo {
+				if info.ProductCode == m.ProductCode {
+					defectInfo = info
+				}
+			}
+
+			sale := models.SalesCount{}
+			for _, saleCount := range sales {
+				if saleCount.ProductCode == m.ProductCode {
+					sale = saleCount
+				}
+			}
+
+			productFullInfo = append(productFullInfo, models.ProductFullInfo{
+				Product:     m.ProductCode,
+				Matrix:      m,
+				SalesCount:  sale,
+				DefectsInfo: defectInfo,
+			})
+		}
+
+		for _, fullInfo := range productFullInfo {
+			m := fullInfo.Matrix
+
+			defectInfo := fullInfo.DefectsInfo
+
+			sale := fullInfo.SalesCount
+
+			matrixSales, _ := strconv.ParseFloat(defectInfo.MatrixSalesQnt, 2)
+			saleCount, _ := strconv.ParseFloat(sale.SalesCount, 2)
+			salesDayCount, _ := strconv.ParseFloat(sale.SalesDayCount, 2)
+			totalStoreCount, _ := strconv.ParseFloat(sale.TotalStoreCount, 2)
+			min, _ := strconv.ParseFloat(m.Min, 2)
+			max, _ := strconv.ParseFloat(m.Max, 2)
+			price, _ := strconv.ParseFloat(defectInfo.DefectPrice, 2)
+			storeSaldoQnt, _ := strconv.ParseFloat(defectInfo.StoreSaldoQnt, 2)
+
+			//Наименование
+			f.SetCellValue(defectsSheet, fmt.Sprintf("B%d", i), m.ProductName)
+
+			//код 1С
+			f.SetCellValue(defectsSheet, fmt.Sprintf("C%d", i), m.ProductCode)
+
+			// кол-во СКЮ продаваемых за 60 дней по матрице
+			f.SetCellValue(defectsSheet, fmt.Sprintf("D%d", i), matrixSales)
+			if matrixSales != 0 {
+				storeMatrixSales++
+			}
+
+			//кол-во СКЮ в дефектуре
+			var defect float64
+			if min != 0 {
+				defect = saleCount/salesDayCount*15 - min - totalStoreCount
+			} else if max != 0 {
+				defect = max - totalStoreCount
+			}
+			f.SetCellValue(defectsSheet, fmt.Sprintf("E%d", i), defect)
+
+			//сумма дефектуры
+			f.SetCellValue(defectsSheet, fmt.Sprintf("F%d", i), defect*price)
+			storeDefectSum += defect * price
+
+			//кол-во СКЮ входящих в АМ аптеки/магазина
+			f.SetCellValue(defectsSheet, fmt.Sprintf("H%d", i), 1)
+			storeSkuQnt++
+
+			//кол-во СКЮ в дефектуре по АМ ПФ
+			hasDefect := 0
+			if defect > 0 {
+				storeDefectSkuQnt++
+				hasDefect = 1
+			}
+			f.SetCellValue(defectsSheet, fmt.Sprintf("I%d", i), hasDefect)
+
+			//сумма дефектуры
+			f.SetCellValue(defectsSheet, fmt.Sprintf("J%d", i), defect*price)
+			if hasDefect != 0 {
+				storeDefectSum2 += price
+			}
+
+			// наличие продукции на складе
+			f.SetCellValue(defectsSheet, fmt.Sprintf("L%d", i), storeSaldoQnt)
+			storeStoreSaldoQnt += storeSaldoQnt
+
+			// наличие продукции на складе - в суммарном выражении
+			f.SetCellValue(defectsSheet, fmt.Sprintf("M%d", i), storeSaldoQnt*price)
+			storeStoreSaldoCount += storeSaldoQnt * price
+
+			// Закупочная цена
+			f.SetCellValue(defectsSheet, fmt.Sprintf("N%d", i), price)
+
+			f.SetCellStyle(defectsSheet, fmt.Sprintf("D%d", i), fmt.Sprintf("N%d", i), moneyStyle)
+			i++
+		}
+
+		//% дефектуры от факт продаж
+		for _, m := range matrix {
+			defectInfo := models.DefectsInfo{}
+			for _, info := range defectsInfo {
+				if info.ProductCode == m.ProductCode {
+					defectInfo = info
+				}
+			}
+
+			sale := models.SalesCount{}
+			for _, saleCount := range sales {
+				if saleCount.ProductCode == m.ProductCode {
+					sale = saleCount
+				}
+			}
+
+			saleCount, _ := strconv.ParseFloat(sale.SalesCount, 2)
+			salesDayCount, _ := strconv.ParseFloat(sale.SalesDayCount, 2)
+			totalStoreCount, _ := strconv.ParseFloat(sale.TotalStoreCount, 2)
+			min, _ := strconv.ParseFloat(m.Min, 2)
+			max, _ := strconv.ParseFloat(m.Max, 2)
+			price, _ := strconv.ParseFloat(defectInfo.DefectPrice, 2)
+
+			//кол-во СКЮ в дефектуре
+			var defect float64
+			if min != 0 {
+				defect = saleCount/salesDayCount*15 - min - totalStoreCount
+			} else if max != 0 {
+				defect = max - totalStoreCount
+			}
+
+			f.SetCellValue(defectsSheet, fmt.Sprintf("G%d", j), (defect*price)*100/storeDefectSum) //% дефектуры от факт продаж
+
+			f.SetCellValue(defectsSheet, fmt.Sprintf("K%d", j), (defect*price)*100/storeDefectSum2) //% дефектуры от АМ
+
+			j++
+		}
+
+		f.SetCellValue(defectsSheet, fmt.Sprintf("D%d", storeIndex), storeMatrixSales) // кол-во СКЮ продаваемых за 60 дней по матрице
+
+		f.SetCellValue(defectsSheet, fmt.Sprintf("E%d", storeIndex), storeDefectQnt) //кол-во СКЮ в дефектуре
+
+		f.SetCellValue(defectsSheet, fmt.Sprintf("F%d", storeIndex), storeDefectSum) //сумма дефектуры
+
+		f.SetCellValue(defectsSheet, fmt.Sprintf("G%d", storeIndex), storeDefectQnt/storeMatrixSales*100) //% дефектуры от факт продаж
+
+		f.SetCellValue(defectsSheet, fmt.Sprintf("H%d", storeIndex), len(matrix)) //кол-во СКЮ входящих в АМ аптеки/магазина
+
+		f.SetCellValue(defectsSheet, fmt.Sprintf("I%d", storeIndex), storeDefectSkuQnt) //кол-во СКЮ в дефектуре по АМ ПФ
+
+		f.SetCellValue(defectsSheet, fmt.Sprintf("J%d", storeIndex), storeDefectSum2) //сумма дефектуры
+
+		f.SetCellValue(defectsSheet, fmt.Sprintf("K%d", storeIndex), storeDefectSkuQnt/storeSkuQnt*100) //% дефектуры от АМ
+		//if storeDefectSkuQnt != 0 {
+		//	f.SetCellValue(defectsSheet, fmt.Sprintf("M%d", i), float64(storeDefectSkuQnt)/float64(storeSkuQnt)) //% дефектуры от АМ
+		//} else {
+		//	f.SetCellValue(defectsSheet, fmt.Sprintf("M%d", i), 0) //% дефектуры от АМ
+		//}
+		f.SetCellValue(defectsSheet, fmt.Sprintf("L%d", storeIndex), storeStoreSaldoQnt) // наличие продукции на складе
+		//stream.SetRow(fmt.Sprintf("L%d", storeIndex), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(storeStoreSaldoQnt)}})
+
+		f.SetCellValue(defectsSheet, fmt.Sprintf("M%d", storeIndex), storeStoreSaldoCount) // наличие продукции на складе - в суммарном выражении
+		//stream.SetRow(fmt.Sprintf("M%d", storeIndex), []interface{}{excelize.Cell{Value: utils.FloatToMoneyFormat(storeStoreSaldoCount)}})
+
+		//f.SetCellStyle(defectsSheet, fmt.Sprintf("A%d", storeIndex), fmt.Sprintf("M%d", storeIndex), style)
+		f.SetCellStyle(defectsSheet, fmt.Sprintf("A%d", storeIndex), fmt.Sprintf("M%d", storeIndex), style)
+		globalDefectSum1 += storeDefectSum
+		globalDefectSum2 += storeDefectSum2
+		if restriction > 10 {
+			break
+		}
+		restriction++
+	}
+
+	f.SetCellValue(defectsSheet, "F3", globalDefectSum1)
+	f.SetCellStyle(defectsSheet, "F3", "F3", moneyMainStyle)
+	f.SetCellValue(defectsSheet, "J3", globalDefectSum2)
+	f.SetCellStyle(defectsSheet, "J3", "J3", moneyMainStyle)
+
+	f.DeleteSheet("Sheet1")
+
+	_ = f.SaveAs("files/defects/res.xlsx")
 	return nil
 }
 
@@ -611,18 +1000,21 @@ func GetSalesCountExt(req models.SalesCountRequest) (defects []models.SalesCount
 	}{}
 
 	fmt.Println("Started marshalling ext_req_body")
-	bodyBin := new(bytes.Buffer)
-	err = json.NewEncoder(bodyBin).Encode(&req)
+
+	bodyBin, err := json.Marshal(&req)
+	//bodyBin := new(bytes.Buffer)
+	//err = json.NewEncoder(bodyBin).Encode(&req)
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println("body:", string(bodyBin))
 	fmt.Println("Finished marshalling ext_req_body")
 	//fmt.Println("BODY", bodyBin)
 
 	fmt.Println("Started sending ext_req")
 	client := &http.Client{}
 	endpoint := fmt.Sprintf("http://89.218.153.38:8081/AQG_ULAN/hs/integration/salescount")
-	r, err := http.NewRequest("POST", endpoint, bodyBin) // URL-encoded payload
+	r, err := http.NewRequest("POST", endpoint, bytes.NewBuffer(bodyBin)) // URL-encoded payload
 	if err != nil {
 		return nil, err
 	}

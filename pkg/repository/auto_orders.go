@@ -156,6 +156,27 @@ func GetAllFormedGraphics() (graphics []models.FormedGraphic, err error) {
 	return graphics, nil
 }
 
+func GetFormedGraphicByID(id int) (graphic models.FormedGraphic, err error) {
+	sqlQuery := `SELECT fg.id,
+       g.number as graphic_name,
+       g.supplier_name as supplier,
+       g.store_name as store,
+       fg.by_matrix,
+       g.application_day as schedule,
+       fg.product_availability_days,
+       fg.dister_days,
+       fg.store_days,
+       fg.status as status
+                FROM
+                                         formed_graphics fg
+                                         JOIN graphics g ON fg.graphic_id = g.id WHERE fg.id = ?`
+	if err = db.GetDBConn().Raw(sqlQuery, id).Scan(&graphic).Error; err != nil {
+		return models.FormedGraphic{}, err
+	}
+
+	return graphic, nil
+}
+
 func GetAllFormedGraphicsProducts(formedGraphicID int) (products []models.FormedGraphicProduct, err error) {
 	sqlQuery := "SELECT * FROM formed_graphic_products WHERE graphic_id = ?"
 	if err = db.GetDBConn().Raw(sqlQuery, formedGraphicID).Scan(&products).Error; err != nil {
