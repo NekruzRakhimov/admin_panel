@@ -102,7 +102,8 @@ func runAllRoutes(r *gin.Engine) {
 
 	cr.POST("/save_matrix", controller.SaveMatrix)
 
-	cr.GET("/letter", controller.GetSegmentByID)
+	//cr.GET("/letter", controller.GetSegmentByID)
+	//cr.GET("/send_letter/:id", controller.SendLetter)
 
 	hyperstockServ := service.NewHyperstocksService()
 	defectServ := service.NewDefectsService()
@@ -164,6 +165,7 @@ func tempRoutes(r *gin.RouterGroup) {
 	r.POST("/segment_product", controller.ConvertExcelToStructProductsAndRegion)
 	r.POST("/segment", controller.CreateSegment)
 	r.GET("/segment/:id", controller.GetSegmentByID)
+	r.GET("/letter/:id", controller.SendLetter)
 
 }
 

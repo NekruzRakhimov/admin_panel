@@ -159,6 +159,7 @@ func GetAllFormedGraphics() (graphics []models.FormedGraphic, err error) {
 func GetFormedGraphicByID(id int) (graphic models.FormedGraphic, err error) {
 	sqlQuery := `SELECT fg.id,
        g.number as graphic_name,
+       fg.graphic_id as graphic_id,
        g.supplier_name as supplier,
        g.store_name as store,
        fg.by_matrix,
