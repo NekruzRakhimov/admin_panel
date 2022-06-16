@@ -87,27 +87,27 @@ func GetSegmentByID(id int) (models.Segment, error) {
 
 
 
-func GetSegmentByID(id int) (models.Segment, error) {
-	segment, err := repository.GetSegmentByID(id)
-	if err != nil {
-		return segment, err
-	}
-
-	err = json.Unmarshal([]byte(segment.ProductStr), &segment.Products)
-	if err != nil {
-		return segment, err
-	}
-
-	err = json.Unmarshal([]byte(segment.RegionStr), &segment.Region)
-	if err != nil {
-		return segment, err
-	}
-
-	//SendNotificationSegment("НАДО УКАЗАТЬ ПУТЬ или сперва заполнить Эксель")
-	//
-	return segment, nil
-
-}
+//func GetSegmentByID(id int) (models.Segment, error) {
+//	segment, err := repository.GetSegmentByID(id)
+//	if err != nil {
+//		return segment, err
+//	}
+//
+//	err = json.Unmarshal([]byte(segment.ProductStr), &segment.Products)
+//	if err != nil {
+//		return segment, err
+//	}
+//
+//	err = json.Unmarshal([]byte(segment.RegionStr), &segment.Region)
+//	if err != nil {
+//		return segment, err
+//	}
+//
+//	//SendNotificationSegment("НАДО УКАЗАТЬ ПУТЬ или сперва заполнить Эксель")
+//	//
+//	return segment, nil
+//
+//}
 
 
 func GetSegments() ([]models.Segment, error) {
@@ -138,6 +138,11 @@ func GetSegments() ([]models.Segment, error) {
 	//
 	return segmentsSL, nil
 
+}
+
+
+func DeleteSegmentByID(id int)  error{
+	return repository.DeleteSegmentByID(id)
 }
 
 const segment = "сегменты"
@@ -217,7 +222,7 @@ func SendNotificationSegment(path string, email string) {
 	// Now send E-Mail
 	if err := d.DialAndSend(m); err != nil {
 		fmt.Println(err)
-		panic(err)
+		//panic(err)
 	}
 	fmt.Println("successfully sent email!")
 	return

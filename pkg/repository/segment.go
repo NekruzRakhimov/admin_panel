@@ -49,3 +49,12 @@ func GetSegments() ([]models.Segment, error) {
 	return segment, nil
 
 }
+
+func DeleteSegmentByID(id int) error {
+	err := db.GetDBConn().Exec("DELETE FROM segment WHERE id = $1", id).Error
+	if err != nil {
+		return err
+	}
+
+	return err
+}

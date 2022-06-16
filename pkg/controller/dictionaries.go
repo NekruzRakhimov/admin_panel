@@ -381,3 +381,20 @@ func GetSegments(c *gin.Context)  {
 	c.JSON(200, segments)
 
 }
+
+func DeleteSegmentByID(c *gin.Context)  {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": "segment_id не найден"})
+		return
+	}
+	err = service.DeleteSegmentByID(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
+		return
+
+	}
+	c.JSON(http.StatusOK, gin.H{"reason": "сегмент успешно удален"})
+
+
+}
