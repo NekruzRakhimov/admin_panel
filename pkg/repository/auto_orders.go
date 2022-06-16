@@ -32,7 +32,7 @@ func GetAllGraphics() (graphics []models.Graphic, err error) {
 					   to_char(auto_order_date::date, 'DD.MM.YYYY'),
 					   created_at,
 					   application_day
-				from graphics WHERE is_removed = false`
+				from graphics`
 	if err = db.GetDBConn().Raw(sqlQuery).Scan(&graphics).Error; err != nil {
 		return nil, err
 	}
@@ -76,6 +76,7 @@ func EditGraphic(graphic models.Graphic) error {
 
 func DeleteGraphic(id int) error {
 	fmt.Println("ID", id)
+	// change auto_order to graphic
 	update := "UPDATE auto_order SET is_removed = ? WHERE id = ?"
 	err := db.GetDBConn().Exec(update, true, id).Error
 	if err != nil {
