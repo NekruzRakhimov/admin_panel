@@ -357,9 +357,25 @@ func GetAllFrequencyDeferredDiscounts(c *gin.Context) {
 	c.JSON(http.StatusOK, frequencyDeferredDiscount)
 }
 
+
+//GetSegments dictionary godoc
+// @Summary Get All Segments
+// @Description Get All Segments
+// @Accept  json
+// @Produce  json
+// @Tags dictionary
+// @Success 200 {array}  models.Segment
+// @Failure 400,404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /segments [get]
 func GetSegments(c *gin.Context)  {
 
-	segments := service.GetSegments()
+	segments, err := service.GetSegments()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
+		return
+
+	}
 
 
 	c.JSON(200, segments)

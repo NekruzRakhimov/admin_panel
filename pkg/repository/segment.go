@@ -37,3 +37,15 @@ func GetSegment(supplier string) (models.Segment, error) {
 	return segment, nil
 
 }
+
+
+func GetSegments() ([]models.Segment, error) {
+	var segment []models.Segment
+	err := db.GetDBConn().Raw("SELECT *FROM segment").Scan(&segment).Error
+	if err != nil {
+		return segment, err
+	}
+
+	return segment, nil
+
+}
