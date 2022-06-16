@@ -77,7 +77,8 @@ func EditGraphic(graphic models.Graphic) error {
 func DeleteGraphic(id int) error {
 	fmt.Println("ID", id)
 	// change auto_order to graphic
-	update := "UPDATE auto_order SET is_removed = ? WHERE id = ?"
+	//update := "UPDATE auto_order SET is_removed = ? WHERE id = ?"
+	update := "UPDATE graphics SET is_removed = ? WHERE id = ?"
 	err := db.GetDBConn().Exec(update, true, id).Error
 	if err != nil {
 		return err
