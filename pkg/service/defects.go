@@ -688,13 +688,16 @@ func NewFormExcelDefectsPF(req models.DefectsRequest) error {
 			sale := fullInfo.SalesCount
 
 			matrixSales, _ := strconv.ParseFloat(defectInfo.MatrixSalesQnt, 2)
-			saleCount, _ := strconv.ParseFloat(sale.SalesCount, 2)
+			//saleCount, _ := strconv.ParseFloat(sale.SalesCount, 2)
 			salesDayCount, _ := strconv.ParseFloat(sale.SalesDayCount, 2)
 			totalStoreCount, _ := strconv.ParseFloat(sale.TotalStoreCount, 2)
 			min, _ := strconv.ParseFloat(m.Min, 2)
 			max, _ := strconv.ParseFloat(m.Max, 2)
 			price, _ := strconv.ParseFloat(defectInfo.DefectPrice, 2)
 			storeSaldoQnt, _ := strconv.ParseFloat(defectInfo.StoreSaldoQnt, 2)
+
+			//Аптека
+			f.SetCellValue(defectsSheet, fmt.Sprintf("A%d", i), store.StoreName)
 
 			//Наименование
 			f.SetCellValue(defectsSheet, fmt.Sprintf("B%d", i), m.ProductName)
@@ -711,11 +714,12 @@ func NewFormExcelDefectsPF(req models.DefectsRequest) error {
 			//кол-во СКЮ в дефектуре
 			var defect float64
 			if min != 0 {
-				defect = saleCount/salesDayCount*15 - min - totalStoreCount
+				defect = matrixSales/salesDayCount*15 - min - totalStoreCount
 			} else if max != 0 {
 				defect = max - totalStoreCount
 			}
 			f.SetCellValue(defectsSheet, fmt.Sprintf("E%d", i), defect)
+			storeDefectQnt += defect
 
 			//сумма дефектуры
 			f.SetCellValue(defectsSheet, fmt.Sprintf("F%d", i), defect*price)
@@ -732,6 +736,7 @@ func NewFormExcelDefectsPF(req models.DefectsRequest) error {
 				hasDefect = 1
 			}
 			f.SetCellValue(defectsSheet, fmt.Sprintf("I%d", i), hasDefect)
+			storeDefectSkuQnt += defect
 
 			//сумма дефектуры
 			f.SetCellValue(defectsSheet, fmt.Sprintf("J%d", i), defect*price)
@@ -755,20 +760,12 @@ func NewFormExcelDefectsPF(req models.DefectsRequest) error {
 		}
 
 		//% дефектуры от факт продаж
-		for _, m := range matrix {
-			defectInfo := models.DefectsInfo{}
-			for _, info := range defectsInfo {
-				if info.ProductCode == m.ProductCode {
-					defectInfo = info
-				}
-			}
+		for _, fullInfo := range productFullInfo {
+			m := fullInfo.Matrix
 
-			sale := models.SalesCount{}
-			for _, saleCount := range sales {
-				if saleCount.ProductCode == m.ProductCode {
-					sale = saleCount
-				}
-			}
+			defectInfo := fullInfo.DefectsInfo
+
+			sale := fullInfo.SalesCount
 
 			saleCount, _ := strconv.ParseFloat(sale.SalesCount, 2)
 			salesDayCount, _ := strconv.ParseFloat(sale.SalesDayCount, 2)
@@ -785,9 +782,9 @@ func NewFormExcelDefectsPF(req models.DefectsRequest) error {
 				defect = max - totalStoreCount
 			}
 
-			f.SetCellValue(defectsSheet, fmt.Sprintf("G%d", j), (defect*price)*100/storeDefectSum) //% дефектуры от факт продаж
+			f.SetCellValue(defectsSheet, fmt.Sprintf("G%d", j), (defect*price)*100/storeDefectQnt) //% дефектуры от факт продаж
 
-			f.SetCellValue(defectsSheet, fmt.Sprintf("K%d", j), (defect*price)*100/storeDefectSum2) //% дефектуры от АМ
+			f.SetCellValue(defectsSheet, fmt.Sprintf("K%d", j), (defect*price)*100/storeDefectSkuQnt) //% дефектуры от АМ
 
 			j++
 		}
@@ -820,18 +817,18 @@ func NewFormExcelDefectsPF(req models.DefectsRequest) error {
 
 		//f.SetCellStyle(defectsSheet, fmt.Sprintf("A%d", storeIndex), fmt.Sprintf("M%d", storeIndex), style)
 		f.SetCellStyle(defectsSheet, fmt.Sprintf("A%d", storeIndex), fmt.Sprintf("M%d", storeIndex), style)
-		globalDefectSum1 += storeDefectSum
-		globalDefectSum2 += storeDefectSum2
-		if restriction > 10 {
+		globalDefectSum1 += storeDefectQnt
+		globalDefectSum2 += storeDefectSkuQnt
+		if restriction > 2 {
 			break
 		}
 		restriction++
 	}
 
-	f.SetCellValue(defectsSheet, "F3", globalDefectSum1)
-	f.SetCellStyle(defectsSheet, "F3", "F3", moneyMainStyle)
-	f.SetCellValue(defectsSheet, "J3", globalDefectSum2)
-	f.SetCellStyle(defectsSheet, "J3", "J3", moneyMainStyle)
+	f.SetCellValue(defectsSheet, "E3", globalDefectSum1)
+	f.SetCellStyle(defectsSheet, "E3", "E3", moneyMainStyle)
+	f.SetCellValue(defectsSheet, "I3", globalDefectSum2)
+	f.SetCellStyle(defectsSheet, "I3", "I3", moneyMainStyle)
 
 	f.DeleteSheet("Sheet1")
 
