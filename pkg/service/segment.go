@@ -140,6 +140,28 @@ func GetSegments() ([]models.Segment, error) {
 
 }
 
+func GetSegment(supplier string) (models.Segment, error) {
+	segment, err := repository.GetSegment(supplier)
+	if err != nil {
+		return segment, err
+	}
+
+	err = json.Unmarshal([]byte(segment.ProductStr), &segment.Products)
+	if err != nil {
+		return segment, err
+	}
+
+	err = json.Unmarshal([]byte(segment.RegionStr), &segment.Region)
+	if err != nil {
+		return segment, err
+	}
+
+	//SendNotificationSegment("НАДО УКАЗАТЬ ПУТЬ или сперва заполнить Эксель")
+	//
+	return segment, nil
+
+}
+
 
 func DeleteSegmentByID(id int)  error{
 	return repository.DeleteSegmentByID(id)
