@@ -160,7 +160,7 @@ func tempRoutes(r *gin.RouterGroup) {
 	r.POST("/check_1c_get_data", controller.Check1CGetData)
 	r.GET("/cars", controller.GetCarsBrand)
 	//contract.POST("/products", controller.ConvertExcelToStruct)
-	r.GET("/segments/segments", controller.GetSegments)
+	r.GET("/segments", controller.GetSegments)
 
 	r.POST("/segment_product", controller.ConvertExcelToStructProductsAndRegion)
 	r.POST("/segment", controller.CreateSegment)

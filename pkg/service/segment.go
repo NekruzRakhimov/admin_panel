@@ -85,8 +85,6 @@ func GetSegmentByID(id int) (models.Segment, error) {
 
 }
 
-
-
 //func GetSegmentByID(id int) (models.Segment, error) {
 //	segment, err := repository.GetSegmentByID(id)
 //	if err != nil {
@@ -109,7 +107,6 @@ func GetSegmentByID(id int) (models.Segment, error) {
 //
 //}
 
-
 func GetSegments() ([]models.Segment, error) {
 	segments, err := repository.GetSegments()
 	if err != nil {
@@ -117,9 +114,17 @@ func GetSegments() ([]models.Segment, error) {
 	}
 	var segmentsSL []models.Segment
 
-
-	for _, segment := range segments{
+	for _, segment := range segments {
 		var seg models.Segment
+		seg.ID = segment.ID
+		seg.SegmentCode = segment.SegmentCode
+		seg.NameSegment = segment.NameSegment
+		seg.Beneficiary = segment.Beneficiary
+		seg.Bin = segment.Bin
+		seg.ClientCode = segment.ClientCode
+		seg.Email = segment.Email
+		seg.ForMarket = segment.ForMarket
+
 		err = json.Unmarshal([]byte(segment.ProductStr), &seg.Products)
 		if err != nil {
 			return nil, err
@@ -130,9 +135,7 @@ func GetSegments() ([]models.Segment, error) {
 		}
 		segmentsSL = append(segmentsSL, seg)
 
-
 	}
-
 
 	//SendNotificationSegment("НАДО УКАЗАТЬ ПУТЬ или сперва заполнить Эксель")
 	//
@@ -162,8 +165,7 @@ func GetSegment(supplier string) (models.Segment, error) {
 
 }
 
-
-func DeleteSegmentByID(id int)  error{
+func DeleteSegmentByID(id int) error {
 	return repository.DeleteSegmentByID(id)
 }
 
