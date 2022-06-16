@@ -26,3 +26,14 @@ func GetSegmentByID(id int) (models.Segment, error) {
 	return segment, nil
 
 }
+
+func GetSegment(supplier string) (models.Segment, error) {
+	var segment models.Segment
+	err := db.GetDBConn().Raw("SELECT *FROM segment WHERE beneficiary = $1", supplier).Scan(&segment).Error
+	if err != nil {
+		return segment, err
+	}
+
+	return segment, nil
+
+}

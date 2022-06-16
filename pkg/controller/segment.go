@@ -3,6 +3,7 @@ package controller
 import (
 	"admin_panel/models"
 	"admin_panel/pkg/service"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"net/http"
@@ -45,4 +46,54 @@ func GetSegmentByID(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, segment)
+}
+
+func SendLetter(c *gin.Context) {
+	formedGraphicID, err := strconv.Atoi(c.Param("id"))
+	fmt.Println(formedGraphicID, "ID")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": "ERROR"})
+		return
+	}
+
+	//сформированый потребность граффика -
+	formedGraphic, err := service.GetFormedGraphicByID(formedGraphicID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	fmt.Println("DATA", formedGraphic)
+
+	formedGraphicProducts, err := service.GetAllFormedGraphicsProducts(formedGraphicID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	graphic, err := service.GetGraphicByID(formedGraphic.GraphicID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+	fmt.Println("GRAP", graphic)
+
+	c.JSON(200, gin.H{
+		"formedGraphic":         formedGraphic,
+		"formedGraphicProducts": formedGraphicProducts,
+		"graphic":               graphic,
+	})
+	service.FillSegment(formedGraphic, formedGraphicProducts, graphic)
+	segment, err := service.GetSegment(graphic.SupplierName)
+	var email string
+	if segment.Email != "" {
+		email = segment.Email
+		service.SendNotificationSegment("files/segments/segment.xlsx", email)
+	} else {
+		for _, value := range segment.Region {
+			email = value.Email
+			service.SendNotificationSegment("files/segments/segment.xlsx", email)
+		}
+	}
+	//service.SendNotificationSegment("files/segments/segment.xlsx")
 }
