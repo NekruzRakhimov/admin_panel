@@ -86,6 +86,7 @@ type FormedGraphic struct {
 	StoreDays               int                    `json:"store_days"`
 	Status                  string                 `json:"status"`
 	Products                []FormedGraphicProduct `json:"-"`
+	IsLetter                bool                   `json:"is_letter"`
 }
 
 type FormedGraphicProduct struct {

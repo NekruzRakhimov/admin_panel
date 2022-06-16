@@ -192,8 +192,8 @@ DELETE
 FROM contracts
 WHERE id = 264;
 
-ALTER TABLE dictionary_values
-    ADD COLUMN has_file boolean default false;
+ALTER TABLE formed_graphics
+    ADD COLUMN is_letter boolean default false;
 
 ALTER TABLE dictionary_values
     DROP COLUMN has_file;
