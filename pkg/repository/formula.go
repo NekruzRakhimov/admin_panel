@@ -33,7 +33,7 @@ func DeleteFormula(id int) error {
 }
 
 func GetAllFormulas() (formulas []models.Formula, err error) {
-	sqlQuery := "SELECT * FROM formulas"
+	sqlQuery := "SELECT * FROM formulas where is_removed = false"
 	if err = db.GetDBConn().Raw(sqlQuery).Scan(&formulas).Error; err != nil {
 		return nil, err
 	}
