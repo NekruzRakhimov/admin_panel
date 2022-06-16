@@ -77,6 +77,7 @@ func SendLetter(c *gin.Context) {
 		return
 	}
 	fmt.Println("GRAP", graphic)
+	fmt.Println("GRAP", graphic)
 
 	c.JSON(200, gin.H{
 		"formedGraphic":         formedGraphic,
