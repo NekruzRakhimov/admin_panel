@@ -290,3 +290,6 @@ drop table segment;
 
 
 
+
+
+UPDATE segment set

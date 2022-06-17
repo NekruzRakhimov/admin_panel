@@ -29,6 +29,27 @@ func CreateSegment(c *gin.Context) {
 
 }
 
+func ChangeSegment(c *gin.Context) {
+	var segment models.Segment
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	err := c.ShouldBindJSON(&segment)
+	if err != nil {
+		c.JSON(400, gin.H{"reason": err.Error()})
+		return
+	}
+	segment.ID = id
+
+	//segment.SegmentCode = uuid.New().String()
+	err = service.ChangeSegment(segment)
+	if err != nil {
+		c.JSON(400, gin.H{"reason": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"reason": "сегмент успешно обновлен"})
+
+}
+
 func GetSegmentByID(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

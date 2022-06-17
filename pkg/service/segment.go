@@ -29,6 +29,24 @@ func CreateSegment(segment models.Segment) error {
 
 }
 
+func ChangeSegment(segment models.Segment) error {
+
+	product, err := json.Marshal(segment.Products)
+	if err != nil {
+		return err
+	}
+	segment.ProductStr = string(product)
+
+	region, err := json.Marshal(segment.Region)
+	if err != nil {
+		return err
+	}
+	segment.RegionStr = string(region)
+
+	return repository.ChangeSegment(segment)
+
+}
+
 //func GetSegmentByID(id int) error {
 //
 //	product, err := json.Marshal(segment.Products)

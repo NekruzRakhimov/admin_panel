@@ -164,6 +164,7 @@ func tempRoutes(r *gin.RouterGroup) {
 
 	r.POST("/segment_product", controller.ConvertExcelToStructProductsAndRegion)
 	r.POST("/segment", controller.CreateSegment)
+	r.PUT("/segment/:id", controller.ChangeSegment)
 	r.GET("/segment/:id", controller.GetSegmentByID)
 	r.GET("/delete_segment/:id", controller.DeleteSegmentByID)
 	r.GET("/letter/:id", controller.SendLetter)

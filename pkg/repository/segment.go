@@ -16,6 +16,17 @@ func CreateSegment(segment models.Segment) error {
 
 }
 
+func ChangeSegment(segment models.Segment) error {
+
+	err := db.GetDBConn().Table("segment").Save(&segment).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
+
+}
+
 func GetSegmentByID(id int) (models.Segment, error) {
 	var segment models.Segment
 	err := db.GetDBConn().Raw("SELECT *FROM segment WHERE id = $1", id).Scan(&segment).Error
@@ -37,7 +48,6 @@ func GetSegment(supplier string) (models.Segment, error) {
 	return segment, nil
 
 }
-
 
 func GetSegments() ([]models.Segment, error) {
 	var segment []models.Segment
