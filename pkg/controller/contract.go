@@ -71,9 +71,21 @@ func CheckPeriodContract(contract models.Contract) error {
 			endDate, _ := service.ConvertStringTime(contract.ContractParameters.EndDate)
 			periodFrom, _ := service.ConvertStringTime(discountBrand.PeriodFrom)
 			periodTo, _ := service.ConvertStringTime(discountBrand.PeriodTo)
+
+			// per - 02.01.2021
+			// start - 01.01.2021 -> true
 			if !(periodFrom.After(startDate) && periodTo.After(endDate)) {
 				fmt.Println("IS NOT TRUE")
 				discount := fmt.Sprintf("Ошибка, %s: - дата скиди  не может быть ниже или выше договора", discount.Name)
+				return errors.New(discount)
+			}
+			if (startDate.Before(periodFrom) || startDate.Equal(periodFrom)) && (periodTo.Before(endDate) || periodTo.Equal(endDate)) {
+
+				return nil
+
+			} else {
+				fmt.Println("IS NOT TRUE")
+				discount := fmt.Sprintf("Ошибка, %s: - дата скидки  не может быть ниже или выше договора", discount.Name)
 				return errors.New(discount)
 			}
 
@@ -531,8 +543,6 @@ func ConvertExcelToStruct(c *gin.Context) {
 	c.JSON(http.StatusOK, products)
 }
 
-
-
 func ConvertExcelToStructProductsAndRegion(c *gin.Context) {
 	img, err := c.FormFile("file")
 	if err != nil {
@@ -656,41 +666,6 @@ func ConvertExcelToStructProductsAndRegion(c *gin.Context) {
 
 	c.JSON(http.StatusOK, segments)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // CounterpartyContract GetCounterpartyContract contract godoc
 // @Summary Get CounterpartyContract
