@@ -58,9 +58,18 @@ func CheckPeriodContract(contract models.Contract) error {
 			endDate, _ := service.ConvertStringTime(contract.ContractParameters.EndDate)
 			periodFrom, _ := service.ConvertStringTime(checkPeriod.PeriodFrom)
 			periodTo, _ := service.ConvertStringTime(checkPeriod.PeriodTo)
-			if !(periodFrom.After(startDate) && periodTo.After(endDate)) {
+			//if !(periodFrom.After(startDate) && periodTo.After(endDate)) {
+			//	fmt.Println("IS NOT TRUE")
+			//	discount := fmt.Sprintf("Ошибка, %s: - дата скиди  не может быть ниже или выше договора", discount.Name)
+			//	return errors.New(discount)
+			//}
+			if (startDate.Before(periodFrom) || startDate.Equal(periodFrom)) && (periodTo.Before(endDate) || periodTo.Equal(endDate)) {
+
+				return nil
+
+			} else {
 				fmt.Println("IS NOT TRUE")
-				discount := fmt.Sprintf("Ошибка, %s: - дата скиди  не может быть ниже или выше договора", discount.Name)
+				discount := fmt.Sprintf("Ошибка, %s: - дата скидки  не может быть ниже или выше договора", discount.Name)
 				return errors.New(discount)
 			}
 
