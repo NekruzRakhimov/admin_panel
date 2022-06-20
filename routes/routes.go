@@ -167,7 +167,7 @@ func tempRoutes(r *gin.RouterGroup) {
 	r.PUT("/segment/:id", controller.ChangeSegment)
 	r.GET("/segment/:id", controller.GetSegmentByID)
 	r.GET("/delete_segment/:id", controller.DeleteSegmentByID)
-	r.GET("/letter/:id", controller.SendLetter)
+	r.GET("/letter", controller.SendLetter)
 
 }
 
