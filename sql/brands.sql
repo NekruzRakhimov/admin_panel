@@ -219,3 +219,10 @@ WHERE contract_number like  '%9595_2%' AND status =  'на согласован�
 
 
 SELECT *FROM segment WHERE id = 1;
+
+
+
+UPDATE formed_graphics SET is_letter = true WHERE id = 29;
+
+
+SELECT *FROM formed_graphics;

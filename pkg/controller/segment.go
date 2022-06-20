@@ -105,17 +105,26 @@ func SendLetter(c *gin.Context) {
 		"formedGraphicProducts": formedGraphicProducts,
 		"graphic":               graphic,
 	})
-	service.FillSegment(formedGraphic, formedGraphicProducts, graphic)
-	segment, err := service.GetSegment(graphic.SupplierName)
-	var email string
-	if segment.Email != "" {
-		email = segment.Email
-		service.SendNotificationSegment("files/segments/segment.xlsx", email)
-	} else {
-		for _, value := range segment.Region {
-			email = value.Email
-			service.SendNotificationSegment("files/segments/segment.xlsx", email)
+
+	if formedGraphic.Status == "сформирован" {
+		err := service.ChangeLetter(formedGraphic.ID)
+		if err != nil {
+			c.JSON(400, gin.H{"reason": err})
+			return
 		}
+
+		service.FillSegment(formedGraphic, formedGraphicProducts, graphic)
+		segment, _ := service.GetSegment(graphic.SupplierName)
+		var email string
+		if segment.Email != "" {
+			email = segment.Email
+			service.SendNotificationSegment("files/segments/segment.xlsx", email)
+		} else {
+			for _, value := range segment.Region {
+				email = value.Email
+				service.SendNotificationSegment("files/segments/segment.xlsx", email)
+			}
+		}
+		//service.SendNotificationSegment("files/segments/segment.xlsx")
 	}
-	//service.SendNotificationSegment("files/segments/segment.xlsx")
 }

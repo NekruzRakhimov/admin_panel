@@ -68,3 +68,11 @@ func DeleteSegmentByID(id int) error {
 
 	return err
 }
+
+func ChangeLetter(id int) error {
+	err := db.GetDBConn().Exec("UPDATE formed_graphics SET is_letter = ? WHERE id = ?", true, id).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
