@@ -121,17 +121,17 @@ func SendLetter(c *gin.Context) {
 			}
 
 			service.FillSegment(formedGraphic, formedGraphicProducts, graphic)
-			segment, _ := service.GetSegment(graphic.SupplierName)
-			var email string
-			if segment.Email != "" {
-				email = segment.Email
-				service.SendNotificationSegment("files/segments/segment.xlsx", email)
-			} else {
-				for _, value := range segment.Region {
-					email = value.Email
-					service.SendNotificationSegment("files/segments/segment.xlsx", email)
-				}
-			}
+			//segment, _ := service.GetSegment(graphic.SupplierName)
+			//	var email string
+			//	if segment.Email != "" {
+			//		email = segment.Email
+			//		service.SendNotificationSegment("files/segments/segment.xlsx", email)
+			//	} else {
+			//		for _, value := range segment.Region {
+			//			email = value.Email
+			//			service.SendNotificationSegment("files/segments/segment.xlsx", email)
+			//		}
+			//	}
 			//service.SendNotificationSegment("files/segments/segment.xlsx")
 		}
 	}

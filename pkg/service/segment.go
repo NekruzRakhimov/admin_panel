@@ -196,42 +196,463 @@ const segment = "сегменты"
 func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicProduct, graphicAnother models.Graphic) {
 
 	f := excelize.NewFile()
+
+	styleTopBorders, _ := f.NewStyle(&excelize.Style{
+		Border: []excelize.Border{
+			{
+				Type:  "left",
+				Color: "#000000",
+				Style: 1,
+			}, {
+				Type:  "top",
+				Color: "#000000",
+				Style: 5,
+			}, {
+				Type:  "bottom",
+				Color: "#000000",
+				Style: 1,
+			}, {
+				Type:  "right",
+				Color: "#000000",
+				Style: 1,
+			},
+		},
+		Font: &excelize.Font{
+			Bold:      true,
+			Italic:    false,
+			Underline: "",
+			Family:    "Arial",
+			Size:      9,
+			Strike:    false,
+			Color:     "#000000",
+		},
+		Alignment: &excelize.Alignment{
+			Horizontal:      "center",
+			Indent:          1,
+			JustifyLastLine: false,
+			ReadingOrder:    0,
+			RelativeIndent:  1,
+			ShrinkToFit:     false,
+			TextRotation:    0,
+			Vertical:        "center",
+			WrapText:        true,
+		},
+	})
+
+	styleButtonBorder, _ := f.NewStyle(&excelize.Style{
+		Border: []excelize.Border{
+			{
+				Type:  "left",
+				Color: "#000000",
+				Style: 1,
+			}, {
+				Type:  "top",
+				Color: "#000000",
+				Style: 1,
+			}, {
+				Type:  "bottom",
+				Color: "#000000",
+				Style: 5,
+			}, {
+				Type:  "right",
+				Color: "#000000",
+				Style: 1,
+			},
+		},
+		Font: &excelize.Font{
+			Bold:      false,
+			Italic:    false,
+			Underline: "",
+			Family:    "Arial",
+			Size:      8,
+			Strike:    false,
+			Color:     "#000000",
+		},
+		Alignment: &excelize.Alignment{
+			Horizontal:      "center",
+			Indent:          1,
+			JustifyLastLine: false,
+			ReadingOrder:    0,
+			RelativeIndent:  1,
+			ShrinkToFit:     false,
+			TextRotation:    0,
+			Vertical:        "center",
+			WrapText:        true,
+		},
+	})
+
+	styleButtonBorderLeft, _ := f.NewStyle(&excelize.Style{
+		Border: []excelize.Border{
+			{
+				Type:  "left",
+				Color: "#000000",
+				Style: 5,
+			}, {
+				Type:  "top",
+				Color: "#000000",
+				Style: 1,
+			}, {
+				Type:  "bottom",
+				Color: "#000000",
+				Style: 1,
+			}, {
+				Type:  "right",
+				Color: "#000000",
+				Style: 1,
+			},
+		},
+		Font: &excelize.Font{
+			Bold:      false,
+			Italic:    false,
+			Underline: "",
+			Family:    "Arial",
+			Size:      8,
+			Strike:    false,
+			Color:     "#000000",
+		},
+		Alignment: &excelize.Alignment{
+			Horizontal:      "center",
+			Indent:          1,
+			JustifyLastLine: false,
+			ReadingOrder:    0,
+			RelativeIndent:  1,
+			ShrinkToFit:     false,
+			TextRotation:    0,
+			Vertical:        "center",
+			WrapText:        true,
+		},
+	})
+
+	styleButtonBorderRight, _ := f.NewStyle(&excelize.Style{
+		Border: []excelize.Border{
+			{
+				Type:  "left",
+				Color: "#000000",
+				Style: 1,
+			}, {
+				Type:  "top",
+				Color: "#000000",
+				Style: 1,
+			}, {
+				Type:  "bottom",
+				Color: "#000000",
+				Style: 1,
+			}, {
+				Type:  "right",
+				Color: "#000000",
+				Style: 5,
+			},
+		},
+		Font: &excelize.Font{
+			Bold:      false,
+			Italic:    false,
+			Underline: "",
+			Family:    "Arial",
+			Size:      8,
+			Strike:    false,
+			Color:     "#000000",
+		},
+		Alignment: &excelize.Alignment{
+			Horizontal:      "center",
+			Indent:          1,
+			JustifyLastLine: false,
+			ReadingOrder:    0,
+			RelativeIndent:  1,
+			ShrinkToFit:     false,
+			TextRotation:    0,
+			Vertical:        "center",
+			WrapText:        true,
+		},
+	})
+
+	styleButtonBorderUpLeft, _ := f.NewStyle(&excelize.Style{
+		Border: []excelize.Border{
+			{
+				Type:  "left",
+				Color: "#000000",
+				Style: 5,
+			}, {
+				Type:  "top",
+				Color: "#000000",
+				Style: 5,
+			}, {
+				Type:  "bottom",
+				Color: "#000000",
+				Style: 1,
+			}, {
+				Type:  "right",
+				Color: "#000000",
+				Style: 1,
+			},
+		},
+		Font: &excelize.Font{
+			Bold:      false,
+			Italic:    false,
+			Underline: "",
+			Family:    "Arial",
+			Size:      8,
+			Strike:    false,
+			Color:     "#000000",
+		},
+		Alignment: &excelize.Alignment{
+			Horizontal:      "center",
+			Indent:          1,
+			JustifyLastLine: false,
+			ReadingOrder:    0,
+			RelativeIndent:  1,
+			ShrinkToFit:     false,
+			TextRotation:    0,
+			Vertical:        "center",
+			WrapText:        true,
+		},
+	})
+
+	styleButtonBorderUpRight, _ := f.NewStyle(&excelize.Style{
+		Border: []excelize.Border{
+			{
+				Type:  "left",
+				Color: "#000000",
+				Style: 1,
+			}, {
+				Type:  "top",
+				Color: "#000000",
+				Style: 5,
+			}, {
+				Type:  "bottom",
+				Color: "#000000",
+				Style: 1,
+			}, {
+				Type:  "right",
+				Color: "#000000",
+				Style: 5,
+			},
+		},
+		Font: &excelize.Font{
+			Bold:      false,
+			Italic:    false,
+			Underline: "",
+			Family:    "Arial",
+			Size:      8,
+			Strike:    false,
+			Color:     "#000000",
+		},
+		Alignment: &excelize.Alignment{
+			Horizontal:      "center",
+			Indent:          1,
+			JustifyLastLine: false,
+			ReadingOrder:    0,
+			RelativeIndent:  1,
+			ShrinkToFit:     false,
+			TextRotation:    0,
+			Vertical:        "center",
+			WrapText:        true,
+		},
+	})
+
+	styleButtonBorderDownLeft, _ := f.NewStyle(&excelize.Style{
+		Border: []excelize.Border{
+			{
+				Type:  "left",
+				Color: "#000000",
+				Style: 5,
+			}, {
+				Type:  "top",
+				Color: "#000000",
+				Style: 1,
+			}, {
+				Type:  "bottom",
+				Color: "#000000",
+				Style: 5,
+			}, {
+				Type:  "right",
+				Color: "#000000",
+				Style: 1,
+			},
+		},
+		Font: &excelize.Font{
+			Bold:      false,
+			Italic:    false,
+			Underline: "",
+			Family:    "Arial",
+			Size:      8,
+			Strike:    false,
+			Color:     "#000000",
+		},
+		Alignment: &excelize.Alignment{
+			Horizontal:      "center",
+			Indent:          1,
+			JustifyLastLine: false,
+			ReadingOrder:    0,
+			RelativeIndent:  1,
+			ShrinkToFit:     false,
+			TextRotation:    0,
+			Vertical:        "center",
+			WrapText:        true,
+		},
+	})
+
+	styleButtonBorderDownRight, _ := f.NewStyle(&excelize.Style{
+		Border: []excelize.Border{
+			{
+				Type:  "left",
+				Color: "#000000",
+				Style: 1,
+			}, {
+				Type:  "top",
+				Color: "#000000",
+				Style: 1,
+			}, {
+				Type:  "bottom",
+				Color: "#000000",
+				Style: 5,
+			}, {
+				Type:  "right",
+				Color: "#000000",
+				Style: 5,
+			},
+		},
+		Font: &excelize.Font{
+			Bold:      false,
+			Italic:    false,
+			Underline: "",
+			Family:    "Arial",
+			Size:      8,
+			Strike:    false,
+			Color:     "#000000",
+		},
+		Alignment: &excelize.Alignment{
+			Horizontal:      "center",
+			Indent:          1,
+			JustifyLastLine: false,
+			ReadingOrder:    0,
+			RelativeIndent:  1,
+			ShrinkToFit:     false,
+			TextRotation:    0,
+			Vertical:        "center",
+			WrapText:        true,
+		},
+	})
+
+	styleButtonBorderCenter, _ := f.NewStyle(&excelize.Style{
+		Border: []excelize.Border{
+			{
+				Type:  "left",
+				Color: "#000000",
+				Style: 1,
+			}, {
+				Type:  "top",
+				Color: "#000000",
+				Style: 1,
+			}, {
+				Type:  "bottom",
+				Color: "#000000",
+				Style: 1,
+			}, {
+				Type:  "right",
+				Color: "#000000",
+				Style: 1,
+			},
+		},
+		Font: &excelize.Font{
+			Bold:      false,
+			Italic:    false,
+			Underline: "",
+			Family:    "Arial",
+			Size:      8,
+			Strike:    false,
+			Color:     "#000000",
+		},
+		Alignment: &excelize.Alignment{
+			Horizontal:      "center",
+			Indent:          1,
+			JustifyLastLine: false,
+			ReadingOrder:    0,
+			RelativeIndent:  1,
+			ShrinkToFit:     false,
+			TextRotation:    0,
+			Vertical:        "center",
+			WrapText:        true,
+		},
+	})
+
+	log.Println("GRAPHIC", graphic)
+
 	f.NewSheet(segment)
 	//ineration := 1
 	f.SetCellValue(segment, "A3", "Поставщик:")
-	f.SetCellValue(segment, "A5", "Склад:")
-	f.SetCellValue(segment, "A7", "Регион:")
+	f.SetCellValue(segment, "A5", "Покупатель:")
+	f.SetCellValue(segment, "A7", "Договор:")
+	f.SetCellValue(segment, "A9", "Дата поставки:")
+	f.SetCellValue(segment, "A11", "Склад:")
+	f.SetCellValue(segment, "A13", "Регион:")
+	f.SetCellValue(segment, "A15", "Менеджер:")
 	//fmt.Println("graphicAnother.RegionName", graphicAnother.RegionName)
+	f.SetCellValue(segment, "C3", graphic.Supplier)
+	f.MergeCell(segment, "C3", "F3")
+	f.MergeCell(segment, "C5", "F5")
+	f.SetCellValue(segment, "C5", "покупатель")
+	f.SetCellValue(segment, "C7", "договор")
+	f.SetCellValue(segment, "C9", "дата поставки")
+	f.SetCellValue(segment, "C15", "Менеджер")
+	f.SetCellValue(segment, "C11", graphic.Store)
+	f.SetCellValue(segment, "C13", graphicAnother.RegionName)
 
 	// часть товаров
-	f.SetCellValue(segment, "A10", "№:")
-	f.SetCellValue(segment, "B10", "Код:")
-	f.SetCellValue(segment, "C10", "Товар:")
-	f.SetCellValue(segment, "D10", "Штрихкод:")
-	f.SetCellValue(segment, "E10", "Кол-во:")
-	f.SetCellValue(segment, "F10", "Ед.:")
-	f.SetCellValue(segment, "B3", graphic.Supplier)
-	f.SetCellValue(segment, "B5", graphic.Store)
-	f.SetCellValue(segment, "B7", graphicAnother.RegionName)
+	f.SetCellValue(segment, "A17", "№:")
+	f.SetCellValue(segment, "B17", "Код:")
+	f.SetCellValue(segment, "C17", "Товар:")
+	f.SetCellValue(segment, "D17", "Штрихкод:")
+
+	f.SetCellValue(segment, "E17", "Производитель:")
+
+	f.SetCellValue(segment, "F17", "Кол-во:")
+	f.SetCellValue(segment, "G17", "Ед.:")
+
+	f.SetCellValue(segment, "H17", "Закуп цена:")
+	f.SetCellValue(segment, "I17", "Лот:")
+
 	//f.SetColWidth(segment, "A", "A", 42)
 
-	f.SetColWidth(segment, "A", "F", 22)
-	f.SetColWidth(segment, "C", "C", 58)
-	f.SetColWidth(segment, "D", "D", 17)
+	f.SetColWidth(segment, "A", "A", 5)
+	f.SetColWidth(segment, "B", "B", 13)
+	f.SetColWidth(segment, "C", "C", 47)
+	f.SetColWidth(segment, "D", "D", 15)
+	f.SetColWidth(segment, "E", "E", 17)
+	f.SetColWidth(segment, "F", "F", 4)
+	f.SetColWidth(segment, "F", "G", 4)
+	f.SetColWidth(segment, "H", "H", 10)
 
-	i := 10
+	//f.SetColWidth(segment, "F", "H", 13)
+	//f.SetColWidth(segment, "F", "I", 10)
+	f.SetRowHeight(segment, 3, 25)
+	f.SetRowHeight(segment, 5, 25)
+
+	f.SetCellStyle(segment, "A17", "I17", styleTopBorders)
+	f.SetCellStyle(segment, "A17", "A17", styleButtonBorderUpLeft)
+	f.SetCellStyle(segment, "I17", "I17", styleButtonBorderUpRight)
+
+	i := 17
 	var id = 1
+
 	for _, product := range products {
 		f.SetCellValue(segment, fmt.Sprintf("%s%d", "A", i+1), id)
 		f.SetCellValue(segment, fmt.Sprintf("%s%d", "B", i+1), product.ProductCode)
 		f.SetCellValue(segment, fmt.Sprintf("%s%d", "C", i+1), product.ProductName)
 		f.SetCellValue(segment, fmt.Sprintf("%s%d", "D", i+1), product.StoreCode)
-		f.SetCellValue(segment, fmt.Sprintf("%s%d", "E", i+1), product.SalesCount)
-		f.SetCellValue(segment, fmt.Sprintf("%s%d", "F", i+1), "шт")
+		f.SetCellValue(segment, fmt.Sprintf("%s%d", "F", i+1), product.SalesCount)
+		f.SetCellValue(segment, fmt.Sprintf("%s%d", "G", i+1), "шт")
+
 		i++
 		id++
 
 	}
+	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "A", i), fmt.Sprintf("%s%d", "I", i), styleButtonBorder)
+	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "A", i), fmt.Sprintf("%s%d", "A", i), styleButtonBorderDownLeft)
+	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "F", i), fmt.Sprintf("%s%d", "I", i), styleButtonBorderDownRight)
+
+	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "A", 17+1), fmt.Sprintf("%s%d", "A", i-1), styleButtonBorderLeft)
+	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "F", 17+1), fmt.Sprintf("%s%d", "I", i-1), styleButtonBorderRight)
+	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "B", 17+1), fmt.Sprintf("%s%d", "E", i-1), styleButtonBorderCenter)
 
 	f.DeleteSheet("Sheet1")
 	err := f.SaveAs("files/segments/segment.xlsx")
