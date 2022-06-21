@@ -197,6 +197,30 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 
 	f := excelize.NewFile()
 
+	styleLargeText, _ := f.NewStyle(&excelize.Style{
+
+		Font: &excelize.Font{
+			Bold:      false,
+			Italic:    false,
+			Underline: "single",
+			Family:    "Arial",
+			Size:      14,
+			Strike:    false,
+			Color:     "#000000",
+		},
+		Alignment: &excelize.Alignment{
+			Horizontal:      "center",
+			Indent:          1,
+			JustifyLastLine: false,
+			ReadingOrder:    0,
+			RelativeIndent:  1,
+			ShrinkToFit:     false,
+			TextRotation:    0,
+			Vertical:        "center",
+			WrapText:        true,
+		},
+	})
+
 	styleTopBorders, _ := f.NewStyle(&excelize.Style{
 		Border: []excelize.Border{
 			{
@@ -574,23 +598,79 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 			WrapText:        true,
 		},
 	})
+	styleBoldCenter, _ := f.NewStyle(&excelize.Style{
 
+		Font: &excelize.Font{
+			Bold:      true,
+			Italic:    false,
+			Underline: "",
+			Family:    "Arial",
+			Size:      9,
+			Strike:    false,
+			Color:     "#000000",
+		},
+		Alignment: &excelize.Alignment{
+			Horizontal:      "center",
+			Indent:          1,
+			JustifyLastLine: false,
+			ReadingOrder:    0,
+			RelativeIndent:  1,
+			ShrinkToFit:     false,
+			TextRotation:    0,
+			Vertical:        "center",
+			WrapText:        true,
+		},
+	})
 	log.Println("GRAPHIC", graphic)
 
 	f.NewSheet(segment)
 	//ineration := 1
-	f.SetCellValue(segment, "A3", "Поставщик:")
-	f.SetCellValue(segment, "A5", "Покупатель:")
-	f.SetCellValue(segment, "A7", "Договор:")
-	f.SetCellValue(segment, "A9", "Дата поставки:")
-	f.SetCellValue(segment, "A11", "Склад:")
-	f.SetCellValue(segment, "A13", "Регион:")
-	f.SetCellValue(segment, "A15", "Менеджер:")
+	f.MergeCell(segment, "B1", "AI1")
+	f.SetCellValue(segment, "B1", "Заказ № (Тестовый заказ) от 01.01.2021")
+	f.SetCellStyle(segment, "B1", "AI1", styleLargeText)
+
+	f.SetCellValue(segment, "B2", "Поставщик:")
+	f.MergeCell(segment, "B2", "E2")
+	f.SetCellValue(segment, "F2", graphic.Supplier)
+	f.MergeCell(segment, "F2", "AI2")
+	f.SetCellStyle(segment, "F2", "AI2", styleBoldCenter)
+
+	f.SetCellValue(segment, "B4", "Покупатель:")
+	f.MergeCell(segment, "B4", "E4")
+
+	f.SetCellValue(segment, "F4", "Тестовый покупатель")
+	f.MergeCell(segment, "F4", "AI4")
+	f.SetCellStyle(segment, "F4", "AI4", styleBoldCenter)
+
+
+	f.SetCellValue(segment, "B6", "Договор:")
+	f.MergeCell(segment, "B6", "F6")
+	f.SetCellValue(segment, "B8", "Дата поставки:")
+	f.MergeCell(segment, "B8", "F8")
+	f.SetCellValue(segment, "B10", "Склад:")
+	f.MergeCell(segment, "B10", "F10")
+	f.SetCellValue(segment, "B6", "Менеджер:")
+	f.MergeCell(segment, "B12", "F12")
+
+	f.SetCellValue(segment, "G6", "Тестовый договор:")
+	f.MergeCell(segment, "G6", "U6")
+	f.SetCellValue(segment, "G8", "Тестовая дата поставки:")
+	f.MergeCell(segment, "G8", "U8")
+	f.SetCellValue(segment, "G10", graphic.Store)
+	f.MergeCell(segment, "G10", "U10")
+	f.SetCellValue(segment, "G12", "Тестовый менеджер")
+	f.MergeCell(segment, "G12", "U12")
 	//fmt.Println("graphicAnother.RegionName", graphicAnother.RegionName)
-	f.SetCellValue(segment, "C3", graphic.Supplier)
-	f.MergeCell(segment, "C3", "F3")
-	f.MergeCell(segment, "C5", "F5")
-	f.SetCellValue(segment, "C5", "покупатель")
+	f.SetCellValue(segment, "W6", "Валюта заказа:")
+	f.MergeCell(segment, "W6", "AA6")
+	f.SetCellValue(segment, "W8", "Вид транспорта:")
+	f.MergeCell(segment, "W8", "AA8")
+
+	f.SetCellValue(segment, "AB6", "KZT (тествоая)")
+	f.MergeCell(segment, "AB6", "AH6")
+	f.SetCellValue(segment, "AB8", "тестовый транспорт")
+	f.MergeCell(segment, "AB8", "AH8")
+
 	f.SetCellValue(segment, "C7", "договор")
 	f.SetCellValue(segment, "C9", "дата поставки")
 	f.SetCellValue(segment, "C15", "Менеджер")
