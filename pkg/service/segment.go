@@ -728,18 +728,33 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 
 	i := 16
 	var id = 1
-
+	var total float64
 	for _, product := range products {
-		f.SetCellValue(segment, fmt.Sprintf("%s%d", "A", i), id)
-		f.SetCellValue(segment, fmt.Sprintf("%s%d", "B", i), product.ProductCode)
-		f.SetCellValue(segment, fmt.Sprintf("%s%d", "C", i), product.ProductName)
-		f.SetCellValue(segment, fmt.Sprintf("%s%d", "D", i), product.StoreCode)
-		f.SetCellValue(segment, fmt.Sprintf("%s%d", "F", i), product.SalesCount)
-		f.SetCellValue(segment, fmt.Sprintf("%s%d", "G", i), "шт")
+		f.SetCellValue(segment, fmt.Sprintf("%s%d", "B", i), id)
+		f.MergeCell(segment, "B"+fmt.Sprint(i), "C"+fmt.Sprint(i))
+		f.SetCellValue(segment, fmt.Sprintf("%s%d", "D", i), product.ProductCode)
+		f.MergeCell(segment, "D"+fmt.Sprint(i), "G"+fmt.Sprint(i))
+		f.SetCellValue(segment, fmt.Sprintf("%s%d", "H", i), product.ProductName)
+		f.MergeCell(segment, "H"+fmt.Sprint(i), "T"+fmt.Sprint(i))
+		f.SetCellValue(segment, fmt.Sprintf("%s%d", "U", i), product.StoreCode)
+		f.SetCellValue(segment, fmt.Sprintf("%s%d", "V", i), product.SalesCount)
+		f.SetCellValue(segment, fmt.Sprintf("%s%d", "Z", i), "шт")
+		f.MergeCell(segment, "Z"+fmt.Sprint(i), "AA"+fmt.Sprint(i))
+
+		f.SetCellValue(segment, fmt.Sprintf("%s%d", "AB", i), 999) //цена
+		f.MergeCell(segment, "AB"+fmt.Sprint(i), "AE"+fmt.Sprint(i))
+
+		var sum = product.SalesCount * 999                        //находим сумму
+		f.SetCellValue(segment, fmt.Sprintf("%s%d", "AF", i), sum) //сумма
+		f.MergeCell(segment, "AF"+fmt.Sprint(i), "AI"+fmt.Sprint(i))
+
+		f.SetCellValue(segment, fmt.Sprintf("%s%d", "AJ", i), sum) //лот
+		f.MergeCell(segment, "AJ"+fmt.Sprint(i), "AM"+fmt.Sprint(i))
+
 		f.SetRowHeight(segment, i, 11.3)
 		i++
 		id++
-
+		total+=sum
 	}
 
 	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "B", i-1), fmt.Sprintf("%s%d", "AM", i-1), styleBottomBorder)
@@ -748,7 +763,20 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 
 	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "B", 16), fmt.Sprintf("%s%d", "B", i-1), styleBorderLeft)
 	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "AM", 16), fmt.Sprintf("%s%d", "AM", i-1), styleBorderRight)
-	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "D", i), fmt.Sprintf("%s%d", "AI", i-2), styleBorderCenter)
+	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "D", 16), fmt.Sprintf("%s%d", "AI", i-2), styleBorderCenter)
+
+	f.SetCellValue(segment, "AE" + fmt.Sprint(i+1), "Итого")
+	f.SetCellValue(segment, "AF" + fmt.Sprint(i+1), total)
+
+	f.SetCellValue(segment, "AE" + fmt.Sprint(i+2), "В том числе НДС:")
+	f.SetCellValue(segment, "AF" + fmt.Sprint(i+1), total)
+	f.SetCellValue(segment, "AF" + fmt.Sprint(i+2), total*0.12)
+
+	f.MergeCell(segment, "AB" + fmt.Sprint(i+1), "AE" + fmt.Sprint(i+1))
+	f.MergeCell(segment, "AB" + fmt.Sprint(i+2), "AE" + fmt.Sprint(i+2))
+	f.MergeCell(segment, "AF" + fmt.Sprint(i+1), "AI" + fmt.Sprint(i+1))
+	f.MergeCell(segment, "AF" + fmt.Sprint(i+2), "AI" + fmt.Sprint(i+2))
+	f.SetCellStyle(segment, "AB" + fmt.Sprint(i+1), "AI" + fmt.Sprint(i+2), styleBoldCenter)
 
 	f.DeleteSheet("Sheet1")
 	err := f.SaveAs("files/segments/segment.xlsx")
