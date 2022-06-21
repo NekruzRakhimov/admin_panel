@@ -847,7 +847,7 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 	f.SetCellValue(segment, "B"+fmt.Sprint(i+5), "Всего наименований "+fmt.Sprint(id)+", на сумму "+fmt.Sprintf("%f", total)+" KZT")
 	f.SetCellStyle(segment, "B"+fmt.Sprint(i+4), "AH"+fmt.Sprint(i+5), styleDefaultText)
 	f.MergeCell(segment, "B"+fmt.Sprint(i+4), "AI"+fmt.Sprint(i+4))
-	f.MergeCell(segment, "AF"+fmt.Sprint(i+5), "AI"+fmt.Sprint(i+5))
+	f.MergeCell(segment, "B"+fmt.Sprint(i+5), "AI"+fmt.Sprint(i+5))
 	f.SetCellValue(segment, "B"+fmt.Sprint(i+6), "Цифры букваами")
 	f.MergeCell(segment, "B"+fmt.Sprint(i+6), "AH"+fmt.Sprint(i+6))
 	f.SetCellStyle(segment, "B"+fmt.Sprint(i+6), "AH"+fmt.Sprint(i+6), styleBoldLeft)
