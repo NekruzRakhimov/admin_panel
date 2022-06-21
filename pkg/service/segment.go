@@ -200,7 +200,7 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 	styleLargeText, _ := f.NewStyle(&excelize.Style{
 
 		Font: &excelize.Font{
-			Bold:      false,
+			Bold:      true,
 			Italic:    false,
 			Underline: "single",
 			Family:    "Arial",
@@ -209,7 +209,7 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 			Color:     "#000000",
 		},
 		Alignment: &excelize.Alignment{
-			Horizontal:      "center",
+			Horizontal:      "left",
 			Indent:          1,
 			JustifyLastLine: false,
 			ReadingOrder:    0,
@@ -610,7 +610,7 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 			Color:     "#000000",
 		},
 		Alignment: &excelize.Alignment{
-			Horizontal:      "center",
+			Horizontal:      "left",
 			Indent:          1,
 			JustifyLastLine: false,
 			ReadingOrder:    0,
@@ -648,7 +648,7 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 	f.MergeCell(segment, "B8", "F8")
 	f.SetCellValue(segment, "B10", "Склад:")
 	f.MergeCell(segment, "B10", "F10")
-	f.SetCellValue(segment, "B6", "Менеджер:")
+	f.SetCellValue(segment, "B12", "Менеджер:")
 	f.MergeCell(segment, "B12", "F12")
 
 	f.SetCellValue(segment, "G6", "Тестовый договор:")
@@ -680,16 +680,16 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 	f.SetCellValue(segment, "H14", "Товар")
 	f.MergeCell(segment, "H14", "T15")
 
-	f.SetCellValue(segment, "U15", "Штрихкод")
+	f.SetCellValue(segment, "U14", "Штрихкод")
 	f.MergeCell(segment, "U14", "U15")
 
 	f.SetCellValue(segment, "V14", "Производитель")
 	f.MergeCell(segment, "V14", "V15")
 
-	f.SetCellValue(segment, "F14", "Кол-во")
+	f.SetCellValue(segment, "W14", "Кол-во")
 	f.MergeCell(segment, "W14", "Y15")
 
-	f.SetCellValue(segment, "G14", "Ед.")
+	f.SetCellValue(segment, "Z14", "Ед.")
 	f.MergeCell(segment, "Z14", "AA15")
 
 	f.SetCellValue(segment, "AB14", "Закуп. Цена")
@@ -737,7 +737,8 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 		f.SetCellValue(segment, fmt.Sprintf("%s%d", "H", i), product.ProductName)
 		f.MergeCell(segment, "H"+fmt.Sprint(i), "T"+fmt.Sprint(i))
 		f.SetCellValue(segment, fmt.Sprintf("%s%d", "U", i), product.StoreCode)
-		f.SetCellValue(segment, fmt.Sprintf("%s%d", "V", i), product.SalesCount)
+		f.SetCellValue(segment, fmt.Sprintf("%s%d", "V", i), "Тестовый производитель")
+		f.SetCellValue(segment, fmt.Sprintf("%s%d", "W", i), product.SalesCount)
 		f.SetCellValue(segment, fmt.Sprintf("%s%d", "Z", i), "шт")
 		f.MergeCell(segment, "Z"+fmt.Sprint(i), "AA"+fmt.Sprint(i))
 
@@ -748,7 +749,7 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 		f.SetCellValue(segment, fmt.Sprintf("%s%d", "AF", i), sum) //сумма
 		f.MergeCell(segment, "AF"+fmt.Sprint(i), "AI"+fmt.Sprint(i))
 
-		f.SetCellValue(segment, fmt.Sprintf("%s%d", "AJ", i), sum) //лот
+		f.SetCellValue(segment, fmt.Sprintf("%s%d", "AJ", i), "тестовый лот") //лот
 		f.MergeCell(segment, "AJ"+fmt.Sprint(i), "AM"+fmt.Sprint(i))
 
 		f.SetRowHeight(segment, i, 11.3)
@@ -757,12 +758,12 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 		total+=sum
 	}
 
-	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "B", i-1), fmt.Sprintf("%s%d", "AM", i-1), styleBottomBorder)
+	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "D", i-1), fmt.Sprintf("%s%d", "AI", i-1), styleBottomBorder)
 	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "B", i-1), fmt.Sprintf("%s%d", "C", i-1), styleBorderDownLeft)
 	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "AJ", i-1), fmt.Sprintf("%s%d", "AM", i-1), styleBBorderDownRight)
 
-	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "B", 16), fmt.Sprintf("%s%d", "B", i-1), styleBorderLeft)
-	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "AM", 16), fmt.Sprintf("%s%d", "AM", i-1), styleBorderRight)
+	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "B", 16), fmt.Sprintf("%s%d", "C", i-2), styleBorderLeft)
+	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "AJ", 16), fmt.Sprintf("%s%d", "AM", i-2), styleBorderRight)
 	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "D", 16), fmt.Sprintf("%s%d", "AI", i-2), styleBorderCenter)
 
 	f.SetCellValue(segment, "AE" + fmt.Sprint(i+1), "Итого")
@@ -777,6 +778,8 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 	f.MergeCell(segment, "AF" + fmt.Sprint(i+1), "AI" + fmt.Sprint(i+1))
 	f.MergeCell(segment, "AF" + fmt.Sprint(i+2), "AI" + fmt.Sprint(i+2))
 	f.SetCellStyle(segment, "AB" + fmt.Sprint(i+1), "AI" + fmt.Sprint(i+2), styleBoldCenter)
+
+
 
 	f.DeleteSheet("Sheet1")
 	err := f.SaveAs("files/segments/segment.xlsx")
