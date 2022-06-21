@@ -430,11 +430,11 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 			},
 		},
 		Font: &excelize.Font{
-			Bold:      false,
+			Bold:      true,
 			Italic:    false,
 			Underline: "",
 			Family:    "Arial",
-			Size:      8,
+			Size:      9,
 			Strike:    false,
 			Color:     "#000000",
 		},
@@ -472,11 +472,11 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 			},
 		},
 		Font: &excelize.Font{
-			Bold:      false,
+			Bold:      true,
 			Italic:    false,
 			Underline: "",
 			Family:    "Arial",
-			Size:      8,
+			Size:      9,
 			Strike:    false,
 			Color:     "#000000",
 		},
@@ -843,21 +843,22 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 	f.SetCellStyle(segment, "AB"+fmt.Sprint(i+1), "AI"+fmt.Sprint(i+2), styleBoldLeft)
 
 	f.SetCellValue(segment, "B"+fmt.Sprint(i+4), "Комментарий: [Новый тестовый] "+graphic.Store)
-	log.Println(total)
+
 	f.SetCellValue(segment, "B"+fmt.Sprint(i+5), "Всего наименований "+fmt.Sprint(id)+", на сумму "+fmt.Sprintf("%f", total)+" KZT")
 	f.SetCellStyle(segment, "B"+fmt.Sprint(i+4), "AH"+fmt.Sprint(i+5), styleDefaultText)
+	f.MergeCell(segment, "B"+fmt.Sprint(i+4), "AI"+fmt.Sprint(i+4))
+	f.MergeCell(segment, "AF"+fmt.Sprint(i+5), "AI"+fmt.Sprint(i+5))
 	f.SetCellValue(segment, "B"+fmt.Sprint(i+6), "Цифры букваами")
 	f.MergeCell(segment, "B"+fmt.Sprint(i+6), "AH"+fmt.Sprint(i+6))
 	f.SetCellStyle(segment, "B"+fmt.Sprint(i+6), "AH"+fmt.Sprint(i+6), styleBoldLeft)
 	f.SetCellStyle(segment, "B"+fmt.Sprint(i+7), "AM"+fmt.Sprint(i+7), styleUnderlined)
 	f.SetCellValue(segment, "B"+fmt.Sprint(i+9), "Исполнитель:")
 	f.SetCellStyle(segment, "B"+fmt.Sprint(i+9), "G"+fmt.Sprint(i+9), styleBoldLeft)
-
 	f.MergeCell(segment, "B"+fmt.Sprint(i+9), "G"+fmt.Sprint(i+9))
 	f.SetCellValue(segment, "J"+fmt.Sprint(i+9), "/Электронный заказ             /")
 	f.MergeCell(segment, "J"+fmt.Sprint(i+9), "P"+fmt.Sprint(i+9))
 	f.SetCellStyle(segment, "J"+fmt.Sprint(i+9), "P"+fmt.Sprint(i+9), styleDefaultText)
-	f.SetCellStyle(segment, "B"+fmt.Sprint(i+9), "P"+fmt.Sprint(i+9), styleTopLine)
+	f.SetCellStyle(segment, "B"+fmt.Sprint(i+10), "P"+fmt.Sprint(i+10), styleTopLine)
 
 	f.SetRowHeight(segment, i, 6.8)
 	f.SetRowHeight(segment, i+3, 6.8)
