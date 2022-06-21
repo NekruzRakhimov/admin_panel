@@ -263,7 +263,7 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 		},
 	})
 
-	styleButtonBorder, _ := f.NewStyle(&excelize.Style{
+	styleBottomBorder, _ := f.NewStyle(&excelize.Style{
 		Border: []excelize.Border{
 			{
 				Type:  "left",
@@ -305,7 +305,7 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 		},
 	})
 
-	styleButtonBorderLeft, _ := f.NewStyle(&excelize.Style{
+	styleBorderLeft, _ := f.NewStyle(&excelize.Style{
 		Border: []excelize.Border{
 			{
 				Type:  "left",
@@ -347,7 +347,7 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 		},
 	})
 
-	styleButtonBorderRight, _ := f.NewStyle(&excelize.Style{
+	styleBorderRight, _ := f.NewStyle(&excelize.Style{
 		Border: []excelize.Border{
 			{
 				Type:  "left",
@@ -473,7 +473,7 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 		},
 	})
 
-	styleButtonBorderDownLeft, _ := f.NewStyle(&excelize.Style{
+	styleBorderDownLeft, _ := f.NewStyle(&excelize.Style{
 		Border: []excelize.Border{
 			{
 				Type:  "left",
@@ -515,7 +515,7 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 		},
 	})
 
-	styleButtonBorderDownRight, _ := f.NewStyle(&excelize.Style{
+	styleBBorderDownRight, _ := f.NewStyle(&excelize.Style{
 		Border: []excelize.Border{
 			{
 				Type:  "left",
@@ -557,7 +557,7 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 		},
 	})
 
-	styleButtonBorderCenter, _ := f.NewStyle(&excelize.Style{
+	styleBorderCenter, _ := f.NewStyle(&excelize.Style{
 		Border: []excelize.Border{
 			{
 				Type:  "left",
@@ -642,7 +642,6 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 	f.MergeCell(segment, "F4", "AI4")
 	f.SetCellStyle(segment, "F4", "AI4", styleBoldCenter)
 
-
 	f.SetCellValue(segment, "B6", "Договор:")
 	f.MergeCell(segment, "B6", "F6")
 	f.SetCellValue(segment, "B8", "Дата поставки:")
@@ -671,79 +670,85 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 	f.SetCellValue(segment, "AB8", "тестовый транспорт")
 	f.MergeCell(segment, "AB8", "AH8")
 
-	f.SetCellValue(segment, "C7", "договор")
-	f.SetCellValue(segment, "C9", "дата поставки")
-	f.SetCellValue(segment, "C15", "Менеджер")
-	f.SetCellValue(segment, "C11", graphic.Store)
-	f.SetCellValue(segment, "C13", graphicAnother.RegionName)
-
 	// часть товаров
-	f.SetCellValue(segment, "A10", "№:")
-	f.SetCellValue(segment, "B10", "Код:")
-	f.SetCellValue(segment, "C10", "Товар:")
-	f.SetCellValue(segment, "D10", "Штрихкод:")
-	f.SetCellValue(segment, "E10", "Производитель:")
-	f.SetCellValue(segment, "F10", "Кол-во:")
-	f.SetCellValue(segment, "G10", "Ед.:")
-	f.SetCellValue(segment, "H10", "Закуп. Цена:")
-	f.SetCellValue(segment, "B3", graphic.Supplier)
-	f.SetCellValue(segment, "B5", graphic.Store)
-	f.SetCellValue(segment, "B7", graphicAnother.RegionName)
-	f.SetCellValue(segment, "A17", "№:")
-	f.SetCellValue(segment, "B17", "Код:")
-	f.SetCellValue(segment, "C17", "Товар:")
-	f.SetCellValue(segment, "D17", "Штрихкод:")
+	f.SetCellValue(segment, "B14", "№")
+	f.MergeCell(segment, "B14", "C15")
 
-	f.SetCellValue(segment, "E17", "Производитель:")
+	f.SetCellValue(segment, "D14", "Код")
+	f.MergeCell(segment, "D14", "G15")
 
-	f.SetCellValue(segment, "F17", "Кол-во:")
-	f.SetCellValue(segment, "G17", "Ед.:")
+	f.SetCellValue(segment, "H14", "Товар")
+	f.MergeCell(segment, "H14", "T15")
 
-	f.SetCellValue(segment, "H17", "Закуп цена:")
-	f.SetCellValue(segment, "I17", "Лот:")
+	f.SetCellValue(segment, "U15", "Штрихкод")
+	f.MergeCell(segment, "U14", "U15")
+
+	f.SetCellValue(segment, "V14", "Производитель")
+	f.MergeCell(segment, "V14", "V15")
+
+	f.SetCellValue(segment, "F14", "Кол-во")
+	f.MergeCell(segment, "W14", "Y15")
+
+	f.SetCellValue(segment, "G14", "Ед.")
+	f.MergeCell(segment, "Z14", "AA15")
+
+	f.SetCellValue(segment, "AB14", "Закуп. Цена")
+	f.MergeCell(segment, "AB14", "AE15")
+
+	f.SetCellValue(segment, "AF14", "Сумма")
+	f.MergeCell(segment, "AF14", "AI15")
+
+	f.SetCellValue(segment, "AJ14", "Лот")
+	f.MergeCell(segment, "AJ14", "AM15")
 
 	//f.SetColWidth(segment, "A", "A", 42)
+	f.SetColWidth(segment, "A", "T", 3)
+	f.SetColWidth(segment, "U", "V", 21)
+	f.SetColWidth(segment, "W", "AI", 3.8)
+	f.SetColWidth(segment, "AJ", "BP", 2.7)
 
-	f.SetColWidth(segment, "A", "A", 5)
-	f.SetColWidth(segment, "B", "B", 13)
-	f.SetColWidth(segment, "C", "C", 47)
-	f.SetColWidth(segment, "D", "D", 15)
-	f.SetColWidth(segment, "E", "E", 17)
-	f.SetColWidth(segment, "F", "F", 4)
-	f.SetColWidth(segment, "F", "G", 4)
-	f.SetColWidth(segment, "H", "H", 10)
+	f.SetRowHeight(segment, 1, 31)
+	f.SetRowHeight(segment, 2, 25)
+	f.SetRowHeight(segment, 3, 6.8)
+	f.SetRowHeight(segment, 4, 24.8)
+	f.SetRowHeight(segment, 5, 6.8)
+	f.SetRowHeight(segment, 6, 12.8)
+	f.SetRowHeight(segment, 7, 6.8)
+	f.SetRowHeight(segment, 8, 12.8)
+	f.SetRowHeight(segment, 9, 6.8)
+	f.SetRowHeight(segment, 10, 12.8)
+	f.SetRowHeight(segment, 11, 6.8)
+	f.SetRowHeight(segment, 12, 12.8)
+	f.SetRowHeight(segment, 13, 6.8)
+	f.SetRowHeight(segment, 8, 12.8)
 
-	//f.SetColWidth(segment, "F", "H", 13)
-	//f.SetColWidth(segment, "F", "I", 10)
-	f.SetRowHeight(segment, 3, 25)
-	f.SetRowHeight(segment, 5, 25)
+	f.SetCellStyle(segment, "B14", "AM14", styleTopBorders)
+	f.SetCellStyle(segment, "B14", "C15", styleButtonBorderUpLeft)
+	f.SetCellStyle(segment, "AJ14", "AM15", styleButtonBorderUpRight)
 
-	f.SetCellStyle(segment, "A17", "I17", styleTopBorders)
-	f.SetCellStyle(segment, "A17", "A17", styleButtonBorderUpLeft)
-	f.SetCellStyle(segment, "I17", "I17", styleButtonBorderUpRight)
-
-	i := 17
+	i := 16
 	var id = 1
 
 	for _, product := range products {
-		f.SetCellValue(segment, fmt.Sprintf("%s%d", "A", i+1), id)
-		f.SetCellValue(segment, fmt.Sprintf("%s%d", "B", i+1), product.ProductCode)
-		f.SetCellValue(segment, fmt.Sprintf("%s%d", "C", i+1), product.ProductName)
-		f.SetCellValue(segment, fmt.Sprintf("%s%d", "D", i+1), product.StoreCode)
-		f.SetCellValue(segment, fmt.Sprintf("%s%d", "F", i+1), product.SalesCount)
-		f.SetCellValue(segment, fmt.Sprintf("%s%d", "G", i+1), "шт")
-
+		f.SetCellValue(segment, fmt.Sprintf("%s%d", "A", i), id)
+		f.SetCellValue(segment, fmt.Sprintf("%s%d", "B", i), product.ProductCode)
+		f.SetCellValue(segment, fmt.Sprintf("%s%d", "C", i), product.ProductName)
+		f.SetCellValue(segment, fmt.Sprintf("%s%d", "D", i), product.StoreCode)
+		f.SetCellValue(segment, fmt.Sprintf("%s%d", "F", i), product.SalesCount)
+		f.SetCellValue(segment, fmt.Sprintf("%s%d", "G", i), "шт")
+		f.SetRowHeight(segment, i, 11.3)
 		i++
 		id++
 
 	}
-	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "A", i), fmt.Sprintf("%s%d", "I", i), styleButtonBorder)
-	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "A", i), fmt.Sprintf("%s%d", "A", i), styleButtonBorderDownLeft)
-	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "F", i), fmt.Sprintf("%s%d", "I", i), styleButtonBorderDownRight)
 
-	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "A", 17+1), fmt.Sprintf("%s%d", "A", i-1), styleButtonBorderLeft)
-	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "F", 17+1), fmt.Sprintf("%s%d", "I", i-1), styleButtonBorderRight)
-	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "B", 17+1), fmt.Sprintf("%s%d", "E", i-1), styleButtonBorderCenter)
+	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "B", i-1), fmt.Sprintf("%s%d", "AM", i-1), styleBottomBorder)
+	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "B", i-1), fmt.Sprintf("%s%d", "C", i-1), styleBorderDownLeft)
+	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "AJ", i-1), fmt.Sprintf("%s%d", "AM", i-1), styleBBorderDownRight)
+
+	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "B", 16), fmt.Sprintf("%s%d", "B", i-1), styleBorderLeft)
+	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "AM", 16), fmt.Sprintf("%s%d", "AM", i-1), styleBorderRight)
+	f.SetCellStyle(segment, fmt.Sprintf("%s%d", "D", i), fmt.Sprintf("%s%d", "AI", i-2), styleBorderCenter)
 
 	f.DeleteSheet("Sheet1")
 	err := f.SaveAs("files/segments/segment.xlsx")
