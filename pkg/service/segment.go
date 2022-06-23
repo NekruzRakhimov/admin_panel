@@ -691,7 +691,9 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 	f.NewSheet(segment)
 	//ineration := 1
 	f.MergeCell(segment, "B1", "AI1")
-	f.SetCellValue(segment, "B1", "Заказ № (Тестовый заказ) от 01.01.2021")
+
+	//f.SetCellValue(segment, "B1", "Заказ № (Тестовый заказ) от 01.01.2021")
+	f.SetCellValue(segment, "B1", fmt.Sprintf("Заказ № %v от %s", graphic.ID, graphic.CreatedAt))
 	f.SetCellStyle(segment, "B1", "AI1", styleLargeText)
 
 	f.SetCellValue(segment, "B2", "Поставщик:")
@@ -843,21 +845,26 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 	f.MergeCell(segment, "AF"+fmt.Sprint(i+1), "AI"+fmt.Sprint(i+1))
 	f.MergeCell(segment, "AF"+fmt.Sprint(i+2), "AI"+fmt.Sprint(i+2))
 	f.SetCellStyle(segment, "AB"+fmt.Sprint(i+1), "AI"+fmt.Sprint(i+2), styleBoldLeft)
-
-	f.SetCellValue(segment, "B"+fmt.Sprint(i+4), "Комментарий: [Новый тестовый] "+graphic.Store)
-
+	typeFormula := ""
+	if formula.KmType == "LS" {
+		typeFormula = "ЛС"
+	} else {
+		typeFormula = "ПФ"
+	}
+	f.SetCellValue(segment, "B"+fmt.Sprint(i+4), fmt.Sprintf("Комментарий: [Новый тестовый] Автозаказ для %s: %s", typeFormula, graphic.Store))
+	id -= 1
 	f.SetCellValue(segment, "B"+fmt.Sprint(i+5), "Всего наименований "+fmt.Sprint(id)+", на сумму "+fmt.Sprintf("%f", total)+" KZT")
 	f.SetCellStyle(segment, "B"+fmt.Sprint(i+4), "AH"+fmt.Sprint(i+5), styleDefaultText)
 	f.MergeCell(segment, "B"+fmt.Sprint(i+4), "AI"+fmt.Sprint(i+4))
 	f.MergeCell(segment, "B"+fmt.Sprint(i+5), "AI"+fmt.Sprint(i+5))
-	f.SetCellValue(segment, "B"+fmt.Sprint(i+6), "Цифры букваами")
+	f.SetCellValue(segment, "B"+fmt.Sprint(i+6), "Цифры буквами")
 	f.MergeCell(segment, "B"+fmt.Sprint(i+6), "AH"+fmt.Sprint(i+6))
 	f.SetCellStyle(segment, "B"+fmt.Sprint(i+6), "AH"+fmt.Sprint(i+6), styleBoldLeft)
 	f.SetCellStyle(segment, "B"+fmt.Sprint(i+7), "AM"+fmt.Sprint(i+7), styleUnderlined)
 	f.SetCellValue(segment, "B"+fmt.Sprint(i+9), "Исполнитель:")
 	f.SetCellStyle(segment, "B"+fmt.Sprint(i+9), "G"+fmt.Sprint(i+9), styleBoldLeft)
 	f.MergeCell(segment, "B"+fmt.Sprint(i+9), "G"+fmt.Sprint(i+9))
-	f.SetCellValue(segment, "J"+fmt.Sprint(i+9), "/Электронный заказ             /")
+	f.SetCellValue(segment, "J"+fmt.Sprint(i+9), "/Электронный заказ  /")
 	f.MergeCell(segment, "J"+fmt.Sprint(i+9), "P"+fmt.Sprint(i+9))
 	f.SetCellStyle(segment, "J"+fmt.Sprint(i+9), "P"+fmt.Sprint(i+9), styleDefaultText)
 	f.SetCellStyle(segment, "B"+fmt.Sprint(i+10), "P"+fmt.Sprint(i+10), styleTopLine)

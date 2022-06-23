@@ -1,0 +1,118 @@
+// Данные по матрице
+{
+            "store_name": "Фл.Аптека №139 ПТ Europharma (Шымкент)", - наименование аптеки
+            "store_code": "Ф0000750 ", - код аптеки
+            "region_name": "Шымкент", - наименование региона
+            "region_code": "000000001", - код региона
+            "product_name": "Алиса крем детский 40 гр ", - наименование номенклатуры
+            "product_code": "00000007605", - код номенклатуры
+            "supplier_name": "Бостан ТОО ШФ", - наименование поставщика
+            "supplier_code": "000001270", - код поставщика
+            "min": "0", мин
+            "max": "0", макс
+}
+
+// Данные для формирования дефектуры
+{
+            "product_code": "00000007605",
+            "store_saldo_qnt": "3", - остаток
+            "matrix_sales": "4234", - сумма продажи
+            "matrix_sales_qnt": "9", - кол-во продаж
+            "defect_price": "565" - цена
+}
+########################################################################################################################
+{
+            "store_name": "Фл.Аптека №139 ПТ Europharma (Шымкент)",
+            "store_code": "Ф0000750 ",
+            "region_name": "Шымкент",
+            "region_code": "000000001",
+            "product_name": "Kotex прокладки Deo Normal ежедневные № 20 шт ",
+            "product_code": "00000008546",
+            "supplier_name": "Фиркан ТОО",
+            "supplier_code": "000001770",
+            "format": "large",
+            "min": "0",
+            "max": "0",
+            "import": "false",
+            "defect": "false"
+}
+
+{
+            "product_code": "00000008546",
+            "store_saldo_qnt": "1",
+            "matrix_sales": "1684",
+            "matrix_sales_qnt": "5",
+            "defect_price": "398"
+}
+########################################################################################################################
+{
+            "store_name": "Фл.Аптека №139 ПТ Europharma (Шымкент)",
+            "store_code": "Ф0000750 ",
+            "region_name": "Шымкент",
+            "region_code": "000000001",
+            "product_name": "Агуша пюре фруктово-ягодное детское 90 г яблоко-малина-шиповник ",
+            "product_code": "00000064873",
+            "supplier_name": "Фиркан ТОО",
+            "supplier_code": "000001770",
+            "format": "large",
+            "min": "0",
+            "max": "0",
+            "import": "false",
+            "defect": "false"
+}
+
+{
+            "product_code": "00000064873",
+            "store_saldo_qnt": "6",
+            "matrix_sales": "4042",
+            "matrix_sales_qnt": "15",
+            "defect_price": "329"
+}
+########################################################################################################################
+{
+            "store_name": "Фл.Аптека №139 ПТ Europharma (Шымкент)",
+            "store_code": "Ф0000750 ",
+            "region_name": "Шымкент",
+            "region_code": "000000001",
+            "product_name": "Kotex прокладки Ultra супер гигиенические № 8 шт ",
+            "product_code": "00000008726",
+            "supplier_name": "Фиркан ТОО",
+            "supplier_code": "000001770",
+            "format": "large",
+            "min": "0",
+            "max": "0",
+            "import": "false",
+            "defect": "false"
+}
+
+{
+            "product_code": "00000008726",
+            "store_saldo_qnt": "5",
+            "matrix_sales": "2100",
+            "matrix_sales_qnt": "4",
+            "defect_price": "730"
+}
+########################################################################################################################
+{
+            "store_name": "Фл.Аптека №139 ПТ Europharma (Шымкент)",
+            "store_code": "Ф0000750 ",
+            "region_name": "Шымкент",
+            "region_code": "000000001",
+            "product_name": "Canpol прорезыватель для детей с 0 месяцев эластичный ",
+            "product_code": "00000062888",
+            "supplier_name": "ОЛТРИ\" \"OLTRI\" ТОО",
+            "supplier_code": "000003616",
+            "format": "large",
+            "min": "2",
+            "max": "0",
+            "import": "false",
+            "defect": "false"
+}
+
+{
+            "product_code": "00000062888",
+            "store_saldo_qnt": "1",
+            "matrix_sales": "719",
+            "matrix_sales_qnt": "1",
+            "defect_price": "1067"
+}
