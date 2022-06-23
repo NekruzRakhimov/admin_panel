@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/unidoc/unioffice/color"
-	"github.com/unidoc/unioffice/common/license"
 	"github.com/unidoc/unioffice/document"
 	"github.com/unidoc/unioffice/measurement"
 	"github.com/unidoc/unioffice/schema/soo/wml"
@@ -15,14 +14,14 @@ import (
 	"time"
 )
 
-func init() {
-	// Make sure to load your metered License API key prior to using the library.
-	// If you need a key, you can sign up and create a free one at https://cloud.unidoc.io
-	err := license.SetMeteredKey(apiKey)
-	if err != nil {
-		panic(err)
-	}
-}
+//func init() {
+//	// Make sure to load your metered License API key prior to using the library.
+//	// If you need a key, you can sign up and create a free one at https://cloud.unidoc.io
+//	err := license.SetMeteredKey(apiKey)
+//	if err != nil {
+//		panic(err)
+//	}
+//}
 
 //FormContract contract godoc
 // @Summary Forming contract

@@ -685,7 +685,6 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 		},
 	})
 	log.Println("GRAPHIC", graphic)
-
 	f.NewSheet(segment)
 	//ineration := 1
 	f.MergeCell(segment, "B1", "AI1")
