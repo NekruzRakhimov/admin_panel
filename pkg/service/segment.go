@@ -703,7 +703,7 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 	f.SetCellValue(segment, "B4", "Покупатель:")
 	f.MergeCell(segment, "B4", "E4")
 
-	f.SetCellValue(segment, "F4", "Тестовый покупатель")
+	f.SetCellValue(segment, "F4", "")
 	f.MergeCell(segment, "F4", "AI4")
 	f.SetCellStyle(segment, "F4", "AI4", styleBoldLeft)
 
@@ -718,7 +718,7 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 
 	f.SetCellValue(segment, "G6", "Тестовый договор:")
 	f.MergeCell(segment, "G6", "U6")
-	f.SetCellValue(segment, "G8", "Тестовая дата поставки:")
+	f.SetCellValue(segment, "G8", "") //Тестовая дата поставки:
 	f.MergeCell(segment, "G8", "U8")
 	f.SetCellValue(segment, "G10", graphic.Store)
 	f.MergeCell(segment, "G10", "U10")
