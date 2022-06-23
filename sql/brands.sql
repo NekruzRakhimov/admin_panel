@@ -226,3 +226,5 @@ UPDATE formed_graphics SET is_letter = true WHERE id = 29;
 
 
 SELECT *FROM formed_graphics;
+
+select formula_id from formed_graphics

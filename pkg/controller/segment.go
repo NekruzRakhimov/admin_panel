@@ -105,11 +105,11 @@ func SendLetter(c *gin.Context) {
 			return
 		}
 
-		//formula, err := service.GetFormulaByID(formedGraphic.FormulaID)
-		//if err != nil {
-		//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-		//	return
-		//}
+		formula, err := service.GetFormulaByID(formedGraphic.FormulaID)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+			return
+		}
 
 		fmt.Println("GRAP", graphic)
 		fmt.Println("GRAP", graphic)
@@ -118,6 +118,7 @@ func SendLetter(c *gin.Context) {
 			"formedGraphic":         formedGraphic,
 			"formedGraphicProducts": formedGraphicProducts,
 			"graphic":               graphic,
+			"formula":               formula,
 		})
 
 		if formedGraphic.Status == "сформирован" {

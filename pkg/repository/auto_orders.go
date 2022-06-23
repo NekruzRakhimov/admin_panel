@@ -160,20 +160,22 @@ func GetAllFormedGraphics() (graphics []models.FormedGraphic, err error) {
 
 func GetFormedGraphicByID(id int) (graphic models.FormedGraphic, err error) {
 	sqlQuery := `SELECT fg.id,
-		fg.is_letter,
-       g.number as graphic_name,
-       fg.graphic_id as graphic_id,
-       g.supplier_name as supplier,
-       g.store_name as store,
-       fg.by_matrix,
-       g.application_day as schedule,
-       fg.product_availability_days,
-       fg.dister_days,
-       fg.store_days,
-       fg.status as status
-                FROM
-                                         formed_graphics fg
-                                         JOIN graphics g ON fg.graphic_id = g.id WHERE fg.id = ?`
+					   fg.is_letter,
+					   g.number          as graphic_name,
+					   fg.graphic_id     as graphic_id,
+					   g.supplier_name   as supplier,
+					   g.store_name      as store,
+					   fg.by_matrix,
+					   g.application_day as schedule,
+					   fg.product_availability_days,
+					   fg.dister_days,
+					   fg.store_days,
+					   fg.status         as status,
+					   fg.formula_id,
+					   to_char(fg.created_at::date, 'DD.MM.YYYY') as created_at
+				FROM formed_graphics fg
+						 JOIN graphics g ON fg.graphic_id = g.id
+				WHERE fg.id = ?`
 	if err = db.GetDBConn().Raw(sqlQuery, id).Scan(&graphic).Error; err != nil {
 		return models.FormedGraphic{}, err
 	}

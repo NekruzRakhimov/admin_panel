@@ -138,19 +138,20 @@ func OrderDefectsReport(c *gin.Context) {
 	}
 	log.Println(time.Now(), " Started Defects - Main")
 	fmt.Println(time.Now(), " Started Defects - Main")
-	mainTime := time.Now()
+	//mainTime := time.Now()
 
-	go func() {
-		c.JSON(http.StatusOK, gin.H{"reason": "запрос на сформирование отчета принят. Статус: 'в процессе'"})
-	}()
-
+	//go func() {
 	err := service.OrderDefectsPF(req)
 	if err != nil {
-		//c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
 	}
-	log.Println(time.Now(), " Finished Defects - Main: durance[", time.Now().Sub(mainTime), "]")
-	fmt.Println(time.Now(), " Finished Defects - Main: durance[", time.Now().Sub(mainTime), "]")
+	//}()
+
+	c.JSON(http.StatusOK, gin.H{"reason": "запрос на сформирование отчета принят. Статус: 'в процессе'"})
+
+	//log.Println(time.Now(), " Finished Defects - Main: durance[", time.Now().Sub(mainTime), "]")
+	//fmt.Println(time.Now(), " Finished Defects - Main: durance[", time.Now().Sub(mainTime), "]")
 	//c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 	//c.File("./files/defects/res.xlsx")
 }
@@ -175,6 +176,11 @@ func GetDefectExcel(c *gin.Context) {
 	order, err := service.GetFormedDefectByID(id)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	if order.Status != "сформирован" {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": "отчет формируется. Пожалуйста подождите..."})
 		return
 	}
 
