@@ -193,7 +193,7 @@ func DeleteSegmentByID(id int) error {
 
 const segment = "сегменты"
 
-func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicProduct, graphicAnother models.Graphic) {
+func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicProduct, graphicAnother models.Graphic, formula models.Formula) {
 
 	f := excelize.NewFile()
 

@@ -91,25 +91,26 @@ func SendLetter(c *gin.Context) {
 			return
 		}
 
-		fmt.Println("DATA", formedGraphic)
+		fmt.Println("formedGraphic", formedGraphic.CreatedAt)
 
 		formedGraphicProducts, err := service.GetAllFormedGraphicsProducts(formedGraphic.ID)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 			return
 		}
-
+		// от сюда взять дату  и номер
 		graphic, err := service.GetGraphicByID(formedGraphic.GraphicID)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 			return
 		}
 
-		//formula, err := service.GetFormulaByID(formedGraphic.FormulaID)
-		//if err != nil {
-		//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-		//	return
-		//}
+		formula, err := service.GetFormulaByID(formedGraphic.FormulaID)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+			return
+		}
+		fmt.Println("formula", formula)
 
 		fmt.Println("GRAP", graphic)
 		fmt.Println("GRAP", graphic)
@@ -127,7 +128,7 @@ func SendLetter(c *gin.Context) {
 				return
 			}
 
-			service.FillSegment(formedGraphic, formedGraphicProducts, graphic)
+			service.FillSegment(formedGraphic, formedGraphicProducts, graphic, formula)
 			//segment, _ := service.GetSegment(graphic.SupplierName)
 			//	var email string
 			//	if segment.Email != "" {
