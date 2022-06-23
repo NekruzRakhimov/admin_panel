@@ -685,6 +685,7 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 		},
 	})
 	log.Println("GRAPHIC", graphic)
+	log.Println("graphicAnother", graphicAnother.Author)
 
 	f.NewSheet(segment)
 	//ineration := 1
@@ -720,7 +721,7 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 	f.MergeCell(segment, "G8", "U8")
 	f.SetCellValue(segment, "G10", graphic.Store)
 	f.MergeCell(segment, "G10", "U10")
-	f.SetCellValue(segment, "G12", "Тестовый менеджер")
+	f.SetCellValue(segment, "G12", graphicAnother.Author)
 	f.MergeCell(segment, "G12", "U12")
 	//fmt.Println("graphicAnother.RegionName", graphicAnother.RegionName)
 	f.SetCellValue(segment, "W6", "Валюта заказа:")
@@ -809,7 +810,7 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 		f.SetCellValue(segment, fmt.Sprintf("%s%d", "AF", i), sum) //сумма
 		f.MergeCell(segment, "AF"+fmt.Sprint(i), "AI"+fmt.Sprint(i))
 
-		f.SetCellValue(segment, fmt.Sprintf("%s%d", "AJ", i), "тестовый лот") //лот
+		f.SetCellValue(segment, fmt.Sprintf("%s%d", "AJ", i), "") //лот
 		f.MergeCell(segment, "AJ"+fmt.Sprint(i), "AM"+fmt.Sprint(i))
 
 		f.SetRowHeight(segment, i, 11.3)
