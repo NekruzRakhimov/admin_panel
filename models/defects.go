@@ -38,6 +38,14 @@ type DefectsRequest struct {
 	IsPF      bool   `json:"isPF"`
 }
 
+type DefectOrder struct {
+	ID        int    `json:"id"`
+	Date      string `json:"date"`
+	FileName  string `json:"file_name"`
+	Status    string `json:"status"`
+	CreatedAt string `json:"created_at"`
+}
+
 type DefectsInfoReq struct {
 	Startdate string   `json:"startdate"`
 	Enddate   string   `json:"enddate"`

@@ -685,6 +685,7 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 		},
 	})
 	log.Println("GRAPHIC", graphic)
+
 	log.Println("graphicAnother", graphicAnother.Author)
 
 	f.NewSheet(segment)

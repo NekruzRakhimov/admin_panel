@@ -83,9 +83,9 @@ func SendLetter(c *gin.Context) {
 		return
 	}
 
-	for _, graphic := range formedGraphics {
+	for _, g := range formedGraphics {
 		//сформированый потребность граффика -
-		formedGraphic, err := service.GetFormedGraphicByID(graphic.ID)
+		formedGraphic, err := service.GetFormedGraphicByID(g.ID)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 			return
@@ -93,7 +93,7 @@ func SendLetter(c *gin.Context) {
 
 		fmt.Println("DATA", formedGraphic)
 
-		formedGraphicProducts, err := service.GetAllFormedGraphicsProducts(graphic.ID)
+		formedGraphicProducts, err := service.GetAllFormedGraphicsProducts(formedGraphic.ID)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 			return
@@ -104,6 +104,13 @@ func SendLetter(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 			return
 		}
+
+		//formula, err := service.GetFormulaByID(formedGraphic.FormulaID)
+		//if err != nil {
+		//	c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		//	return
+		//}
+
 		fmt.Println("GRAP", graphic)
 		fmt.Println("GRAP", graphic)
 

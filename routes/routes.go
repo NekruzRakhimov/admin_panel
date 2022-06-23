@@ -42,6 +42,24 @@ func RunAllRoutes() {
 
 }
 
+func runServer(r *gin.Engine) {
+	var (
+		port string
+		host string
+	)
+	port, exists := os.LookupEnv("PORT")
+	if !exists {
+		port = "3000"
+		host = "localhost"
+	} else {
+		host = "0.0.0.0"
+	}
+	err := r.Run(fmt.Sprintf("%s:%s", host, port))
+	if err != nil {
+		log.Println(err)
+	}
+}
+
 func Check(c *gin.Context) {
 	service.CreateNecessity()
 	c.JSON(http.StatusOK, gin.H{"reason": "up and working"})
@@ -95,7 +113,11 @@ func runAllRoutes(r *gin.Engine) {
 
 	cr.GET("/formula/parameters", controller.GetFormulaParameters)
 
-	cr.POST("/defects/pharmacy/PF", controller.GetDefectsByPharmacyPF)
+	//cr.POST("/defects/pharmacy/PF", controller.GetDefectsByPharmacyPF)
+	cr.POST("/defects/pharmacy/PF", controller.OrderDefectsReport)
+	cr.GET("/defects/pharmacy/PF/list", controller.GetDefectsPfList)
+	cr.GET("/defects/pharmacy/PF/excel/:id", controller.GetDefectExcel)
+
 	cr.POST("/defects/pharmacy/LS", controller.GetDefectsByPharmacyLS)
 
 	cr.POST("/check/sales_cgount", controller.GetSalesCount)
@@ -111,24 +133,6 @@ func runAllRoutes(r *gin.Engine) {
 	controller.NewHyperstocksController(hyperstockServ).HandleRoutes(cr)
 	controller.NewDefectsController(defectServ).HandleRoutes(cr)
 	controller.NewForecastController(forecastServ).HandleRoutes(cr)
-}
-
-func runServer(r *gin.Engine) {
-	var (
-		port string
-		host string
-	)
-	port, exists := os.LookupEnv("PORT")
-	if !exists {
-		port = "3000"
-		host = "localhost"
-	} else {
-		host = "0.0.0.0"
-	}
-	err := r.Run(fmt.Sprintf("%s:%s", host, port))
-	if err != nil {
-		log.Println(err)
-	}
 }
 
 func routesFor1C(r *gin.RouterGroup) {
