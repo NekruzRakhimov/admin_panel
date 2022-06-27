@@ -140,13 +140,13 @@ func OrderDefectsReport(c *gin.Context) {
 	fmt.Println(time.Now(), " Started Defects - Main")
 	//mainTime := time.Now()
 
-	//go func() {
-	err := service.OrderDefectsPF(req)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
-		return
-	}
-	//}()
+	go func() {
+		err := service.OrderDefectsPF(req)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+			return
+		}
+	}()
 
 	c.JSON(http.StatusOK, gin.H{"reason": "запрос на сформирование отчета принят. Статус: 'в процессе'"})
 

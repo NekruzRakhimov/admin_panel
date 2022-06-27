@@ -48,7 +48,7 @@ func GetAllFormedDefects() (orders []models.DefectOrder, err error) {
 					   file_name,
 					   status,
 					   to_char(created_at, 'DD.MM.YYYY hh:mi:ss') as created_at
-				FROM formed_defects`
+				FROM formed_defects order by id desc`
 	if err = db.GetDBConn().Raw(sqlQuery).Scan(&orders).Error; err != nil {
 		return nil, err
 	}

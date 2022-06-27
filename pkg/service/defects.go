@@ -804,7 +804,7 @@ func OrderDefectsPF(req models.DefectsRequest) error {
 }
 
 func FormExcelDefectsPF(req models.DefectsRequest, id int) (fileName string, err error) {
-	var restriction int
+	//var restriction int
 	f, err := excelize.OpenFile("files/defects/defects_pharmacy_template.xlsx")
 	if err != nil {
 		return "", err
@@ -1111,10 +1111,10 @@ func FormExcelDefectsPF(req models.DefectsRequest, id int) (fileName string, err
 		f.SetCellStyle(defectsSheet, fmt.Sprintf("M%d", storeIndex), fmt.Sprintf("S%d", storeIndex), style)
 		globalDefectSum1 += storeDefectQnt
 		globalDefectSum2 += storeDefectSkuQnt
-		if restriction > 1 {
-			break
-		}
-		restriction++
+		//if restriction > 1 {
+		//	break
+		//}
+		//restriction++
 	}
 
 	f.SetCellValue(defectsSheet, "E3", globalDefectSum1)
