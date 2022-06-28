@@ -219,7 +219,8 @@ func ReportsRoutes(r *gin.RouterGroup) {
 
 	reports.POST("/dd", controller.GetAllDeferredDiscounts)
 	reports.POST("/dd/excel", controller.FormExcelForDeferredDiscounts)
-	reports.GET("/dd/stored", controller.GetAllDdStoredReports)
+	//reports.GET("/dd/stored", controller.GetAllDdStoredReports)
+	reports.GET("/dd/stored", controller.GetAllStoredReports)
 	reports.GET("/dd/stored/:id/details", controller.GetStoredDdReportDetails)
 	reports.GET("/dd/stored/:id/details/excel", controller.GetExcelForDdStoredExcelReport)
 	reports.GET("/search_report_dd/", controller.SearchReportDD)
