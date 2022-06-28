@@ -12,6 +12,7 @@ import (
 	"time"
 )
 
+/*
 func GetDefectsByPharmacyLS(c *gin.Context) {
 	date := struct {
 		Date string `json:"date"`
@@ -41,6 +42,7 @@ func GetDefectsByPharmacyLS(c *gin.Context) {
 	c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 	c.File("./files/defects/res_ls.xlsx")
 }
+*/
 
 const TempData = " 00:00:00"
 
@@ -104,7 +106,7 @@ func GetDefectsByPharmacyPF(c *gin.Context) {
 	log.Println(time.Now(), " Started Defects - Main")
 	fmt.Println(time.Now(), " Started Defects - Main")
 	mainTime := time.Now()
-	err := service.GetNewDefects(req)
+	err := service.GetNewDefectsPf(req)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
@@ -121,7 +123,7 @@ func GetDefectsByPharmacyPF(c *gin.Context) {
 	c.File("./files/defects/res.xlsx")
 }
 
-func OrderDefectsReport(c *gin.Context) {
+func OrderDefectsPfReport(c *gin.Context) {
 	date := struct {
 		Date string `json:"date"`
 	}{}
@@ -156,8 +158,54 @@ func OrderDefectsReport(c *gin.Context) {
 	//c.File("./files/defects/res.xlsx")
 }
 
+func OrderDefectsLsReport(c *gin.Context) {
+	date := struct {
+		Date string `json:"date"`
+	}{}
+
+	if err := c.BindJSON(&date); err != nil {
+		c.JSON(http.StatusOK, gin.H{"reason": err.Error()})
+		return
+	}
+
+	req := models.DefectsRequest{
+		Startdate: date.Date,
+		Enddate:   date.Date,
+		IsPF:      true,
+	}
+	log.Println(time.Now(), " Started Defects - Main")
+	fmt.Println(time.Now(), " Started Defects - Main")
+	//mainTime := time.Now()
+
+	go func() {
+		err := service.OrderDefectsLs(req)
+		if err != nil {
+			//c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+			log.Println(err.Error())
+			return
+		}
+	}()
+
+	c.JSON(http.StatusOK, gin.H{"reason": "запрос на сформирование отчета принят. Статус: 'в процессе'"})
+
+	//log.Println(time.Now(), " Finished Defects - Main: durance[", time.Now().Sub(mainTime), "]")
+	//fmt.Println(time.Now(), " Finished Defects - Main: durance[", time.Now().Sub(mainTime), "]")
+	//c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	//c.File("./files/defects/res.xlsx")
+}
+
 func GetDefectsPfList(c *gin.Context) {
-	orders, err := service.GetFormedDefectsList()
+	orders, err := service.GetFormedDefectsList(true)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, orders)
+}
+
+func GetDefectsLsList(c *gin.Context) {
+	orders, err := service.GetFormedDefectsList(false)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
@@ -179,12 +227,14 @@ func GetDefectExcel(c *gin.Context) {
 		return
 	}
 
-	if order.Status != "сформирован" {
+	switch order.Status {
+	case "сформирован":
+		c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+		//c.File("./files/defects/res.xlsx")
+		c.File(fmt.Sprintf("./%s", order.FileName))
+	case "ошибка при формировании":
+		c.JSON(http.StatusBadRequest, gin.H{"reason": "отчет не возможно скачать. Возникла ошибка при формировании"})
+	default:
 		c.JSON(http.StatusBadRequest, gin.H{"reason": "отчет формируется. Пожалуйста подождите..."})
-		return
 	}
-
-	c.Writer.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-	//c.File("./files/defects/res.xlsx")
-	c.File(fmt.Sprintf("./%s", order.FileName))
 }
