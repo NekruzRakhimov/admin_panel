@@ -9,6 +9,7 @@ import (
 	"github.com/xuri/excelize/v2"
 	"gopkg.in/gomail.v2"
 	"log"
+	ntw "moul.io/number-to-words"
 )
 
 func CreateSegment(segment models.Segment) error {
@@ -851,20 +852,30 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 	} else {
 		typeFormula = "ПФ"
 	}
-	f.SetCellValue(segment, "B"+fmt.Sprint(i+4), fmt.Sprintf("Комментарий: [Новый тестовый] Автозаказ для %s: %s", typeFormula, graphic.Store))
 	id -= 1
-	f.SetCellValue(segment, "B"+fmt.Sprint(i+5), "Всего наименований "+fmt.Sprint(id)+", на сумму "+fmt.Sprintf("%f", total)+" KZT")
+	f.SetCellValue(segment, "B"+fmt.Sprint(i+4), fmt.Sprintf("Комментарий: [Новый тестовый] Автозаказ для %s: %s", typeFormula, graphic.Store))
+	f.SetCellValue(segment, "B"+fmt.Sprint(i+5), "Всего наименований "+fmt.Sprint(id)+", на сумму "+fmt.Sprintf("%.2f\n", total)+" KZT")
 	f.SetCellStyle(segment, "B"+fmt.Sprint(i+4), "AH"+fmt.Sprint(i+5), styleDefaultText)
 	f.MergeCell(segment, "B"+fmt.Sprint(i+4), "AI"+fmt.Sprint(i+4))
 	f.MergeCell(segment, "B"+fmt.Sprint(i+5), "AI"+fmt.Sprint(i+5))
-	f.SetCellValue(segment, "B"+fmt.Sprint(i+6), "Цифры буквами")
+	a := total
+	b := int(a)
+	c := a - float64(b)
+	fmt.Println(c * 100)
+	c *= 100
+	tenge := ntw.IntegerToRuRu(int(total))
+	tiin := ntw.IntegerToRuRu(int(c))
+	if tiin == "нуль" {
+		tiin = "00"
+	}
+	f.SetCellValue(segment, "B"+fmt.Sprint(i+6), fmt.Sprintf("%s тенге   %s  тиын", tenge, tiin))
 	f.MergeCell(segment, "B"+fmt.Sprint(i+6), "AH"+fmt.Sprint(i+6))
 	f.SetCellStyle(segment, "B"+fmt.Sprint(i+6), "AH"+fmt.Sprint(i+6), styleBoldLeft)
 	f.SetCellStyle(segment, "B"+fmt.Sprint(i+7), "AM"+fmt.Sprint(i+7), styleUnderlined)
 	f.SetCellValue(segment, "B"+fmt.Sprint(i+9), "Исполнитель:")
 	f.SetCellStyle(segment, "B"+fmt.Sprint(i+9), "G"+fmt.Sprint(i+9), styleBoldLeft)
 	f.MergeCell(segment, "B"+fmt.Sprint(i+9), "G"+fmt.Sprint(i+9))
-	f.SetCellValue(segment, "J"+fmt.Sprint(i+9), "/Электронный заказ  /")
+	f.SetCellValue(segment, "J"+fmt.Sprint(i+9), "/Электронный заказ       /")
 	f.MergeCell(segment, "J"+fmt.Sprint(i+9), "P"+fmt.Sprint(i+9))
 	f.SetCellStyle(segment, "J"+fmt.Sprint(i+9), "P"+fmt.Sprint(i+9), styleDefaultText)
 	f.SetCellStyle(segment, "B"+fmt.Sprint(i+10), "P"+fmt.Sprint(i+10), styleTopLine)
