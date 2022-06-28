@@ -35,21 +35,23 @@ func CreateDefectsOrder(order models.DefectOrder) (models.DefectOrder, error) {
 }
 
 func SaveFormedDefect(order models.DefectOrder) error {
-	if err := db.GetDBConn().Table("formed_defects").Omit("created_at").Save(&order).Error; err != nil {
+	if err := db.GetDBConn().Table("formed_defects").Omit("created_at", "is_pf").Save(&order).Error; err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func GetAllFormedDefects() (orders []models.DefectOrder, err error) {
+func GetAllFormedDefects(isPf bool) (orders []models.DefectOrder, err error) {
 	sqlQuery := `SELECT id,
-					   "date",
-					   file_name,
-					   status,
-					   to_char(created_at, 'DD.MM.YYYY hh:mi:ss') as created_at
-				FROM formed_defects order by id desc`
-	if err = db.GetDBConn().Raw(sqlQuery).Scan(&orders).Error; err != nil {
+						   "date",
+						   file_name,
+						   status,
+						   to_char(created_at, 'DD.MM.YYYY hh:mi:ss') as created_at
+					FROM formed_defects
+					WHERE is_pf = ?
+					order by id desc`
+	if err = db.GetDBConn().Raw(sqlQuery, isPf).Scan(&orders).Error; err != nil {
 		return nil, err
 	}
 

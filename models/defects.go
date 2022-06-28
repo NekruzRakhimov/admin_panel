@@ -43,6 +43,7 @@ type DefectOrder struct {
 	Date      string `json:"date"`
 	FileName  string `json:"file_name"`
 	Status    string `json:"status"`
+	IsPf      bool   `json:"is_pf"`
 	CreatedAt string `json:"created_at"`
 }
 
