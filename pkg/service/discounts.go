@@ -360,7 +360,7 @@ func GetDoubtedDiscounts(request models.RBRequest) (doubtedDiscounts []models.Do
 		var DoubtedDiscountDetails []models.DoubtedDiscountDetails
 		for _, discount := range contract.Discounts {
 			var DoubtedDiscountDetail models.DoubtedDiscountDetails
-			if (discount.Code == RB4Code || discount.Code == RB11Code || discount.Code == DD5Code || discount.Code == DD6Code) && discount.IsSelected == true {
+			if (discount.Code == RB4Code || discount.Code == RB6Code || discount.Code == RB11Code || discount.Code == DD5Code || discount.Code == DD1Code || discount.Code == DD2Code || discount.Code == DD3Code || discount.Code == DD4Code || discount.Code == DD6Code) && discount.IsSelected == true {
 				DoubtedDiscountDetail.Name = discount.Name
 				DoubtedDiscountDetail.Code = discount.Code
 				DoubtedDiscountDetail.IsCompleted = repository.DoubtedDiscountExecutionCheck(request, contract.ContractParameters.ContractNumber, discount.Code)
