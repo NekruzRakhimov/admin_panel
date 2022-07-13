@@ -118,6 +118,15 @@ func CancelFormedFormula(formulaID int, comment string) error {
 	return nil
 }
 
+func SendFormedFormula(formulaID int, comment string) error {
+	sqlQuery := "UPDATE auto_order set status = ? where id = ?"
+	if err := db.GetDBConn().Exec(sqlQuery, "отправлено", formulaID).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func CancelFormedGraphic(graphicID int, comment string) error {
 	sqlQuery := "UPDATE formed_graphics set status = ? where id = ?"
 	if err := db.GetDBConn().Exec(sqlQuery, "отменен", graphicID).Error; err != nil {

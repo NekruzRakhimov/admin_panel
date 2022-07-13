@@ -3,8 +3,13 @@ package service
 import (
 	"admin_panel/models"
 	"admin_panel/pkg/repository"
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"log"
 	"math"
+	"net/http"
 	"strconv"
 )
 
@@ -160,4 +165,64 @@ func CancelFormedFormula(formulaID int, comment string) error {
 
 func CancelFormedGraphic(graphicID int, comment string) error {
 	return repository.CancelFormedGraphic(graphicID, comment)
+}
+
+func SendAutoOrderTo1C(formulaID int) error {
+	var order models.Order1С
+	fmt.Println(order)
+	if err := repository.SendFormedFormula(formulaID, ""); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func SendOrderTo1CExt() ([]models.Order1С, error) {
+	products := struct {
+		Data []models.ProductsData `json:"product_arr"`
+	}{}
+
+	client := &http.Client{}
+	reqBodyBytes := new(bytes.Buffer)
+	err := json.NewEncoder(reqBodyBytes).Encode(&products)
+	if err != nil {
+		return nil, err
+	}
+
+	//log.Println(reqBodyBytes)
+	uri := "http://89.218.153.38:8081/AQG_ULAN/hs/integration/getproduct"
+	req, err := http.NewRequest("POST", uri, reqBodyBytes)
+	req.Header.Set("Content-Type", "application/json") // This makes it work
+	req.SetBasicAuth("http_client", "123456")
+
+	if err != nil {
+		log.Println(err)
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	defer resp.Body.Close()
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	body = bytes.TrimPrefix(body, []byte("\xef\xbb\xbf")) // Or []byte{239, 187, 191}
+
+	err = json.Unmarshal(body, &products)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	//
+
+	return nil, nil
 }

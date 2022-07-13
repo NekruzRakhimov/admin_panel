@@ -107,3 +107,14 @@ type FormedGraphicProduct struct {
 	Max                     float64 `json:"max"`
 	StoreCode               string  `json:"store_code"`
 }
+
+type Order1С struct {
+	OrderId      string `json:"order_id"`
+	SupplierCode string `json:"supplier_code"`
+	StoreCode    string `json:"store_code"`
+	Products     []struct {
+		ProductCode string `json:"product_code"`
+		SalesCount  string `json:"sales_count"`
+		Price       string `json:"price"`
+	} `json:"products"`
+}

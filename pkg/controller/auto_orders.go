@@ -19,6 +19,22 @@ func GetAllAutoOrders(c *gin.Context) {
 	c.JSON(http.StatusOK, autoOrders)
 }
 
+func SendAutoOrdersTo1C(c *gin.Context) {
+	formulaID, err := strconv.Atoi(c.Param("formula_id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": "formula_id is invalid"})
+		return
+	}
+
+	err = service.SendAutoOrderTo1C(formulaID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"reason": "отправка в 1С"})
+}
+
 func CancelFormedFormula(c *gin.Context) {
 	comment := c.Query("comment")
 	formulaID, err := strconv.Atoi(c.Param("formula_id"))

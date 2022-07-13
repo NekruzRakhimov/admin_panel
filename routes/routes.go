@@ -99,6 +99,7 @@ func runAllRoutes(r *gin.Engine) {
 
 	cr.POST("/auto_orders", controller.FormAutoOrder)
 	cr.GET("/auto_orders", controller.GetAllAutoOrders)
+	cr.POST("/auto_orders/:formula_id/send", controller.SendAutoOrdersTo1C)
 	cr.DELETE("/auto_orders/:formula_id", controller.CancelFormedFormula)
 
 	cr.GET("/auto_orders/:formula_id/graphics", controller.GetAllFormedGraphics)
