@@ -16,7 +16,7 @@ func GetAllAutoOrders() (autoOrders []models.AutoOrder, err error) {
 					   status,
 					   store,
 					   to_char(created_at::timestamptz, 'DD.MM.YYYY') as created_at
-				FROM auto_order ORDER BY id`
+				FROM auto_order ORDER BY id DESC`
 	if err = db.GetDBConn().Raw(sqlQuery).Scan(&autoOrders).Error; err != nil {
 		return nil, err
 	}
