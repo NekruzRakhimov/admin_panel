@@ -135,3 +135,18 @@ func CancelFormedGraphic(graphicID int, comment string) error {
 
 	return nil
 }
+
+func CreateFormedFormula() (id int, err error) {
+	var formula models.AutoOrder
+	formula.Status = "в процессе"
+	if err = db.GetDBConn().Table("auto_order").Omit("created_at").Create(&formula).Error; err != nil {
+		return 0, err
+	}
+
+	return formula.ID, nil
+}
+
+func ChangeFormedFormulaStatus(id int) error {
+	sqlQuery := "UPDATE auto_order set status = $1 WHERE id = $2"
+	return db.GetDBConn().Exec(sqlQuery, id, "сформирован").Error
+}

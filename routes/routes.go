@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"admin_panel/models"
 	"admin_panel/pkg/controller"
 	"admin_panel/pkg/service"
 	"admin_panel/token"
@@ -10,6 +11,7 @@ import (
 	"github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
 
@@ -65,6 +67,29 @@ func Check(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"reason": "up and working"})
 }
 
+func GetData(c *gin.Context) {
+	products, err := service.GetAllFormedGraphicsProducts(26)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
+		return
+	}
+
+	var data models.Data
+	data.OrderId = "1"
+	data.SupplierCode = "000000976"
+	data.StoreCode = "Ф0001121 "
+
+	for _, product := range products {
+		data.Products = append(data.Products, models.DataProducts{
+			ProductCode: product.ProductCode,
+			SalesCount:  fmt.Sprintf("%2.2f", product.OrderQnt),
+			Price:       fmt.Sprintf("%2.2f", rand.Float32()*100),
+		})
+	}
+
+	c.JSON(http.StatusOK, data)
+}
+
 func runAllRoutes(r *gin.Engine) {
 	r.GET("/", Check)
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
@@ -90,6 +115,8 @@ func runAllRoutes(r *gin.Engine) {
 	NotificationsRoutes(cr)
 	routesFor1C(cr)
 	DDRoutes(cr)
+
+	cr.GET("/get_report", GetData)
 
 	cr.GET("/graphic", controller.GetAllGraphics)
 	cr.GET("/graphic/:id/details", controller.GetGraphicByID)

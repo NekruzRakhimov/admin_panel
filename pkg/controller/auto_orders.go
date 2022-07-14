@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"admin_panel/pkg/repository"
 	"admin_panel/pkg/service"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -77,12 +78,25 @@ func CancelFormedGraphic(c *gin.Context) {
 // @Failure 500 {object} map[string]interface{}
 // @Router /auto_orders [post]
 func FormAutoOrder(c *gin.Context) {
-	if err := service.FormAutoOrders(); err != nil {
+	id, err := repository.CreateFormedFormula()
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"reason": "потребность успешно сформирована"})
+	go func() {
+		if err := service.FormAutoOrders(); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+			return
+		}
+
+		if err := repository.ChangeFormedFormulaStatus(id); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+			return
+		}
+	}()
+
+	c.JSON(http.StatusOK, gin.H{"reason": "формирование потребности в процессе"})
 }
 
 //GetAllFormedGraphics auto_orders godoc
@@ -132,20 +146,20 @@ func GetAllFormedGraphics(c *gin.Context) {
 func GetAllFormedGraphicProducts(c *gin.Context) {
 	formulaID, err := strconv.Atoi(c.Param("formula_id"))
 	if err != nil {
-		c.JSON(http.StatusOK, gin.H{"reason": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 		return
 	}
 	fmt.Println(formulaID)
 
 	formedGraphicID, err := strconv.Atoi(c.Param("graphic_id"))
 	if err != nil {
-		c.JSON(http.StatusBadGateway, gin.H{"reason": "graphic_id param not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"reason": "graphic_id param not found"})
 		return
 	}
 
 	products, err := service.GetAllFormedGraphicsProducts(formedGraphicID)
 	if err != nil {
-		c.JSON(http.StatusBadGateway, gin.H{"reason": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 		return
 	}
 

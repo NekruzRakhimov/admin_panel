@@ -118,3 +118,16 @@ type Order1С struct {
 		Price       string `json:"price"`
 	} `json:"products"`
 }
+
+type Data struct {
+	OrderId      string         `json:"order_id"`
+	SupplierCode string         `json:"supplier_code"`
+	StoreCode    string         `json:"store_code"`
+	Products     []DataProducts `json:"products"`
+}
+
+type DataProducts struct {
+	ProductCode string `json:"product_code"`
+	SalesCount  string `json:"sales_count"`
+	Price       string `json:"price"`
+}
