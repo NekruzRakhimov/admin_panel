@@ -80,18 +80,21 @@ func CancelFormedGraphic(c *gin.Context) {
 func FormAutoOrder(c *gin.Context) {
 	id, err := repository.CreateFormedFormula()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		fmt.Println(err.Error())
+		//c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
 	}
 
 	go func() {
 		if err := service.FormAutoOrders(); err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+			fmt.Println(err.Error())
+			//c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 			return
 		}
 
 		if err := repository.ChangeFormedFormulaStatus(id); err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+			fmt.Println(err.Error())
+			//c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 			return
 		}
 	}()

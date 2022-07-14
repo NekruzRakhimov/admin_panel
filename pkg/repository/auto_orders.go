@@ -30,7 +30,7 @@ func SaveFormedGraphics(formedGraphics []models.FormedGraphic) error {
 			continue
 		}
 
-		if err := db.GetDBConn().Table("formed_graphics").Omit("formula_id", "graphic_name", "supplier", "store", "schedule", "products").Create(&graphic).Error; err != nil {
+		if err := db.GetDBConn().Table("formed_graphics").Omit("formula_id", "graphic_name", "supplier", "store", "schedule", "products", "created_at").Create(&graphic).Error; err != nil {
 			return err
 		}
 
@@ -148,5 +148,5 @@ func CreateFormedFormula() (id int, err error) {
 
 func ChangeFormedFormulaStatus(id int) error {
 	sqlQuery := "UPDATE auto_order set status = $1 WHERE id = $2"
-	return db.GetDBConn().Exec(sqlQuery, id, "сформирован").Error
+	return db.GetDBConn().Exec(sqlQuery, "сформирован", id).Error
 }
