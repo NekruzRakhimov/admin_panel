@@ -19,6 +19,8 @@ import (
 // @Failure 400,404 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /reports/rb [post]
+
+//TODO: получается даем данные и получаем сперва договора которые находятся в работе
 func GetAllRBByContractorBIN(c *gin.Context) {
 	var request models.RBRequest
 	if err := c.BindJSON(&request); err != nil {
@@ -39,6 +41,7 @@ func GetAllRBByContractorBIN(c *gin.Context) {
 	//	return
 	//}
 
+	//это не трогать
 	if err := service.SaveDoubtedDiscounts(request); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
