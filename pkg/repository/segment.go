@@ -3,6 +3,7 @@ package repository
 import (
 	"admin_panel/db"
 	"admin_panel/models"
+	"fmt"
 )
 
 func CreateSegment(segment models.Segment) error {
@@ -33,6 +34,8 @@ func GetSegmentByID(id int) (models.Segment, error) {
 	if err != nil {
 		return segment, err
 	}
+
+	fmt.Println("вот так выглядить Сегмент", segment)
 
 	return segment, nil
 

@@ -121,27 +121,38 @@ func SendLetter(c *gin.Context) {
 			"graphic":               graphic,
 			"formula":               formula,
 		})
+		fmt.Println("STATUS", formedGraphic.Status)
 
 		if formedGraphic.Status == "сформирован" {
+
 			err := service.ChangeLetter(formedGraphic.ID)
 			if err != nil {
 				c.JSON(400, gin.H{"reason": err})
 				return
 			}
-
+			//
 			service.FillSegment(formedGraphic, formedGraphicProducts, graphic, formula)
-			//segment, _ := service.GetSegment(graphic.SupplierName)
-			//var email string
-			//if segment.Email != "" {
-			//	email = segment.Email
-			//	service.SendNotificationSegment("files/segments/segment.xlsx", email)
-			//} else {
-			//	for _, value := range segment.Region {
-			//		email = value.Email
-			//		service.SendNotificationSegment("files/segments/segment.xlsx", email)
-			//	}
-			//}
-			//service.SendNotificationSegment("files/segments/segment.xlsx", email)
+			segment, _ := service.GetSegment(graphic.SupplierName)
+			var email string
+			if segment.Email != "" {
+				email = segment.Email
+				fmt.Println("почта", email)
+				err := service.SendNotificationSegment("files/segments/segment.xlsx", email)
+				if err != nil {
+					c.JSON(http.StatusBadRequest, gin.H{"reason": err})
+					return
+				}
+			} else {
+				for _, value := range segment.Region {
+					email = value.Email
+					err := service.SendNotificationSegment("files/segments/segment.xlsx", email)
+					if err != nil {
+						c.JSON(http.StatusBadRequest, gin.H{"reason": err})
+						return
+					}
+				}
+			}
+			//		//service.SendNotificationSegment("files/segments/segment.xlsx", email)
 		}
 	}
 

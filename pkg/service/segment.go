@@ -5,11 +5,13 @@ import (
 	"admin_panel/pkg/repository"
 	"crypto/tls"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/xuri/excelize/v2"
 	"gopkg.in/gomail.v2"
 	"log"
 	ntw "moul.io/number-to-words"
+	"os"
 )
 
 func CreateSegment(segment models.Segment) error {
@@ -691,7 +693,11 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 
 	f.NewSheet(segment)
 	//ineration := 1
-	f.MergeCell(segment, "B1", "AI1")
+	err := f.MergeCell(segment, "B1", "AI1")
+	if err != nil {
+		log.Println()
+		return
+	}
 
 	//f.SetCellValue(segment, "B1", "Заказ № (Тестовый заказ) от 01.01.2021")
 	f.SetCellValue(segment, "B1", fmt.Sprintf("Заказ № %v от %s", graphic.ID, graphic.CreatedAt))
@@ -863,6 +869,7 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 	c := a - float64(b)
 	fmt.Println(c * 100)
 	c *= 100
+
 	tenge := ntw.IntegerToRuRu(int(total))
 	tiin := ntw.IntegerToRuRu(int(c))
 	if tiin == "нуль" {
@@ -885,13 +892,20 @@ func FillSegment(graphic models.FormedGraphic, products []models.FormedGraphicPr
 	f.SetRowHeight(segment, i+7, 6.8)
 
 	f.DeleteSheet("Sheet1")
-	err := f.SaveAs("files/segments/segment.xlsx")
+	err = f.SaveAs("files/segments/segment.xlsx")
 	if err != nil {
 		log.Println(err)
 	}
 }
 
-func SendNotificationSegment(path string, email string) {
+func SendNotificationSegment(path string, email string) error {
+	_, err := os.Stat(path)
+	if errors.Is(err, os.ErrNotExist) {
+		log.Println(err)
+
+		return err
+
+	}
 	m := gomail.NewMessage()
 
 	// Set E-Mail sender
@@ -920,8 +934,11 @@ func SendNotificationSegment(path string, email string) {
 	if err := d.DialAndSend(m); err != nil {
 		fmt.Println(err)
 		//panic(err)
+
+		return err
 	}
 	fmt.Println("successfully sent email!")
-	return
+
+	return nil
 
 }
