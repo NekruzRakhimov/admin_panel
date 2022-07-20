@@ -12,7 +12,7 @@ type Segment struct {
 	ForMarket  bool                `json:"for_market,omitempty"`
 	Products   []ListsNomenclature `json:"product,omitempty"`
 	ProductStr string              `json:"-" gorm:"column:product"`
-	Region     []Region            `json:"region" gorm:"-"`
+	Region     []Region            `json:"region,omitemptyp" gorm:"-"`
 	RegionStr  string              `json:"-" gorm:"column:region"`
 }
 
