@@ -168,6 +168,11 @@ func ChangeLetter(id int) error {
 	return repository.ChangeLetter(id)
 
 }
+
+func GetSegmentName(beneficiary string) (segments []models.Segment, err error) {
+	return repository.GetSegmentName(beneficiary)
+
+}
 func GetSegment(supplier string) (models.Segment, error) {
 	segment, err := repository.GetSegment(supplier)
 	if err != nil {

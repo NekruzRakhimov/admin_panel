@@ -249,4 +249,7 @@ FROM formed_graphics fg
          JOIN graphics g ON fg.graphic_id = g.id
 WHERE fg.id = 25;
 
+SELECT segment_code, name_segment FROM  segment WHERE  beneficiary = 'Прима Дистрибьюшн ТОО';
+
+
 select formula_id from formed_graphics

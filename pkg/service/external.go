@@ -535,7 +535,7 @@ func CheckContractIn1C(bin string) (models.ResponseContractFrom1C, error) {
 	}
 
 	if checkContractFrom1C.ContractArr == nil {
-		return models.ResponseContractFrom1C{}, errors.New("Договор с таким бином нет")
+		return models.ResponseContractFrom1C{}, errors.New("договор с таким бином нет")
 	}
 
 	return checkContractFrom1C, nil
