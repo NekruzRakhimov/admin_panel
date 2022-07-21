@@ -51,6 +51,14 @@ func GetSegment(supplier string) (models.Segment, error) {
 	return segment, nil
 
 }
+func GetSegmentName(beneficiary string) (segments []models.Segment, err error) {
+	err = db.GetDBConn().Raw("SELECT id, segment_code, name_segment FROM  segment WHERE  beneficiary = $1", beneficiary).Scan(&segments).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return segments, nil
+}
 
 func GetSegments() ([]models.Segment, error) {
 	var segment []models.Segment

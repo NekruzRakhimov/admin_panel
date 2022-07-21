@@ -188,14 +188,11 @@ type Product struct {
 	PriceType        *PriceType `json:"price_type,omitempty"`
 }
 
-
-
 type SegmentForExcel struct {
 	SegmentCode string `json:"segment_code"`
 	ProductCode string `json:"product_code"`
 	ProductName string `json:"product_name"`
 }
-
 
 type DoubtedDiscountResponse struct {
 	RBRequest       RBRequest   `json:"rb_request"`
@@ -380,7 +377,7 @@ type DataPurchase struct {
 }
 
 type ResponseContractFrom1C struct {
-	Bin         string `json:"bin"`
+	Bin         string `json:"bin,omitempty"`
 	ContractArr []struct {
 		ContractName            string `json:"contract_name"`
 		ContractCode            string `json:"contract_code"`

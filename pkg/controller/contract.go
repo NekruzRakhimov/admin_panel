@@ -1045,8 +1045,13 @@ func CheckContractIn1C(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, err)
 		return
 	}
+
 	for _, value := range respContract1C.ContractArr {
-		if value.ContractType == contractType {
+		if contractType != "" {
+			if value.ContractType == contractType {
+				contracts.ContractArr = append(contracts.ContractArr, value)
+			}
+		} else {
 			contracts.ContractArr = append(contracts.ContractArr, value)
 		}
 	}
@@ -1067,6 +1072,17 @@ func GetSuppliers(c *gin.Context) {
 	//suppliers, err := service.GetListSuppliersFrom1C()
 
 	c.JSON(http.StatusOK, suppliers)
+}
+
+func GetSupplierName(c *gin.Context) {
+	beneficiary := c.Query("beneficiary")
+	segments, err := service.GetSegmentName(beneficiary)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"reason": err})
+		return
+	}
+	c.JSON(http.StatusOK, segments)
+
 }
 
 // GetProducts godoc

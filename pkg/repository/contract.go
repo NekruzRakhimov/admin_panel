@@ -414,6 +414,13 @@ func GetSuppliersByParameter(filed string, value string) (suppliers []models.Dat
 	return suppliers, nil
 }
 
+func GetSupplier(beneficiary string) (segments []models.Segment, err error) {
+	err = db.GetDBConn().Raw("SELECT segment_code, name_segment FROM  segment WHERE  beneficiary = $1", beneficiary).Scan(&segments).Error
+	if err != nil {
+		return nil, err
+	}
+	return segments, nil
+}
 func CheckEndContract() ([]models.PediodContract, error) {
 	var EndDate []models.PediodContract
 

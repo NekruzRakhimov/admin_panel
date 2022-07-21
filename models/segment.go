@@ -4,15 +4,15 @@ type Segment struct {
 	ID          int    `json:"id"`
 	SegmentCode string `json:"segment_code"`
 	NameSegment string `json:"name_segment"`
-	Beneficiary string `json:"beneficiary"`
-	Bin         string `json:"bin"`
-	ClientCode  string `json:"client_code"`
-	Email       string `json:"email"`
+	Beneficiary string `json:"beneficiary,omitempty"`
+	Bin         string `json:"bin,omitempty"`
+	ClientCode  string `json:"client_code,omitempty"`
+	Email       string `json:"email,omitempty"`
 	//Counterparty      string   `json:"counterparty"`
-	ForMarket  bool                `json:"for_market"`
-	Products   []ListsNomenclature `json:"product"`
+	ForMarket  bool                `json:"for_market,omitempty"`
+	Products   []ListsNomenclature `json:"product,omitempty"`
 	ProductStr string              `json:"-" gorm:"column:product"`
-	Region     []Region            `json:"region" gorm:"-"`
+	Region     []Region            `json:"region,omitemptyp" gorm:"-"`
 	RegionStr  string              `json:"-" gorm:"column:region"`
 }
 

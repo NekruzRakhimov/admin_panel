@@ -212,6 +212,7 @@ func tempRoutes(r *gin.RouterGroup) {
 
 func Check1CRoutes(r *gin.RouterGroup) {
 	r.GET("/contracts_from_1c/", controller.CheckContractIn1C)
+	r.GET("/contracts_1c/", controller.CheckContractIn1C)
 	r.GET("/counterparty/:client", controller.CounterpartyContract)
 
 	r.POST("/price_type", controller.GetPriceType)
@@ -266,6 +267,7 @@ func ContractRoutes(r *gin.RouterGroup) {
 	r.GET("/search_contract/", controller.SearchContractByNumber)
 	r.GET("/search_history/:id", controller.SearchContractDC) // TODO: тут нам нужен ID договора (я тебе об этом говорил)
 	r.GET("/suppliers/", controller.GetSuppliers)
+	r.GET("/supplier_name/", controller.GetSupplierName)
 
 	r.POST("/suppliers", controller.SaveSuppliers)
 	r.POST("/products", controller.GetProducts)
