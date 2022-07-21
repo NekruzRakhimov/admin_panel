@@ -54,21 +54,21 @@ func SaveFormedGraphicProducts(products []models.FormedGraphicProduct, formedGra
 	return nil
 }
 
-func GetAllFormedGraphics() (graphics []models.FormedGraphic, err error) {
+func GetAllFormedGraphics(formulaID int) (graphics []models.FormedGraphic, err error) {
 	sqlQuery := `SELECT fg.id,
-       g.number as graphic_name,
-       g.supplier_name as supplier,
-       g.store_name as store,
-       fg.by_matrix,
-       g.application_day as schedule,
-       fg.product_availability_days,
-       fg.dister_days,
-       fg.store_days,
-       fg.status as status
-                FROM
-                                         formed_graphics fg
-                                         JOIN graphics g ON fg.graphic_id = g.id`
-	if err = db.GetDBConn().Raw(sqlQuery).Scan(&graphics).Error; err != nil {
+					   g.number          as graphic_name,
+					   g.supplier_name   as supplier,
+					   g.store_name      as store,
+					   fg.by_matrix,
+					   g.application_day as schedule,
+					   fg.product_availability_days,
+					   fg.dister_days,
+					   fg.store_days,
+					   fg.status         as status
+				FROM formed_graphics fg
+						 JOIN graphics g ON fg.graphic_id = g.id
+				WHERE fg.formula_id = ?`
+	if err = db.GetDBConn().Raw(sqlQuery, formulaID).Scan(&graphics).Error; err != nil {
 		return nil, err
 	}
 

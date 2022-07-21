@@ -77,7 +77,7 @@ func SendLetter(c *gin.Context) {
 	//	return
 	//}
 
-	formedGraphics, err := service.GetAllFormedGraphics()
+	formedGraphics, err := service.GetAllFormedGraphics(1)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
