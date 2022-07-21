@@ -40,7 +40,7 @@ func GetAllAutoOrders() (autoOrders []models.AutoOrder, err error) {
 	return repository.GetAllAutoOrders()
 }
 
-func FormAutoOrders() error {
+func FormAutoOrders(formulaID int) error {
 	graphics, err := repository.GetAllGraphics()
 	if err != nil {
 		return err
@@ -50,6 +50,7 @@ func FormAutoOrders() error {
 
 	for _, graphic := range graphics {
 		var formedGraphic models.FormedGraphic
+		formedGraphic.FormulaID = formulaID
 		formedGraphic.GraphicID = graphic.ID
 		formedGraphic.ByMatrix = true
 		formedGraphic.ProductAvailabilityDays = 0
@@ -147,8 +148,8 @@ func FormAutoOrders() error {
 	return repository.SaveFormedGraphics(formedGraphics)
 }
 
-func GetAllFormedGraphics() (graphics []models.FormedGraphic, err error) {
-	return repository.GetAllFormedGraphics()
+func GetAllFormedGraphics(formulaID int) (graphics []models.FormedGraphic, err error) {
+	return repository.GetAllFormedGraphics(formulaID)
 }
 
 func GetFormedGraphicByID(id int) (graphic models.FormedGraphic, err error) {

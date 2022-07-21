@@ -86,7 +86,7 @@ func FormAutoOrder(c *gin.Context) {
 	}
 
 	go func() {
-		if err := service.FormAutoOrders(); err != nil {
+		if err := service.FormAutoOrders(id); err != nil {
 			fmt.Println(err.Error())
 			//c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 			return
@@ -120,7 +120,7 @@ func GetAllFormedGraphics(c *gin.Context) {
 	}
 	fmt.Println(formulaID)
 
-	graphics, err := service.GetAllFormedGraphics()
+	graphics, err := service.GetAllFormedGraphics(formulaID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
