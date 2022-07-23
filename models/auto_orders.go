@@ -42,6 +42,7 @@ type Graphic struct {
 	AutoOrderDate     string         `json:"auto_order_date"`
 	ApplicationDay    pq.StringArray `json:"application_day"`
 	ExecutionPeriod   string         `json:"execution_period"`
+	KmType            string         `json:"km_type"`
 }
 
 type AutoOrder struct {
