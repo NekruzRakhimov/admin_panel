@@ -67,7 +67,7 @@ func GetGraphicByID(id int) (graphic models.Graphic, err error) {
 }
 
 func EditGraphic(graphic models.Graphic) error {
-	if err := db.GetDBConn().Table("graphics").Create(&graphic).Error; err != nil {
+	if err := db.GetDBConn().Table("graphics").Save(&graphic).Error; err != nil {
 		return err
 	}
 
