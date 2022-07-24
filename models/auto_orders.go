@@ -12,6 +12,17 @@ type StoreRegion struct {
 	DrugStore  string `json:"drug_store"`
 }
 
+type Organize struct {
+	OrgCode string `json:"org_code"`
+	OrgName string `json:"org_name"`
+}
+
+type Pharmacy struct {
+	StoreName string `json:"store_name"`
+	StoreCode string `json:"store_code"`
+	DrugStore string `json:"drug_store"`
+}
+
 type Matrix struct {
 	StoreName    string `json:"store_name"`
 	StoreCode    string `json:"store_code"`
