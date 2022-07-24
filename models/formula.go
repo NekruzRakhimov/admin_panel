@@ -29,7 +29,7 @@ type Formula struct {
 	ScheduleStr                       string    `json:"-" gorm:"column:schedule"`
 	Product                           []Product `json:"product"`
 	MinOrderSum                       float32   `json:"min_order_sum"`
-	AutoSentTo1c                      bool      `json:"auto_sent_to_1c"`
+	AutoSentTo1c                      bool      `json:"auto_sent_to_1c" gorm:"column:auto_sent_to_1c"`
 }
 
 type Schedule struct {
