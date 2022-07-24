@@ -147,6 +147,6 @@ func CreateFormedFormula() (id int, err error) {
 }
 
 func ChangeFormedFormulaStatus(id int) error {
-	sqlQuery := "UPDATE auto_order set status = $1 WHERE id = $2"
+	sqlQuery := "UPDATE auto_order set status = ?, formed_at = to_char(now(), 'YYYY.MM.DD HH:mm:SS') WHERE id = ?"
 	return db.GetDBConn().Exec(sqlQuery, "сформирован", id).Error
 }
