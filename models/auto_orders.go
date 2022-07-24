@@ -7,6 +7,9 @@ type StoreRegion struct {
 	StoreCode  string `json:"store_code"`
 	RegionName string `json:"region_name"`
 	RegionCode string `json:"region_code"`
+	OrgCode    string `json:"org_code"`
+	OrgName    string `json:"org_name"`
+	DrugStore  string `json:"drug_store"`
 }
 
 type Matrix struct {

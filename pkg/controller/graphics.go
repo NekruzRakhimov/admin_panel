@@ -10,12 +10,14 @@ import (
 
 func GetStoreRegions(c *gin.Context) {
 	region := c.Query("region_name")
+	orgCode := c.Query("org_code")
 
 	storeRegions, err := service.GetStoreRegions()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
 		return
 	}
+
 	if region != "" {
 		var storeRegionsSorter []models.StoreRegion
 		for _, value := range storeRegions {
@@ -25,6 +27,18 @@ func GetStoreRegions(c *gin.Context) {
 
 		}
 		c.JSON(http.StatusOK, storeRegionsSorter)
+		return
+
+	}
+	if orgCode != "" {
+		var listPharmacies []models.StoreRegion
+		for _, value := range storeRegions {
+			if value.OrgCode == orgCode {
+				listPharmacies = append(listPharmacies, value)
+			}
+
+		}
+		c.JSON(http.StatusOK, listPharmacies)
 		return
 
 	}
