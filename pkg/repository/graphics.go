@@ -29,10 +29,10 @@ func GetAllGraphics() (graphics []models.Graphic, err error) {
 					   once_a_month,
 					   twice_a_month,
 					   is_on,
-					   to_char(auto_order_date::date, 'DD.MM.YYYY'),
+					   auto_order_date,
 					   created_at,
 					   application_day
-				from graphics WHERE is_removed = false`
+				from graphics WHERE is_removed = false ORDER id BY desc`
 	if err = db.GetDBConn().Raw(sqlQuery).Scan(&graphics).Error; err != nil {
 		return nil, err
 	}
@@ -55,8 +55,9 @@ func GetGraphicByID(id int) (graphic models.Graphic, err error) {
 					   once_a_month,
 					   twice_a_month,
 					   is_on,
-					   to_char(auto_order_date::date, 'DD.MM.YYYY'),
-					   created_at,
+					   auto_order_date,
+					   created_at,		
+						km_type,
 					   application_day
 				from graphics WHERE id = ?`
 	if err = db.GetDBConn().Raw(sqlQuery, id).Scan(&graphic).Error; err != nil {
@@ -67,7 +68,7 @@ func GetGraphicByID(id int) (graphic models.Graphic, err error) {
 }
 
 func EditGraphic(graphic models.Graphic) error {
-	if err := db.GetDBConn().Table("graphics").Create(&graphic).Error; err != nil {
+	if err := db.GetDBConn().Table("graphics").Save(&graphic).Error; err != nil {
 		return err
 	}
 
