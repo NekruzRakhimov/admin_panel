@@ -55,6 +55,8 @@ type AutoOrder struct {
 	Status            string `json:"status"`
 	Store             string `json:"store"`
 	CreatedAt         string `json:"created_at"`
+	FormedAt          string `json:"formed_at"`
+	SentAt            string `json:"sent_at"`
 }
 
 type SalesCountRequest struct {
@@ -88,6 +90,7 @@ type FormedGraphic struct {
 	Products                []FormedGraphicProduct `json:"-"`
 	IsLetter                bool                   `json:"is_letter"`
 	CreatedAt               string                 `json:"created_at"`
+	ExtDocumentNumber       string                 `json:"ext_document_number"`
 }
 
 type FormedGraphicProduct struct {
