@@ -3,6 +3,7 @@ package controller
 import (
 	"admin_panel/models"
 	"admin_panel/pkg/service"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -25,6 +26,7 @@ func CreateFormula(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"reason": err.Error()})
 		return
 	}
+	fmt.Println("PHARMACY", formula.Pharmacies)
 
 	if err := service.CreateFormula(formula); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
