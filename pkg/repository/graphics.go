@@ -29,7 +29,7 @@ func GetAllGraphics() (graphics []models.Graphic, err error) {
 					   once_a_month,
 					   twice_a_month,
 					   is_on,
-					   to_char(auto_order_date::date, 'DD.MM.YYYY'),
+					   auto_order_date,
 					   created_at,
 					   application_day
 				from graphics WHERE is_removed = false`
