@@ -11,11 +11,13 @@ func GetAllAutoOrders() (autoOrders []models.AutoOrder, err error) {
 					   formula,
 					   by_matrix,
 					   schedule,
+						formed_at,
+						sent_at,
 					   formed_orders_count,
 					   organization,
 					   status,
 					   store,
-					   to_char(created_at::timestamptz, 'DD.MM.YYYY') as created_at
+					   to_char(created_at::timestamptz, 'DD.MM.YYYY HH:MM:SS') as created_at
 				FROM auto_order ORDER BY id DESC`
 	if err = db.GetDBConn().Raw(sqlQuery).Scan(&autoOrders).Error; err != nil {
 		return nil, err
