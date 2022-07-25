@@ -232,6 +232,8 @@ func Check1CRoutes(r *gin.RouterGroup) {
 	r.POST("/get_rb3", controller.GetRb3)
 	r.POST("/get_rb5", controller.GetRb5)
 	r.GET("/store_regions", controller.GetStoreRegions)
+	r.GET("/pharmacies/", controller.ListOrganizations)
+	r.GET("/organizations", controller.ListOrganizations)
 	r.GET("/matrix/:store_code", controller.GetMatrix)
 
 }

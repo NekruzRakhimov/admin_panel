@@ -3,6 +3,7 @@ package controller
 import (
 	"admin_panel/models"
 	"admin_panel/pkg/service"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -42,8 +43,85 @@ func GetStoreRegions(c *gin.Context) {
 		return
 
 	}
+	var organizes []models.Organize
+	org := map[string]models.Organize{}
 
-	c.JSON(http.StatusOK, storeRegions)
+	for _, value := range storeRegions {
+		organize := models.Organize{
+			OrgCode: value.OrgCode,
+			OrgName: value.OrgName,
+		}
+		org[value.OrgCode] = organize
+
+		//for _, organize := range organizes {
+		//	if organize.OrgCode != value.OrgCode {
+		//		organizes = append(organizes, models.Organize{
+		//			OrgCode: value.OrgCode,
+		//			OrgName: value.OrgName,
+		//		})
+		//	}
+	}
+	//}
+	for _, value := range org {
+		organize := models.Organize{
+			OrgCode: value.OrgCode,
+			OrgName: value.OrgName,
+		}
+		organizes = append(organizes, organize)
+	}
+
+	fmt.Println(org)
+
+	c.JSON(http.StatusOK, organizes)
+}
+
+func ListOrganizations(c *gin.Context) {
+	orgCode := c.Query("org_code")
+
+	storeRegions, err := service.GetStoreRegions()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"reason": err.Error()})
+		return
+	}
+
+	if orgCode != "" {
+		var listPharmacies []models.Pharmacy
+		for _, value := range storeRegions {
+			if value.OrgCode == orgCode {
+				listPharmacies = append(listPharmacies, models.Pharmacy{
+					StoreName: value.StoreName,
+					StoreCode: value.StoreCode,
+					DrugStore: value.DrugStore,
+				})
+			}
+
+		}
+		c.JSON(http.StatusOK, listPharmacies)
+		return
+
+	}
+	var organizes []models.Organize
+	org := map[string]models.Organize{}
+
+	for _, value := range storeRegions {
+		organize := models.Organize{
+			OrgCode: value.OrgCode,
+			OrgName: value.OrgName,
+		}
+		org[value.OrgCode] = organize
+	}
+
+	for _, value := range org {
+		organize := models.Organize{
+			OrgCode: value.OrgCode,
+			OrgName: value.OrgName,
+		}
+		organizes = append(organizes, organize)
+	}
+
+	fmt.Println(org)
+
+	c.JSON(http.StatusOK, organizes)
 }
 
 func GetMatrix(c *gin.Context) {
