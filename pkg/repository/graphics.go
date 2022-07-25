@@ -32,7 +32,7 @@ func GetAllGraphics() (graphics []models.Graphic, err error) {
 					   auto_order_date,
 					   created_at,
 					   application_day
-				from graphics WHERE is_removed = false ORDER id BY desc`
+				from graphics WHERE is_removed = false ORDER BY id desc`
 	if err = db.GetDBConn().Raw(sqlQuery).Scan(&graphics).Error; err != nil {
 		return nil, err
 	}
