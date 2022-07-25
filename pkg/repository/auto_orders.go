@@ -121,7 +121,7 @@ func CancelFormedFormula(formulaID int, comment string) error {
 }
 
 func SendFormedFormula(formulaID int, comment string) error {
-	sqlQuery := "UPDATE auto_order set status = ?, formed_at = to_char(now(), 'YYYY.MM.DD HH:mm:SS') where id = ?"
+	sqlQuery := "UPDATE auto_order set status = ?, sent_at = to_char(now(), 'YYYY.MM.DD HH:mm:SS') where id = ?"
 	if err := db.GetDBConn().Exec(sqlQuery, "отправлено", formulaID).Error; err != nil {
 		return err
 	}
