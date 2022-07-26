@@ -3,6 +3,7 @@ package repository
 import (
 	"admin_panel/db"
 	"admin_panel/models"
+	"math/rand"
 )
 
 func GetAllAutoOrders() (autoOrders []models.AutoOrder, err error) {
@@ -121,8 +122,9 @@ func CancelFormedFormula(formulaID int, comment string) error {
 }
 
 func SendFormedFormula(formulaID int, comment string) error {
-	sqlQuery := "UPDATE auto_order set status = ?, sent_at = to_char(now(), 'YYYY.MM.DD HH:mm:SS') where id = ?"
-	if err := db.GetDBConn().Exec(sqlQuery, "отправлено", formulaID).Error; err != nil {
+	n := rand.Int() * 100
+	sqlQuery := "UPDATE auto_order set status = ?, sent_at = to_char(now(), 'YYYY.MM.DD HH:mm:SS'), ext_document_number = ? where id = ?"
+	if err := db.GetDBConn().Exec(sqlQuery, "отправлено", n, formulaID).Error; err != nil {
 		return err
 	}
 

@@ -72,6 +72,7 @@ type AutoOrder struct {
 	CreatedAt         string `json:"created_at"`
 	FormedAt          string `json:"formed_at"`
 	SentAt            string `json:"sent_at"`
+	ExtDocumentNumber int    `json:"ext_document_number"`
 }
 
 type SalesCountRequest struct {
