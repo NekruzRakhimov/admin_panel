@@ -27,7 +27,12 @@ func EditFormula(formula models.Formula) error {
 	if err != nil {
 		return err
 	}
+	pharStr, err := json.Marshal(formula.Pharmacies)
+	if err != nil {
+		return err
+	}
 
+	formula.PharmaciesStr = string(pharStr)
 	formula.ScheduleStr = string(scheduleStr)
 	return repository.EditFormula(formula)
 }
